@@ -1,0 +1,2686 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQー会話チェック反応（大学生向け）</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for multi-select and improved aesthetics */
+        select[multiple] {
+            height: 150px;
+            width: 200px;
+            background-color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+        }
+        select[multiple] option {
+            padding: 0.25rem;
+        }
+        select[multiple] option:checked {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .gradient-bg {
+            background: linear-gradient(to bottom right, #e0f2fe, #e0e7ff);
+        }
+        .question-card {
+            transition: all 0.3s ease;
+        }
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+         footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            border-top: 1px solid #E0E4EA;
+            color: #6B7280;
+            font-size: 0.9em;
+            font-family: 'Roboto', sans-serif;
+    </style>
+</head>
+<body class="gradient-bg font-sans min-h-screen">
+    <div class="container mx-auto p-6">
+        <h1 class="text-4xl font-extrabold text-center text-indigo-800 mb-8">IQー会話チェック反応（大学生向け）</h1>
+        
+        <!-- Playback Controls -->
+        <div class="mb-8 flex justify-center space-x-4">
+            <button id="playAllBtn" class="bg-teal-500 text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition duration-200 shadow-md">Chọn tất cả</button>
+            <button id="playLessonBtn" class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition duration-200 shadow-md">Chọn bài</button>
+            <button id="stopBtn" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-200 shadow-md">Dừng</button>
+        </div>
+
+        <!-- Lesson Selection (hidden by default) -->
+        <div id="lessonSelectContainer" class="hidden mb-8 flex justify-center space-x-4">
+            <select id="lessonSelect" multiple class="border border-gray-300 focus:ring-2 focus:ring-indigo-500">
+            </select>
+            <button id="confirmBtn" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition duration-200 shadow-md">Hiển thị</button>
+        </div>
+
+        <!-- Error Message Container -->
+        <div id="errorMessage" class="hidden text-red-600 text-center mb-6 bg-red-100 p-3 rounded-lg"></div>
+
+        <!-- Questions Container -->
+        <div id="questionsContainer" class="space-y-6"></div>
+    </div>
+    <footer>
+                  <p>© 2025 Tài liệu kiểm tra | Thiết kế bởi Thuận</p>
+    </footer>
+    <script>
+    
+        // Sample question data (replace audioUrl with actual audio file paths)
+       const questions = [
+    // 1. Tên
+    { 
+        "lesson": 1, 
+        "id": "1-1a", 
+        "text": "おなまえは　なんですか。/ なまえを　いってください/　おしえてください。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.1a.mp3" 
+    },
+    { 
+        "lesson": 1, 
+        "id": "1-1b", 
+        "text": "おなまえは　なんですか。/ なまえを　いってください/　おしえてください。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.1b.mp3" 
+    },
+
+    // 2. Tuổi
+    { 
+        "lesson": 1, 
+        "id": "1-2a", 
+        "text": "おいくつ　ですか。/　なんさい　ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.2a.mp3" 
+    },
+    { 
+        "lesson": 1, 
+        "id": "1-2b", 
+        "text": "おいくつ　ですか。/　なんさい　ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.2b.mp3" 
+    },
+
+    // 3. Đại học
+    { 
+        "lesson": 1, 
+        "id": "1-3", 
+        "text": "だいがくは　どちらですか/どこですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.3.mp3" 
+    },
+    // 4. Năm học
+    { 
+        "lesson": 1, 
+        "id": "1-4", 
+        "text": "いま、なんねんせいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.4.mp3" 
+    },
+    // 5. Chuyên ngành
+    { 
+        "lesson": 1, 
+        "id": "1-5a", 
+        "text": "せんもんは　なんですか/ せんこう（専攻）は　なんですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.5a.mp3" 
+    },
+    { 
+        "lesson": 1, 
+        "id": "1-5b", 
+        "text": "せんもんは　なんですか/ せんこう（専攻）は　なんですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.5b.mp3" 
+    },
+
+    // 6. Là sinh viên / kỹ sư / du học sinh
+    { 
+        "lesson": 1, 
+        "id": "1-6a", 
+        "text": "〇〇さんは、だいがくせい/エンジニア/　留学生　ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.6a.mp3" 
+    },
+    { 
+        "lesson": 1, 
+        "id": "1-6b", 
+        "text": "〇〇さんは、だいがくせい/エンジニア/　留学生　ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.6b.mp3" 
+    },
+
+    // 7. Năm học (1~4 năm)
+    { 
+        "lesson": 1, 
+        "id": "1-7a", 
+        "text": "○○さんは、１ねんせい/２ねんせい/３ねんせい/４ねんせい　ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.7a.mp3" 
+    },
+    { 
+        "lesson": 1, 
+        "id": "1-7b", 
+        "text": "○○さんは、１ねんせい/２ねんせい/３ねんせい/４ねんせい　ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.7b.mp3" 
+    },
+
+    // 8. Sinh viên trường nào
+    { 
+        "lesson": 1, 
+        "id": "1-8", 
+        "text": "〇〇さんは、△△だいがく/△△たんだいの　がくせいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.8.mp3" 
+    },
+    // 9. Xuất thân / Quê quán
+    { 
+        "lesson": 1, 
+        "id": "1-9", 
+        "text": "しゅっしんは　どちらですか/どこですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.9.mp3" 
+    },
+    // 10. Quốc tịch
+    { 
+        "lesson": 1, 
+        "id": "1-10a", 
+        "text": "〇〇さんは　ベトナムじん/ちゅうごくじん/かんこくじんですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.10a.mp3" 
+    },
+    { 
+        "lesson": 1, 
+        "id": "1-10b", 
+        "text": "〇〇さんは　ベトナムじん/ちゅうごくじん/かんこくじんですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/1.10b.mp3" 
+    },
+    // ==================== LESSON 2 ====================
+    
+    // 1. Công việc
+    { 
+        "lesson": 2, 
+        "id": "2-1", 
+        "text": "<ruby>仕事<rt>しごと</rt></ruby>は　なんですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.1.mp3" 
+    },
+
+    // 2. Quê quán
+    { 
+        "lesson": 2, 
+        "id": "2-2", 
+        "text": "<ruby>出身<rt>しゅっしん</rt></ruby>は　どこですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.2.mp3" 
+    },
+
+    // 3. Gia đình có mấy người
+    { 
+        "lesson": 2, 
+        "id": "2-3", 
+        "text": "<ruby>家族<rt>かぞく</rt></ruby>は　なんにん　ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.3.mp3" 
+    },
+
+    // 4-a & 4-b. Công việc của bố/mẹ
+    { 
+        "lesson": 2, 
+        "id": "2-4a", 
+        "text": "お<ruby>父<rt>とう</rt></ruby>さん／お<ruby>母<rt>かあ</rt></ruby>さんの　<ruby>仕事<rt>しごと</rt></ruby>は　なんですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.4a.mp3" 
+    },
+    { 
+        "lesson": 2, 
+        "id": "2-4b", 
+        "text": "お<ruby>父<rt>とう</rt></ruby>さん／お<ruby>母<rt>かあ</rt></ruby>さんの　<ruby>仕事<rt>しごと</rt></ruby>は　なんですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.4b.mp3" 
+    },
+
+    // 5. Sở thích
+    { 
+        "lesson": 2, 
+        "id": "2-5", 
+        "text": "<ruby>趣味<rt>しゅみ</rt></ruby>は　なんですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.5.mp3" 
+    },
+
+    // 6. Đó là gì (vật dụng)
+    { 
+        "lesson": 2, 
+        "id": "2-6", 
+        "text": "あれは　<ruby>何<rt>なん</rt></ruby>ですか。（カメラ、テレビ、<ruby>扇風機<rt>せんぷうき</rt></ruby>など）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.6.mp3" 
+    },
+    // 7-a & 7-b. Đó có phải là bút bi / bút chì không?
+    { 
+        "lesson": 2, 
+        "id": "2-7a", 
+        "text": "それは　ボールペン／シャープペン／（似ている名前）さん ですか。（※いいえと言わせる質問）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.7a.mp3" 
+    },
+    { 
+        "lesson": 2, 
+        "id": "2-7b", 
+        "text": "それは　ボールペン／シャープペン／（似ている名前）さん ですか。（※いいえと言わせる質問）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.7b.mp3" 
+    },
+
+    // 8-a & 8-b. Đây là sách giáo khoa / sách / chìa khóa của ai
+    { 
+        "lesson": 2, 
+        "id": "2-8a", 
+        "text": "これは、なんの　<ruby>教科書<rt>きょうかしょ</rt></ruby>／<ruby>本<rt>ほん</rt></ruby>／<ruby>鍵<rt>かぎ</rt></ruby>ですか。<br>（名前の書いてある教科書を机の上に置いておく　学生が見たり触ったりしてもいい）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.8a.mp3" 
+    },
+    { 
+        "lesson": 2, 
+        "id": "2-8b", 
+        "text": "これは、なんの　<ruby>教科書<rt>きょうかしょ</rt></ruby>／<ruby>本<rt>ほん</rt></ruby>／<ruby>鍵<rt>かぎ</rt></ruby>ですか。<br>（名前の書いてある教科書を机の上に置いておく　学生が見たり触ったりしてもいい）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.8b.mp3" 
+    },
+
+    // 9. Có phải của ○○ không?
+    { 
+        "lesson": 2, 
+        "id": "2-9", 
+        "text": "〇〇さんのですか。（※いいえの回答）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.9.mp3" 
+    },
+    // 10. Đây là của ai?
+    { 
+        "lesson": 2, 
+        "id": "2-10", 
+        "text": "だれのですか。<br>※ <ruby>教科書<rt>きょうかしょ</rt></ruby>の名前を見るなど／「わかりません」の回答もあり", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/2.10.mp3" 
+    },
+    // ==================== LESSON 3 ====================
+
+    // 1
+    { 
+        "lesson": 3, 
+        "id": "3-1", 
+        "text": "この<ruby>魚<rt>さかな</rt></ruby>は、150円／1,500円／15,000円です。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.1.mp3" 
+    },
+
+    // 2
+    { 
+        "lesson": 3, 
+        "id": "3-2", 
+        "text": "このかばんは、240円／2,400円／24,000円です。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.2.mp3" 
+    },
+
+    // 3
+    { 
+        "lesson": 3, 
+        "id": "3-3", 
+        "text": "この<ruby>鋏<rt>はさみ</rt></ruby>は、360円／3,600円／36,000円です。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.3.mp3" 
+    },
+
+    // 4
+    { 
+        "lesson": 3, 
+        "id": "3-4", 
+        "text": "この<ruby>安全靴<rt>あんぜんぐつ</rt></ruby>は、780円／7,800円／78,000円です。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.4.mp3" 
+    },
+
+    // 5
+    { 
+        "lesson": 3, 
+        "id": "3-5", 
+        "text": "このパソコンは、1,250円／12,500円／125,000円です。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.5.mp3" 
+    },
+
+    // 6-a
+    { 
+        "lesson": 3, 
+        "id": "3-6a", 
+        "text": "ここは　<ruby>教室<rt>きょうしつ</rt></ruby>／<ruby>寮<rt>りょう</rt></ruby>／<ruby>食堂<rt>しょくどう</rt></ruby>／<ruby>図書館<rt>としょかん</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.6a.mp3" 
+    },
+    // 6-b
+    { 
+        "lesson": 3, 
+        "id": "3-6b", 
+        "text": "ここは　<ruby>教室<rt>きょうしつ</rt></ruby>／<ruby>寮<rt>りょう</rt></ruby>／<ruby>食堂<rt>しょくどう</rt></ruby>／<ruby>図書館<rt>としょかん</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.6b.mp3" 
+    },
+
+    // 7-a
+    { 
+        "lesson": 3, 
+        "id": "3-7a", 
+        "text": "〇〇さんの<ruby>教室<rt>きょうしつ</rt></ruby>／<ruby>事務所<rt>じむしょ</rt></ruby>／<ruby>食堂<rt>しょくどう</rt></ruby>は　1<ruby>階<rt>かい</rt></ruby>／2<ruby>階<rt>かい</rt></ruby>／3<ruby>階<rt>かい</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.7a.mp3" 
+    },
+    // 7-b
+    { 
+        "lesson": 3, 
+        "id": "3-7b", 
+        "text": "〇〇さんの<ruby>教室<rt>きょうしつ</rt></ruby>／<ruby>事務所<rt>じむしょ</rt></ruby>／<ruby>食堂<rt>しょくどう</rt></ruby>は　1<ruby>階<rt>かい</rt></ruby>／2<ruby>階<rt>かい</rt></ruby>／3<ruby>階<rt>かい</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.7b.mp3" 
+    },
+
+    // 8-a
+    { 
+        "lesson": 3, 
+        "id": "3-8a", 
+        "text": "<ruby>トイレ<rt>トイレ</rt></ruby>／<ruby>教室<rt>きょうしつ</rt></ruby>／<ruby>食堂<rt>しょくどう</rt></ruby>は　なん<ruby>階<rt>かい</rt></ruby>／どこですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.8a.mp3" 
+    },
+    // 8-b
+    { 
+        "lesson": 3, 
+        "id": "3-8b", 
+        "text": "<ruby>トイレ<rt>トイレ</rt></ruby>／<ruby>教室<rt>きょうしつ</rt></ruby>／<ruby>食堂<rt>しょくどう</rt></ruby>は　なん<ruby>階<rt>かい</rt></ruby>／どこですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.8b.mp3" 
+    },
+
+    // 9
+    { 
+        "lesson": 3, 
+        "id": "3-9", 
+        "text": "〇〇<ruby>先生<rt>せんせい</rt></ruby>／〇〇さんは、<ruby>事務所<rt>じむしょ</rt></ruby>／トイレ／<ruby>教室<rt>きょうしつ</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.9.mp3" 
+    },
+
+    // 10
+    { 
+        "lesson": 3, 
+        "id": "3-10", 
+        "text": "〇〇<ruby>先生<rt>せんせい</rt></ruby>／〇〇さんは、どこですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/3.10.mp3" 
+    },
+    // ==================== LESSON 4 ====================
+
+    // 1-a
+    { 
+        "lesson": 4, 
+        "id": "4-1a", 
+        "text": "<ruby>今日<rt>きょう</rt></ruby>／<ruby>明日<rt>あした</rt></ruby>／<ruby>明後日<rt>あさって</rt></ruby>は、なん<ruby>曜日<rt>ようび</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.1a.mp3" 
+    },
+    // 1-b
+    { 
+        "lesson": 4, 
+        "id": "4-1b", 
+        "text": "<ruby>今日<rt>きょう</rt></ruby>／<ruby>明日<rt>あした</rt></ruby>／<ruby>明後日<rt>あさって</rt></ruby>は、なん<ruby>曜日<rt>ようび</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.1b.mp3" 
+    },
+
+    // 2. Ngày nghỉ
+    { 
+        "lesson": 4, 
+        "id": "4-2", 
+        "text": "<ruby>休<rt>やす</rt></ruby>みは　なん<ruby>曜日<rt>ようび</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.2.mp3" 
+    },
+
+    // 3. Giờ hiện tại
+    { 
+        "lesson": 4, 
+        "id": "4-3", 
+        "text": "いま、なん<ruby>時<rt>じ</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.3.mp3" 
+    },
+
+    // 4. Giờ ở Nhật
+    { 
+        "lesson": 4, 
+        "id": "4-4", 
+        "text": "<ruby>日本<rt>にほん</rt></ruby>は いま、なん<ruby>時<rt>じ</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.4.mp3" 
+    },
+
+    // 5. Số điện thoại
+    { 
+        "lesson": 4, 
+        "id": "4-5", 
+        "text": "<ruby>電話番号<rt>でんわばんごう</rt></ruby>は　なん<ruby>番<rt>ばん</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.5.mp3" 
+    },
+
+    // 6-a
+    { 
+        "lesson": 4, 
+        "id": "4-6a", 
+        "text": "〇〇さんは　<ruby>毎日<rt>まいにち</rt></ruby>／<ruby>毎晩<rt>まいばん</rt></ruby>　<ruby>勉強<rt>べんきょう</rt></ruby>しますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.6a.mp3" 
+    },
+    // 6-b
+    { 
+        "lesson": 4, 
+        "id": "4-6b", 
+        "text": "〇〇さんは　<ruby>毎日<rt>まいにち</rt></ruby>／<ruby>毎晩<rt>まいばん</rt></ruby>　<ruby>勉強<rt>べんきょう</rt></ruby>しますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.6b.mp3" 
+    },
+
+    // 7-a
+    { 
+        "lesson": 4, 
+        "id": "4-7a", 
+        "text": "なん<ruby>時<rt>じ</rt></ruby>から／なん<ruby>時<rt>じ</rt></ruby>まで／なん<ruby>時<rt>じ</rt></ruby>からなん<ruby>時<rt>じ</rt></ruby>まで　<ruby>勉強<rt>べんきょう</rt></ruby>しますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.7a.mp3" 
+    },
+    // 7-b
+    { 
+        "lesson": 4, 
+        "id": "4-7b", 
+        "text": "なん<ruby>時<rt>じ</rt></ruby>から／なん<ruby>時<rt>じ</rt></ruby>まで／なん<ruby>時<rt>じ</rt></ruby>からなん<ruby>時<rt>じ</rt></ruby>まで　<ruby>勉強<rt>べんきょう</rt></ruby>しますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.7b.mp3" 
+    },
+
+    // 8. Hôm qua có học không?
+    { 
+        "lesson": 4, 
+        "id": "4-8", 
+        "text": "<ruby>昨日<rt>きのう</rt></ruby>の　<ruby>晩<rt>ばん</rt></ruby>　<ruby>勉強<rt>べんきょう</rt></ruby>しましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.8.mp3" 
+    },
+
+    // 9-a
+    { 
+        "lesson": 4, 
+        "id": "4-9a", 
+        "text": "<ruby>昨日<rt>きのう</rt></ruby>、なん<ruby>時<rt>じ</rt></ruby>に　<ruby>寝<rt>ね</rt></ruby>ましたか。<br>けさ　なん<ruby>時<rt>じ</rt></ruby>に　<ruby>起<rt>お</rt></ruby>きましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.9a.mp3" 
+    },
+    // 9-b
+    { 
+        "lesson": 4, 
+        "id": "4-9b", 
+        "text": "<ruby>昨日<rt>きのう</rt></ruby>、なん<ruby>時<rt>じ</rt></ruby>に　<ruby>寝<rt>ね</rt></ruby>ましたか。<br>けさ　なん<ruby>時<rt>じ</rt></ruby>に　<ruby>起<rt>お</rt></ruby>きましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.9b.mp3" 
+    },
+
+    // 10. Hôm kia có làm việc không?
+    { 
+        "lesson": 4, 
+        "id": "4-10", 
+        "text": "<ruby>一昨日<rt>おととい</rt></ruby>　<ruby>働<rt>はたら</rt></ruby>きましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/4.10.mp3" 
+    },
+    // ==================== LESSON 5 ====================
+
+    // 1-a
+    { 
+        "lesson": 5, 
+        "id": "5-1a", 
+        "text": "〇〇さんは、<ruby>中国<rt>ちゅうごく</rt></ruby>／インドネシア／<ruby>韓国<rt>かんこく</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きますか。<br>いいえ → どこへ <ruby>行<rt>い</rt></ruby>きますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.1a.mp3" 
+    },
+    // 1-b
+    { 
+        "lesson": 5, 
+        "id": "5-1b", 
+        "text": "〇〇さんは、<ruby>中国<rt>ちゅうごく</rt></ruby>／インドネシア／<ruby>韓国<rt>かんこく</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きますか。<br>いいえ → どこへ <ruby>行<rt>い</rt></ruby>きますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.1b.mp3" 
+    },
+
+    // 2
+    { 
+        "lesson": 5, 
+        "id": "5-2", 
+        "text": "<ruby>船<rt>ふね</rt></ruby>で　<ruby>日本<rt>にほん</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きますか。<br>いいえ → なにで <ruby>行<rt>い</rt></ruby>きますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.2.mp3" 
+    },
+
+    // 3-a
+    { 
+        "lesson": 5, 
+        "id": "5-3a", 
+        "text": "<ruby>日本<rt>にほん</rt></ruby>の　<ruby>東京<rt>とうきょう</rt></ruby>／<ruby>京都<rt>きょうと</rt></ruby>／<ruby>大阪<rt>おおさか</rt></ruby>／どこへ　<ruby>行<rt>い</rt></ruby>きますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.3a.mp3" 
+    },
+    // 3-b
+    { 
+        "lesson": 5, 
+        "id": "5-3b", 
+        "text": "<ruby>日本<rt>にほん</rt></ruby>の　<ruby>東京<rt>とうきょう</rt></ruby>／<ruby>京都<rt>きょうと</rt></ruby>／<ruby>大阪<rt>おおさか</rt></ruby>／どこへ　<ruby>行<rt>い</rt></ruby>きますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.3b.mp3" 
+    },
+
+    // 4
+    { 
+        "lesson": 5, 
+        "id": "5-4", 
+        "text": "けさ　<ruby>何時<rt>なんじ</rt></ruby>に 〇〇<ruby>大学<rt>だいがく</rt></ruby>／〇〇<ruby>短大<rt>たんだい</rt></ruby>へきましたか。<br>〇〇さんは　いつ　〇〇<ruby>大学<rt>だいがく</rt></ruby>／〇〇<ruby>短大<rt>たんだい</rt></ruby>へ <ruby>来<rt>き</rt></ruby>ましたか（<ruby>寮生<rt>りょうせい</rt></ruby>）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.4.mp3" 
+    },
+
+    // 5
+    { 
+        "lesson": 5, 
+        "id": "5-5", 
+        "text": "なにで 〇〇<ruby>大学<rt>だいがく</rt></ruby>／〇〇<ruby>短大<rt>たんだい</rt></ruby>へ <ruby>来<rt>き</rt></ruby>ましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.5.mp3" 
+    },
+
+    // 6
+    { 
+        "lesson": 5, 
+        "id": "5-6", 
+        "text": "<ruby>今日<rt>きょう</rt></ruby>は<ruby>何日<rt>なんにち</rt></ruby>ですか。<ruby>何曜日<rt>なんようび</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.6.mp3" 
+    },
+
+    // 7
+    { 
+        "lesson": 5, 
+        "id": "5-7", 
+        "text": "いま、なん<ruby>時<rt>じ</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.7.mp3" 
+    },
+
+    // 8
+    { 
+        "lesson": 5, 
+        "id": "5-8", 
+        "text": "<ruby>日本<rt>にほん</rt></ruby>は いま、なん<ruby>時<rt>じ</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.8.mp3" 
+    },
+
+    // 9-a
+    { 
+        "lesson": 5, 
+        "id": "5-9a", 
+        "text": "<ruby>来週<rt>らいしゅう</rt></ruby>／<ruby>先週<rt>せんしゅう</rt></ruby>の　〇<ruby>曜日<rt>ようび</rt></ruby>は　<ruby>何日<rt>なんにち</rt></ruby>ですか／<ruby>何日<rt>なんにち</rt></ruby>でしたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.9a.mp3" 
+    },
+    // 9-b
+    { 
+        "lesson": 5, 
+        "id": "5-9b", 
+        "text": "<ruby>来週<rt>らいしゅう</rt></ruby>／<ruby>先週<rt>せんしゅう</rt></ruby>の　〇<ruby>曜日<rt>ようび</rt></ruby>は　<ruby>何日<rt>なんにち</rt></ruby>ですか／<ruby>何日<rt>なんにち</rt></ruby>でしたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.9b.mp3" 
+    },
+
+    // 10
+    { 
+        "lesson": 5, 
+        "id": "5-10", 
+        "text": "〇〇さんの　<ruby>生年月日<rt>せいねんがっぴ</rt></ruby>を　<ruby>教<rt>おし</rt></ruby>えてください。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/5.10.mp3" 
+    },
+    // ==================== LESSON 6 ====================
+
+    // 1-a
+    { 
+        "lesson": 6, 
+        "id": "6-1a", 
+        "text": "けさ／<ruby>今日<rt>きょう</rt></ruby>　<ruby>何時<rt>なんじ</rt></ruby>に <ruby>起<rt>お</rt></ruby>きましたか。<br>ゆうべ／<ruby>昨日<rt>きのう</rt></ruby>の<ruby>晩<rt>ばん</rt></ruby>　<ruby>何時<rt>なんじ</rt></ruby>に <ruby>寝<rt>ね</rt></ruby>ましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.1a.mp3" 
+    },
+    // 1-b
+    { 
+        "lesson": 6, 
+        "id": "6-1b", 
+        "text": "けさ／<ruby>今日<rt>きょう</rt></ruby>　<ruby>何時<rt>なんじ</rt></ruby>に <ruby>起<rt>お</rt></ruby>きましたか。<br>ゆうべ／<ruby>昨日<rt>きのう</rt></ruby>の<ruby>晩<rt>ばん</rt></ruby>　<ruby>何時<rt>なんじ</rt></ruby>に <ruby>寝<rt>ね</rt></ruby>ましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.1b.mp3" 
+    },
+
+    // 2-a
+    { 
+        "lesson": 6, 
+        "id": "6-2a", 
+        "text": "けさ、コーヒー／<ruby>水<rt>みず</rt></ruby>／<ruby>牛乳<rt>ぎゅうにゅう</rt></ruby>　を <ruby>飲<rt>の</rt></ruby>みましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.2a.mp3" 
+    },
+    // 2-b
+    { 
+        "lesson": 6, 
+        "id": "6-2b", 
+        "text": "けさ、コーヒー／<ruby>水<rt>みず</rt></ruby>／<ruby>牛乳<rt>ぎゅうにゅう</rt></ruby>　を <ruby>飲<rt>の</rt></ruby>みましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.2b.mp3" 
+    },
+
+    // 3
+    { 
+        "lesson": 6, 
+        "id": "6-3", 
+        "text": "<ruby>毎日<rt>まいにち</rt></ruby>　<ruby>朝御飯<rt>あさごはん</rt></ruby>を　<ruby>食<rt>た</rt></ruby>べますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.3.mp3" 
+    },
+
+    // 4-a
+    { 
+        "lesson": 6, 
+        "id": "6-4a", 
+        "text": "けさ、なにを　<ruby>食<rt>た</rt></ruby>べましたか。<br>※<ruby>食<rt>た</rt></ruby>べていない場合：きのう、<ruby>食<rt>た</rt></ruby>べましたか／なにを<ruby>食<rt>た</rt></ruby>べましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.4a.mp3" 
+    },
+    // 4-b
+    { 
+        "lesson": 6, 
+        "id": "6-4b", 
+        "text": "けさ、なにを　<ruby>食<rt>た</rt></ruby>べましたか。<br>※<ruby>食<rt>た</rt></ruby>べていない場合：きのう、<ruby>食<rt>た</rt></ruby>べましたか／なにを<ruby>食<rt>た</rt></ruby>べましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.4b.mp3" 
+    },
+
+    // 5
+    { 
+        "lesson": 6, 
+        "id": "6-5", 
+        "text": "〇〇さんは　たばこを　<ruby>吸<rt>す</rt></ruby>いますか。<ruby>お酒<rt>おさけ</rt></ruby>を <ruby>飲<rt>の</rt></ruby>みますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.5.mp3" 
+    },
+
+    // 6
+    { 
+        "lesson": 6, 
+        "id": "6-6", 
+        "text": "<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>、いつも　<ruby>何時<rt>なんじ</rt></ruby>に　<ruby>起<rt>お</rt></ruby>きますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.6.mp3" 
+    },
+
+    // 7-a
+    { 
+        "lesson": 6, 
+        "id": "6-7a", 
+        "text": "<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>、<ruby>勉強<rt>べんきょう</rt></ruby>しましたか／テレビを<ruby>見<rt>み</rt></ruby>ましたか／<ruby>音楽<rt>おんがく</rt></ruby>を<ruby>聞<rt>き</rt></ruby>きましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.7a.mp3" 
+    },
+    // 7-b
+    { 
+        "lesson": 6, 
+        "id": "6-7b", 
+        "text": "<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>、<ruby>勉強<rt>べんきょう</rt></ruby>しましたか／テレビを<ruby>見<rt>み</rt></ruby>ましたか／<ruby>音楽<rt>おんがく</rt></ruby>を<ruby>聞<rt>き</rt></ruby>きましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.7b.mp3" 
+    },
+
+    // 8
+    { 
+        "lesson": 6, 
+        "id": "6-8", 
+        "text": "<ruby>日曜日<rt>にちようび</rt></ruby>、だれに　<ruby>会<rt>あ</rt></ruby>いましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.8.mp3" 
+    },
+
+    // 9
+    { 
+        "lesson": 6, 
+        "id": "6-9", 
+        "text": "<ruby>昨日<rt>きのう</rt></ruby>、どこで　<ruby>晩御飯<rt>ばんごはん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.9.mp3" 
+    },
+
+    // 10
+    { 
+        "lesson": 6, 
+        "id": "6-10", 
+        "text": "<ruby>次<rt>つぎ</rt></ruby>の<ruby>土曜日<rt>どようび</rt></ruby>、なにをしますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/6.10.mp3" 
+    },
+    // ==================== LESSON 7 ====================
+
+    // 1
+    { 
+        "lesson": 7, 
+        "id": "7-1", 
+        "text": "〇〇さんの<ruby>誕生日<rt>たんじょうび</rt></ruby>は　なん<ruby>月<rt>がつ</rt></ruby>／いつですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/7.1.mp3" 
+    },
+
+    // 2
+    { 
+        "lesson": 7, 
+        "id": "7-2", 
+        "text": "（<ruby>去年<rt>きょねん</rt></ruby>の）<ruby>誕生日<rt>たんじょうび</rt></ruby>にプレゼントを<ruby>もら<rt>もら</rt></ruby>いましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/7.2.mp3" 
+    },
+
+    // 3
+    { 
+        "lesson": 7, 
+        "id": "7-3", 
+        "text": "はい → だれに<ruby>もら<rt>もら</rt></ruby>いましたか。<br>いいえ → 〇〇さんは、<ruby>去年<rt>きょねん</rt></ruby>だれにプレゼントをあげましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/7.3.mp3" 
+    },
+
+    // 4
+    { 
+        "lesson": 7, 
+        "id": "7-4", 
+        "text": "<ruby>何<rt>なに</rt></ruby>（なに）を<ruby>もら<rt>もら</rt></ruby>いましたか／<ruby>何<rt>なに</rt></ruby>をあげましたか。<br>Q3回答（かいとう）あげませんでした → <ruby>今年<rt>ことし</rt></ruby>、だれにプレゼントをあげますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/7.4.mp3" 
+    },
+
+    // 5
+    { 
+        "lesson": 7, 
+        "id": "7-5", 
+        "text": "どんな〇〇ですか。（お<ruby>金<rt>かね</rt></ruby>：いくら<ruby>もら<rt>もら</rt></ruby>いましたか）<br>※Q4回答（かいとう）あげません → <ruby>家族<rt>かぞく</rt></ruby>にあげませんか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/7.5.mp3" 
+    },
+
+    // 6
+    { 
+        "lesson": 7, 
+        "id": "7-6", 
+        "text": "<ruby>次<rt>つぎ</rt></ruby>は（9<ruby>課<rt>か</rt></ruby>）の<ruby>勉強<rt>べんきょう</rt></ruby>をしますね。<br>もう（ことば）の<ruby>予習<rt>よしゅう</rt></ruby>／<ruby>勉強<rt>べんきょう</rt></ruby>をしましたか。<br>※　はい、もう～ました　　いいえ、まだです／まだ～ていません", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/7.6.mp3" 
+    },
+
+    // 7
+    { 
+        "lesson": 7, 
+        "id": "7-7", 
+        "text": "これは（<ruby>消<rt>け</rt></ruby>しゴムやボールペンなどを持ちながら）ベトナム語で<ruby>何<rt>なん</rt></ruby>ですか。<br>（ものを渡して）<ruby>日本語<rt>にほんご</rt></ruby>がわかりません。<ruby>私<rt>わたし</rt></ruby>に<ruby>質問<rt>しつもん</rt></ruby>してください。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/7.7.mp3" 
+    },
+
+    // 8
+    { 
+        "lesson": 7, 
+        "id": "7-8", 
+        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>は<ruby>箸<rt>はし</rt></ruby>でご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べます。<br>ベトナム<ruby>人<rt>じん</rt></ruby>は<ruby>何<rt>なに</rt></ruby>でご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/7.8.mp3" 
+    },
+
+    // 9
+    { 
+        "lesson": 7, 
+        "id": "7-9", 
+        "text": "いつも、ケータイで<ruby>何<rt>なに</rt></ruby>をしますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/7.9.mp3" 
+    },
+
+    // 10
+    { 
+        "lesson": 7, 
+        "id": "7-10", 
+        "text": "（Q4の回答）は　おもしろいですか／どうですか／どんな〇〇を～ますか", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/7.10.mp3" 
+    },
+    // ==================== LESSON 8 ====================
+
+    // 1
+    { 
+        "lesson": 8, 
+        "id": "8-1", 
+        "text": "〇〇さんの<ruby>出身<rt>しゅっしん</rt></ruby>はどこ／どちらですか。ここから<ruby>近<rt>ちか</rt></ruby>いですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.1.mp3" 
+    },
+
+    // 2
+    { 
+        "lesson": 8, 
+        "id": "8-2", 
+        "text": "（<ruby>出身地<rt>しゅっしんち</rt></ruby>）は <ruby>便利<rt>べんり</rt></ruby>なところですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.2.mp3" 
+    },
+
+    // 3
+    { 
+        "lesson": 8, 
+        "id": "8-3", 
+        "text": "（<ruby>出身地<rt>しゅっしんち</rt></ruby>）は、どんなところですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.3.mp3" 
+    },
+
+    // 4 (chữ đỏ trong ảnh)
+    { 
+        "lesson": 8, 
+        "id": "8-4", 
+        "text": "あなたの<ruby>大学<rt>だいがく</rt></ruby>は　<ruby>新<rt>あたら</rt></ruby>しいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.4.mp3" 
+    },
+
+    // 5
+    { 
+        "lesson": 8, 
+        "id": "8-5", 
+        "text": "あなたの<ruby>大学<rt>だいがく</rt></ruby>は　どんな　ところですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.5.mp3" 
+    },
+
+    // 6
+    { 
+        "lesson": 8, 
+        "id": "8-6", 
+        "text": "<ruby>日本語<rt>にほんご</rt></ruby>は<ruby>難<rt>むずか</rt></ruby>しいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.6.mp3" 
+    },
+
+    // 7
+    { 
+        "lesson": 8, 
+        "id": "8-7", 
+        "text": "どの<ruby>勉強<rt>べんきょう</rt></ruby>が　おもしろいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.7.mp3" 
+    },
+
+    // 8-a
+    { 
+        "lesson": 8, 
+        "id": "8-8a", 
+        "text": "<ruby>毎日<rt>まいにち</rt></ruby>／<ruby>日本<rt>にほん</rt></ruby>の<ruby>勉強<rt>べんきょう</rt></ruby>は　どうですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.8a.mp3" 
+    },
+    // 8-b
+    { 
+        "lesson": 8, 
+        "id": "8-8b", 
+        "text": "<ruby>毎日<rt>まいにち</rt></ruby>／<ruby>日本<rt>にほん</rt></ruby>の<ruby>勉強<rt>べんきょう</rt></ruby>は　どうですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.8b.mp3" 
+    },
+
+    // 9
+    { 
+        "lesson": 8, 
+        "id": "8-9", 
+        "text": "<ruby>クラス<rt>クラス</rt></ruby>で　だれが　<ruby>親切<rt>しんせつ</rt></ruby>ですか／<ruby>元気<rt>げんき</rt></ruby>ですか／おもしろいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.9.mp3" 
+    },
+
+    // 10
+    { 
+        "lesson": 8, 
+        "id": "8-10", 
+        "text": "（<ruby>色<rt>いろ</rt></ruby>違いのものを見せながら）どれがいいですか（…<ruby>赤<rt>あか</rt></ruby>がいいです／<ruby>赤<rt>あか</rt></ruby>いのがいいです）<br>※これですの場合 → これは<ruby>何色<rt>なんいろ</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/8.10.mp3" 
+    },
+    // ==================== LESSON 9 ====================
+
+    // 1-a
+    { 
+        "lesson": 9, 
+        "id": "9-1a", 
+        "text": "〇〇さんは、（①スポーツ②アニメ ③<ruby>音楽<rt>おんがく</rt></ruby>）が<ruby>好<rt>す</rt></ruby>きですか。<br>※いいえ：もう一つ<ruby>聞<rt>き</rt></ruby>く<br>※どれも<ruby>好<rt>す</rt></ruby>きでない → <ruby>何<rt>なに</rt></ruby>が<ruby>好<rt>す</rt></ruby>きですか。（ゲーム、<ruby>旅行<rt>りょこう</rt></ruby>、<ruby>料理<rt>りょうり</rt></ruby>）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.1a.mp3" 
+    },
+    // 1-b
+    { 
+        "lesson": 9, 
+        "id": "9-1b", 
+        "text": "〇〇さんは、（①スポーツ②アニメ ③<ruby>音楽<rt>おんがく</rt></ruby>）が<ruby>好<rt>す</rt></ruby>きですか。<br>※いいえ：もう一つ<ruby>聞<rt>き</rt></ruby>く<br>※どれも<ruby>好<rt>す</rt></ruby>きでない → <ruby>何<rt>なに</rt></ruby>が<ruby>好<rt>す</rt></ruby>きですか。（ゲーム、<ruby>旅行<rt>りょこう</rt></ruby>、<ruby>料理<rt>りょうり</rt></ruby>）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.1b.mp3" 
+    },
+
+    // 2-a
+    { 
+        "lesson": 9, 
+        "id": "9-2a", 
+        "text": "どんなスポーツ／アニメ／<ruby>音楽<rt>おんがく</rt></ruby>が<ruby>好<rt>す</rt></ruby>きですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.2a.mp3" 
+    },
+    // 2-b
+    { 
+        "lesson": 9, 
+        "id": "9-2b", 
+        "text": "どんなスポーツ／アニメ／<ruby>音楽<rt>おんがく</rt></ruby>が<ruby>好<rt>す</rt></ruby>きですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.2b.mp3" 
+    },
+
+    // 3-a
+    { 
+        "lesson": 9, 
+        "id": "9-3a", 
+        "text": "いつ　しますか／<ruby>見<rt>み</rt></ruby>ますか／<ruby>聞<rt>き</rt></ruby>きますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.3a.mp3" 
+    },
+    // 3-b
+    { 
+        "lesson": 9, 
+        "id": "9-3b", 
+        "text": "いつ　しますか／<ruby>見<rt>み</rt></ruby>ますか／<ruby>聞<rt>き</rt></ruby>きますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.3b.mp3" 
+    },
+
+    // 4-a
+    { 
+        "lesson": 9, 
+        "id": "9-4a", 
+        "text": "〇〇さんは、<ruby>料理<rt>りょうり</rt></ruby>／<ruby>歌<rt>うた</rt></ruby>／<ruby>絵<rt>え</rt></ruby>／バドミントンが　<ruby>上手<rt>じょうず</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.4a.mp3" 
+    },
+    // 4-b
+    { 
+        "lesson": 9, 
+        "id": "9-4b", 
+        "text": "〇〇さんは、<ruby>料理<rt>りょうり</rt></ruby>／<ruby>歌<rt>うた</rt></ruby>／<ruby>絵<rt>え</rt></ruby>／バドミントンが　<ruby>上手<rt>じょうず</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.4b.mp3" 
+    },
+
+    // 5-a
+    { 
+        "lesson": 9, 
+        "id": "9-5a", 
+        "text": "はい → だれに　<ruby>習<rt>なら</rt></ruby>いましたか。<br>いいえ → だれが　<ruby>上手<rt>じょうず</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.5a.mp3" 
+    },
+    // 5-b
+    { 
+        "lesson": 9, 
+        "id": "9-5b", 
+        "text": "はい → だれに　<ruby>習<rt>なら</rt></ruby>いましたか。<br>いいえ → だれが　<ruby>上手<rt>じょうず</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.5b.mp3" 
+    },
+
+    // 6
+    { 
+        "lesson": 9, 
+        "id": "9-6", 
+        "text": "<ruby>今週<rt>こんしゅう</rt></ruby>、<ruby>試験<rt>しけん</rt></ruby>がありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.6.mp3" 
+    },
+
+    // 7-a
+    { 
+        "lesson": 9, 
+        "id": "9-7a", 
+        "text": "はい → <ruby>何時<rt>なんじ</rt></ruby>からですか。<ruby>何<rt>なん</rt></ruby>の<ruby>試験<rt>しけん</rt></ruby>ですか。<br>いいえ → いつ<ruby>試験<rt>しけん</rt></ruby>がありますか。<ruby>何<rt>なん</rt></ruby>の<ruby>試験<rt>しけん</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.7a.mp3" 
+    },
+    // 7-b
+    { 
+        "lesson": 9, 
+        "id": "9-7b", 
+        "text": "はい → <ruby>何時<rt>なんじ</rt></ruby>からですか。<ruby>何<rt>なん</rt></ruby>の<ruby>試験<rt>しけん</rt></ruby>ですか。<br>いいえ → いつ<ruby>試験<rt>しけん</rt></ruby>がありますか。<ruby>何<rt>なん</rt></ruby>の<ruby>試験<rt>しけん</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.7b.mp3" 
+    },
+
+    // 8
+    { 
+        "lesson": 9, 
+        "id": "9-8", 
+        "text": "<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>約束<rt>やくそく</rt></ruby>がありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.8.mp3" 
+    },
+
+    // 9-a
+    { 
+        "lesson": 9, 
+        "id": "9-9a", 
+        "text": "はい → だれと <ruby>約束<rt>やくそく</rt></ruby>しましたか／どんな<ruby>約束<rt>やくそく</rt></ruby>ですか。<br>いいえ → では、<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>、<ruby>時間<rt>じかん</rt></ruby>がありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.9a.mp3" 
+    },
+    // 9-b
+    { 
+        "lesson": 9, 
+        "id": "9-9b", 
+        "text": "はい → だれと <ruby>約束<rt>やくそく</rt></ruby>しましたか／どんな<ruby>約束<rt>やくそく</rt></ruby>ですか。<br>いいえ → では、<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>、<ruby>時間<rt>じかん</rt></ruby>がありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.9b.mp3" 
+    },
+
+    // 10
+    { 
+        "lesson": 9, 
+        "id": "9-10", 
+        "text": "わたし（<ruby>先生<rt>せんせい</rt></ruby>）の<ruby>日本語<rt>にほんご</rt></ruby>が、わかりますか。<br>※「わかります」だけの回答：ぜんぶ わかりますか。（よく、だいたい、あまり～ を使った回答が<ruby>望<rt>のぞ</rt></ruby>ましい）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/9.10.mp3" 
+    },
+// ==================== LESSON 10 ====================
+
+    // 1
+    { 
+        "lesson": 10, 
+        "id": "10-1", 
+        "text": "〇〇さん／〇〇<ruby>先生<rt>せんせい</rt></ruby>／〇〇さんの<ruby>家族<rt>かぞく</rt></ruby>　は　いまどこに　いますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.1.mp3" 
+    },
+
+    // 2
+    { 
+        "lesson": 10, 
+        "id": "10-2", 
+        "text": "いま、（Q1以外の場所　<ruby>教室<rt>きょうしつ</rt></ruby>／この<ruby>部屋<rt>へや</rt></ruby>／この<ruby>部屋<rt>へや</rt></ruby>の<ruby>外<rt>そと</rt></ruby>）に だれが　いますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.2.mp3" 
+    },
+
+    // 3-a
+    { 
+        "lesson": 10, 
+        "id": "10-3a", 
+        "text": "（<ruby>教室<rt>きょうしつ</rt></ruby>で、）〇〇さんの　<ruby>前<rt>まえ</rt></ruby>／<ruby>後<rt>うし</rt></ruby>ろ／となりの<ruby>人<rt>ひと</rt></ruby>はだれですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.3a.mp3" 
+    },
+    // 3-b
+    { 
+        "lesson": 10, 
+        "id": "10-3b", 
+        "text": "（<ruby>教室<rt>きょうしつ</rt></ruby>で、）〇〇さんの　<ruby>前<rt>まえ</rt></ruby>／<ruby>後<rt>うし</rt></ruby>ろ／となりの<ruby>人<rt>ひと</rt></ruby>はだれですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.3b.mp3" 
+    },
+
+    // 4-a
+    { 
+        "lesson": 10, 
+        "id": "10-4a", 
+        "text": "（<ruby>教室<rt>きょうしつ</rt></ruby>の） どこに　ホワイトボード／テレビ／ごみばこ　がありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.4a.mp3" 
+    },
+    // 4-b
+    { 
+        "lesson": 10, 
+        "id": "10-4b", 
+        "text": "（<ruby>教室<rt>きょうしつ</rt></ruby>の） どこに　ホワイトボード／テレビ／ごみばこ　がありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.4b.mp3" 
+    },
+
+    // 5-a
+    { 
+        "lesson": 10, 
+        "id": "10-5a", 
+        "text": "〇〇さんの／<ruby>先生<rt>せんせい</rt></ruby>の　つくえの<ruby>上<rt>うえ</rt></ruby>／<ruby>中<rt>なか</rt></ruby>／<ruby>下<rt>した</rt></ruby>に、なにがありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.5a.mp3" 
+    },
+    // 5-b
+    { 
+        "lesson": 10, 
+        "id": "10-5b", 
+        "text": "〇〇さんの／<ruby>先生<rt>せんせい</rt></ruby>の　つくえの<ruby>上<rt>うえ</rt></ruby>／<ruby>中<rt>なか</rt></ruby>／<ruby>下<rt>した</rt></ruby>に、なにがありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.5b.mp3" 
+    },
+
+    // 6 (dòng đỏ)
+    { 
+        "lesson": 10, 
+        "id": "10-6", 
+        "text": "〇〇<ruby>大学<rt>だいがく</rt></ruby>／<ruby>短大<rt>たんだい</rt></ruby>は　ベトナムのどこにありますか。<br>※<ruby>都市名<rt>としめい</rt></ruby>を<ruby>答<rt>こた</rt></ruby>える", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.6.mp3" 
+    },
+
+    // 7
+    { 
+        "lesson": 10, 
+        "id": "10-7", 
+        "text": "（Q1回答）に <ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>場所<rt>ばしょ</rt></ruby>がありますか。<br>※はい、あります／いいえ、ありません。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.7.mp3" 
+    },
+
+    // 8
+    { 
+        "lesson": 10, 
+        "id": "10-8", 
+        "text": "（Q2回答）それはどこですか。<br>※<ruby>場所<rt>ばしょ</rt></ruby>の<ruby>名称<rt>めいしょう</rt></ruby>を<ruby>答<rt>こた</rt></ruby>える", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.8.mp3" 
+    },
+
+    // 9 (dòng đỏ)
+    { 
+        "lesson": 10, 
+        "id": "10-9", 
+        "text": "〇〇<ruby>大学<rt>だいがく</rt></ruby>の<ruby>近<rt>ちか</rt></ruby>くに <ruby>何<rt>なに</rt></ruby>が　ありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.9.mp3" 
+    },
+
+    // 10
+    { 
+        "lesson": 10, 
+        "id": "10-10", 
+        "text": "〇〇さんの<ruby>出身地<rt>しゅっしんち</rt></ruby>は どこですか。それは ベトナムのどのへんにありますか。<br>（ベトナムの<ruby>北部<rt>ほくぶ</rt></ruby>／<ruby>中部<rt>ちゅうぶ</rt></ruby>／<ruby>南部<rt>なんぶ</rt></ruby>　です）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/10.10.mp3" 
+    },
+    // ==================== LESSON 11 ====================
+
+    // 1-a
+    { 
+        "lesson": 11, 
+        "id": "11-1a", 
+        "text": "<ruby>家族<rt>かぞく</rt></ruby>は何<ruby>人<rt>にん</rt></ruby>いますか。／<ruby>兄弟<rt>きょうだい</rt></ruby>は何<ruby>人<rt>にん</rt></ruby>ですか。／なん<ruby>人<rt>にん</rt></ruby><ruby>兄弟<rt>きょうだい</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.1a.mp3" 
+    },
+    // 1-b
+    { 
+        "lesson": 11, 
+        "id": "11-1b", 
+        "text": "<ruby>家族<rt>かぞく</rt></ruby>は何<ruby>人<rt>にん</rt></ruby>いますか。／<ruby>兄弟<rt>きょうだい</rt></ruby>は何<ruby>人<rt>にん</rt></ruby>ですか。／なん<ruby>人<rt>にん</rt></ruby><ruby>兄弟<rt>きょうだい</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.1b.mp3" 
+    },
+
+    // 2-a
+    { 
+        "lesson": 11, 
+        "id": "11-2a", 
+        "text": "だれがいますか。<ruby>お父<rt>とう</rt></ruby>さん／<ruby>お母<rt>かあ</rt></ruby>さん／お<ruby>兄<rt>にい</rt></ruby>さん／お<ruby>姉<rt>ねえ</rt></ruby>さん／<ruby>妹<rt>いもうと</rt></ruby>さん／<ruby>弟<rt>おとうと</rt></ruby>さんは、どんな<ruby>人<rt>ひと</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.2a.mp3" 
+    },
+    // 2-b
+    { 
+        "lesson": 11, 
+        "id": "11-2b", 
+        "text": "だれがいますか。<ruby>お父<rt>とう</rt></ruby>さん／<ruby>お母<rt>かあ</rt></ruby>さん／お<ruby>兄<rt>にい</rt></ruby>さん／お<ruby>姉<rt>ねえ</rt></ruby>さん／<ruby>妹<rt>いもうと</rt></ruby>さん／<ruby>弟<rt>おとうと</rt></ruby>さんは、どんな<ruby>人<rt>ひと</rt></ruby>ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.2b.mp3" 
+    },
+
+    // 3
+    { 
+        "lesson": 11, 
+        "id": "11-3", 
+        "text": "ここからうちまで なにで　<ruby>帰<rt>かえ</rt></ruby>りますか。（※「〜で<ruby>帰<rt>かえ</rt></ruby>ります」）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.3.mp3" 
+    },
+
+    // 4-a
+    { 
+        "lesson": 11, 
+        "id": "11-4a", 
+        "text": "<ruby>片道<rt>かたみち</rt></ruby>／<ruby>往復<rt>おうふく</rt></ruby>　いくらかかりますか。<br>どのぐらい（なん<ruby>時間<rt>じかん</rt></ruby>ぐらい）かかりますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.4a.mp3" 
+    },
+    // 4-b
+    { 
+        "lesson": 11, 
+        "id": "11-4b", 
+        "text": "<ruby>片道<rt>かたみち</rt></ruby>／<ruby>往復<rt>おうふく</rt></ruby>　いくらかかりますか。<br>どのぐらい（なん<ruby>時間<rt>じかん</rt></ruby>ぐらい）かかりますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.4b.mp3" 
+    },
+
+    // 5-a
+    { 
+        "lesson": 11, 
+        "id": "11-5a", 
+        "text": "うちに、<ruby>車<rt>くるま</rt></ruby>が／バイクが／テレビがありますか。なん<ruby>台<rt>だい</rt></ruby>ありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.5a.mp3" 
+    },
+    // 5-b
+    { 
+        "lesson": 11, 
+        "id": "11-5b", 
+        "text": "うちに、<ruby>車<rt>くるま</rt></ruby>が／バイクが／テレビがありますか。なん<ruby>台<rt>だい</rt></ruby>ありますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.5b.mp3" 
+    },
+
+    // 6
+    { 
+        "lesson": 11, 
+        "id": "11-6", 
+        "text": "（はさみ／<ruby>鍵<rt>かぎ</rt></ruby>／<ruby>消<rt>け</rt></ruby>しゴム）（ひとつ／ふたつ／みっつ／よっつ／いつつ）　とって。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.6.mp3" 
+    },
+
+    // 7
+    { 
+        "lesson": 11, 
+        "id": "11-7", 
+        "text": "（はさみ／<ruby>鍵<rt>かぎ</rt></ruby>／<ruby>消<rt>け</rt></ruby>しゴム）（ひとつ／ふたつ／みっつ／よっつ／いつつ）　とって。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.7.mp3" 
+    },
+
+    // 8-a
+    { 
+        "lesson": 11, 
+        "id": "11-8a", 
+        "text": "（ボールペン／<ruby>鉛筆<rt>えんぴつ</rt></ruby>／シャープペンシル）（いっぽん／にほん／さんぼん／よんほん／ごほん）とって。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.8a.mp3" 
+    },
+    // 8-b
+    { 
+        "lesson": 11, 
+        "id": "11-8b", 
+        "text": "（ボールペン／<ruby>鉛筆<rt>えんぴつ</rt></ruby>／シャープペンシル）（いっぽん／にほん／さんぼん／よんほん／ごほん）とって。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.8b.mp3" 
+    },
+
+    // 9
+    { 
+        "lesson": 11, 
+        "id": "11-9", 
+        "text": "<ruby>数<rt>かぞ</rt></ruby>えて、<ruby>報告<rt>ほうこく</rt></ruby>してください。<br>（<ruby>指示<rt>しじ</rt></ruby>がわからない場合、<ruby>教師<rt>きょうし</rt></ruby>が<ruby>絵<rt>え</rt></ruby>を見て言ってみせる）<br>〇〇がXX　<ruby>枚<rt>まい</rt></ruby>／つ／<ruby>台<rt>だい</rt></ruby>／<ruby>人<rt>にん</rt></ruby>／<ruby>本<rt>ほん</rt></ruby>　います／あります", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.9.mp3" 
+    },
+
+    // 10
+    { 
+        "lesson": 11, 
+        "id": "11-10", 
+        "text": "<ruby>数<rt>かぞ</rt></ruby>えて、<ruby>報告<rt>ほうこく</rt></ruby>してください。<br>（<ruby>指示<rt>しじ</rt></ruby>がわからない場合、<ruby>教師<rt>きょうし</rt></ruby>が<ruby>絵<rt>え</rt></ruby>を見て言ってみせる）<br>〇〇がXX　<ruby>枚<rt>まい</rt></ruby>／つ／<ruby>台<rt>だい</rt></ruby>／<ruby>人<rt>にん</rt></ruby>／<ruby>本<rt>ほん</rt></ruby>　います／あります", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/11.10.mp3" 
+    },
+    // ==================== LESSON 12 ====================
+
+    // 1-a
+    { 
+        "lesson": 12, 
+        "id": "12-1a", 
+        "text": "<ruby>今日<rt>きょう</rt></ruby>は、<ruby>晴<rt>は</rt></ruby>れ／<ruby>雨<rt>あめ</rt></ruby>／<ruby>曇<rt>くも</rt></ruby>り　ですか。<br><ruby>暑<rt>あつ</rt></ruby>い／<ruby>涼<rt>すず</rt></ruby>しい／<ruby>寒<rt>さむ</rt></ruby>いですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.1a.mp3" 
+    },
+    // 1-b
+    { 
+        "lesson": 12, 
+        "id": "12-1b", 
+        "text": "<ruby>今日<rt>きょう</rt></ruby>は、<ruby>晴<rt>は</rt></ruby>れ／<ruby>雨<rt>あめ</rt></ruby>／<ruby>曇<rt>くも</rt></ruby>り　ですか。<br><ruby>暑<rt>あつ</rt></ruby>い／<ruby>涼<rt>すず</rt></ruby>しい／<ruby>寒<rt>さむ</rt></ruby>いですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.1b.mp3" 
+    },
+
+    // 2
+    { 
+        "lesson": 12, 
+        "id": "12-2", 
+        "text": "<ruby>昨日<rt>きのう</rt></ruby>は　どうでしたか／<ruby>昨日<rt>きのう</rt></ruby>の<ruby>天気<rt>てんき</rt></ruby>は　どうでしたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.2.mp3" 
+    },
+
+    // 3
+    { 
+        "lesson": 12, 
+        "id": "12-3", 
+        "text": "<ruby>今日<rt>きょう</rt></ruby>は <ruby>忙<rt>いそが</rt></ruby>しいですか。<ruby>昨日<rt>きのう</rt></ruby>は　どうでしたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.3.mp3" 
+    },
+
+    // 4
+    { 
+        "lesson": 12, 
+        "id": "12-4", 
+        "text": "<ruby>毎日<rt>まいにち</rt></ruby>、<ruby>楽<rt>たの</rt></ruby>しいですか。<ruby>昨日<rt>きのう</rt></ruby>は　どうでしたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.4.mp3" 
+    },
+
+    // 5-a (dòng đỏ)
+    { 
+        "lesson": 12, 
+        "id": "12-5a", 
+        "text": "<ruby>第<rt>だい</rt></ruby>12<ruby>課<rt>か</rt></ruby>は、<ruby>簡単<rt>かんたん</rt></ruby>でしたか。／<ruby>難<rt>むずか</rt></ruby>しかったですか。／どうでしたか。<br>この<ruby>会話<rt>かいわ</rt></ruby>テストは　どうですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.5a.mp3" 
+    },
+    // 5-b
+    { 
+        "lesson": 12, 
+        "id": "12-5b", 
+        "text": "<ruby>第<rt>だい</rt></ruby>12<ruby>課<rt>か</rt></ruby>は、<ruby>簡単<rt>かんたん</rt></ruby>でしたか。／<ruby>難<rt>むずか</rt></ruby>しかったですか。／どうでしたか。<br>この<ruby>会話<rt>かいわ</rt></ruby>テストは　どうですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.5b.mp3" 
+    },
+
+    // 6-a
+    { 
+        "lesson": 12, 
+        "id": "12-6a", 
+        "text": "〇〇さんの<ruby>出身<rt>しゅっしん</rt></ruby>はどこですか。（<ruby>出身地<rt>しゅっしんち</rt></ruby>）と（<ruby>現在地<rt>げんざいち</rt></ruby>）と　どちらが<ruby>好<rt>す</rt></ruby>きですか。<br>※<ruby>同<rt>おな</rt></ruby>じ<ruby>場合<rt>ばあい</rt></ruby>、<ruby>他<rt>ほか</rt></ruby>の<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>都市<rt>とし</rt></ruby>と<ruby>比<rt>くら</rt></ruby>べる", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.6a.mp3" 
+    },
+    // 6-b
+    { 
+        "lesson": 12, 
+        "id": "12-6b", 
+        "text": "〇〇さんの<ruby>出身<rt>しゅっしん</rt></ruby>はどこですか。（<ruby>出身地<rt>しゅっしんち</rt></ruby>）と（<ruby>現在地<rt>げんざいち</rt></ruby>）と　どちらが<ruby>好<rt>す</rt></ruby>きですか。<br>※<ruby>同<rt>おな</rt></ruby>じ<ruby>場合<rt>ばあい</rt></ruby>、<ruby>他<rt>ほか</rt></ruby>の<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>都市<rt>とし</rt></ruby>と<ruby>比<rt>くら</rt></ruby>べる", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.6b.mp3" 
+    },
+
+    // 7
+    { 
+        "lesson": 12, 
+        "id": "12-7", 
+        "text": "どうしてですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.7.mp3" 
+    },
+
+    // 8-a
+    { 
+        "lesson": 12, 
+        "id": "12-8a", 
+        "text": "（HN／DN／HCM）で　<ruby>何月<rt>なんがつ</rt></ruby>がいちばん<ruby>暑<rt>あつ</rt></ruby>いですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.8a.mp3" 
+    },
+    // 8-b
+    { 
+        "lesson": 12, 
+        "id": "12-8b", 
+        "text": "（HN／DN／HCM）で　<ruby>何月<rt>なんがつ</rt></ruby>がいちばん<ruby>暑<rt>あつ</rt></ruby>いですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.8b.mp3" 
+    },
+
+    // 9
+    { 
+        "lesson": 12, 
+        "id": "12-9", 
+        "text": "〇〇さんは、<ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>で<ruby>何<rt>なに</rt></ruby>がいちばん<ruby>好<rt>す</rt></ruby>きですか。<br>※（ベトナム語）が<ruby>好<rt>す</rt></ruby>きです　OK", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.9.mp3" 
+    },
+
+    // 10-a
+    { 
+        "lesson": 12, 
+        "id": "12-10a", 
+        "text": "<ruby>クラス<rt>クラス</rt></ruby>で　だれがいちばん　<ruby>歌<rt>うた</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>／<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>い／おもしろい／<ruby>元気<rt>げんき</rt></ruby>　ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.10a.mp3" 
+    },
+    // 10-b
+    { 
+        "lesson": 12, 
+        "id": "12-10b", 
+        "text": "<ruby>クラス<rt>クラス</rt></ruby>で　だれがいちばん　<ruby>歌<rt>うた</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>／<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>い／おもしろい／<ruby>元気<rt>げんき</rt></ruby>　ですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/12.10b.mp3" 
+    },
+// ==================== LESSON 13 ====================
+
+    // 1
+    { 
+        "lesson": 13, 
+        "id": "13-1", 
+        "text": "お<ruby>金<rt>かね</rt></ruby>と<ruby>時間<rt>じかん</rt></ruby>と　どちらが　<ruby>欲<rt>ほ</rt></ruby>しいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.1.mp3" 
+    },
+
+    // 2-a
+    { 
+        "lesson": 13, 
+        "id": "13-2a", 
+        "text": "いま、（Q1の<ruby>回答<rt>かいとう</rt></ruby>）が たくさん あります。<ruby>何<rt>なに</rt></ruby>をしますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.2a.mp3" 
+    },
+    // 2-b
+    { 
+        "lesson": 13, 
+        "id": "13-2b", 
+        "text": "いま、（Q1の<ruby>回答<rt>かいとう</rt></ruby>）が たくさん あります。<ruby>何<rt>なに</rt></ruby>をしますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.2b.mp3" 
+    },
+
+    // 3
+    { 
+        "lesson": 13, 
+        "id": "13-3", 
+        "text": "いま、<ruby>何<rt>なに</rt></ruby>が　いちばん　<ruby>欲<rt>ほ</rt></ruby>しいですか。（お<ruby>金<rt>かね</rt></ruby>×）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.3.mp3" 
+    },
+
+    // 4
+    { 
+        "lesson": 13, 
+        "id": "13-4", 
+        "text": "どんな（Q3<ruby>回答<rt>かいとう</rt></ruby>）が<ruby>欲<rt>ほ</rt></ruby>しいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.4.mp3" 
+    },
+
+    // 5-a
+    { 
+        "lesson": 13, 
+        "id": "13-5a", 
+        "text": "<ruby>喉<rt>のど</rt></ruby>が　<ruby>渇<rt>かわ</rt></ruby>きましたか／お<ruby>腹<rt>なか</rt></ruby>が<ruby>空<rt>す</rt></ruby>きましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.5a.mp3" 
+    },
+    // 5-b
+    { 
+        "lesson": 13, 
+        "id": "13-5b", 
+        "text": "<ruby>喉<rt>のど</rt></ruby>が　<ruby>渇<rt>かわ</rt></ruby>きましたか／お<ruby>腹<rt>なか</rt></ruby>が<ruby>空<rt>す</rt></ruby>きましたか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.5b.mp3" 
+    },
+
+    // 6-a
+    { 
+        "lesson": 13, 
+        "id": "13-6a", 
+        "text": "〇〇さんは、いつ<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きますか。<ruby>何<rt>なに</rt></ruby>をしに<ruby>行<rt>い</rt></ruby>きますか。<br>※<ruby>未定<rt>みてい</rt></ruby>　はやく<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きたいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.6a.mp3" 
+    },
+    // 6-b
+    { 
+        "lesson": 13, 
+        "id": "13-6b", 
+        "text": "〇〇さんは、いつ<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きますか。<ruby>何<rt>なに</rt></ruby>をしに<ruby>行<rt>い</rt></ruby>きますか。<br>※<ruby>未定<rt>みてい</rt></ruby>　はやく<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きたいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.6b.mp3" 
+    },
+
+    // 7 (dòng đỏ)
+    { 
+        "lesson": 13, 
+        "id": "13-7", 
+        "text": "どのぐらいのレベルまで <ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>したいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.7.mp3" 
+    },
+
+    // 8 (dòng đỏ)
+    { 
+        "lesson": 13, 
+        "id": "13-8", 
+        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>友達<rt>ともだち</rt></ruby>が<ruby>欲<rt>ほ</rt></ruby>しいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.8.mp3" 
+    },
+
+    // 9
+    { 
+        "lesson": 13, 
+        "id": "13-9", 
+        "text": "<ruby>日本<rt>にほん</rt></ruby>で どこへ<ruby>行<rt>い</rt></ruby>きたいですか。そこで<ruby>何<rt>なに</rt></ruby>をしたいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.9.mp3" 
+    },
+
+    // 10
+    { 
+        "lesson": 13, 
+        "id": "13-10", 
+        "text": "<ruby>日本<rt>にほん</rt></ruby>の<ruby>料理<rt>りょうり</rt></ruby>で　<ruby>何<rt>なに</rt></ruby>を<ruby>食<rt>た</rt></ruby>べたいですか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/13.10.mp3" 
+    },
+    // ==================== LESSON 14 ====================
+
+    // 1
+    { 
+        "lesson": 14, 
+        "id": "14-1", 
+        "text": "<ruby>生年月日<rt>せいねんがっぴ</rt></ruby>／<ruby>年齢<rt>ねんれい</rt></ruby>／<ruby>名前<rt>なまえ</rt></ruby>を　<ruby>教<rt>おし</rt></ruby>えてください。（2つ<ruby>聞<rt>き</rt></ruby>く）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/14.1.mp3" 
+    },
+
+    // 2
+    { 
+        "lesson": 14, 
+        "id": "14-2", 
+        "text": "ここに、<ruby>電話番号<rt>でんわばんごう</rt></ruby>を<ruby>書<rt>か</rt></ruby>いてください。<ruby>ボールペン<rt>ボールペン</rt></ruby>を<ruby>貸<rt>か</rt></ruby>しましょうか。<br>※「はい、お<ruby>願<rt>ねが</rt></ruby>いします／いいえ、<ruby>結構<rt>けっこう</rt></ruby>です。あります。」と言ってから<ruby>書<rt>か</rt></ruby>く", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/14.2.mp3" 
+    },
+
+    // 3
+    { 
+        "lesson": 14, 
+        "id": "14-3", 
+        "text": "〇〇さんは<ruby>大学<rt>だいがく</rt></ruby>で <ruby>何<rt>なに</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>していますか。<br>※（<ruby>専門<rt>せんもん</rt></ruby>）を<ruby>勉強<rt>べんきょう</rt></ruby>しています。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/14.3.mp3" 
+    },
+
+    // 4 (dòng đỏ)
+    { 
+        "lesson": 14, 
+        "id": "14-4", 
+        "text": "<ruby>先生<rt>せんせい</rt></ruby>といっしょに<ruby>写真<rt>しゃしん</rt></ruby>を とりたいです。<ruby>何<rt>なに</rt></ruby>と <ruby>言<rt>い</rt></ruby>いますか。<br>※　<ruby>先生<rt>せんせい</rt></ruby>、いっしょに　<ruby>写真<rt>しゃしん</rt></ruby>を　とって　ください。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/14.4.mp3" 
+    },
+
+    // 5
+    { 
+        "lesson": 14, 
+        "id": "14-5", 
+        "text": "（<ruby>漢字<rt>かんじ</rt></ruby>を見せながら）この<ruby>漢字<rt>かんじ</rt></ruby>の<ruby>読<rt>よ</rt></ruby>み<ruby>方<rt>かた</rt></ruby>がわかりますか。<br>※はい、わかります。〇〇です／いいえ、わかりません。<ruby>教<rt>おし</rt></ruby>えてください。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/14.5.mp3" 
+    },
+
+    // 6
+    { 
+        "lesson": 14, 
+        "id": "14-6", 
+        "text": "<ruby>復唱<rt>ふくしょう</rt></ruby>してください。<ruby>明日<rt>あした</rt></ruby>（8<ruby>時<rt>じ</rt></ruby>に）<ruby>来<rt>き</rt></ruby>てください。（<ruby>明日<rt>あした</rt></ruby>8<ruby>時<rt>じ</rt></ruby>に<ruby>来<rt>き</rt></ruby>ますね）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/14.6.mp3" 
+    },
+
+    // 7
+    { 
+        "lesson": 14, 
+        "id": "14-7", 
+        "text": "<ruby>復唱<rt>ふくしょう</rt></ruby>してください。<ruby>ドア<rt>ドア</rt></ruby>／<ruby>窓<rt>まど</rt></ruby> を　<ruby>開<rt>あ</rt></ruby>けてください。（<ruby>窓<rt>まど</rt></ruby>を <ruby>開<rt>あ</rt></ruby>けますね。）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/14.7.mp3" 
+    },
+
+    // 8 (dòng đỏ)
+    { 
+        "lesson": 14, 
+        "id": "14-8", 
+        "text": "ここに <ruby>自分<rt>じぶん</rt></ruby>の<ruby>大学名<rt>だいがくめい</rt></ruby>／<ruby>短期大学名<rt>たんだいがくめい</rt></ruby>を<ruby>書<rt>か</rt></ruby>いて。<br>（<ruby>実際<rt>じっさい</rt></ruby>に<ruby>書<rt>か</rt></ruby>く　UTT<ruby>大学<rt>だいがく</rt></ruby>／LIC<ruby>短大<rt>たんだい</rt></ruby>など<ruby>省略<rt>しょうりゃく</rt></ruby>可）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/14.8.mp3" 
+    },
+
+    // 9
+    { 
+        "lesson": 14, 
+        "id": "14-9", 
+        "text": "<ruby>立<rt>た</rt></ruby>って／<ruby>座<rt>すわ</rt></ruby>って／<ruby>後<rt>うし</rt></ruby>ろ<ruby>見<rt>み</rt></ruby>て／<ruby>手<rt>て</rt></ruby>を<ruby>見<rt>み</rt></ruby>せて／<ruby>上<rt>あ</rt></ruby>げて　など（<ruby>実際<rt>じっさい</rt></ruby>に<ruby>動<rt>うご</rt></ruby>く）", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/14.9.mp3" 
+    },
+
+    // 10
+    { 
+        "lesson": 14, 
+        "id": "14-10", 
+        "text": "（<ruby>同<rt>おな</rt></ruby>じ<ruby>教室<rt>きょうしつ</rt></ruby>にいる<ruby>人<rt>ひと</rt></ruby>）は　いま　<ruby>何<rt>なに</rt></ruby>をしていますか。", 
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/14.10.mp3" 
+    },
+// ==================== LESSON 15 ====================
+    // 1
+    {
+        "lesson": 15,
+        "id": "15-1",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは/<ruby>〇〇<rt>まるまる</rt></ruby>さんの<ruby>家族<rt>かぞく</rt></ruby>は、どこに<ruby>住<rt>す</rt></ruby>んでいますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.1.mp3"
+    },
+    // 2-a
+    {
+        "lesson": 15,
+        "id": "15-2a",
+        "text": "<ruby>お父<rt>とう</rt></ruby>さんは/<ruby>お母<rt>かあ</rt></ruby>さんは、<ruby>何<rt>なん</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>をしていますか。<br>※「〜をしています」と<ruby>答<rt>こた</rt></ruby>える<br><ruby>兄弟<rt>きょうだい</rt></ruby>がいる<ruby>場合<rt>ばあい</rt></ruby>：<ruby>お兄<rt>にい</rt></ruby>さん/<ruby>お姉<rt>ねえ</rt></ruby>さんは<ruby>結婚<rt>けっこん</rt></ruby>していますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.2a.mp3"
+    },
+    // 2-b
+    {
+        "lesson": 15,
+        "id": "15-2b",
+        "text": "<ruby>お父<rt>とう</rt></ruby>さんは/<ruby>お母<rt>かあ</rt></ruby>さんは、<ruby>何<rt>なん</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>をしていますか。<br>※「〜をしています」と<ruby>答<rt>こた</rt></ruby>える<br><ruby>兄弟<rt>きょうだい</rt></ruby>がいる<ruby>場合<rt>ばあい</rt></ruby>：<ruby>お兄<rt>にい</rt></ruby>さん/<ruby>お姉<rt>ねえ</rt></ruby>さんは<ruby>結婚<rt>けっこん</rt></ruby>していますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.2b.mp3"
+    },
+    // 3
+    {
+        "lesson": 15,
+        "id": "15-3",
+        "text": "どうやって<ruby>家<rt>いえ</rt></ruby>まで<ruby>帰<rt>かえ</rt></ruby>りますか。<br>※バスでかえります。（<ruby>詳細<rt>しょうさい</rt></ruby>は不要）<br><ruby>毎日<rt>まいにち</rt></ruby>どうやってセンターに<ruby>来<rt>き</rt></ruby>ますか。<br>※バイクで<ruby>来<rt>き</rt></ruby>ます（<ruby>詳細<rt>しょうさい</rt></ruby>は不要）",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.3.mp3"
+    },
+    // 4
+    {
+        "lesson": 15,
+        "id": "15-4",
+        "text": "<ruby>大学<rt>だいがく</rt></ruby>の<ruby>住所<rt>じゅうしょ</rt></ruby>を<ruby>知<rt>し</rt></ruby>っていますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.4.mp3"
+    },
+    // 5-a
+    {
+        "lesson": 15,
+        "id": "15-5a",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>に<ruby>友<rt>とも</rt></ruby>だちはいますか。<br>はい➞<ruby>友<rt>とも</rt></ruby>だちはどこに<ruby>住<rt>す</rt></ruby>んでいますか　いいえ➞ <ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>友<rt>とも</rt></ruby>だちがほしいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.5a.mp3"
+    },
+    // 5-b
+    {
+        "lesson": 15,
+        "id": "15-5b",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>に<ruby>友<rt>とも</rt></ruby>だちはいますか。<br>はい➞<ruby>友<rt>とも</rt></ruby>だちはどこに<ruby>住<rt>す</rt></ruby>んでいますか　いいえ➞ <ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>友<rt>とも</rt></ruby>だちがほしいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.5b.mp3"
+    },
+    // 6
+    {
+        "lesson": 15,
+        "id": "15-6",
+        "text": "<ruby>教室<rt>きょうしつ</rt></ruby>で　<ruby>何<rt>なに</rt></ruby>か<ruby>食<rt>た</rt></ruby>べても/<ruby>水<rt>みず</rt></ruby>を<ruby>飲<rt>の</rt></ruby>んでも/ケータイを<ruby>使<rt>つか</rt></ruby>っても いいですか。<br>※「はい、〜てもいいです/いいえ、〜てはいけません」と<ruby>答<rt>こた</rt></ruby>える",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.6.mp3"
+    },
+    // 7
+    {
+        "lesson": 15,
+        "id": "15-7",
+        "text": "今、<ruby>日本<rt>にほん</rt></ruby>の<ruby>会社<rt>かいしゃ</rt></ruby>で<ruby>仕事<rt>しごと</rt></ruby>をしています。<ruby>タバコ<rt>たばこ</rt></ruby>を<ruby>吸<rt>す</rt></ruby>っても/ケータイを<ruby>使<rt>つか</rt></ruby>って/<ruby>ベトナム語<rt>べとなむご</rt></ruby>で<ruby>話<rt>はな</rt></ruby>しても いいですか。<br>※「はい、〜てもいいです/いいえ、〜てはいけません」と<ruby>答<rt>こた</rt></ruby>える",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.7.mp3"
+    },
+    // 8
+    {
+        "lesson": 15,
+        "id": "15-8",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>で、<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>寮<rt>りょう</rt></ruby>に<ruby>住<rt>す</rt></ruby>みます。<ruby>何<rt>なに</rt></ruby>をしてはいけませんか/<ruby>何<rt>なに</rt></ruby>をしなければいけませんか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.8.mp3"
+    },
+    // 9
+    {
+        "lesson": 15,
+        "id": "15-9",
+        "text": "<ruby>他<rt>ほか</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>の パソコンを<ruby>使<rt>つか</rt></ruby>いたいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.9.mp3"
+    },
+    // 10
+    {
+        "lesson": 15,
+        "id": "15-10",
+        "text": "<ruby>疲<rt>つか</rt></ruby>れました。<ruby>休<rt>やす</rt></ruby>みたいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/15.10.mp3"
+    },
+// ==================== LESSON 16 ====================
+    // 1
+    {
+        "lesson": 16,
+        "id": "16-1",
+        "text": "<ruby>担任<rt>たんにん</rt></ruby>の<ruby>〇〇<rt>まるまる</rt></ruby><ruby>先生<rt>せんせい</rt></ruby>はだれですか。<ruby>どんな<rt>どんな</rt></ruby><ruby>先生<rt>せんせい</rt></ruby>（※<ruby>外見<rt>がいけん</rt></ruby>や<ruby>性格<rt>せいかく</rt></ruby>）ですか。<br>※「〜いAくて/〜なAで、〜<ruby>人<rt>ひと</rt></ruby>です」と<ruby>答<rt>こた</rt></ruby>える",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.1.mp3"
+    },
+    // 2
+    {
+        "lesson": 16,
+        "id": "16-2",
+        "text": "あなたの<ruby>大学<rt>だいがく</rt></ruby>は、<ruby>どんな<rt>どんな</rt></ruby><ruby>大学<rt>だいがく</rt></ruby>ですか。<br>※「〜いAくて/〜なAで、〜です」と<ruby>答<rt>こた</rt></ruby>える",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.2.mp3"
+    },
+    // 3-a
+    {
+        "lesson": 16,
+        "id": "16-3a",
+        "text": "HN/DN/HCM は <ruby>どんな<rt>どんな</rt></ruby>ところですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.3a.mp3"
+    },
+    // 3-b
+    {
+        "lesson": 16,
+        "id": "16-3b",
+        "text": "HN/DN/HCM は <ruby>どんな<rt>どんな</rt></ruby>ところですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.3b.mp3"
+    },
+    // 4-a
+    {
+        "lesson": 16,
+        "id": "16-4a",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、いつも<ruby>何<rt>なに</rt></ruby>をしてから/<ruby>寝<rt>ね</rt></ruby>ますか/<ruby>ご飯<rt>ごはん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.4a.mp3"
+    },
+    // 4-b
+    {
+        "lesson": 16,
+        "id": "16-4b",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、いつも<ruby>何<rt>なに</rt></ruby>をしてから/<ruby>寝<rt>ね</rt></ruby>ますか/<ruby>ご飯<rt>ごはん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.4b.mp3"
+    },
+    // 5
+    {
+        "lesson": 16,
+        "id": "16-5",
+        "text": "<ruby>朝<rt>あさ</rt></ruby><ruby>起<rt>お</rt></ruby>きて、<ruby>教室<rt>きょうしつ</rt></ruby>に<ruby>来<rt>く</rt></ruby>るまで<ruby>何<rt>なに</rt></ruby>をしますか。<ruby>話<rt>はな</rt></ruby>してください。<br>（※「Vて、Vて、Vます」と<ruby>答<rt>こた</rt></ruby>える）",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.5.mp3"
+    },
+    // 6
+    {
+        "lesson": 16,
+        "id": "16-6",
+        "text": "<ruby>大学<rt>だいがく</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ってから、<ruby>何<rt>なに</rt></ruby>か<ruby>始<rt>はじ</rt></ruby>めましたか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.6.mp3"
+    },
+    // 7
+    {
+        "lesson": 16,
+        "id": "16-7",
+        "text": "（<ruby>本人<rt>ほんにん</rt></ruby>）さんは <ruby>どんな<rt>どんな</rt></ruby><ruby>人<rt>ひと</rt></ruby>ですか。<ruby>教<rt>おし</rt></ruby>えてください。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.7.mp3"
+    },
+    // 8
+    {
+        "lesson": 16,
+        "id": "16-8",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんの<ruby>好<rt>す</rt></ruby>きな<ruby>人<rt>ひと</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてください。<br>その<ruby>人<rt>ひと</rt></ruby>は<ruby>どんな<rt>どんな</rt></ruby><ruby>人<rt>ひと</rt></ruby>ですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.8.mp3"
+    },
+    // 9-a
+    {
+        "lesson": 16,
+        "id": "16-9",
+        "text": "N4を<ruby>取<rt>と</rt></ruby>ってから<ruby>日本<rt>にほん</rt></ruby>へいきますか。<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>ってからN4を<ruby>取<rt>と</rt></ruby>りますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.9.mp3"
+    },
+    // 10a
+    {
+        "lesson": 16,
+        "id": "16-10a",
+        "text": "<ruby>問<rt>もん</rt></ruby>4の<ruby>答<rt>こた</rt></ruby>え　はい、<ruby>行<rt>い</rt></ruby>きます。→<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>ってから、<ruby>何<rt>なに</rt></ruby>を　したいですか。<br>いいえ、<ruby>行<rt>い</rt></ruby>きません。→<ruby>大学<rt>だいがく</rt></ruby>/<ruby>短期大学<rt>たんだいがく</rt></ruby>を<ruby>出<rt>で</rt></ruby>てから、<ruby>何<rt>なに</rt></ruby>をしたいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.10a.mp3"
+    },
+      // 10
+    {
+        "lesson": 16,
+        "id": "16-10b",
+        "text": "<ruby>問<rt>もん</rt></ruby>4の<ruby>答<rt>こた</rt></ruby>え　はい、<ruby>行<rt>い</rt></ruby>きます。→<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>ってから、<ruby>何<rt>なに</rt></ruby>を　したいですか。<br>いいえ、<ruby>行<rt>い</rt></ruby>きません。→<ruby>大学<rt>だいがく</rt></ruby>/<ruby>短期大学<rt>たんだいがく</rt></ruby>を<ruby>出<rt>で</rt></ruby>てから、<ruby>何<rt>なに</rt></ruby>をしたいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/16.10b.mp3"
+    },
+// ==================== LESSON 17 ====================
+    // 1
+    {
+        "lesson": 17,
+        "id": "17-1",
+        "text": "<ruby>教室<rt>きょうしつ</rt></ruby>で<ruby>友達<rt>ともだち</rt></ruby>がたばこを<ruby>吸<rt>す</rt></ruby>っています。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。<br>※たばこを<ruby>吸<rt>す</rt></ruby>わないでください/たばこを<ruby>吸<rt>す</rt></ruby>ってはいけません",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.1.mp3"
+    },
+    // 2
+    {
+        "lesson": 17,
+        "id": "17-2",
+        "text": "<ruby>試験<rt>しけん</rt></ruby>をしています。<ruby>友達<rt>ともだち</rt></ruby>があなたの<ruby>答<rt>こた</rt></ruby>えをみています。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。<br>※<ruby>見<rt>み</rt></ruby>ないでください",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.2.mp3"
+    },
+    // 3
+    {
+        "lesson": 17,
+        "id": "17-3",
+        "text": "きょう、5<ruby>時<rt>じ</rt></ruby>までに<ruby>家<rt>いえ</rt></ruby>に<ruby>帰<rt>かえ</rt></ruby>らなければなりませんか。<br>※はい、<ruby>帰<rt>かえ</rt></ruby>らなければなりません/<ruby>帰<rt>かえ</rt></ruby>らなくてもいいです。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.3.mp3"
+    },
+    // 4
+    {
+        "lesson": 17,
+        "id": "17-4",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>に<ruby>住<rt>す</rt></ruby>みます。<ruby>何<rt>なに</rt></ruby>に<ruby>注意<rt>ちゅうい</rt></ruby>しなければなりませんか。<br>※<ruby>日本<rt>にほん</rt></ruby>のルールを<ruby>守<rt>まも</rt></ruby>らなければ/ごみの<ruby>捨<rt>す</rt></ruby>て<ruby>方<rt>かた</rt></ruby>に<ruby>注意<rt>ちゅうい</rt></ruby>しなければ/まじめに<ruby>働<rt>はたら</rt></ruby>かなければ",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.4.mp3"
+    },
+    // 5
+    {
+        "lesson": 17,
+        "id": "17-5",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>くまでに、<ruby>何<rt>なに</rt></ruby>をしなければなりませんか。<br>※（30<ruby>課<rt>か</rt></ruby>まで）<ruby>勉強<rt>べんきょう</rt></ruby>しなければ/N5を<ruby>取<rt>と</rt></ruby>らなければ/もっと<ruby>勉強<rt>べんきょう</rt></ruby>しなければなりません",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.5.mp3"
+    },
+    // 6-a
+    {
+        "lesson": 17,
+        "id": "17-6a",
+        "text": "ひだり/みぎ/うえ/した/まえ/うしろ/<ruby>私<rt>わたし</rt></ruby>の<ruby>顔<rt>かお</rt></ruby> を <ruby>見<rt>み</rt></ruby>てください。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.6a.mp3"
+    },
+    // 6-b
+    {
+        "lesson": 17,
+        "id": "17-6b",
+        "text": "ひだり/みぎ/うえ/した/まえ/うしろ/<ruby>私<rt>わたし</rt></ruby>の<ruby>顔<rt>かお</rt></ruby> を <ruby>見<rt>み</rt></ruby>てください。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.6b.mp3"
+    },
+    // 7
+    {
+        "lesson": 17,
+        "id": "17-7",
+        "text": "<ruby>立<rt>た</rt></ruby>って、<ruby>座<rt>すわ</rt></ruby>らないで、<ruby>座<rt>すわ</rt></ruby>って、<ruby>立<rt>た</rt></ruby>たないで　<ruby>立<rt>た</rt></ruby>ってください。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.7.mp3"
+    },
+    // 8-a
+    {
+        "lesson": 17,
+        "id": "17-8a",
+        "text": "ひだりて/みぎて/りょうて/ひだりあし/みぎあし　あげて/おろして/あげないで　ください。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.8a.mp3"
+    },
+    // 8-b
+    {
+        "lesson": 17,
+        "id": "17-8b",
+        "text": "ひだりて/みぎて/りょうて/ひだりあし/みぎあし　あげて/おろして/あげないで　ください。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.8b.mp3"
+    },
+    // 9-a
+    {
+        "lesson": 17,
+        "id": "17-9a",
+        "text": "<ruby>耳<rt>みみ</rt></ruby>/<ruby>鼻<rt>はな</rt></ruby>/<ruby>目<rt>め</rt></ruby>/<ruby>口<rt>くち</rt></ruby>/<ruby>頭<rt>あたま</rt></ruby>/<ruby>首<rt>くび</rt></ruby>/<ruby>肩<rt>かた</rt></ruby>/<ruby>お腹<rt>おなか</rt></ruby>　<ruby>手<rt>て</rt></ruby>で<ruby>触<rt>さわ</rt></ruby>ってください。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.9a.mp3"
+    },
+    // 9-b
+    {
+        "lesson": 17,
+        "id": "17-9b",
+        "text": "<ruby>耳<rt>みみ</rt></ruby>/<ruby>鼻<rt>はな</rt></ruby>/<ruby>目<rt>め</rt></ruby>/<ruby>口<rt>くち</rt></ruby>/<ruby>頭<rt>あたま</rt></ruby>/<ruby>首<rt>くび</rt></ruby>/<ruby>肩<rt>かた</rt></ruby>/<ruby>お腹<rt>おなか</rt></ruby>　<ruby>手<rt>て</rt></ruby>で<ruby>触<rt>さわ</rt></ruby>ってください。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.9b.mp3"
+    },
+    // 10
+    {
+        "lesson": 17,
+        "id": "17-10",
+        "text": "<ruby>前<rt>まえ</rt></ruby>/<ruby>横<rt>よこ</rt></ruby>/<ruby>後<rt>うし</rt></ruby>ろを<ruby>見<rt>み</rt></ruby>ないでください。<ruby>話<rt>はな</rt></ruby>さないで。　こっちを<ruby>見<rt>み</rt></ruby>て。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/17.10.mp3"
+    },
+// ==================== LESSON 18 ====================
+    // 1-a
+    {
+        "lesson": 18,
+        "id": "18-1a",
+        "text": "<ruby>車<rt>くるま</rt></ruby>の<ruby>運転<rt>うんてん</rt></ruby>ができますか。<ruby>バイク<rt>ばいく</rt></ruby>は<ruby>運転<rt>うんてん</rt></ruby>できますか。<ruby>自転車<rt>じてんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>ることができますか。<br>車:できない➞バイク:できない",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.1a.mp3"
+    },
+    // 1-b
+    {
+        "lesson": 18,
+        "id": "18-1b",
+        "text": "<ruby>車<rt>くるま</rt></ruby>の<ruby>運転<rt>うんてん</rt></ruby>ができますか。<ruby>バイク<rt>ばいく</rt></ruby>は<ruby>運転<rt>うんてん</rt></ruby>できますか。<ruby>自転車<rt>じてんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>ることができますか。<br>車:できない➞バイク:できない",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.1b.mp3"
+    },
+    // 2
+    {
+        "lesson": 18,
+        "id": "18-2",
+        "text": "ケータイ/スマホで<ruby>何<rt>なに</rt></ruby>ができますか/<ruby>何<rt>なに</rt></ruby>をすることができますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.2.mp3"
+    },
+    // 3
+    {
+        "lesson": 18,
+        "id": "18-3",
+        "text": "<ruby>出身地<rt>しゅっしんち</rt></ruby>/(<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>場所<rt>ばしょ</rt></ruby>) で <ruby>何<rt>なに</rt></ruby>をすることができますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.3.mp3"
+    },
+    // 4
+    {
+        "lesson": 18,
+        "id": "18-4",
+        "text": "<ruby>ベトナム<rt>べとなむ</rt></ruby>ではできません。<ruby>日本<rt>にほん</rt></ruby>で、<ruby>何<rt>なに</rt></ruby>をすることができますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.4.mp3"
+    },
+    // 5
+    {
+        "lesson": 18,
+        "id": "18-5",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは<ruby>何<rt>なに</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>ですか。<ruby>何<rt>なに</rt></ruby>をすることができますか。<ruby>教<rt>おし</rt></ruby>えてください。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.5.mp3"
+    },
+    // 6-a
+    {
+        "lesson": 18,
+        "id": "18-6a",
+        "text": "<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>読<rt>よ</rt></ruby>む/<ruby>書<rt>か</rt></ruby>くことができますか。<ruby>いくつ<rt>いくつ</rt></ruby>/<ruby>どの<rt>どの</rt></ruby>ぐらい<ruby>読<rt>よ</rt></ruby>む/<ruby>書<rt>か</rt></ruby>くことができますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.6a.mp3"
+    },
+    // 6-b
+    {
+        "lesson": 18,
+        "id": "18-6b",
+        "text": "<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>読<rt>よ</rt></ruby>む/<ruby>書<rt>か</rt></ruby>くことができますか。<ruby>いくつ<rt>いくつ</rt></ruby>/<ruby>どの<rt>どの</rt></ruby>ぐらい<ruby>読<rt>よ</rt></ruby>む/<ruby>書<rt>か</rt></ruby>くことができますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.6b.mp3"
+    },
+    // 7
+    {
+        "lesson": 18,
+        "id": "18-7",
+        "text": "<ruby>日本語<rt>にほんご</rt></ruby>で<ruby>歌<rt>うた</rt></ruby>を<ruby>歌<rt>うた</rt></ruby>うことができますか。<ruby>どんな<rt>どんな</rt></ruby><ruby>歌<rt>うた</rt></ruby>を<ruby>歌<rt>うた</rt></ruby>うことができますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.7.mp3"
+    },
+    // 8-a
+    {
+        "lesson": 18,
+        "id": "18-8a",
+        "text": "（<ruby>日本<rt>にほん</rt></ruby>で）<ruby>一週間<rt>いっしゅうかん</rt></ruby><ruby>毎日<rt>まいにち</rt></ruby>/<ruby>毎日<rt>まいにち</rt></ruby>12<ruby>時間<rt>じかん</rt></ruby>　<ruby>働<rt>はたら</rt></ruby>くことができますか。<br>はい➞<ruby>本当<rt>ほんとう</rt></ruby>ですか/<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですか。　いいえ➞<ruby>何日<rt>なんにち</rt></ruby>/<ruby>何時間<rt>なんじかん</rt></ruby><ruby>働<rt>はたら</rt></ruby>くことができますか",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.8a.mp3"
+    },
+    // 8-b
+    {
+        "lesson": 18,
+        "id": "18-8b",
+        "text": "（<ruby>日本<rt>にほん</rt></ruby>で）<ruby>一週間<rt>いっしゅうかん</rt></ruby><ruby>毎日<rt>まいにち</rt></ruby>/<ruby>毎日<rt>まいにち</rt></ruby>12<ruby>時間<rt>じかん</rt></ruby>　<ruby>働<rt>はたら</rt></ruby>くことができますか。<br>はい➞<ruby>本当<rt>ほんとう</rt></ruby>ですか/<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですか。　いいえ➞<ruby>何日<rt>なんにち</rt></ruby>/<ruby>何時間<rt>なんじかん</rt></ruby><ruby>働<rt>はたら</rt></ruby>くことができますか",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.8b.mp3"
+    },
+    // 9
+    {
+        "lesson": 18,
+        "id": "18-9",
+        "text": "<ruby>趣味<rt>しゅみ</rt></ruby>は<ruby>何<rt>なん</rt></ruby>ですか。<br>※サッカーです。➞しますか、<ruby>見<rt>み</rt></ruby>ますか/<ruby>料理<rt>りょうり</rt></ruby>です➞つくりますか　　〜ことです",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.9.mp3"
+    },
+    // 10
+    {
+        "lesson": 18,
+        "id": "18-10",
+        "text": "<ruby>将来<rt>しょうらい</rt></ruby>の<ruby>夢<rt>ゆめ</rt></ruby>は<ruby>何<rt>なん</rt></ruby>ですか。<br>※〜ことです。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/18.10.mp3"
+    },
+// ==================== LESSON 19 ====================
+    // 1-a
+    {
+        "lesson": 19,
+        "id": "19-1a",
+        "text": "<ruby>雪<rt>ゆき</rt></ruby>を<ruby>見<rt>み</rt></ruby>た/<ruby>飛行機<rt>ひこうき</rt></ruby>に<ruby>乗<rt>の</rt></ruby>った/<ruby>船<rt>ふね</rt></ruby>に<ruby>乗<rt>の</rt></ruby>った/<ruby>着物<rt>きもの</rt></ruby>を<ruby>着<rt>き</rt></ruby>た/<ruby>温泉<rt>おんせん</rt></ruby>に<ruby>入<rt>はい</rt></ruby>った/カラオケに<ruby>行<rt>い</rt></ruby>った ことがありますか。（2つ<ruby>聞<rt>き</rt></ruby>く）どうでしたか。<br>いいえ➞〜たいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.1a.mp3"
+    },
+    // 1-b
+    {
+        "lesson": 19,
+        "id": "19-1b",
+        "text": "<ruby>雪<rt>ゆき</rt></ruby>を<ruby>見<rt>み</rt></ruby>た/<ruby>飛行機<rt>ひこうき</rt></ruby>に<ruby>乗<rt>の</rt></ruby>った/<ruby>船<rt>ふね</rt></ruby>に<ruby>乗<rt>の</rt></ruby>った/<ruby>着物<rt>きもの</rt></ruby>を<ruby>着<rt>き</rt></ruby>た/<ruby>温泉<rt>おんせん</rt></ruby>に<ruby>入<rt>はい</rt></ruby>った/カラオケに<ruby>行<rt>い</rt></ruby>った ことがありますか。（2つ<ruby>聞<rt>き</rt></ruby>く）どうでしたか。<br>いいえ➞〜たいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.1b.mp3"
+    },
+    // 2-a
+    {
+        "lesson": 19,
+        "id": "19-2a",
+        "text": "<ruby>日本料理<rt>にほんりょうり</rt></ruby>を<ruby>食<rt>た</rt></ruby>べた/<ruby>日本<rt>にほん</rt></ruby>のアニメを<ruby>見<rt>み</rt></ruby>た/<ruby>日本<rt>にほん</rt></ruby>の<ruby>歌<rt>うた</rt></ruby>を<ruby>歌<rt>うた</rt></ruby>った/<ruby>日本<rt>にほん</rt></ruby>の<ruby>祭<rt>まつ</rt></ruby>りに<ruby>参加<rt>さんか</rt></ruby>した ことが ありますか。（2つ<ruby>聞<rt>き</rt></ruby>く）<br><ruby>何<rt>なに</rt></ruby>を/<ruby>何<rt>なん</rt></ruby>の/<ruby>どんな<rt>どんな</rt></ruby>〜ましたか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.2a.mp3"
+    },
+    // 2-b
+    {
+        "lesson": 19,
+        "id": "19-2b",
+        "text": "<ruby>日本料理<rt>にほんりょうり</rt></ruby>を<ruby>食<rt>た</rt></ruby>べた/<ruby>日本<rt>にほん</rt></ruby>のアニメを<ruby>見<rt>み</rt></ruby>た/<ruby>日本<rt>にほん</rt></ruby>の<ruby>歌<rt>うた</rt></ruby>を<ruby>歌<rt>うた</rt></ruby>った/<ruby>日本<rt>にほん</rt></ruby>の<ruby>祭<rt>まつ</rt></ruby>りに<ruby>参加<rt>さんか</rt></ruby>した ことが ありますか。（2つ<ruby>聞<rt>き</rt></ruby>く）<br><ruby>何<rt>なに</rt></ruby>を/<ruby>何<rt>なん</rt></ruby>の/<ruby>どんな<rt>どんな</rt></ruby>〜ましたか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.2b.mp3"
+    },
+    // 3-a
+    {
+        "lesson": 19,
+        "id": "19-3a",
+        "text": "<ruby>宿題<rt>しゅくだい</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れた/<ruby>授業<rt>じゅぎょう</rt></ruby>に<ruby>遅<rt>おく</rt></ruby>れた/<ruby>授業<rt>じゅぎょう</rt></ruby>を<ruby>休<rt>やす</rt></ruby>んだことがありますか。<ruby>どう<rt>どう</rt></ruby>してですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.3a.mp3"
+    },
+    // 3-b
+    {
+        "lesson": 19,
+        "id": "19-3b",
+        "text": "<ruby>宿題<rt>しゅくだい</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れた/<ruby>授業<rt>じゅぎょう</rt></ruby>に<ruby>遅<rt>おく</rt></ruby>れた/<ruby>授業<rt>じゅぎょう</rt></ruby>を<ruby>休<rt>やす</rt></ruby>んだことがありますか。<ruby>どう<rt>どう</rt></ruby>してですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.3b.mp3"
+    },
+    // 4
+    {
+        "lesson": 19,
+        "id": "19-4",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby><ruby>大学<rt>だいがく</rt></ruby>/<ruby>〇〇<rt>まるまる</rt></ruby><ruby>短大<rt>たんだい</rt></ruby>で<ruby>どんな<rt>どんな</rt></ruby>イベントに<ruby>参加<rt>さんか</rt></ruby>したことがありますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.4.mp3"
+    },
+    // 5
+    {
+        "lesson": 19,
+        "id": "19-5",
+        "text": "今まで、どこに<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>ったことがありますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.5.mp3"
+    },
+    // 6
+    {
+        "lesson": 19,
+        "id": "19-6",
+        "text": "<ruby>日本語<rt>にほんご</rt></ruby>クラスに<ruby>入<rt>はい</rt></ruby>ってから、<ruby>〇〇<rt>まるまる</rt></ruby>さんは <ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になりましたか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.6.mp3"
+    },
+    // 7-a
+    {
+        "lesson": 19,
+        "id": "19-7a",
+        "text": "<ruby>将来<rt>しょうらい</rt></ruby>、<ruby>社長<rt>しゃちょう</rt></ruby>/<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>/<ruby>エンジニア<rt>えんじにあ</rt></ruby>　になりたいですか。<br>いいえ➞<ruby>何<rt>なに</rt></ruby>に なりたいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.7a.mp3"
+    },
+    // 7-b
+    {
+        "lesson": 19,
+        "id": "19-7b",
+        "text": "<ruby>将来<rt>しょうらい</rt></ruby>、<ruby>社長<rt>しゃちょう</rt></ruby>/<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>/<ruby>エンジニア<rt>えんじにあ</rt></ruby>　になりたいですか。<br>いいえ➞<ruby>何<rt>なに</rt></ruby>に なりたいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.7b.mp3"
+    },
+    // 8-a
+    {
+        "lesson": 19,
+        "id": "19-8a",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さん、今<ruby>眠<rt>ねむ</rt></ruby>く/<ruby>最近<rt>さいきん</rt></ruby><ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>く/<ruby>最近<rt>さいきん</rt></ruby><ruby>暑<rt>あつ</rt></ruby>く・<ruby>涼<rt>すず</rt></ruby>しく　なりましたか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.8a.mp3"
+    },
+    // 8-b
+    {
+        "lesson": 19,
+        "id": "19-8b",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さん、今<ruby>眠<rt>ねむ</rt></ruby>く/<ruby>最近<rt>さいきん</rt></ruby><ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>く/<ruby>最近<rt>さいきん</rt></ruby><ruby>暑<rt>あつ</rt></ruby>く・<ruby>涼<rt>すず</rt></ruby>しく　なりましたか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.8b.mp3"
+    },
+    // 9
+    {
+        "lesson": 19,
+        "id": "19-9",
+        "text": "<ruby>先週<rt>せんしゅう</rt></ruby>の<ruby>日曜日<rt>にちようび</rt></ruby>、<ruby>何<rt>なに</rt></ruby>をしましたか。2つ<ruby>答<rt>こた</rt></ruby>えてください。（〜たり〜たり）",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.9.mp3"
+    },
+    // 10
+    {
+        "lesson": 19,
+        "id": "19-10",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>って、<ruby>何<rt>なに</rt></ruby>をしたいですか。2つ<ruby>答<rt>こた</rt></ruby>えてください。（〜たり〜たりで<ruby>答<rt>こた</rt></ruby>える）",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/19.10.mp3"
+    },
+// ==================== LESSON 20 ====================
+    // 1
+    {
+        "lesson": 20,
+        "id": "20-1",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さん、<ruby>元気<rt>げんき</rt></ruby>？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/20.1.mp3"
+    },
+    // 2
+    {
+        "lesson": 20,
+        "id": "20-2",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さん、今<ruby>何歳<rt>なんさい</rt></ruby>？　<ruby>誕生日<rt>たんじょうび</rt></ruby> <ruby>教<rt>おし</rt></ruby>えて。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/20.2.mp3"
+    },
+    // 3
+    {
+        "lesson": 20,
+        "id": "20-3",
+        "text": "<ruby>大学<rt>だいがく</rt></ruby><ruby>名<rt>めい</rt></ruby>/<ruby>短期大学<rt>たんだいがく</rt></ruby><ruby>名<rt>めい</rt></ruby>は？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/20.3.mp3"
+    },
+    // 4
+    {
+        "lesson": 20,
+        "id": "20-4",
+        "text": "<ruby>大学<rt>だいがく</rt></ruby>/<ruby>短期大学<rt>たんだいがく</rt></ruby>の<ruby>住所<rt>じゅうしょ</rt></ruby>、<ruby>知<rt>し</rt></ruby>ってる？<br><ruby>知<rt>し</rt></ruby>っている➞<ruby>言<rt>い</rt></ruby>って　　<ruby>知<rt>し</rt></ruby>らない➞<ruby>覚<rt>おぼ</rt></ruby>えてないの？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/20.4.mp3"
+    },
+    // 5
+    {
+        "lesson": 20,
+        "id": "20-5",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>に<ruby>行<rt>い</rt></ruby>きたい？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/20.5.mp3"
+    },
+    // 6
+    {
+        "lesson": 20,
+        "id": "20-6",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby><ruby>大学<rt>だいがく</rt></ruby>/<ruby>〇〇<rt>まるまる</rt></ruby><ruby>短大<rt>たんだい</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ってから、どれくらい？<br>（〇か<ruby>月<rt>げつ</rt></ruby>です/〇か<ruby>月<rt>げつ</rt></ruby>ぐらいです）",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/20.6.mp3"
+    },
+    // 7
+    {
+        "lesson": 20,
+        "id": "20-7",
+        "text": "<ruby>日本語<rt>にほんご</rt></ruby>、<ruby>上手<rt>じょうず</rt></ruby>になった？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/20.7.mp3"
+    },
+    // 8
+    {
+        "lesson": 20,
+        "id": "20-8",
+        "text": "<ruby>漢字<rt>かんじ</rt></ruby>　<ruby>書<rt>か</rt></ruby>くことができる？　いくつぐらい？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/20.8.mp3"
+    },
+    // 9
+    {
+        "lesson": 20,
+        "id": "20-9",
+        "text": "<ruby>勉強<rt>べんきょう</rt></ruby>で <ruby>何<rt>なに</rt></ruby>がいちばん　むずかしい？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/20.9.mp3"
+    },
+    // 10
+    {
+        "lesson": 20,
+        "id": "20-10",
+        "text": "<ruby>明日<rt>あした</rt></ruby>　ひま？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/20.10.mp3"
+    },
+// ==================== LESSON 21 ====================
+    // 1-a
+    {
+        "lesson": 21,
+        "id": "21-1a",
+        "text": "けさ/テストの<ruby>前<rt>まえ</rt></ruby>に、<ruby>担任<rt>たんにん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>は　<ruby>何<rt>なん</rt></ruby>と　<ruby>言<rt>い</rt></ruby>いましたか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.1a.mp3"
+    },
+    // 1-b
+    {
+        "lesson": 21,
+        "id": "21-1b",
+        "text": "けさ/テストの<ruby>前<rt>まえ</rt></ruby>に、<ruby>担任<rt>たんにん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>は　<ruby>何<rt>なん</rt></ruby>と　<ruby>言<rt>い</rt></ruby>いましたか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.1b.mp3"
+    },
+    // 2
+    {
+        "lesson": 21,
+        "id": "21-2",
+        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>と<ruby>話<rt>はな</rt></ruby>しています。<ruby>日本語<rt>にほんご</rt></ruby>がわかりません。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.2.mp3"
+    },
+    // 3
+    {
+        "lesson": 21,
+        "id": "21-3",
+        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>と<ruby>話<rt>はな</rt></ruby>しています。<ruby>声<rt>こえ</rt></ruby>が<ruby>小<rt>ちい</rt></ruby>さいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.3.mp3"
+    },
+    // 4-a
+    {
+        "lesson": 21,
+        "id": "21-4a",
+        "text": "「よく<ruby>聞<rt>き</rt></ruby>いてください/これを<ruby>見<rt>み</rt></ruby>てください/・・・」　　今、<ruby>私<rt>わたし</rt></ruby>は<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いましたか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.4a.mp3"
+    },
+    // 4-b
+    {
+        "lesson": 21,
+        "id": "21-4b",
+        "text": "「よく<ruby>聞<rt>き</rt></ruby>いてください/これを<ruby>見<rt>み</rt></ruby>てください/・・・」　　今、<ruby>私<rt>わたし</rt></ruby>は<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いましたか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.4b.mp3"
+    },
+    // 5
+    {
+        "lesson": 21,
+        "id": "21-5",
+        "text": "<ruby>日本語<rt>にほんご</rt></ruby>はかんたんでしょう？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.5.mp3"
+    },
+    // 6-a
+    {
+        "lesson": 21,
+        "id": "21-6a",
+        "text": "きょうは　<ruby>暑<rt>あつ</rt></ruby>い/いい<ruby>天気<rt>てんき</rt></ruby>ですね/<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>っていますね。　<ruby>明日<rt>あした</rt></ruby>も〜と<ruby>思<rt>おも</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.6a.mp3"
+    },
+    // 6-b
+    {
+        "lesson": 21,
+        "id": "21-6b",
+        "text": "きょうは　<ruby>暑<rt>あつ</rt></ruby>い/いい<ruby>天気<rt>てんき</rt></ruby>ですね/<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>っていますね。　<ruby>明日<rt>あした</rt></ruby>も〜と<ruby>思<rt>おも</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.6b.mp3"
+    },
+    // 7-a
+    {
+        "lesson": 21,
+        "id": "21-7a",
+        "text": "今<ruby>何時<rt>なんじ</rt></ruby>ですか。<ruby>〇〇<rt>まるまる</rt></ruby>さんのお<ruby>父<rt>とう</rt></ruby>さん/お<ruby>母<rt>かあ</rt></ruby>さんは今<ruby>何<rt>なに</rt></ruby>をしていると<ruby>思<rt>おも</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.7a.mp3"
+    },
+    // 7-b
+    {
+        "lesson": 21,
+        "id": "21-7b",
+        "text": "今<ruby>何時<rt>なんじ</rt></ruby>ですか。<ruby>〇〇<rt>まるまる</rt></ruby>さんのお<ruby>父<rt>とう</rt></ruby>さん/お<ruby>母<rt>かあ</rt></ruby>さんは今<ruby>何<rt>なに</rt></ruby>をしていると<ruby>思<rt>おも</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.7b.mp3"
+    },
+    // 8
+    {
+        "lesson": 21,
+        "id": "21-8",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby><ruby>大学<rt>だいがく</rt></ruby>/<ruby>〇〇<rt>まるまる</rt></ruby><ruby>短大<rt>たんだい</rt></ruby>についてどう<ruby>思<rt>おも</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.8.mp3"
+    },
+    // 9-a
+    {
+        "lesson": 21,
+        "id": "21-9a",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんの<ruby>友達<rt>ともだち</rt></ruby>はだれですか。　（<ruby>友達<rt>ともだち</rt></ruby><ruby>名<rt>めい</rt></ruby>）について、どう<ruby>思<rt>おも</rt></ruby>いますか。（2つ以上　〜くて　〜で）",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.9a.mp3"
+    },
+    // 9-b
+    {
+        "lesson": 21,
+        "id": "21-9b",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんの<ruby>友達<rt>ともだち</rt></ruby>はだれですか。　（<ruby>友達<rt>ともだち</rt></ruby><ruby>名<rt>めい</rt></ruby>）について、どう<ruby>思<rt>おも</rt></ruby>いますか。（2つ以上　〜くて　〜で）",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.9b.mp3"
+    },
+    // 10
+    {
+        "lesson": 21,
+        "id": "21-10",
+        "text": "のどがかわいたでしょう？/おなかが<ruby>空<rt>す</rt></ruby>いたでしょう？<br>※はい、すきました。いいえ、すきません/すいていません。<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。など",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/21.10.mp3"
+    },
+// ==================== LESSON 22 ====================
+    // 1
+    {
+        "lesson": 22,
+        "id": "22-1",
+        "text": "<ruby>どんな<rt>どんな</rt></ruby><ruby>人<rt>ひと</rt></ruby>が <ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になりますか。<ruby>勉強<rt>べんきょう</rt></ruby>する<ruby>人<rt>ひと</rt></ruby>ですか。<ruby>勉強<rt>べんきょう</rt></ruby>しない<ruby>人<rt>ひと</rt></ruby>ですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/22.1.mp3"
+    },
+    // 2
+    {
+        "lesson": 22,
+        "id": "22-2",
+        "text": "パーティーをします。<ruby>〇〇<rt>まるまる</rt></ruby>さんはいつも<ruby>何<rt>なに</rt></ruby>をする<ruby>人<rt>ひと</rt></ruby>ですか。<ruby>料理<rt>りょうり</rt></ruby>を<ruby>作<rt>つく</rt></ruby>る<ruby>人<rt>ひと</rt></ruby>ですか。<ruby>皿<rt>さら</rt></ruby>を<ruby>洗<rt>あら</rt></ruby>う<ruby>人<rt>ひと</rt></ruby>ですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/22.2.mp3"
+    },
+    // 3
+    {
+        "lesson": 22,
+        "id": "22-3",
+        "text": "これは<ruby>どんな<rt>どんな</rt></ruby>ところですか。<ruby>何<rt>なに</rt></ruby>をするところですか。<br>※〜するところです/〜てはいけないところです　など",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/22.3.mp3"
+    },
+    // 4
+    {
+        "lesson": 22,
+        "id": "22-4",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんの<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>何<rt>なに</rt></ruby>をする<ruby>会社<rt>かいしゃ</rt></ruby>ですか。<br>※<ruby>車<rt>くるま</rt></ruby>の<ruby>部品<rt>ぶひん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>る<ruby>会社<rt>かいしゃ</rt></ruby>です/ブタを<ruby>育<rt>そだ</rt></ruby>てる<ruby>会社<rt>かいしゃ</rt></ruby>です/ビルをつくる<ruby>会社<rt>かいしゃ</rt></ruby>ですなど",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/22.4.mp3"
+    },
+    // 5
+    {
+        "lesson": 22,
+        "id": "22-5",
+        "text": "ロボットをもらいます。　<ruby>どんな<rt>どんな</rt></ruby>ロボットがほしいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/22.5.mp3"
+    },
+    // Phần dưới bảng (câu 1~5 của phần mô tả người)
+    {
+        "lesson": 22,
+        "id": "22-6",
+        "text": "〜ている <ruby>人<rt>ひと</rt></ruby>はだれですか。<br>※<ruby>〇〇<rt>まるまる</rt></ruby>さんです。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/22.6.mp3"
+    },
+    {
+        "lesson": 22,
+        "id": "22-7",
+        "text": "<ruby>名前<rt>なまえ</rt></ruby>がわかりません。<ruby>私<rt>わたし</rt></ruby>に<ruby>聞<rt>き</rt></ruby>いてください。<br>（<ruby>服装<rt>ふくそう</rt></ruby>の<ruby>特徴<rt>とくちょう</rt></ruby>　〜ている<ruby>人<rt>ひと</rt></ruby>はだれですか）で<ruby>質問<rt>しつもん</rt></ruby>する",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/22.7.mp3"
+    },
+    {
+        "lesson": 22,
+        "id": "22-8",
+        "text": "<ruby>佐藤<rt>さとう</rt></ruby>さんはどの<ruby>人<rt>ひと</rt></ruby>ですか。<br>※<ruby>回答<rt>かいとう</rt></ruby>　〜ている<ruby>人<rt>ひと</rt></ruby>です。（「さとう」は適宜動かす）",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/22.8.mp3"
+    },
+    {
+        "lesson": 22,
+        "id": "22-9",
+        "text": "この<ruby>中<rt>なか</rt></ruby>で、どの<ruby>人<rt>ひと</rt></ruby>が<ruby>好<rt>す</rt></ruby>きですか。<br>※〜ている<ruby>人<rt>ひと</rt></ruby>が<ruby>好<rt>す</rt></ruby>きです",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/22.9.mp3"
+    },
+    {
+        "lesson": 22,
+        "id": "22-10",
+        "text": "（ホーチミンさんの<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>見<rt>み</rt></ruby>せて）この<ruby>人<rt>ひと</rt></ruby>は<ruby>何<rt>なに</rt></ruby>をした<ruby>人<rt>ひと</rt></ruby>ですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/22.10.mp3"
+    },
+// ==================== LESSON 23 ====================
+    // 1
+    {
+        "lesson": 23,
+        "id": "23-1",
+        "text": "<ruby>時間<rt>じかん</rt></ruby>に<ruby>遅<rt>おく</rt></ruby>れたとき、<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.1.mp3"
+    },
+    // 2-a
+    {
+        "lesson": 23,
+        "id": "23-2a",
+        "text": "いつ　おやすみなさい/いただきます/いってきます/ただいま　と<ruby>言<rt>い</rt></ruby>いますか。<br>※〜とき、<ruby>言<rt>い</rt></ruby>います。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.2a.mp3"
+    },
+    // 2-b
+    {
+        "lesson": 23,
+        "id": "23-2b",
+        "text": "いつ　おやすみなさい/いただきます/いってきます/ただいま　と<ruby>言<rt>い</rt></ruby>いますか。<br>※〜とき、<ruby>言<rt>い</rt></ruby>います。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.2b.mp3"
+    },
+    // 3
+    {
+        "lesson": 23,
+        "id": "23-3",
+        "text": "<ruby>どんな<rt>どんな</rt></ruby>とき「<ruby>失礼<rt>しつれい</rt></ruby>します」と<ruby>言<rt>い</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.3.mp3"
+    },
+    // 4-a
+    {
+        "lesson": 23,
+        "id": "23-4a",
+        "text": "<ruby>どんな<rt>どんな</rt></ruby>とき「よろしくお<ruby>願<rt>ねが</rt></ruby>いします」と<ruby>言<rt>い</rt></ruby>いますか/<ruby>自己紹介<rt>じこしょうかい</rt></ruby>をしますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.4a.mp3"
+    },
+    // 4-b
+    {
+        "lesson": 23,
+        "id": "23-4b",
+        "text": "<ruby>どんな<rt>どんな</rt></ruby>とき「よろしくお<ruby>願<rt>ねが</rt></ruby>いします」と<ruby>言<rt>い</rt></ruby>いますか/<ruby>自己紹介<rt>じこしょうかい</rt></ruby>をしますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.4b.mp3"
+    },
+    // 5
+    {
+        "lesson": 23,
+        "id": "23-5",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは<ruby>何<rt>なに</rt></ruby>をしているときが<ruby>一番<rt>いちばん</rt></ruby><ruby>楽<rt>たの</rt></ruby>しいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.5.mp3"
+    },
+    // 6
+    {
+        "lesson": 23,
+        "id": "23-6",
+        "text": "（エアコンのリモコンを<ruby>見<rt>み</rt></ruby>ながら）　<ruby>暑<rt>あつ</rt></ruby>いですね/ <ruby>消<rt>け</rt></ruby>したいです　　どうしますか。<br>※〜を・・と、いいですよ/<ruby>涼<rt>すず</rt></ruby>しくなります。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.6.mp3"
+    },
+    // 7
+    {
+        "lesson": 23,
+        "id": "23-7",
+        "text": "（<ruby>学生<rt>がくせい</rt></ruby>のスマホを<ruby>見<rt>み</rt></ruby>ながら）　<ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby>を　<ruby>教<rt>おし</rt></ruby>えてください。<br>どこを<ruby>押<rt>お</rt></ruby>すと<ruby>何<rt>なに</rt></ruby>をすることができますか。<br>※ここを<ruby>押<rt>お</rt></ruby>すと<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>撮<rt>と</rt></ruby>ることができます　など1つ<ruby>答<rt>こた</rt></ruby>えればOK",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.7.mp3"
+    },
+    // 8
+    {
+        "lesson": 23,
+        "id": "23-8",
+        "text": "<ruby>私<rt>わたし</rt></ruby>は<ruby>ベトナム<rt>べとなむ</rt></ruby>を<ruby>旅行<rt>りょこう</rt></ruby>したいです。<ruby>何<rt>なに</rt></ruby>を<ruby>食<rt>た</rt></ruby>べるといいですか。<ruby>教<rt>おし</rt></ruby>えてください。<br>※〜を〜といいです。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.8.mp3"
+    },
+    // 9
+    {
+        "lesson": 23,
+        "id": "23-9",
+        "text": "<ruby>病気<rt>びょうき</rt></ruby>のとき/<ruby>元気<rt>げんき</rt></ruby>がないとき、<ruby>何<rt>なに</rt></ruby>を<ruby>食<rt>た</rt></ruby>べるといいですか。<ruby>教<rt>おし</rt></ruby>えてください。<br>※〜を〜といいです。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.9.mp3"
+    },
+    // 10
+    {
+        "lesson": 23,
+        "id": "23-10",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは<ruby>誰<rt>だれ</rt></ruby>と<ruby>話<rt>はな</rt></ruby>すと、<ruby>楽<rt>たの</rt></ruby>しいですか。<br>※〜さんと<ruby>話<rt>はな</rt></ruby>すと<ruby>楽<rt>たの</rt></ruby>しいです。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/23.10.mp3"
+    },
+    // ==================== LESSON 24 ====================
+    // 1
+    {
+        "lesson": 24,
+        "id": "24-1",
+        "text": "いつもだれに<ruby>日本語<rt>にほんご</rt></ruby>をおしえてもらいますか。<br>※〜に<ruby>教<rt>おし</rt></ruby>えてもらいます。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.1.mp3"
+    },
+    // 2
+    {
+        "lesson": 24,
+        "id": "24-2",
+        "text": "<ruby>子<rt>こ</rt></ruby>どもの<ruby>時<rt>とき</rt></ruby>、だれがごはんを<ruby>作<rt>つく</rt></ruby>って/いっしょに<ruby>遊<rt>あそ</rt></ruby>んで　くれましたか。<br>※〜が〜てくれました。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.2.mp3"
+    },
+    // 3
+    {
+        "lesson": 24,
+        "id": "24-3",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんが<ruby>病気<rt>びょうき</rt></ruby>のとき、<ruby>誰<rt>だれ</rt></ruby>が<ruby>何<rt>なに</rt></ruby>をしてくれましたか？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.3.mp3"
+    },
+    // 4
+    {
+        "lesson": 24,
+        "id": "24-4",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>く<ruby>前<rt>まえ</rt></ruby>に、だれに<ruby>何<rt>なに</rt></ruby>をしてもらいたい？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.4.mp3"
+    },
+    // 5
+    {
+        "lesson": 24,
+        "id": "24-5",
+        "text": "（<ruby>将来<rt>しょうらい</rt></ruby>）<ruby>家族<rt>かぞく</rt></ruby>/<ruby>恋人<rt>こいびと</rt></ruby>に<ruby>何<rt>なに</rt></ruby>をしてあげたい？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.5.mp3"
+    },
+    // 6
+    {
+        "lesson": 24,
+        "id": "24-6",
+        "text": "きのう、<ruby>友達<rt>ともだち</rt></ruby>が かさを　<ruby>貸<rt>か</rt></ruby>してくれました。お<ruby>礼<rt>れい</rt></ruby>を<ruby>言<rt>い</rt></ruby>って<ruby>返<rt>かえ</rt></ruby>してください。<br>※かさを<ruby>貸<rt>か</rt></ruby>してくれてありがとう。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.6.mp3"
+    },
+    // 7
+    {
+        "lesson": 24,
+        "id": "24-7",
+        "text": "<ruby>誰<rt>だれ</rt></ruby>かにお<ruby>礼<rt>れい</rt></ruby>を<ruby>言<rt>い</rt></ruby>ってください。<br>※<ruby>〇〇<rt>まるまる</rt></ruby>さん、〜くれてありがとう。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.7.mp3"
+    },
+    // 8
+    {
+        "lesson": 24,
+        "id": "24-8",
+        "text": "<ruby>漢字<rt>かんじ</rt></ruby>の<ruby>読<rt>よ</rt></ruby>み<ruby>方<rt>かた</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてもらいたいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。<br>※〜くれませんか/もらえませんか　　「〜ください」➞<ruby>他<rt>ほか</rt></ruby>の<ruby>言<rt>い</rt></ruby>い<ruby>方<rt>かた</rt></ruby>で",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.8.mp3"
+    },
+    // 9-a
+    {
+        "lesson": 24,
+        "id": "24-9a",
+        "text": "<ruby>友達<rt>ともだち</rt></ruby>に、<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>撮<rt>と</rt></ruby>って/ <ruby>部屋<rt>へや</rt></ruby>をそうじして/<ruby>料理<rt>りょうり</rt></ruby>を<ruby>作<rt>つく</rt></ruby>って/もらいたいとき、<ruby>何<rt>なん</rt></ruby>て<ruby>言<rt>い</rt></ruby>う？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.9a.mp3"
+    },
+    // 9-b
+    {
+        "lesson": 24,
+        "id": "24-9b",
+        "text": "<ruby>友達<rt>ともだち</rt></ruby>に、<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>撮<rt>と</rt></ruby>って/ <ruby>部屋<rt>へや</rt></ruby>をそうじして/<ruby>料理<rt>りょうり</rt></ruby>を<ruby>作<rt>つく</rt></ruby>って/もらいたいとき、<ruby>何<rt>なん</rt></ruby>て<ruby>言<rt>い</rt></ruby>う？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.9b.mp3"
+    },
+    // 10
+    {
+        "lesson": 24,
+        "id": "24-10",
+        "text": "<ruby>どんな<rt>どんな</rt></ruby>とき「ありがとう」って<ruby>言<rt>い</rt></ruby>う？<br>※〜もらったとき、<ruby>言<rt>い</rt></ruby>います。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/24.10.mp3"
+    },
+    // ==================== LESSON 25 ====================
+    // 1-a
+    {
+        "lesson": 25,
+        "id": "25-1a",
+        "text": "いつ<ruby>日本<rt>にほん</rt></ruby>に<ruby>行<rt>い</rt></ruby>きますか。<ruby>日本<rt>にほん</rt></ruby>に<ruby>行<rt>い</rt></ruby>ったら、<ruby>どんな<rt>どんな</rt></ruby><ruby>仕事<rt>しごと</rt></ruby>をしますか。<br>※<ruby>行<rt>い</rt></ruby>かない<ruby>人<rt>ひと</rt></ruby>➞ もし <ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>ったら、<ruby>どんな<rt>どんな</rt></ruby><ruby>仕事<rt>しごと</rt></ruby>をしたいですか/<ruby>何<rt>なに</rt></ruby>をしたいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.1a.mp3"
+    },
+    // 1-b
+    {
+        "lesson": 25,
+        "id": "25-1b",
+        "text": "いつ<ruby>日本<rt>にほん</rt></ruby>に<ruby>行<rt>い</rt></ruby>きますか。<ruby>日本<rt>にほん</rt></ruby>に<ruby>行<rt>い</rt></ruby>ったら、<ruby>どんな<rt>どんな</rt></ruby><ruby>仕事<rt>しごと</rt></ruby>をしますか。<br>※<ruby>行<rt>い</rt></ruby>かない<ruby>人<rt>ひと</rt></ruby>➞ もし <ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>ったら、<ruby>どんな<rt>どんな</rt></ruby><ruby>仕事<rt>しごと</rt></ruby>をしたいですか/<ruby>何<rt>なに</rt></ruby>をしたいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.1b.mp3"
+    },
+    // 2
+    {
+        "lesson": 25,
+        "id": "25-2",
+        "text": "（<ruby>日本<rt>にほん</rt></ruby>で）　いくらお<ruby>給料<rt>きゅうりょう</rt></ruby>をもらったら、うれしいですか。<br>※〇<ruby>円<rt>えん</rt></ruby>/〇ドン　もらったらうれしいです。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.2.mp3"
+    },
+    // 3-a
+    {
+        "lesson": 25,
+        "id": "25-3a",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>でインターンシップ/<ruby>実習<rt>じっしゅう</rt></ruby>が<ruby>終<rt>お</rt></ruby>わりました。<ruby>ベトナム<rt>べとなむ</rt></ruby>に<ruby>帰<rt>かえ</rt></ruby>ったら、まず<ruby>何<rt>なに</rt></ruby>をしますか。<br>※（<ruby>ベトナム<rt>べとなむ</rt></ruby>に<ruby>帰<rt>かえ</rt></ruby>ったら）〜します。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.3a.mp3"
+    },
+    // 3-b
+    {
+        "lesson": 25,
+        "id": "25-3b",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>でインターンシップ/<ruby>実習<rt>じっしゅう</rt></ruby>が<ruby>終<rt>お</rt></ruby>わりました。<ruby>ベトナム<rt>べとなむ</rt></ruby>に<ruby>帰<rt>かえ</rt></ruby>ったら、まず<ruby>何<rt>なに</rt></ruby>をしますか。<br>※（<ruby>ベトナム<rt>べとなむ</rt></ruby>に<ruby>帰<rt>かえ</rt></ruby>ったら）〜します。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.3b.mp3"
+    },
+    // 4-a
+    {
+        "lesson": 25,
+        "id": "25-4a",
+        "text": "<ruby>大学<rt>だいがく</rt></ruby>を<ruby>卒業<rt>そつぎょう</rt></ruby>したら、<ruby>どんな<rt>どんな</rt></ruby><ruby>会社<rt>かいしゃ</rt></ruby>で<ruby>働<rt>はたら</rt></ruby>きたいですか/<ruby>何<rt>なに</rt></ruby>をしたいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.4a.mp3"
+    },
+    // 4-b
+    {
+        "lesson": 25,
+        "id": "25-4b",
+        "text": "<ruby>大学<rt>だいがく</rt></ruby>を<ruby>卒業<rt>そつぎょう</rt></ruby>したら、<ruby>どんな<rt>どんな</rt></ruby><ruby>会社<rt>かいしゃ</rt></ruby>で<ruby>働<rt>はたら</rt></ruby>きたいですか/<ruby>何<rt>なに</rt></ruby>をしたいですか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.4b.mp3"
+    },
+    // 5
+    {
+        "lesson": 25,
+        "id": "25-5",
+        "text": "<ruby>同<rt>おな</rt></ruby>じクラスに <ruby>どんな<rt>どんな</rt></ruby><ruby>人<rt>ひと</rt></ruby>がいたら<ruby>楽<rt>たの</rt></ruby>しいと<ruby>思<rt>おも</rt></ruby>いますか。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.5.mp3"
+    },
+    // 6-a
+    {
+        "lesson": 25,
+        "id": "25-6a",
+        "text": "１００<ruby>万<rt>まん</rt></ruby><ruby>円<rt>えん</rt></ruby>あったら、<ruby>何<rt>なに</rt></ruby>をする？<br><ruby>ベトナム<rt>べとなむ</rt></ruby>でいい<ruby>仕事<rt>しごと</rt></ruby>があっても、<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>く？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.6a.mp3"
+    },
+    // 6-b
+    {
+        "lesson": 25,
+        "id": "25-6b",
+        "text": "１００<ruby>万<rt>まん</rt></ruby><ruby>円<rt>えん</rt></ruby>あったら、<ruby>何<rt>なに</rt></ruby>をする？<br><ruby>ベトナム<rt>べとなむ</rt></ruby>でいい<ruby>仕事<rt>しごと</rt></ruby>があっても、<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>く？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.6b.mp3"
+    },
+    // 7-a
+    {
+        "lesson": 25,
+        "id": "25-7a",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>で <ruby>仕事<rt>しごと</rt></ruby>が<ruby>大変<rt>たいへん</rt></ruby>だったら、<ruby>ベトナム<rt>べとなむ</rt></ruby>へ<ruby>帰<rt>かえ</rt></ruby>る？/<ruby>仕事<rt>しごと</rt></ruby>が<ruby>大変<rt>たいへん</rt></ruby>だったら、すぐ<ruby>会社<rt>かいしゃ</rt></ruby>をやめる？<br>※はい、〜たら、〜/いいえ、〜ても、〜",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.7a.mp3"
+    },
+    // 7-b
+    {
+        "lesson": 25,
+        "id": "25-7b",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>で <ruby>仕事<rt>しごと</rt></ruby>が<ruby>大変<rt>たいへん</rt></ruby>だったら、<ruby>ベトナム<rt>べとなむ</rt></ruby>へ<ruby>帰<rt>かえ</rt></ruby>る？/<ruby>仕事<rt>しごと</rt></ruby>が<ruby>大変<rt>たいへん</rt></ruby>だったら、すぐ<ruby>会社<rt>かいしゃ</rt></ruby>をやめる？<br>※はい、〜たら、〜/いいえ、〜ても、〜",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.7b.mp3"
+    },
+    // 8
+    {
+        "lesson": 25,
+        "id": "25-8",
+        "text": "６０<ruby>歳<rt>さい</rt></ruby>になっても <ruby>働<rt>はたら</rt></ruby>きたい？<br>※　〜たら、<ruby>働<rt>はたら</rt></ruby>きたくないです/〜ても、<ruby>働<rt>はたら</rt></ruby>きたいです。",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.8.mp3"
+    },
+    // 9
+    {
+        "lesson": 25,
+        "id": "25-9",
+        "text": "どうしたら、<ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になると思う？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.9.mp3"
+    },
+    // 10
+    {
+        "lesson": 25,
+        "id": "25-10",
+        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、<ruby>健康<rt>けんこう</rt></ruby>と<ruby>家族<rt>かぞく</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>と、<ruby>何<rt>なに</rt></ruby>があったら<ruby>幸<rt>しあわ</rt></ruby>せ/うれしい？　どうして？",
+        "audioUrl": "https://github.com/Hoangthuanitm/Checkkaiwahanoudaigakusei/raw/refs/heads/main/25.10.mp3"
+    }
+
+];
+        // Group questions by lesson
+        const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
+
+        // Populate lesson select dropdown
+        const lessonSelect = document.getElementById('lessonSelect');
+        lessons.forEach(lesson => {
+            const option = document.createElement('option');
+            option.value = lesson;
+            option.textContent = `Bài ${lesson}`;
+            lessonSelect.appendChild(option);
+        });
+
+        // Render questions grouped by lesson (initially hidden)
+        const questionsContainer = document.getElementById('questionsContainer');
+        lessons.forEach(lesson => {
+            const lessonDiv = document.createElement('div');
+            lessonDiv.className = `lesson-div hidden bg-white p-6 rounded-lg shadow-md`;
+            lessonDiv.dataset.lesson = lesson;
+            lessonDiv.innerHTML = `<h2 class="text-2xl font-semibold text-indigo-700 mb-4">Bài ${lesson}</h2>`;
+            const lessonQuestions = questions.filter(q => q.lesson === lesson);
+            lessonQuestions.forEach(q => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-card flex items-center justify-between p-3 border-b border-gray-200';
+                questionDiv.innerHTML = `
+                    <span class="text-lg text-gray-800">${q.id}: ${q.text}</span>
+                    <button class="play-audio bg-teal-100 p-2 rounded-full hover:bg-teal-200 transition duration-200" data-audio="${q.audioUrl}">
+                        <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15z"></path>
+                        </svg>
+                    </button>
+                `;
+                lessonDiv.appendChild(questionDiv);
+            });
+            questionsContainer.appendChild(lessonDiv);
+        });
+
+        // Audio playback logic
+        let currentAudio = null;
+        let isPlaying = false;
+        let playbackQueue = [];
+        let currentIndex = 0;
+
+        // Error message display function
+        const errorMessageDiv = document.getElementById('errorMessage');
+        function showError(message) {
+            errorMessageDiv.textContent = message;
+            errorMessageDiv.classList.remove('hidden');
+            setTimeout(() => {
+                errorMessageDiv.classList.add('hidden');
+            }, 5000); // Hide after 5 seconds
+        }
+
+        function playAudio(url) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            try {
+                currentAudio = new Audio(url);
+                currentAudio.play().then(() => {
+                    isPlaying = true;
+                }).catch(error => {
+                    isPlaying = false;
+                    showError(`Failed to play audio for ${url}: ${error.message}`);
+                    // Move to next audio in queue if available
+                    if (playbackQueue.length > 0 && currentIndex < playbackQueue.length - 1) {
+                        currentIndex++;
+                        playAudio(playbackQueue[currentIndex]);
+                    } else {
+                        currentIndex = 0;
+                        playbackQueue = [];
+                    }
+                });
+
+                currentAudio.onended = () => {
+                    isPlaying = false;
+                    if (playbackQueue.length > 0 && currentIndex < playbackQueue.length - 1) {
+                        currentIndex++;
+                        playAudio(playbackQueue[currentIndex]);
+                    } else {
+                        currentIndex = 0;
+                        playbackQueue = [];
+                    }
+                };
+
+                currentAudio.onerror = () => {
+                    isPlaying = false;
+                    showError(`Error loading audio file: ${url}`);
+                    // Move to next audio in queue if available
+                    if (playbackQueue.length > 0 && currentIndex < playbackQueue.length - 1) {
+                        currentIndex++;
+                        playAudio(playbackQueue[currentIndex]);
+                    } else {
+                        currentIndex = 0;
+                        playbackQueue = [];
+                    }
+                };
+            } catch (error) {
+                isPlaying = false;
+                showError(`Error initializing audio for ${url}: ${error.message}`);
+            }
+        }
+
+        // Play individual audio on speaker click
+        document.querySelectorAll('.play-audio').forEach(button => {
+            button.addEventListener('click', () => {
+                const url = button.getAttribute('data-audio');
+                playbackQueue = [url];
+                currentIndex = 0;
+                playAudio(url);
+            });
+        });
+
+        // Toggle lesson selection visibility
+        const lessonSelectContainer = document.getElementById('lessonSelectContainer');
+        document.getElementById('playLessonBtn').addEventListener('click', () => {
+            lessonSelectContainer.classList.remove('hidden');
+            lessonSelect.focus();
+        });
+
+        // Confirm lesson selection and play audio
+        document.getElementById('confirmBtn').addEventListener('click', () => {
+            const selectedLessons = Array.from(lessonSelect.selectedOptions).map(option => parseInt(option.value));
+            if (selectedLessons.length === 0) {
+                showError('Please select at least one lesson.');
+                return;
+            }
+            document.querySelectorAll('.lesson-div').forEach(div => {
+                const lessonNum = parseInt(div.dataset.lesson);
+                if (selectedLessons.includes(lessonNum)) {
+                    div.classList.remove('hidden');
+                } else {
+                    div.classList.add('hidden');
+                }
+            });
+
+            // Update playback queue with audio from selected lessons
+            playbackQueue = questions
+                .filter(q => selectedLessons.includes(q.lesson))
+                .map(q => q.audioUrl);
+            currentIndex = 0;
+            if (playbackQueue.length > 0) {
+                playAudio(playbackQueue[currentIndex]);
+            } else {
+                showError('No audio files available for selected lessons.');
+            }
+            lessonSelectContainer.classList.add('hidden');
+        });
+
+        // Play all
+        document.getElementById('playAllBtn').addEventListener('click', () => {
+            // Show all lessons
+            document.querySelectorAll('.lesson-div').forEach(div => {
+                div.classList.remove('hidden');
+            });
+            playbackQueue = questions.map(q => q.audioUrl);
+            currentIndex = 0;
+            if (playbackQueue.length > 0) {
+                playAudio(playbackQueue[currentIndex]);
+            } else {
+                showError('No audio files available.');
+            }
+            lessonSelectContainer.classList.add('hidden');
+        });
+
+        // Stop playback
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            isPlaying = false;
+            playbackQueue = [];
+            currentIndex = 0;
+            errorMessageDiv.classList.add('hidden');
+            lessonSelectContainer.classList.add('hidden');
+        });
+    </script>
+</body>
+      </html>
