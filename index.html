@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQー会話チェック反応（大学生向け）</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for multi-select and improved aesthetics */
+        select[multiple] {
+            height: 150px;
+            width: 200px;
+            background-color: #f9fafb;
+            border-radius: 0.5rem;            padding: 0.5rem;
+        }
+        select[multiple] option {
+            padding: 0.25rem;
+        }
+        select[multiple] option:checked {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .gradient-bg {
+            background: linear-gradient(to bottom right, #e0f2fe, #e0e7ff);
+        }
+        .question-card {
+            transition: all 0.3s ease;
+        }
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            border-top: 1px solid #E0E4EA;
+            color: #6B7280;
+            font-size: 0.9em;
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="gradient-bg font-sans min-h-screen">
+    <div class="container mx-auto p-6">
+        <h1 class="text-4xl font-extrabold text-center text-indigo-800 mb-8">IQー会話チェック反応（大学生向け）</h1>
+        
+        <div class="mb-8 flex justify-center space-x-4">
+            <button id="playAllBtn" class="bg-teal-500 text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition duration-200 shadow-md">Chọn tất cả</button>
+            <button id="playLessonBtn" class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition duration-200 shadow-md">Chọn bài</button>
+            <button id="stopBtn" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-200 shadow-md">Dừng</button>
+        </div>
+
+        <div id="lessonSelectContainer" class="hidden mb-8 flex justify-center space-x-4">
+            <select id="lessonSelect" multiple class="border border-gray-300 focus:ring-2 focus:ring-indigo-500">
+            </select>
+            <button id="confirmBtn" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition duration-200 shadow-md">Hiển thị</button>
+        </div>
+
+        <div id="errorMessage" class="hidden text-red-600 text-center mb-6 bg-red-100 p-3 rounded-lg"></div>
+
+        <div id="questionsContainer" class="space-y-6"></div>
+    </div>
+
+    <footer>
+        <p>© 2025 Tài liệu kiểm tra | Thiết kế bởi Thuận</p>
+    </footer>
+
+    <script>
+        // Sample question data
+        const questions = [
+            // 1. Tên
+            {
+                 "lesson": 1,
+                 "id": "1-1a",
+                 "text": "おなまえは なんですか。/ なまえを いってください/ おしえてください。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.1a.mp3"
+             },
+            {
+                 "lesson": 1,
+                 "id": "1-1b",
+                 "text": "おなまえは なんですか。/ なまえを いってください/ おしえてください。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.1b.mp3"
+             },
+            // 2. Tuổi
+            {
+                 "lesson": 1,
+                 "id": "1-2a",
+                 "text": "おいくつ ですか。/ なんさい ですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.2a.mp3"
+             },
+            {
+                 "lesson": 1,
+                 "id": "1-2b",
+                 "text": "おいくつ ですか。/ なんさい ですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.2b.mp3"
+             },
+            // 3. Đại học
+            {
+                 "lesson": 1,
+                 "id": "1-3",
+                 "text": "だいがくは どちらですか/どこですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.3.mp3"
+             },
+            // 4. Năm học
+            {
+                 "lesson": 1,
+                 "id": "1-4",
+                 "text": "いま、なんねんせいですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.4.mp3"
+             },
+            // 5. Chuyên ngành
+            {
+                 "lesson": 1,
+                 "id": "1-5a",
+                 "text": "せんもんは なんですか/ せんこう（専攻）は なんですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.5a.mp3"
+             },
+            {
+                 "lesson": 1,
+                 "id": "1-5b",
+                 "text": "せんもんは なんですか/ せんこう（専攻）は なんですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.5b.mp3"
+             },
+            // 6. Là sinh viên / kỹ sư / du học sinh
+            {
+                 "lesson": 1,
+                 "id": "1-6a",
+                 "text": "〇〇さんは、だいがくせい/エンジニア/ 留学生 ですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.6a.mp3"
+             },
+            {
+                 "lesson": 1,
+                 "id": "1-6b",
+                 "text": "〇〇さんは、だいがくせい/エンジニア/ 留学生 ですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.6b.mp3"
+             },
+            // 7. Năm học (1~4 năm)
+            {
+                 "lesson": 1,
+                 "id": "1-7a",
+                 "text": "○○さんは、1ねんせい/2ねんせい/3ねんせい/4ねんせい ですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.7a.mp3"
+             },
+            {
+                 "lesson": 1,
+                 "id": "1-7b",
+                 "text": "○○さんは、1ねんせい/2ねんせい/3ねんせい/4ねんせい ですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.7b.mp3"
+             },
+            // 8. 1. Sinh viên trường nào
+            {
+                 "lesson": 1,
+                 "id": "1-8",
+                 "text": "〇〇さんは、△△だいがく/△△たんだいの がくせいですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.8.mp3"
+             },
+            // 9. Xuất thân / Quê quán
+            {
+                 "lesson": 1,
+                 "id": "1-9",
+                 "text": "しゅっしんは どちらですか/どこですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.9.mp3"
+             },
+            // 10. Quốc tịch
+            {
+                 "lesson": 1,
+                 "id": "1-10a",
+                 "text": "〇〇さんは ベトナムじん/ちゅうごくじん/かんこくじんですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.10a.mp3"
+             },
+            {
+                 "lesson": 1,
+                 "id": "1-10b",
+                 "text": "〇〇さんは ベトナムじん/ちゅうごくじん/かんこくじんですか。",
+                 "audioUrl": "https://github.com/itm-kaiwa/Checkkaiwahanoudaigakusei-/raw/refs/heads/main/1.10b.mp3"
+             }
+        ];
+
+        // Group questions by lesson
+        const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
+
+        // Populate lesson select dropdown
+        const lessonSelect = document.getElementById('lessonSelect');
+        lessons.forEach(lesson => {
+            const option = document.createElement('option');
+            option.value = lesson;
+            option.textContent = `Bài ${lesson}`;
+            lessonSelect.appendChild(option);
+        });
+
+        // Render questions grouped by lesson (initially hidden)
+        const questionsContainer = document.getElementById('questionsContainer');
+        lessons.forEach(lesson => {
+            const lessonDiv = document.createElement('div');
+            lessonDiv.className = `lesson-div hidden bg-white p-6 rounded-lg shadow-md`;
+            lessonDiv.dataset.lesson = lesson;
+            lessonDiv.innerHTML = `<h2 class="text-2xl font-semibold text-indigo-700 mb-4">Bài ${lesson}</h2>`;
+            const lessonQuestions = questions.filter(q => q.lesson === lesson);
+            lessonQuestions.forEach(q => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-card flex items-center justify-between p-3 border-b border-gray-200';
+                questionDiv.innerHTML = `
+                    <span class="text-lg text-gray-800">${q.id}: ${q.text}</span>
+                    <button class="play-audio bg-teal-100 p-2 rounded-full hover:bg-teal-200 transition duration-200" data-audio="${q.audioUrl}">
+                        <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15z"></path>
+                        </svg>
+                    </button>
+                `;
+                lessonDiv.appendChild(questionDiv);
+            });
+            questionsContainer.appendChild(lessonDiv);
+        });
+
+        // Audio playback logic
+        let currentAudio = null;
+        let isPlaying = false;
+        let playbackQueue = [];
+        let currentIndex = 0;
+
+        // Error message display function
+        const errorMessageDiv = document.getElementById('errorMessage');
+        function showError(message) {
+            errorMessageDiv.textContent = message;
+            errorMessageDiv.classList.remove('hidden');
+            setTimeout(() => {
+                errorMessageDiv.classList.add('hidden');
+            }, 5000); // Hide after 5 seconds
+        }
+
+        function playAudio(url) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            try {
+                currentAudio = new Audio(url);
+                currentAudio.play().then(() => {
+                    isPlaying = true;
+                }).catch(error => {
+                    isPlaying = false;
+                    showError(`Failed to play audio for ${url}: ${error.message}`);
+                    // Move to next audio in queue if available
+                    playNext();
+                });
+
+                currentAudio.onended = () => {
+                    isPlaying = false;
+                    playNext();
+                };
+
+                currentAudio.onerror = () => {
+                    isPlaying = false;
+                    showError(`Error loading audio file: ${url}`);
+                    playNext();
+                };
+            } catch (error) {
+                isPlaying = false;
+                showError(`Error initializing audio for ${url}: ${error.message}`);
+            }
+        }
+
+        // Helper function to handle queue progression
+        function playNext() {
+            if (playbackQueue.length > 0 && currentIndex < playbackQueue.length - 1) {
+                currentIndex++;
+                playAudio(playbackQueue[currentIndex]);
+            } else {
+                currentIndex = 0;
+                playbackQueue = [];
+            }
+        }
+
+        // 【修正ポイント】イベントデリゲーションを使用して、動的に追加されたボタンのクリックを確実に捕捉する
+        questionsContainer.addEventListener('click', (event) => {
+            // クリックされた要素、またはその親に .play-audio があるかチェック
+            const button = event.target.closest('.play-audio');
+            if (button) {
+                const url = button.getAttribute('data-audio');
+                // 個別再生時は自動再生キューをクリア
+                playbackQueue = [];
+                currentIndex = 0;
+                playAudio(url);
+            }
+        });
+
+        // Toggle lesson selection visibility
+        const lessonSelectContainer = document.getElementById('lessonSelectContainer');
+        document.getElementById('playLessonBtn').addEventListener('click', () => {
+            lessonSelectContainer.classList.remove('hidden');
+            lessonSelect.focus();
+        });
+
+        // Confirm lesson selection and play audio
+        document.getElementById('confirmBtn').addEventListener('click', () => {
+            const selectedLessons = Array.from(lessonSelect.selectedOptions).map(option => parseInt(option.value));
+            if (selectedLessons.length === 0) {
+                showError('Please select at least one lesson.');
+                return;
+            }
+            document.querySelectorAll('.lesson-div').forEach(div => {
+                const lessonNum = parseInt(div.dataset.lesson);
+                if (selectedLessons.includes(lessonNum)) {
+                    div.classList.remove('hidden');
+                } else {
+                    div.classList.add('hidden');
+                }
+            });
+
+            // Update playback queue with audio from selected lessons
+            playbackQueue = questions
+                .filter(q => selectedLessons.includes(q.lesson))
+                .map(q => q.audioUrl);
+            currentIndex = 0;
+            if (playbackQueue.length > 0) {
+                playAudio(playbackQueue[currentIndex]);
+            } else {
+                showError('No audio files available for selected lessons.');
+            }
+            lessonSelectContainer.classList.add('hidden');
+        });
+
+        // Play all
+        document.getElementById('playAllBtn').addEventListener('click', () => {
+            // Show all lessons
+            document.querySelectorAll('.lesson-div').forEach(div => {
+                div.classList.remove('hidden');
+            });
+            playbackQueue = questions.map(q => q.audioUrl);
+            currentIndex = 0;
+            if (playbackQueue.length > 0) {
+                playAudio(playbackQueue[currentIndex]);
+            } else {
+                showError('No audio files available.');
+            }
+            lessonSelectContainer.classList.add('hidden');
+        });
+
+        // Stop playback
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            isPlaying = false;
+            playbackQueue = [];
+            currentIndex = 0;
+            errorMessageDiv.classList.add('hidden');
+            lessonSelectContainer.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
