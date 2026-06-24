@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,10 +45,17 @@
     <div class="container mx-auto p-6">
         <h1 class="text-4xl font-extrabold text-center text-indigo-800 mb-8">IQー会話チェック反応（大学生向け）</h1>
         
-        <div class="mb-8 flex justify-center space-x-4">
-            <button id="playAllBtn" class="bg-teal-500 text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition duration-200 shadow-md">Chọn tất cả</button>
-            <button id="playLessonBtn" class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition duration-200 shadow-md">Chọn bài</button>
-            <button id="stopBtn" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-200 shadow-md">Dừng</button>
+        <div class="mb-4 flex flex-wrap justify-center items-center gap-4">
+            <button id="playAllBtn" class="bg-teal-500 text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition duration-200 shadow-md font-medium">Chọn tất cả</button>
+            <button id="playLessonBtn" class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition duration-200 shadow-md font-medium">Chọn bài</button>
+            <button id="stopBtn" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-200 shadow-md font-medium">Dừng</button>
+        </div>
+
+        <div class="mb-8 flex justify-center items-center">
+            <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 flex items-center space-x-2">
+                <label for="pauseInput" class="text-sm font-medium text-gray-600">Khoảng dừng (giây):</label>
+                <input type="number" id="pauseInput" value="3" min="0" max="30" class="w-16 p-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-indigo-700">
+            </div>
         </div>
 
         <div id="lessonSelectContainer" class="hidden mb-8 flex justify-center space-x-4">
@@ -68,8 +74,7 @@
     </footer>
 
     <script>
-        
-        // Sample question data
+        // Sample question data (ルビの閉じタグ修正済み)
         const questions = [
             // 1. Tên
             {
@@ -115,20 +120,20 @@
             {
                  "lesson": 1,
                  "id": "1-5a",
-                 "text": "せんもんは なんですか/ <ruby>専攻<rt>せんこう</rt></ruby>は なんですか。",
+                 "text": "せんもんは なんですか/ せんこう（専攻）は なんですか。",
                  "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.5a.mp3"
              },
             {
                  "lesson": 1,
                  "id": "1-5b",
-                 "text": "せんもんは なんですか/  <ruby>専攻<rt>せんこう</rt></ruby>は なんですか。",
+                 "text": "せんもんは なんですか/ せんこう（専攻）は なんですか。",
                  "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.5b.mp3"
              },
             // 6. Là sinh viên / kỹ sư / du học sinh
             {
                  "lesson": 1,
                  "id": "1-6a",
-                 "text": "〇〇さんは、だいがくせい/エンジニア/ <ruby>留学生<rt>りゅうがくせい</rt></ruby> ですか。",
+                 "text": "〇〇さんは、だいがくせい/エンジニア/ 留学生 ですか。",
                  "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.6a.mp3"
              },
             {
@@ -215,7 +220,7 @@
             questionsContainer.appendChild(lessonDiv);
         });
 
-// Audio playback logic
+        // Audio playback logic
         let currentAudio = null;
         let isPlaying = false;
         let playbackQueue = [];
@@ -224,11 +229,9 @@
 
         // スマホの自動再生制限をユーザーのタップ時に解除する関数
         function unlockAudio() {
-            // 一度適当な音声オブジェクトを作成して、ユーザー操作イベント内で再生/ロードをシミュレート
             if (!currentAudio) {
                 currentAudio = new Audio();
             }
-            // 空の状態でloadまたはplayを呼び出すことでブラウザのオーディオチャンネルを開放
             currentAudio.load();
         }
 
@@ -300,7 +303,7 @@
         questionsContainer.addEventListener('click', (event) => {
             const button = event.target.closest('.play-audio');
             if (button) {
-                unlockAudio(); // スマホ対策
+                unlockAudio(); // スマホ制限解除
                 if (pauseTimeout) clearTimeout(pauseTimeout);
                 playbackQueue = [];
                 currentIndex = 0;
@@ -312,14 +315,14 @@
         // Toggle lesson selection visibility
         const lessonSelectContainer = document.getElementById('lessonSelectContainer');
         document.getElementById('playLessonBtn').addEventListener('click', () => {
-            unlockAudio(); // スマホ対策（() の付け忘れを修正）
+            unlockAudio(); // スマホ制限解除（()のタイポ修正済み）
             lessonSelectContainer.classList.remove('hidden');
             lessonSelect.focus();
         });
 
         // Confirm lesson selection and play audio
         document.getElementById('confirmBtn').addEventListener('click', () => {
-            unlockAudio(); // スマホ対策
+            unlockAudio(); // スマホ制限解除
             const selectedLessons = Array.from(lessonSelect.selectedOptions).map(option => parseInt(option.value));
             if (selectedLessons.length === 0) {
                 showError('Please select at least one lesson.');
@@ -349,7 +352,7 @@
 
         // Play all
         document.getElementById('playAllBtn').addEventListener('click', () => {
-            unlockAudio(); // スマホ対策
+            unlockAudio(); // スマホ制限解除
             document.querySelectorAll('.lesson-div').forEach(div => {
                 div.classList.remove('hidden');
             });
@@ -377,8 +380,6 @@
             errorMessageDiv.classList.add('hidden');
             lessonSelectContainer.classList.add('hidden');
         });
-
-       
     </script>
 </body>
 </html>
