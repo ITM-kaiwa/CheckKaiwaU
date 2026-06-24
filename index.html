@@ -67,6 +67,7 @@
     </footer>
 
     <script>
+        
         // Sample question data
         const questions = [
             // 1. Tên
@@ -261,17 +262,28 @@
                 showError(`Error initializing audio for ${url}: ${error.message}`);
             }
         }
+// Helper function to handle queue progression
+// ポーズの秒数を指定（例: 3秒 の場合は 3 と変更してください）
+const pauseSeconds = 3; 
 
-        // Helper function to handle queue progression
-        function playNext() {
-            if (playbackQueue.length > 0 && currentIndex < playbackQueue.length - 1) {
-                currentIndex++;
+//
+function playNext() {
+    if (playbackQueue.length > 0 && currentIndex < playbackQueue.length - 1) {
+        currentIndex++;
+        
+        // 指定した秒数（ミリ秒換算）だけ待ってから次の音声を再生
+        setTimeout(() => {
+            // 待機中に「ストップ」ボタンが押されてキューがクリアされていないか確認
+            if (playbackQueue.length > 0) {
                 playAudio(playbackQueue[currentIndex]);
-            } else {
-                currentIndex = 0;
-                playbackQueue = [];
             }
-        }
+        }, pauseSeconds * 1000); 
+        
+    } else {
+        currentIndex = 0;
+        playbackQueue = [];
+    }
+}
 
         // イベントデリゲーションを使用して、動的に追加されたボタンのクリックを確実に捕捉する
         questionsContainer.addEventListener('click', (event) => {
