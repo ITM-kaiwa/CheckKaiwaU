@@ -392,22 +392,33 @@
             lessonSelectContainer.classList.add('hidden');
         });
 
-        // Stop playback
+       // Stop playback
         document.getElementById('stopBtn').addEventListener('click', () => {
             if (pauseTimeout) clearTimeout(pauseTimeout); 
+            
             if (currentAudio) {
+                // ストップ時のエラー誤作動を防ぐため、一時的にエラー処理を空にする
+                currentAudio.onerror = null; 
                 currentAudio.pause();
-                // プレイヤーの初期化（再生停止）
-                currentAudio.src = ""; 
+                
+                // プレイヤーを安全に初期化
+                currentAudio.removeAttribute('src'); 
+                currentAudio.load();
+                
+                // 次回再生のためにエラー処理を再登録（initAudioと同じ内容）
+                currentAudio.onerror = () => {
+                    isPlaying = false;
+                    showError(`Error loading audio file: ${currentAudio.src}`);
+                    playNext();
+                };
             }
+            
             isPlaying = false;
             playbackQueue = [];
             currentIndex = 0;
             errorMessageDiv.classList.add('hidden');
             lessonSelectContainer.classList.add('hidden');
         });
-
-
     </script>
 </body>
 </html>
