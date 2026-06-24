@@ -90,7 +90,7 @@
     </div>
 
     <footer>
-        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / Jyotaro, Ver2.60</p>
+        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / Jyotaro, Ver2.61</p>
     </footer>
 
     <script>
@@ -216,7 +216,7 @@
             lessonSelect.appendChild(option);
         });
 
-        // Render questions grouped by lesson (initially hidden)
+        // Render questions grouped by lesson
         const questionsContainer = document.getElementById('questionsContainer');
         lessons.forEach(lesson => {
             const lessonDiv = document.createElement('div');
@@ -228,16 +228,11 @@
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question-card flex items-center justify-between p-3 border-b border-gray-200';
                 
-                // 【仕様変更部分】デフォルトで問題文を非表示(hidden)にし、目隠し文を表示
                 questionDiv.innerHTML = `
                     <div class="flex-1 mr-4">
-                        <span class="text-lg text-gray-800 font-medium hidden question-text">${q.id}: ${q.text}</span>
-                        <span class="text-lg text-gray-400 italic placeholder-text">${q.id}: (Nghe âm thanh)</span>
+                        <span class="text-lg text-gray-800 font-medium question-text">${q.id}: ${q.text}</span>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <button class="view-text bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-indigo-100 transition duration-150 active:scale-95 select-none">
-                            Xem
-                        </button>
                         <button class="play-audio bg-teal-100 p-2 rounded-full hover:bg-teal-200 transition duration-200 active:scale-95">
                             <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15z"></path>
@@ -279,7 +274,7 @@
             }
         }
 
-        // スマホの自動再生制限をユーザーのタップ時に解除する関数
+        // スマホ制限解除関数
         function unlockAudio() {
             initAudio();
             try {
@@ -289,7 +284,7 @@
             } catch (e) {}
         }
 
-        // 自作「＋」「ー」ボタンの処理
+        // 「＋」「ー」ボタンの処理
         document.getElementById('minusBtn').addEventListener('click', () => {
             initAudio();
             let val = parseInt(pauseInput.value) || 0;
@@ -312,7 +307,6 @@
             }, 5000);
         }
 
-        // 音声を実際に再生する関数
         function playAudio(url) {
             initAudio();
             try {
@@ -330,7 +324,6 @@
             }
         }
 
-        // 次のキューへ進む関数
         function playNext() {
             if (playbackQueue.length > 0 && currentIndex < playbackQueue.length - 1) {
                 currentIndex++;
@@ -347,43 +340,41 @@
             }
         }
 
-        // 質問表示・音声再生ボタン（イベントデリゲーションでまとめてキャッチ）
+        // 個別音声ボタンの処理（イベントデリゲーション）
         questionsContainer.addEventListener('click', (event) => {
-            // 1. 「Xem」ボタンが押されたとき
-            const viewButton = event.target.closest('.view-text');
-            if (viewButton) {
-                initAudio(); // スマホ対策の動線確保
-                const card = viewButton.closest('.question-card');
-                const textNode = card.querySelector('.question-text');
-                const placeholderNode = card.querySelector('.placeholder-text');
-                
-                if (textNode.classList.contains('hidden')) {
-                    textNode.classList.remove('hidden');
-                    placeholderNode.classList.add('hidden');
-                    viewButton.textContent = 'Ẩn'; // ボタンテキストを「隠す」に変更
-                    viewButton.classList.replace('bg-indigo-55', 'bg-gray-150');
-                } else {
-                    textNode.classList.add('hidden');
-                    placeholderNode.classList.remove('hidden');
-                    viewButton.textContent = 'Xem'; // ボタンテキストを「見る」に戻す
-                    viewButton.classList.replace('bg-gray-150', 'bg-indigo-55');
-                }
-                return;
-            }
-
-            // 2. 個別音声ボタンが押されたとき
             const audioButton = event.target.closest('.play-audio');
             if (audioButton) {
                 unlockAudio();
-                if (pauseTimeout) clearTimeout(pauseTimeout);
+                
+                // 【仕様修正ポイント】個別再生時は走っている自動再生のタイマーとキューを完全にリセット
+                if (pauseTimeout) {
+                    clearTimeout(pauseTimeout);
+                    pauseTimeout = null;
+                }
                 playbackQueue = [];
                 currentIndex = 0;
+                
+                if (currentAudio) currentAudio.pause();
+
                 const url = audioButton.getAttribute('data-audio');
-                playAudio(url);
+                
+                // スマホ用にsrcを上書きして単発再生（キューがないため終わっても次へ進みません）
+                try {
+                    currentAudio.src = url;
+                    currentAudio.play().then(() => {
+                        isPlaying = true;
+                    }).catch(error => {
+                        isPlaying = false;
+                        showError(`Failed to play audio for ${url}: ${error.message}`);
+                    });
+                } catch (error) {
+                    isPlaying = false;
+                    showError(`Error initializing audio for ${url}: ${error.message}`);
+                }
             }
         });
 
-        // 「Chọn bài」ボタンの処理
+        // 青のボタン「Chọn bài」の処理
         const lessonSelectContainer = document.getElementById('lessonSelectContainer');
         document.getElementById('playLessonBtn').addEventListener('click', () => {
             unlockAudio();
@@ -391,14 +382,25 @@
             lessonSelect.focus();
         });
 
-        // 「Hiển thị（確定）」ボタンの処理
+        // 青のボタンの確定「Hiển thị」の処理（表示のみ）
         document.getElementById('confirmBtn').addEventListener('click', () => {
             unlockAudio();
+            if (pauseTimeout) clearTimeout(pauseTimeout);
+            
+            playbackQueue = [];
+            currentIndex = 0;
+            if (currentAudio) {
+                currentAudio.onerror = null;
+                currentAudio.pause();
+                currentAudio.src = "";
+            }
+
             const selectedLessons = Array.from(lessonSelect.selectedOptions).map(option => parseInt(option.value));
             if (selectedLessons.length === 0) {
                 showError('Please select at least one lesson.');
                 return;
             }
+            
             document.querySelectorAll('.lesson-div').forEach(div => {
                 const lessonNum = parseInt(div.dataset.lesson);
                 if (selectedLessons.includes(lessonNum)) {
@@ -408,27 +410,19 @@
                 }
             });
 
-            if (pauseTimeout) clearTimeout(pauseTimeout);
-            playbackQueue = questions
-                .filter(q => selectedLessons.includes(q.lesson))
-                .map(q => q.audioUrl);
-            currentIndex = 0;
-
-            if (playbackQueue.length > 0) {
-                playAudio(playbackQueue[currentIndex]);
-            } else {
-                showError('No audio files available for selected lessons.');
-            }
             lessonSelectContainer.classList.add('hidden');
         });
 
-        // 「Chọn tất cả」ボタンの処理
+        // 緑のボタン「Chọn tất cả」の処理（全表示 ＋ 自動再生）
         document.getElementById('playAllBtn').addEventListener('click', () => {
             unlockAudio();
+            
             document.querySelectorAll('.lesson-div').forEach(div => {
                 div.classList.remove('hidden');
             });
+            
             if (pauseTimeout) clearTimeout(pauseTimeout);
+            
             playbackQueue = questions.map(q => q.audioUrl);
             currentIndex = 0;
 
