@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IQ　会話チェック反応（大学生向け）</title>
+    <title>IQー会話チェック反応（大学生向け）</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles for multi-select and improved aesthetics */
@@ -90,7 +90,7 @@
     </div>
 
     <footer>
-        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / ITM-Group, Ver2.62</p>
+        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / ITM-Group, Ver2.63</p>
     </footer>
 
     <script>
@@ -106,7 +106,7 @@
             {
                  "lesson": 1,
                  "id": "1-1b",
-                 "text": "おなまえは なんですか。/ なまえを いってください/ おしえてください。",
+                 "text": "おなまえは なんですか. / なまえを いってください/ おしえてください。",
                  "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.1b.mp3"
              },
             // 2. Tuổi
@@ -228,7 +228,7 @@
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question-card flex items-center justify-between p-3 border-b border-gray-200';
                 
-                // デフォルト非表示(hidden)にする目隠し構造を完全復活
+                // 初期表示：問題文を非表示(hidden)にし、(Nghe âm thanh) を表示させる構造に統一
                 questionDiv.innerHTML = `
                     <div class="flex-1 mr-4">
                         <span class="text-lg text-gray-800 font-medium hidden question-text">${q.id}: ${q.text}</span>
@@ -312,7 +312,7 @@
             }, 5000);
         }
 
-        // 音声再生コア
+        // 音声再生
         function playAudio(url) {
             initAudio();
             try {
@@ -330,7 +330,6 @@
             }
         }
 
-        // 自動再生の次へ進む
         function playNext() {
             if (playbackQueue.length > 0 && currentIndex < playbackQueue.length - 1) {
                 currentIndex++;
@@ -374,7 +373,7 @@
             if (audioButton) {
                 unlockAudio();
                 
-                // 【超重要】自動再生の進行を完全にその場でシャットダウンする
+                // 自動再生タイマーとキューを完全にリセット
                 if (pauseTimeout) {
                     clearTimeout(pauseTimeout);
                     pauseTimeout = null;
@@ -384,20 +383,9 @@
                 
                 if (currentAudio) currentAudio.pause();
 
-                // 単発再生として処理（再生終了してもplayNextに進みません）
+                // 単発再生
                 const url = audioButton.getAttribute('data-audio');
-                try {
-                    currentAudio.src = url;
-                    currentAudio.play().then(() => {
-                        isPlaying = true;
-                    }).catch(error => {
-                        isPlaying = false;
-                        showError(`Failed to play audio for ${url}: ${error.message}`);
-                    });
-                } catch (error) {
-                    isPlaying = false;
-                    showError(`Error initializing audio for ${url}: ${error.message}`);
-                }
+                playAudio(url);
             }
         });
 
@@ -416,10 +404,11 @@
             
             playbackQueue = [];
             currentIndex = 0;
+            
+            // 【バグ修正ポイント】srcを空文字に書き換えず、一時停止して再生位置を戻すだけに留める（プレイヤー破壊を防ぐ）
             if (currentAudio) {
-                currentAudio.onerror = null;
                 currentAudio.pause();
-                currentAudio.src = "";
+                currentAudio.currentTime = 0;
             }
 
             const selectedLessons = Array.from(lessonSelect.selectedOptions).map(option => parseInt(option.value));
@@ -433,7 +422,7 @@
                 if (selectedLessons.includes(lessonNum)) {
                     div.classList.remove('hidden');
                     
-                    // 【仕様復活】課を選択した時は、すべての問題文をデフォルトの「目隠し状態」にリセットする
+                    // 【仕様：非表示がデフォルト】すべての問題文をデフォルトの「目隠し状態」にリセット
                     div.querySelectorAll('.question-card').forEach(card => {
                         card.querySelector('.question-text').classList.add('hidden');
                         card.querySelector('.placeholder-text').classList.remove('hidden');
@@ -447,7 +436,7 @@
             lessonSelectContainer.classList.add('hidden');
         });
 
-        // 緑のボタン「Chọn tất cả」の処理【仕様：すべての文字を強制全表示 ＋ 最初から自動再生】
+        // 緑のボタン「Chọn tất cả」の処理【仕様：文字を目隠し状態にして一括表示 ＋ 最初から自動再生】
         document.getElementById('playAllBtn').addEventListener('click', () => {
             unlockAudio();
             if (pauseTimeout) clearTimeout(pauseTimeout);
@@ -456,11 +445,11 @@
             document.querySelectorAll('.lesson-div').forEach(div => {
                 div.classList.remove('hidden');
                 
-                // 【仕様復活】すべての問題文を一括で「全表示（オープン）」に切り替える
+                // 【バグ修正ポイント：非表示がデフォルト】全体再生のときも、最初は文字を「目隠し状態」にする
                 div.querySelectorAll('.question-card').forEach(card => {
-                    card.querySelector('.question-text').classList.remove('hidden');
-                    card.querySelector('.placeholder-text').classList.add('hidden');
-                    card.querySelector('.view-text').textContent = 'Ẩn';
+                    card.querySelector('.question-text').classList.add('hidden');
+                    card.querySelector('.placeholder-text').classList.remove('hidden');
+                    card.querySelector('.view-text').textContent = 'Xem';
                 });
             });
             
@@ -481,18 +470,8 @@
             if (pauseTimeout) clearTimeout(pauseTimeout); 
             
             if (currentAudio) {
-                currentAudio.onerror = null; 
                 currentAudio.pause();
-                currentAudio.src = ""; 
-                try { currentAudio.load(); } catch(e) {}
-                
-                currentAudio.onerror = () => {
-                    isPlaying = false;
-                    if (currentAudio && currentAudio.src && !currentAudio.src.endsWith('/') && currentAudio.src !== window.location.href) {
-                        showError(`Error loading audio file: ${currentAudio.src}`);
-                        playNext();
-                    }
-                };
+                currentAudio.currentTime = 0;
             }
             
             isPlaying = false;
