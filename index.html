@@ -240,34 +240,39 @@
             questionsContainer.appendChild(lessonDiv);
         });
 
-        // Audio playback logic
+      // Audio playback logic
         let currentAudio = null;
         let isPlaying = false;
         let playbackQueue = [];
         let currentIndex = 0;
         let pauseTimeout = null;
 
-        // スマホの自動再生制限をユーザーのタップ時に解除する関数
-        function unlockAudio() {
+        // 【スマホ完全対策】共通のオーディオプレイヤーを最初に1つだけ用意して使い回す
+        function initAudio() {
             if (!currentAudio) {
                 currentAudio = new Audio();
+                
+                // イベントリスナーもプレイヤーに1度だけ登録する形に変更
+                currentAudio.onended = () => {
+                    isPlaying = false;
+                    playNext();
+                };
+
+                currentAudio.onerror = () => {
+                    isPlaying = false;
+                    // エラーが出た場合も止まらずに次の音声へ進む
+                    const url = currentAudio ? currentAudio.src : "unknown";
+                    showError(`Error loading audio file: ${url}`);
+                    playNext();
+                };
             }
-            currentAudio.load();
         }
 
-        // 自作「＋」「ー」ボタンのイベントハンドラ
-        const pauseInput = document.getElementById('pauseInput');
-        document.getElementById('minusBtn').addEventListener('click', () => {
-            unlockAudio();
-            let val = parseInt(pauseInput.value) || 0;
-            if (val > 0) pauseInput.value = val - 1;
-        });
-
-        document.getElementById('plusBtn').addEventListener('click', () => {
-            unlockAudio();
-            let val = parseInt(pauseInput.value) || 0;
-            if (val < 30) pauseInput.value = val + 1;
-        });
+        // スマホの自動再生制限をユーザーのタップ時に解除する関数
+        function unlockAudio() {
+            initAudio();
+            currentAudio.load(); // プレイヤーをブラウザに登録・アクティブ化する
+        }
 
         // Error message display function
         const errorMessageDiv = document.getElementById('errorMessage');
@@ -280,13 +285,12 @@
         }
 
         function playAudio(url) {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
+            initAudio(); // プレイヤーがあるか確認
 
             try {
-                currentAudio = new Audio(url);
+                // スマホ対策：new Audioをせず、既存プレイヤーのsrcを書き換える
+                currentAudio.src = url;
+                
                 currentAudio.play().then(() => {
                     isPlaying = true;
                 }).catch(error => {
@@ -294,17 +298,6 @@
                     showError(`Failed to play audio for ${url}: ${error.message}`);
                     playNext();
                 });
-
-                currentAudio.onended = () => {
-                    isPlaying = false;
-                    playNext();
-                };
-
-                currentAudio.onerror = () => {
-                    isPlaying = false;
-                    showError(`Error loading audio file: ${url}`);
-                    playNext();
-                };
             } catch (error) {
                 isPlaying = false;
                 showError(`Error initializing audio for ${url}: ${error.message}`);
@@ -318,6 +311,7 @@
                 
                 const pauseSeconds = pauseInput ? parseFloat(pauseInput.value) || 0 : 3;
 
+                // タイマーを挟んでも、同じプレイヤー（currentAudio）を使い回すためスマホでもブロックされません
                 pauseTimeout = setTimeout(() => {
                     if (playbackQueue.length > 0) {
                         playAudio(playbackQueue[currentIndex]);
@@ -403,7 +397,8 @@
             if (pauseTimeout) clearTimeout(pauseTimeout); 
             if (currentAudio) {
                 currentAudio.pause();
-                currentAudio.currentTime = 0;
+                // プレイヤーの初期化（再生停止）
+                currentAudio.src = ""; 
             }
             isPlaying = false;
             playbackQueue = [];
@@ -411,6 +406,8 @@
             errorMessageDiv.classList.add('hidden');
             lessonSelectContainer.classList.add('hidden');
         });
+
+
     </script>
 </body>
 </html>
