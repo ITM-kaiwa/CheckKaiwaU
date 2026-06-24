@@ -39,6 +39,15 @@
             font-size: 0.9em;
             font-family: 'Roboto', sans-serif;
         }
+        /* PCの標準スピンボタン（トグル）を非表示にしてデザインを統一 */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 <body class="gradient-bg font-sans min-h-screen">
@@ -51,10 +60,16 @@
             <button id="stopBtn" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-200 shadow-md font-medium">Dừng</button>
         </div>
 
-        <div class="mb-8 flex justify-center items-center">
-            <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 flex items-center space-x-2">
-                <label for="pauseInput" class="text-sm font-medium text-gray-600">Khoảng dừng (giây):</label>
-                <input type="number" id="pauseInput" value="3" min="0" max="30" class="w-16 p-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-indigo-700">
+        <div class="mb-8 flex flex-col items-center space-y-1">
+            <label for="pauseInput" class="text-sm font-medium text-gray-600 mb-1">Khoảng dừng (giây):</label>
+            <div class="bg-white p-1 rounded-lg shadow-sm border border-gray-200 flex items-center">
+                <button id="minusBtn" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold rounded-l-md transition duration-150 active:scale-95 select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15"></path></svg>
+                </button>
+                <input type="number" id="pauseInput" value="3" min="0" max="30" class="w-16 h-10 border-y border-transparent text-center focus:outline-none font-bold text-xl text-indigo-700 bg-white" readonly>
+                <button id="plusBtn" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold rounded-r-md transition duration-150 active:scale-95 select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
+                </button>
             </div>
         </div>
 
@@ -74,7 +89,7 @@
     </footer>
 
     <script>
-        // Sample question data (ルビの閉じタグ修正済み)
+        // Sample question data
         const questions = [
             // 1. Tên
             {
@@ -225,7 +240,7 @@
         let isPlaying = false;
         let playbackQueue = [];
         let currentIndex = 0;
-        let pauseTimeout = null; // 待機タイマーを管理する変数
+        let pauseTimeout = null;
 
         // スマホの自動再生制限をユーザーのタップ時に解除する関数
         function unlockAudio() {
@@ -234,6 +249,20 @@
             }
             currentAudio.load();
         }
+
+        // 【改造部分】自作「＋」「ー」ボタンのイベントハンドラ
+        const pauseInput = document.getElementById('pauseInput');
+        document.getElementById('minusBtn').addEventListener('click', () => {
+            unlockAudio(); // タップと同時にオーディオ制限解除
+            let val = parseInt(pauseInput.value) || 0;
+            if (val > 0) pauseInput.value = val - 1; // 0秒未満にはならない
+        });
+
+        document.getElementById('plusBtn').addEventListener('click', () => {
+            unlockAudio(); // タップと同時にオーディオ制限解除
+            let val = parseInt(pauseInput.value) || 0;
+            if (val < 30) pauseInput.value = val + 1; // 最大30秒までに制限
+        });
 
         // Error message display function
         const errorMessageDiv = document.getElementById('errorMessage');
@@ -282,8 +311,7 @@
             if (playbackQueue.length > 0 && currentIndex < playbackQueue.length - 1) {
                 currentIndex++;
                 
-                // 入力ボックスから現在のポーズ秒数を取得（デフォルトは3秒、空なら0秒）
-                const pauseInput = document.getElementById('pauseInput');
+                // 入力ボックスから現在のポーズ秒数を取得
                 const pauseSeconds = pauseInput ? parseFloat(pauseInput.value) || 0 : 3;
 
                 // 指定した秒数待ってから次の音声を再生
@@ -303,7 +331,7 @@
         questionsContainer.addEventListener('click', (event) => {
             const button = event.target.closest('.play-audio');
             if (button) {
-                unlockAudio(); // スマホ制限解除
+                unlockAudio();
                 if (pauseTimeout) clearTimeout(pauseTimeout);
                 playbackQueue = [];
                 currentIndex = 0;
@@ -315,14 +343,14 @@
         // Toggle lesson selection visibility
         const lessonSelectContainer = document.getElementById('lessonSelectContainer');
         document.getElementById('playLessonBtn').addEventListener('click', () => {
-            unlockAudio(); // スマホ制限解除（()のタイポ修正済み）
+            unlockAudio();
             lessonSelectContainer.classList.remove('hidden');
             lessonSelect.focus();
         });
 
         // Confirm lesson selection and play audio
         document.getElementById('confirmBtn').addEventListener('click', () => {
-            unlockAudio(); // スマホ制限解除
+            unlockAudio();
             const selectedLessons = Array.from(lessonSelect.selectedOptions).map(option => parseInt(option.value));
             if (selectedLessons.length === 0) {
                 showError('Please select at least one lesson.');
@@ -352,7 +380,7 @@
 
         // Play all
         document.getElementById('playAllBtn').addEventListener('click', () => {
-            unlockAudio(); // スマホ制限解除
+            unlockAudio();
             document.querySelectorAll('.lesson-div').forEach(div => {
                 div.classList.remove('hidden');
             });
