@@ -90,7 +90,7 @@
     </div>
 
     <footer>
-        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / ITM-Group, Ver2.652</p>
+        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / ITM-Group, Ver2.653</p>
     </footer>
 
     <script>
@@ -238,7 +238,7 @@
                         <button class="view-text bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-indigo-100 transition duration-150 active:scale-95 select-none">
                             Xem
                         </button>
-                        <button class="play-audio bg-teal-100 p-2 rounded-full hover:bg-teal-200 transition duration-200 active:scale-95">
+                        <button class="play-audio bg-teal-100 p-2 rounded-full hover:bg-teal-200 transition duration-200 active:scale-95" data-audio="${q.audioUrl}">
                             <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15z"></path>
                             </svg>
@@ -259,7 +259,7 @@
 
         const pauseInput = document.getElementById('pauseInput');
 
-        // 安全なプレイヤー停止処理（srcのクリアは一切せず、停止と巻き戻しのみに徹する）
+        // 安全なプレイヤー停止処理
         function forceResetPlayer() {
             if (pauseTimeout) {
                 clearTimeout(pauseTimeout);
@@ -395,12 +395,11 @@
                 playbackQueue = []; 
                 currentIndex = 0;
 
-                // プレイヤーのパス破壊エラーを避けるため、srcクリアせず単に一時停止のみを行う
                 if (currentAudio) {
                     try { currentAudio.pause(); } catch(e) {}
                 }
 
-                // 選択されたURLを取得して直接再生（キューが空のため、終わっても次には進みません）
+                // 選択されたURLを取得して直接再生
                 const url = audioButton.getAttribute('data-audio');
                 playAudio(url);
             }
@@ -416,7 +415,6 @@
 
         // 青のボタンの確定「Hiển thị」の処理 【仕様：文字を目隠し状態にして表示。自動再生は絶対にしない】
         document.getElementById('confirmBtn').addEventListener('click', () => {
-            // パス破壊バグを避けるため、安全に一時停止とタイマークリアのみを行う
             forceResetPlayer(); 
             unlockAudio();
 
@@ -453,7 +451,7 @@
             document.querySelectorAll('.lesson-div').forEach(div => {
                 div.classList.remove('hidden');
                 
-                // 全体再生のときも、デフォルトは文字を「非表示（目隠し状態）」にする
+                // デフォルトは文字を「非表示（目隠し状態）」にする
                 div.querySelectorAll('.question-card').forEach(card => {
                     card.querySelector('.question-text').classList.add('hidden');
                     card.querySelector('.placeholder-text').classList.remove('hidden');
