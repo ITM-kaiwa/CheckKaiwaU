@@ -154,11 +154,10 @@
     </div>
 
     <footer>
-        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / ITM-Group, Ver2.710b</p>
+        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / ITM-Group, Ver2.720</p>
     </footer>   
 
-    <script>
-        
+    <script>        
 // Sample question data
         const questions = [
                 
@@ -539,7 +538,7 @@
             { "lesson": 25, "id": "25-10", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、<ruby>健康<rt>けんこう</rt></ruby>と<ruby>家族<rt>かぞく</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>と、<ruby>何<rt>なに</rt></ruby>があったら<ruby>幸<rt>しあわ</rt></ruby>せ/うれしい？ どうして？", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.10.mp3" }
         
         ];
-      // Group questions by lesson
+    // Group questions by lesson
         const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
 
         // Populate lesson select dropdown
@@ -564,18 +563,24 @@
                 questionDiv.className = 'question-card flex items-center justify-between p-3 border-b border-gray-200';
                                         
                 // デフォルトは文章非表示(hidden)
+                // スピーカーボタンの右隣に、小さな赤い個別停止ボタンを追加しました
                 questionDiv.innerHTML = `
                     <div class="flex-1 mr-4">
                         <span class="text-lg text-gray-800 font-medium hidden question-text">${q.id}: ${q.text}</span>
                         <span class="text-lg text-gray-400 italic placeholder-text">${q.id}: (Nghe âm thanh)</span>
                     </div>
-                    <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-2">
                         <button class="view-text bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-indigo-100 transition duration-150 active:scale-95 select-none">
                             Xem
                         </button>
                         <button class="play-audio bg-teal-100 p-2 rounded-full hover:bg-teal-200 transition duration-200 active:scale-95" data-audio="${q.audioUrl}">
                             <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15z"></path>
+                            </svg>
+                        </button>
+                        <button class="stop-audio bg-red-100 p-2 rounded-full hover:bg-red-200 transition duration-200 active:scale-95" title="Dừng">
+                            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="6" y="6" width="12" height="12" rx="1" fill="currentColor" stroke="currentColor" stroke-width="2"></rect>
                             </svg>
                         </button>
                     </div>
@@ -731,6 +736,16 @@
 
                 const url = audioButton.getAttribute('data-audio');
                 playAudio(url);
+                return;
+            }
+
+            // 3. 新設：各カード内の「小さな停止」ボタンが押されたとき
+            const stopButton = event.target.closest('.stop-audio');
+            if (stopButton) {
+                // 全体停止と同じリセット処理を走り込ませることで、現在再生中の音声を即座に停止・リセットします
+                forceResetPlayer();
+                mode = 'display';
+                return;
             }
         });
 
@@ -742,7 +757,7 @@
             lessonSelect.focus();
         });
 
-        // 「個別再生 Chọn bài hiển thị」ボタンの処理
+        // 「個別再生 Phát từng câu」ボタンの処理
         document.getElementById('individualPlayBtn').addEventListener('click', () => {
             unlockAudio();
             mode = 'display'; // 表示のみモード
