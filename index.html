@@ -2088,25 +2088,22 @@
         "id": "25-8",
         "text": "６０<ruby>歳<rt>さい</rt></ruby>になっても <ruby>働<rt>はたら</rt></ruby>きたい？<br>※　〜たら、<ruby>働<rt>はたら</rt></ruby>きたくないです/〜ても、<ruby>働<rt>はたら</rt></ruby>きたいです。",
         "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.8.mp3"
-    },
-    // 9
-    {
-        "lesson": 25,
-        "id": "25-9",
-        "text": "どうしたら、<ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になると思う？",
-        "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.9.mp3"
-    },
-    // 10
-    {
-        "lesson": 25,
-        "id": "25-10",
-        "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、<ruby>健康<rt>けんこう</rt></ruby>と<ruby>家族<rt>かぞく</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>と、<ruby>何<rt>なに</rt></ruby>があったら<ruby>幸<rt>しあわ</rt></ruby>せ/うれしい？　どうして？",
-        "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.10.mp3"
-    }
+            },
+            {
+                "lesson": 25,
+                "id": "25-9",
+                "text": "どうしたら、<ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になると思う？",
+                "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.9.mp3"
+            },
+            {
+                "lesson": 25,
+                "id": "25-10",
+                "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、<ruby>健康<rt>けんこう</rt></ruby>と<ruby>家族<rt>かぞく</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>と、<ruby>何<rt>なに</rt></ruby>があったら<ruby>幸<rt>しあわ</rt></ruby>せ/うれしい？ どうして？",
+                "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.10.mp3"
+            }
+        ];
 
-];
-
-                 // Group questions by lesson
+        // Group questions by lesson
         const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
 
         // Populate lesson select dropdown
@@ -2161,7 +2158,7 @@
 
         const pauseInput = document.getElementById('pauseInput');
 
-        // 安全なプレイヤー停止処理（srcは一切いじらない）
+        // 安全なプレイヤー停止処理
         function forceResetPlayer() {
             if (pauseTimeout) {
                 clearTimeout(pauseTimeout);
