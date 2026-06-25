@@ -791,6 +791,29 @@
             errorMessageDiv.classList.add('hidden');
             lessonSelectContainer.classList.add('hidden');
         });
+        // 説明書（マニュアル）開閉ロジック
+        const manualContainer = document.getElementById('manualContainer');
+        
+        function toggleManual() {
+            if (manualContainer.classList.contains('opacity-0')) {
+                // 開く処理
+                manualContainer.style.maxHeight = '1000px';
+                manualContainer.classList.remove('opacity-0', 'overflow-hidden');
+                manualContainer.classList.add('opacity-100');
+                manualContainer.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                // 閉じる処理
+                manualContainer.style.maxHeight = '0';
+                manualContainer.classList.remove('opacity-100');
+                manualContainer.classList.add('opacity-0', 'overflow-hidden');
+            }
+        }
+
+        document.getElementById('toggleManualBtn').addEventListener('click', toggleManual);
+        document.getElementById('closeManualBtn').addEventListener('click', toggleManual);
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
