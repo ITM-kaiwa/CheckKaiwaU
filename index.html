@@ -62,7 +62,8 @@
         <div class="mb-4 flex flex-wrap justify-center items-center gap-4">
             <button id="playAllBtn" class="bg-teal-500 text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition duration-200 shadow-md font-medium">全体一括再生 Phát tất cả</button>
             <button id="playLessonBtn" class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition duration-200 shadow-md font-medium">個別一括再生 Phát tự động theo bài</button>
-            <button id="individualPlayBtn" class="bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition duration-200 shadow-md font-medium">個別再生 Chọn bài hiển thị</button>
+            <!-- 個別再生ボタンの色を、Xemボタンと同じindigo（紫・藍色系）に変更しました -->
+            <button id="individualPlayBtn" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-200 shadow-md font-medium">個別再生 Chọn bài hiển thị</button>
         </div>
 
         <div class="mb-6 flex flex-col items-center">
@@ -119,18 +120,34 @@
                 </div>
                 <div>
                     <h3 class="text-base font-semibold text-teal-300 mb-1">2. 操作方法 / Cách sử dụng</h3>
-                    <ul class="list-disc pl-8 text-slate-300 space-y-1">
-                        <li><strong>全体一括再生 Phát tất cả:</strong> 全ての課のカードを展開し、自動連続再生キューを作成します。</li>
-                        <li><strong>個別一括再生 Phát tự động theo bài:</strong> 選択した課に含まれる音声ファイルをボタン一つで連続再生します。</li>
-                        <li><strong>個別再生 Chọn bài hiển thị:</strong> ドロップダウンから選択した特定の課のカードのみを表示し、1つずつ確認・再生できます。</li>
-                        <li><strong>再生間隔 Khoảng dừng:</strong> 音声が流れた後の次の音声までの「秒数」を設定できます。</li>
-                        <li><strong>Xem / Ẩn:</strong> 各質問の日本語テキストを個別に表示・非表示に切り替えます。</li>
+                    <ul class="list-disc pl-8 text-slate-300 space-y-3">
+                        <li>
+                            <strong>全体一括再生 Phát tất cả:</strong> 全ての課のカードを展開し、自動連続再生キューを作成します。<br>
+                            <span class="text-slate-400 italic font-light pl-4 block">Mở thẻ của tất cả các bài và tự động phát liên tục theo hàng đợi.</span>
+                        </li>
+                        <li>
+                            <strong>個別一括再生 Phát tự động theo bài:</strong> 選択した課に含まれる音声ファイルをボタン一つで連続再生します。<br>
+                            <span class="text-slate-400 italic font-light pl-4 block">Phát liên tục các file âm thanh trong các bài được chọn chỉ với một nút bấm.</span>
+                        </li>
+                        <li>
+                            <strong>個別再生 Chọn bài hiển thị:</strong> ドロップダウンから選択した特定の課のカードのみを表示し、1つずつ確認・再生できます。<br>
+                            <span class="text-slate-400 italic font-light pl-4 block">Chỉ hiển thị các thẻ của bài học được chọn từ danh sách thả xuống để kiểm tra và phát từng câu một.</span>
+                        </li>
+                        <li>
+                            <strong>再生間隔 Khoảng dừng:</strong> 音声が流れた後の次の音声までの「秒数」を設定できます。<br>
+                            <span class="text-slate-400 italic font-light pl-4 block">Có thể cài đặt "số giây" tạm dừng giữa file âm thanh hiện tại và file tiếp theo.</span>
+                        </li>
+                        <li>
+                            <strong>Xem / Ẩn:</strong> 各質問の日本語テキストを個別に表示・非表示に切り替えます。<br>
+                            <span class="text-slate-400 italic font-light pl-4 block">Bật/Tắt hiển thị riêng biệt nội dung văn bản tiếng Nhật của từng câu hỏi.</span>
+                        </li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="text-base font-semibold text-teal-300 mb-1">3. 注意事項 / Chú ý</h3>
                     <p class="text-slate-300 pl-4">
-                        スマートフォンのブラウザで自動再生が動かない場合は、一度いずれかの個別再生（スピーカーマーク）または「Xem」ボタンを押して、ブラウザの音声制限を解除してください。
+                        スマートフォンのブラウザで自動再生が動かない場合は、一度いずれかの個別再生（スピーカーマーク）または「Xem」ボタンを押して、ブラウザの音声制限を解除してください。<br>
+                        <span class="text-slate-400 italic font-light mt-1 block">Nếu tính năng tự động phát không hoạt động trên trình duyệt điện thoại, hãy nhấn thử nút phát nhạc (biểu tượng loa) hoặc nút "Xem" bất kỳ một lần để kích hoạt quyền âm thanh trên trình duyệt.</span>
                     </p>
                 </div>
             </div>
@@ -138,10 +155,11 @@
     </div>
 
     <footer>
-        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / ITM-Group, Ver2.700c</p>
+        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / ITM-Group, Ver2.710</p>
     </footer>   
 
     <script>
+        
 // Sample question data
         const questions = [
                 
@@ -522,7 +540,7 @@
             { "lesson": 25, "id": "25-10", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、<ruby>健康<rt>けんこう</rt></ruby>と<ruby>家族<rt>かぞく</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>と、<ruby>何<rt>なに</rt></ruby>があったら<ruby>幸<rt>しあわ</rt></ruby>せ/うれしい？ どうして？", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.10.mp3" }
         
         ];
-        // Group questions by lesson
+      // Group questions by lesson
         const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
 
         // Populate lesson select dropdown
@@ -832,9 +850,6 @@
         document.getElementById('toggleManualBtn').addEventListener('click', toggleManual);
         document.getElementById('closeManualBtn').addEventListener('click', toggleManual);
 
-          </script>
+    </script>
 </body>
 </html>
-
-
-        
