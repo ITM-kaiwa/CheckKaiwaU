@@ -89,7 +89,7 @@
     </div>
 
     <footer>
-        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / ITM-Group, Ver2.660e</p>
+        <p>© 2026 Tài liệu kiểm tra | Thiết kế bởi Thuận / ITM-Group, Ver2.660f</p>
     </footer>
 
     <script>
@@ -227,7 +227,7 @@
             {
                  "lesson": 2,
                  "id": "2-5",
-                 "text": "<ruby>趣味<rt>しゅみ</rt></ruby>は なんですか.",
+                 "text": "<ruby>趣味<rt>しゅみ</rt></ruby>は なんですか。",
                  "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/2.5.mp3"
             },
             {
@@ -435,7 +435,7 @@
             {
                  "lesson": 4,
                  "id": "4-10",
-                 "text": "<ruby>一昨日<rt>おととも</rt></ruby> <ruby>働<rt>はたら</rt></ruby>きましたか。",
+                 "text": "<ruby>一昨日<rt>おととい</rt></ruby> <ruby>働<rt>はたら</rt></ruby>きましたか。",
                  "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/4.10.mp3"
             },
 
@@ -542,4 +542,252 @@
             const lessonQuestions = questions.filter(q => q.lesson === lesson);
             lessonQuestions.forEach(q => {
                 const questionDiv = document.createElement('div');
-                questionDiv.className = 'question-card flex items-center justify-between p-3 border-b border-gray-20
+                questionDiv.className = 'question-card flex items-center justify-between p-3 border-b border-gray-200';
+                                
+                // デフォルトは文章非表示(hidden)
+                questionDiv.innerHTML = `
+                    <div class="flex-1 mr-4">
+                        <span class="text-lg text-gray-800 font-medium hidden question-text">${q.id}: ${q.text}</span>
+                        <span class="text-lg text-gray-400 italic placeholder-text">${q.id}: (Nghe âm thanh)</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button class="view-text bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-indigo-100 transition duration-150 active:scale-95 select-none">
+                            Xem
+                        </button>
+                        <button class="play-audio bg-teal-100 p-2 rounded-full hover:bg-teal-200 transition duration-200 active:scale-95" data-audio="${q.audioUrl}">
+                            <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                lessonDiv.appendChild(questionDiv);
+            });
+            questionsContainer.appendChild(lessonDiv);
+        });
+
+        // Audio playback logic
+        let currentAudio = null;
+        let isPlaying = false;
+        let playbackQueue = [];
+        let currentIndex = 0;
+        let pauseTimeout = null;
+
+        const pauseInput = document.getElementById('pauseInput');
+
+        // 安全なプレイヤー停止処理（srcは一切いじらない）
+        function forceResetPlayer() {
+            if (pauseTimeout) {
+                clearTimeout(pauseTimeout);
+                pauseTimeout = null;
+            }
+            if (currentAudio) {
+                try {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                } catch(e) {}
+            }
+            isPlaying = false;
+        }
+
+        // 音声プレイヤーの安全な初期セットアップ
+        function createAndSetupPlayer() {
+            if (!currentAudio) {
+                currentAudio = new Audio();
+                                
+                currentAudio.onended = () => {
+                    isPlaying = false;
+                    if (playbackQueue.length > 0) {
+                        playNext();
+                    }
+                };
+
+                currentAudio.onerror = () => {
+                    isPlaying = false;
+                    if (currentAudio && currentAudio.src && !currentAudio.src.endsWith('/') && !currentAudio.src.includes('null')) {
+                        showError(`Error loading audio file: ${currentAudio.src}`);
+                        if (playbackQueue.length > 0) playNext();
+                    }
+                };
+            }
+        }
+
+        // メイン大ボタン用のスマホ制限解除
+        function unlockAudio() {
+            createAndSetupPlayer();
+            try {
+                currentAudio.play().then(() => { currentAudio.pause(); }).catch(() => {});
+            } catch (e) {}
+        }
+
+        // 「＋」「ー」ボタンの処理
+        document.getElementById('minusBtn').addEventListener('click', () => {
+            createAndSetupPlayer();
+            let val = parseInt(pauseInput.value) || 0;
+            if (val > 0) pauseInput.value = val - 1;
+        });
+
+        document.getElementById('plusBtn').addEventListener('click', () => {
+            createAndSetupPlayer();
+            let val = parseInt(pauseInput.value) || 0;
+            if (val < 30) pauseInput.value = val + 1;
+        });
+
+        // Error message display function
+        const errorMessageDiv = document.getElementById('errorMessage');
+        function showError(message) {
+            errorMessageDiv.textContent = message;
+            errorMessageDiv.classList.remove('hidden');
+            setTimeout(() => { errorMessageDiv.classList.add('hidden'); }, 5000);
+        }
+
+        // 音声の再生コア関数
+        function playAudio(url) {
+            createAndSetupPlayer();
+            try {
+                currentAudio.src = url;
+                currentAudio.play().then(() => {
+                    isPlaying = true;
+                }).catch(error => {
+                    if (error.name !== 'AbortError') {
+                        isPlaying = false;
+                        showError(`Failed to play audio: ${error.message}`);
+                        if (playbackQueue.length > 0) playNext();
+                    }
+                });
+            } catch (error) {
+                isPlaying = false;
+                showError(`Error initializing audio: ${error.message}`);
+            }
+        }
+
+        // 自動キュー進行
+        function playNext() {
+            if (playbackQueue.length > 0 && currentIndex < playbackQueue.length - 1) {
+                currentIndex++;
+                const pauseSeconds = pauseInput ? parseFloat(pauseInput.value) || 0 : 3;
+
+                pauseTimeout = setTimeout(() => {
+                    if (playbackQueue.length > 0) {
+                        playAudio(playbackQueue[currentIndex]);
+                    }
+                }, pauseSeconds * 1000);
+            } else {
+                currentIndex = 0;
+                playbackQueue = [];
+            }
+        }
+
+        // カード内クリック（イベントデリゲーション）
+        questionsContainer.addEventListener('click', (event) => {
+            // 1. 「Xem（見る）」ボタンが押されたとき
+            const viewButton = event.target.closest('.view-text');
+            if (viewButton) {
+                createAndSetupPlayer();
+                const card = viewButton.closest('.question-card');
+                const textNode = card.querySelector('.question-text');
+                const placeholderNode = card.querySelector('.placeholder-text');
+                                
+                if (textNode.classList.contains('hidden')) {
+                    textNode.classList.remove('hidden');
+                    placeholderNode.classList.add('hidden');
+                    viewButton.textContent = 'Ẩn';
+                } else {
+                    textNode.classList.add('hidden');
+                    placeholderNode.classList.remove('hidden');
+                    viewButton.textContent = 'Xem';
+                }
+                return;
+            }
+
+            // 2. 「個別スピーカー」ボタンが押されたとき
+            const audioButton = event.target.closest('.play-audio');
+            if (audioButton) {
+                if (pauseTimeout) {
+                    clearTimeout(pauseTimeout);
+                    pauseTimeout = null;
+                }
+                playbackQueue = []; 
+                currentIndex = 0;
+
+                if (currentAudio) {
+                    try { currentAudio.pause(); } catch(e) {}
+                }
+
+                const url = audioButton.getAttribute('data-audio');
+                playAudio(url);
+            }
+        });
+
+        // 青のボタン「Chọn bài」の処理
+        const lessonSelectContainer = document.getElementById('lessonSelectContainer');
+        document.getElementById('playLessonBtn').addEventListener('click', () => {
+            unlockAudio();
+            lessonSelectContainer.classList.remove('hidden');
+            lessonSelect.focus();
+        });
+
+        // 青のボタンの確定「Hiển thị」の処理
+        document.getElementById('confirmBtn').addEventListener('click', () => {
+            forceResetPlayer(); 
+            createAndSetupPlayer();
+
+            const selectedLessons = Array.from(lessonSelect.selectedOptions).map(option => parseInt(option.value));
+            if (selectedLessons.length === 0) {
+                showError('Please select at least one lesson.');
+                return;
+            }
+                        
+            document.querySelectorAll('.lesson-div').forEach(div => {
+                const lessonNum = parseInt(div.dataset.lesson);
+                if (selectedLessons.includes(lessonNum)) {
+                    div.classList.remove('hidden');
+                                        
+                    div.querySelectorAll('.question-card').forEach(card => {
+                        card.querySelector('.question-text').classList.add('hidden');
+                        card.querySelector('.placeholder-text').classList.remove('hidden');
+                        card.querySelector('.view-text').textContent = 'Xem';
+                    });
+                } else {
+                    div.classList.add('hidden');
+                }
+            });
+
+            lessonSelectContainer.classList.add('hidden');
+        });
+
+        // 緑のボタン「Chọn tất cả」の処理
+        document.getElementById('playAllBtn').addEventListener('click', () => {
+            forceResetPlayer();
+            unlockAudio();
+                        
+            document.querySelectorAll('.lesson-div').forEach(div => {
+                div.classList.remove('hidden');
+                                
+                div.querySelectorAll('.question-card').forEach(card => {
+                    card.querySelector('.question-text').classList.add('hidden');
+                    card.querySelector('.placeholder-text').classList.remove('hidden');
+                    card.querySelector('.view-text').textContent = 'Xem';
+                });
+            });
+                        
+            playbackQueue = questions.map(q => q.audioUrl);
+            currentIndex = 0;
+
+            if (playbackQueue.length > 0) {
+                playAudio(playbackQueue[currentIndex]);
+            } else {
+                showError('No audio files available.');
+            }
+            lessonSelectContainer.classList.add('hidden');
+        });
+
+        // 「Dừng」ボタンの処理
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            forceResetPlayer();
+            errorMessageDiv.classList.add('hidden');
+            lessonSelectContainer.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
