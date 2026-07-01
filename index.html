@@ -65,11 +65,11 @@
                 <span class="text-base font-semibold block mt-0.5">Phát tất cả</span>
             </button>
             <button id="playLessonBtn" class="w-full bg-indigo-50 text-white px-2 py-3 rounded-lg hover:bg-indigo-600 transition duration-200 shadow-md font-medium text-center flex flex-col justify-center items-center bg-indigo-500">
-                <span class="text-xs opacity-85 block">課別一括再生</span>
+                <span class="text-xs opacity-85 block">選択課別一括再生</span>
                 <span class="text-sm font-semibold block mt-1 whitespace-nowrap">Phát tự động theo bài</span>
             </button>
             <button id="shufflePlayBtn" class="w-full bg-indigo-100 text-indigo-700 px-2 py-3 rounded-lg hover:bg-indigo-200 transition duration-200 shadow-md font-bold text-center flex flex-col justify-center items-center">
-                <span class="text-xs opacity-85 block">選択課<br>シャッフル再生</span>
+                <span class="text-xs opacity-85 block">選択課別<br>シャッフル再生</span>
                 <span class="text-base font-semibold block mt-0.5">Xáo trộn bài chọn</span>
             </button>
             <button id="individualPlayBtn" class="w-full bg-slate-400 text-white px-2 py-3 rounded-lg hover:bg-slate-500 transition duration-200 shadow-md font-medium text-center flex flex-col justify-center items-center">
@@ -101,7 +101,7 @@
             </button>
             
             <div class="mt-4 text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 select-none">
-                Ver2.822c
+                Ver2.830a
             </div>
         </div>
 
@@ -142,16 +142,16 @@
                             <span class="text-slate-400 italic font-light pl-4 block">Mở thẻ của tất cả các bài và tự động phát liên tục theo hàng đợi.</span>
                         </li>
                         <li>
-                            <strong>課別一括再生 Phát tự động theo bài:</strong> 選択した課に含まれる音声ファイルをボタン一つで連続再生します。<br>
+                            <strong>課別課別一括再生 Phát tự động theo bài:</strong> 選択した課に含まれる音声ファイルをボタン一つで連続再生します。<br>
                             <span class="text-slate-400 italic font-light pl-4 block">Phát liên tục các file âm thanh trong các bài được chọn chỉ với một nút bấm.</span>
+                        </li>
+                          <li>
+                            <strong>選択課別シャッフル再生 Xáo trộn bài chọn:</strong> 選択した課の質問文カードをランダムな順番に並び替えて自動連続再生します。<br>
+                            <span class="text-slate-400 italic font-light pl-4 block">Trộn ngẫu nhiên thứ tự các thẻ câu hỏi trong bài được chọn và tự động phát liên tục.</span>
                         </li>
                         <li>
                             <strong>個別再生 Phát từng câu:</strong> ドロップダウンから選択した特定の課のカードのみを表示し、1つずつ確認・再生できます。<br>
                             <span class="text-slate-400 italic font-light pl-4 block">Chỉ hiển thị các thẻ của bài học được chọn từ danh sách thả xuống để kiểm tra và phát từng câu một.</span>
-                        </li>
-                        <li>
-                            <strong>選択課シャッフル再生 Xáo trộn bài chọn:</strong> 選択した課の質問文カードをランダムな順番に並び替えて自動連続再生します。<br>
-                            <span class="text-slate-400 italic font-light pl-4 block">Trộn ngẫu nhiên thứ tự các thẻ câu hỏi trong bài được chọn và tự động phát liên tục.</span>
                         </li>
                         <li>
                             <strong>再生間隔 Khoảng dừng:</strong> 音声が流れた後の次の音声までの「秒数」を設定できます。<br>
@@ -190,8 +190,8 @@
             { "lesson": 1, "id": "1-2b", "text": "おいくつ ですか。/ なんさい ですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.2b.mp3" },
             { "lesson": 1, "id": "1-3", "text": "だいがくは どちらですか/どこですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.3.mp3" },
             { "lesson": 1, "id": "1-4", "text": "いま、なんねんせいですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.4.mp3" },
-            { "lesson": 1, "id": "1-5a", "text": "せんもんは なんですか/ せんこう（専攻）は なんですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.5a.mp3" },
-            { "lesson": 1, "id": "1-5b", "text": "せんもんは なんですか/ せんこう（専攻）は なんですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.5b.mp3" },
+            { "lesson": 1, "id": "1-5a", "text": "せんもんは なんですか/ <ruby>専攻<rt>せんこう</rt></ruby>は なんですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.5a.mp3" },
+            { "lesson": 1, "id": "1-5b", "text": "せんもんは なんですか/ <ruby>専攻<rt>せんこう</rt></ruby>は なんですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.5b.mp3" },
             { "lesson": 1, "id": "1-6a", "text": "〇〇さんは、だいがくせい/エンジニア/ <ruby>留学生<rt>りゅうがくせい</rt></ruby> ですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.6a.mp3" },
             { "lesson": 1, "id": "1-6b", "text": "〇〇さんは、だいがくせい/エンジニア/ <ruby>留学生<rt>りゅうがくせい</rt></ruby> ですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.6b.mp3" },
             { "lesson": 1, "id": "1-7a", "text": "○○さんは、1ねんせい/2ねんせい/3ねんせい/4ねんせい ですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.7a.mp3" },
