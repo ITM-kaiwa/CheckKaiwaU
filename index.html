@@ -158,7 +158,7 @@
     </div>
 
     <footer>
-        <p>©2025 Thiết kế bởi Thuận / ©2026 Sản phẩm phát triển bởi ITM-Group, Ver2.720e</p>
+        <p>©2025 Thiết kế bởi Thuận / ©2026 Sản phẩm phát triển bởi ITM-Group, Ver2.800</p>
     </footer>   
 
     <script>        
@@ -564,29 +564,35 @@
             const lessonQuestions = questions.filter(q => q.lesson === lesson);
             lessonQuestions.forEach(q => {
                 const questionDiv = document.createElement('div');
-                questionDiv.className = 'question-card flex items-center justify-between p-3 border-b border-gray-200';
+                questionDiv.className = 'question-card flex flex-col p-3 border-b border-gray-200';
                                         
-                // デフォルトは文章非表示(hidden)
-                // スピーカーボタンの右隣に、小さな赤い個別停止ボタンを追加しました
+                // 日本語テキスト、 placeholder、および将来用のベトナム語テキスト（デフォルト非表示）
+                // ボタンエリアに「Dịch（翻訳）」ボタンを増設しました
                 questionDiv.innerHTML = `
-                    <div class="flex-1 mr-4">
-                        <span class="text-lg text-gray-800 font-medium hidden question-text">${q.id}: ${q.text}</span>
-                        <span class="text-lg text-gray-400 italic placeholder-text">${q.id}: (Nghe âm thanh)</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <button class="view-text bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-indigo-100 transition duration-150 active:scale-95 select-none">
-                            Xem
-                        </button>
-                        <button class="play-audio bg-teal-100 p-2 rounded-full hover:bg-teal-200 transition duration-200 active:scale-95" data-audio="${q.audioUrl}">
-                            <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15z"></path>
-                            </svg>
-                        </button>
-                        <button class="stop-audio bg-red-100 p-2 rounded-full hover:bg-red-200 transition duration-200 active:scale-95" title="Dừng">
-                            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="6" y="6" width="12" height="12" rx="1" fill="currentColor" stroke="currentColor" stroke-width="2"></rect>
-                            </svg>
-                        </button>
+                    <div class="flex items-center justify-between w-full">
+                        <div class="flex-1 mr-4 flex flex-col">
+                            <span class="text-lg text-gray-800 font-medium hidden question-text">${q.id}: ${q.text}</span>
+                            <span class="text-lg text-gray-400 italic placeholder-text">${q.id}: (Nghe âm thanh)</span>
+                            <span class="text-base text-teal-600 font-medium hidden translation-text mt-1">${q.viText || '(Chưa có bản dịch)'}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="view-text bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-indigo-100 transition duration-150 active:scale-95 select-none">
+                                Xem
+                            </button>
+                            <button class="view-translation bg-teal-50 text-teal-600 px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-teal-100 transition duration-150 active:scale-95 select-none">
+                                Dịch
+                            </button>
+                            <button class="play-audio bg-teal-100 p-2 rounded-full hover:bg-teal-200 transition duration-200 active:scale-95" data-audio="${q.audioUrl}">
+                                <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15z"></path>
+                                </svg>
+                            </button>
+                            <button class="stop-audio bg-red-100 p-2 rounded-full hover:bg-red-200 transition duration-200 active:scale-95" title="Dừng">
+                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="6" y="6" width="12" height="12" rx="1" fill="currentColor" stroke="currentColor" stroke-width="2"></rect>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 `;
                 lessonDiv.appendChild(questionDiv);
@@ -605,6 +611,15 @@
         const pauseInput = document.getElementById('pauseInput');
         const lessonSelectContainer = document.getElementById('lessonSelectContainer');
         const errorMessageDiv = document.getElementById('errorMessage');
+
+        // 配列をランダムに並び替える関数 (Fisher-Yates Shuffle)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
         // 安全なプレイヤー停止処理
         function forceResetPlayer() {
@@ -732,7 +747,24 @@
                 return;
             }
 
-            // 2. 「個別スピーカー」ボタンが押されたとき
+            // 2. 「Dịch（翻訳）」ボタンが押されたとき（新設）
+            const transButton = event.target.closest('.view-translation');
+            if (transButton) {
+                createAndSetupPlayer();
+                const card = transButton.closest('.question-card');
+                const transNode = card.querySelector('.translation-text');
+                
+                if (transNode.classList.contains('hidden')) {
+                    transNode.classList.remove('hidden');
+                    transButton.textContent = 'Ẩn dịch';
+                } else {
+                    transNode.classList.add('hidden');
+                    transButton.textContent = 'Dịch';
+                }
+                return;
+            }
+
+            // 3. 「個別スピーカー」ボタンが押されたとき
             const audioButton = event.target.closest('.play-audio');
             if (audioButton) {
                 forceResetPlayer();
@@ -743,10 +775,9 @@
                 return;
             }
 
-            // 3. 新設：各カード内の「小さな停止」ボタンが押されたとき
+            // 4. 「小さな停止」ボタンが押されたとき
             const stopButton = event.target.closest('.stop-audio');
             if (stopButton) {
-                // 全体停止と同じリセット処理を走り込ませることで、現在再生中の音声を即座に停止・リセットします
                 forceResetPlayer();
                 mode = 'display';
                 return;
@@ -789,22 +820,34 @@
                     div.querySelectorAll('.question-card').forEach(card => {
                         card.querySelector('.question-text').classList.add('hidden');
                         card.querySelector('.placeholder-text').classList.remove('hidden');
+                        card.querySelector('.translation-text').classList.add('hidden');
                         card.querySelector('.view-text').textContent = 'Xem';
+                        card.querySelector('.view-translation').textContent = 'Dịch';
                     });
                 } else {
                     div.classList.add('hidden');
                 }
             });
 
-            // 「個別一括再生」モードだった場合は、選択された課の音声を集めて自動再生を開始
-            if (mode === 'play') {
-                const filteredQuestions = questions.filter(q => selectedLessons.includes(q.lesson));
+            // 「個別一括再生」モード、または新設の「シャッフルチェックボックス」がある場合のロジック
+            // 後ほどAパートに設置するチェックボックスのIDを「shuffleCheck」として連動できるようにしています
+            const shuffleCheck = document.getElementById('shuffleCheck');
+            const isShuffleWindow = shuffleCheck ? shuffleCheck.checked : false;
+
+            if (mode === 'play' || isShuffleWindow) {
+                let filteredQuestions = questions.filter(q => selectedLessons.includes(q.lesson));
+                
+                // 【新設】シャッフルにチェックが入っていたら、選択された質問のみ順序をシャッフル
+                if (isShuffleWindow) {
+                    filteredQuestions = shuffleArray([...filteredQuestions]);
+                }
+
                 playbackQueue = filteredQuestions.map(q => q.audioUrl);
                 currentIndex = 0;
                 
-                if (playbackQueue.length > 0) {
+                if (playbackQueue.length > 0 && mode === 'play') {
                     playAudio(playbackQueue[currentIndex]);
-                } else {
+                } else if (playbackQueue.length === 0) {
                     showError('No audio files available for selected lessons.');
                 }
             }
@@ -824,7 +867,9 @@
                 div.querySelectorAll('.question-card').forEach(card => {
                     card.querySelector('.question-text').classList.add('hidden');
                     card.querySelector('.placeholder-text').classList.remove('hidden');
+                    card.querySelector('.translation-text').classList.add('hidden');
                     card.querySelector('.view-text').textContent = 'Xem';
+                    card.querySelector('.view-translation').textContent = 'Dịch';
                 });
             });
                         
@@ -870,4 +915,5 @@
 
     </script>
 </body>
+</html>
 </html>
