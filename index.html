@@ -105,7 +105,7 @@
             </button>
                                     
             <div class="mt-4 text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 select-none">
-                Ver2.950a
+                Ver2.960a
             </div>
         </div>
 
@@ -575,413 +575,412 @@
             { "lesson": 25, "id": "25-9", "text": "どうしたら、<ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になると<ruby>思<rt>おも</rt></ruby>う？", "viText": "Theo bạn thì phải luyện tập hay làm như thế nào thì vốn tiếng Nhật mới có thể tiến bộ vượt bậc được? (Thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.9.mp3" },
             { "lesson": 25, "id": "25-10", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、<ruby>健康<rt>けんこう</rt></ruby>と<ruby>家族<rt>かぞく</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>と、<ruby>何<rt>なに</rt></ruby>があったら<ruby>幸<rt>しあわ</rt></ruby>せ/うれしい？ どうして？", "viText": "Đối với bạn 〇〇, giữa sức khỏe, gia đình và bạn bè thân thiết, chỉ cần có được yếu tố nào là bạn đã thấy hạnh phúc / vui sướng nhất? Tại sao?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.10.mp3" }
         ];
-    
-    
-        // =============================================================================
-        // C-PART: LOGIC & AUDIO CONTROL SYSTEM (Ver2.950b)
-        // =============================================================================
-        let currentAudio = null;
-        let audioQueue = [];
-        let isPlayingQueue = false;
-        let queueIndex = 0;
+    // =============================================================================
+    // D-PART: LOGIC & AUDIO CONTROL SYSTEM (Ver2.950b)
+    // =============================================================================
+    let currentAudio = null;
+    let audioQueue = [];
+    let isPlayingQueue = false;
+    let queueIndex = 0;
 
-        // --- DOM Elements ---
-        const playAllBtn = document.getElementById('playAllBtn');
-        const playLessonBtn = document.getElementById('playLessonBtn');
-        const shufflePlayBtn = document.getElementById('shufflePlayBtn');
-        const individualPlayBtn = document.getElementById('individualPlayBtn');
-        const lessonSelectContainer = document.getElementById('lessonSelectContainer');
-        const lessonSelect = document.getElementById('lessonSelect');
-        const confirmBtn = document.getElementById('confirmBtn');
-        const questionsContainer = document.getElementById('questionsContainer');
-        const pauseInput = document.getElementById('pauseInput');
-        const stopBtn = document.getElementById('stopBtn');
-        const errorMessage = document.getElementById('errorMessage');
-        const plusBtn = document.getElementById('plusBtn');
-        const minusBtn = document.getElementById('minusBtn');
-        const toggleManualBtn = document.getElementById('toggleManualBtn');
-        const manualContainer = document.getElementById('manualContainer');
-        const closeManualBtn = document.getElementById('closeManualBtn');
+    // --- DOM Elements ---
+    const playAllBtn = document.getElementById('playAllBtn');
+    const playLessonBtn = document.getElementById('playLessonBtn');
+    const shufflePlayBtn = document.getElementById('shufflePlayBtn');
+    const individualPlayBtn = document.getElementById('individualPlayBtn');
+    const lessonSelectContainer = document.getElementById('lessonSelectContainer');
+    const lessonSelect = document.getElementById('lessonSelect');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const questionsContainer = document.getElementById('questionsContainer');
+    const pauseInput = document.getElementById('pauseInput');
+    const stopBtn = document.getElementById('stopBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const plusBtn = document.getElementById('plusBtn');
+    const minusBtn = document.getElementById('minusBtn');
+    const toggleManualBtn = document.getElementById('toggleManualBtn');
+    const manualContainer = document.getElementById('manualContainer');
+    const closeManualBtn = document.getElementById('closeManualBtn');
 
-        // --- Audio URL Safety Scan (Auto Recovery Check) ---
-        function scanAudioUrls() {
-            console.log("=== Audio URL Safety Scan Started ===");
-            let errorCount = 0;
-            questions.forEach(q => {
-                if (!q.audioUrl) {
-                    console.warn(`[Missing URL] ID: ${q.id} has no audio URL defined.`);
-                    errorCount++;
-                    return;
-                }
-                const urlClean = q.audioUrl.trim();
-                if (!urlClean.toLowerCase().endsWith('.mp3')) {
-                    console.error(`[Format Error] ID: ${q.id} has an invalid audio URL structure: "${q.audioUrl}"`);
-                    errorCount++;
-                }
-            });
-            if (errorCount === 0) {
-                console.log("✓ All Audio URLs passed the validation scan.");
-            } else {
-                console.warn(`⚠ Scan completed with ${errorCount} warning(s). Please check details above.`);
+    // --- Audio URL Safety Scan (Auto Recovery Check) ---
+    function scanAudioUrls() {
+        console.log("=== Audio URL Safety Scan Started ===");
+        let errorCount = 0;
+        questions.forEach(q => {
+            if (!q.audioUrl) {
+                console.warn(`[Missing URL] ID: ${q.id} has no audio URL defined.`);
+                errorCount++;
+                return;
             }
-            console.log("======================================");
-        }
-
-        // --- Initialize Dropdown ---
-        function initLessonSelect() {
-            const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
-            lessonSelect.innerHTML = '';
-            lessons.forEach(l => {
-                const opt = document.createElement('option');
-                opt.value = l;
-                opt.textContent = `Bài ${l} (第${l}課)`;
-                lessonSelect.appendChild(opt);
-            });
-            lessonSelect.selectedIndex = -1;
-        }
-
-        // --- Preset Range Select Buttons ---
-        document.querySelectorAll('.preset-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (!lessonSelect) return;
-                
-                const start = parseInt(btn.getAttribute('data-start'));
-                const end = parseInt(btn.getAttribute('data-end'));
-                
-                // 一旦すべての選択を解除
-                for (let i = 0; i < lessonSelect.options.length; i++) {
-                    lessonSelect.options[i].selected = false;
-                }
-                
-                // 範囲内の課を選択状態にする
-                for (let i = 0; i < lessonSelect.options.length; i++) {
-                    const val = parseInt(lessonSelect.options[i].value);
-                    if (val >= start && val <= end) {
-                        lessonSelect.options[i].selected = true;
-                    }
-                }
-
-                // 範囲選択が完了した瞬間に、「表示 Hiển thị」の確定処理を自動で実行する
-                if (confirmBtn) {
-                    confirmBtn.click();
-                }
-            });
+            const urlClean = q.audioUrl.trim();
+            if (!urlClean.toLowerCase().endsWith('.mp3')) {
+                console.error(`[Format Error] ID: ${q.id} has an invalid audio URL structure: "${q.audioUrl}"`);
+                errorCount++;
+            }
         });
-
-        // --- Get Selected Lessons Helper ---
-        function getSelectedLessons() {
-            return Array.from(lessonSelect.selectedOptions).map(opt => parseInt(opt.value));
+        if (errorCount === 0) {
+            console.log("✓ All Audio URLs passed the validation scan.");
+        } else {
+            console.warn(`⚠ Scan completed with ${errorCount} warning(s). Please check details above.`);
         }
+        console.log("======================================");
+    }
 
-        // --- Error Display Helper ---
-        function showError(msg) {
-            if (msg) {
-                errorMessage.textContent = msg;
-                errorMessage.classList.remove('hidden');
-            } else {
-                errorMessage.textContent = '';
-                errorMessage.classList.add('hidden');
-            }
-        }
+    // --- Initialize Dropdown ---
+    function initLessonSelect() {
+        const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
+        lessonSelect.innerHTML = '';
+        lessons.forEach(l => {
+            const opt = document.createElement('option');
+            opt.value = l;
+            opt.textContent = `Bài ${l} (第${l}課)`;
+            lessonSelect.appendChild(opt);
+        });
+        lessonSelect.selectedIndex = -1;
+    }
 
-        // --- Stop All Playback ---
-        function terminatePlayback() {
-            isPlayingQueue = false;
-            audioQueue = [];
-            queueIndex = 0;
-            if (currentAudio) {
-                try {
-                    currentAudio.pause();
-                    currentAudio.currentTime = 0;
-                } catch(e) {}
-            }
-            document.querySelectorAll('.question-card').forEach(card => {
-                card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
-            });
-        }
-
-        // --- Highlight Current Card ---
-        function highlightCard(id) {
-            document.querySelectorAll('.question-card').forEach(card => {
-                if (card.getAttribute('data-id') === id) {
-                    card.classList.add('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
-                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
-                }
-            });
-        }
-
-        // --- Build Queue and Play ---
-        function startQueuePlayback(items) {
-            isPlayingQueue = false; 
-            if (currentAudio) {
-                try { currentAudio.pause(); currentAudio.currentTime = 0; } catch(e) {}
-            }
-            showError('');
-
-            if (items.length === 0) {
-                showError('対象のデータが見つかりません。/ Không tìm thấy dữ liệu.');
-                return;
-            }
-
-            audioQueue = [...items];
-            isPlayingQueue = true;
-            queueIndex = 0;
-            executeNextQueueItem();
-        }
-
-        // --- Core Queue Processing Engine ---
-        function executeNextQueueItem() {
-            if (!isPlayingQueue || queueIndex >= audioQueue.length) {
-                terminatePlayback();
-                return;
-            }
-
-            const currentItem = audioQueue[queueIndex];
-            highlightCard(currentItem.id);
-
-            currentAudio = new Audio(currentItem.audioUrl);
+    // --- Preset Range Select Buttons ---
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!lessonSelect) return;
             
-            currentAudio.onended = () => {
-                if (!isPlayingQueue) return;
-                
-                const pauseInterval = Math.max(0, parseFloat(pauseInput.value) || 0) * 1000;
-                queueIndex++;
-                
-                setTimeout(() => {
-                    if (isPlayingQueue) executeNextQueueItem();
-                }, pauseInterval);
-            };
-
-            currentAudio.onerror = (e) => {
-                console.error(`Audio playback failed for ID: ${currentItem.id}`, e);
-                queueIndex++;
-                const pauseInterval = Math.max(0, parseFloat(pauseInput.value) || 0) * 1000;
-                setTimeout(() => {
-                    if (isPlayingQueue) executeNextQueueItem();
-                }, pauseInterval);
-            };
-
-            currentAudio.play().catch(err => {
-                console.warn("Autoplay blocked or stream interrupted:", err);
-                showError("端末の音声制限がかかっています。スピーカーマークか各ボタンを一度押してください。");
-                terminatePlayback();
-            });
-        }
-
-        // --- Render UI Cards Function ---
-        function renderCards(targetQuestions) {
-            questionsContainer.innerHTML = '';
-            showError('');
-
-            if (targetQuestions.length === 0) {
-                questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">表示するレッスンを選択してください。</p>';
-                return;
+            const start = parseInt(btn.getAttribute('data-start'));
+            const end = parseInt(btn.getAttribute('data-end'));
+            
+            // 一旦すべての選択を解除
+            for (let i = 0; i < lessonSelect.options.length; i++) {
+                lessonSelect.options[i].selected = false;
             }
-
-            targetQuestions.forEach(q => {
-                const card = document.createElement('div');
-                card.className = 'question-card bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4';
-                card.setAttribute('data-id', q.id);
-
-                // --- テキストエリアコンテナ ---
-                const textSection = document.createElement('div');
-                textSection.className = 'flex-1';
-                
-                // ヘッダー情報 (Lesson & ID)
-                const headerInfo = document.createElement('span');
-                headerInfo.className = 'inline-block bg-indigo-100 text-indigo-800 text-xs px-2.5 py-1 rounded-md font-bold mb-2';
-                headerInfo.textContent = `Bài ${q.lesson} - ID: ${q.id}`;
-                textSection.appendChild(headerInfo);
-
-                // 日本語テキスト（デフォルト非表示）
-                const jpText = document.createElement('p');
-                jpText.className = 'text-lg font-medium text-gray-800 mb-2 hidden select-all leading-relaxed';
-                jpText.innerHTML = q.text;
-                textSection.appendChild(jpText);
-
-                // ベトナム語テキスト（デフォルト非表示）
-                const viText = document.createElement('p');
-                viText.className = 'text-sm text-slate-500 font-normal italic hidden select-all leading-relaxed';
-                viText.innerHTML = q.viText || `<span class="text-red-400 font-light">[Chưa cập nhật dịch nghĩa]</span>`;
-                textSection.appendChild(viText);
-
-                // --- コントロールボタンエリア ---
-                const btnSection = document.createElement('div');
-                btnSection.className = 'flex flex-wrap items-center gap-2 self-stretch md:self-auto justify-end border-t md:border-t-0 pt-3 md:pt-0 border-gray-100';
-
-                // 【日本語】表示/非表示ボタン
-                const toggleJpBtn = document.createElement('button');
-                toggleJpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
-                toggleJpBtn.textContent = 'JP Xem';
-                toggleJpBtn.onclick = () => {
-                    if (jpText.classList.contains('hidden')) {
-                        jpText.classList.remove('hidden');
-                        toggleJpBtn.textContent = 'JP Ẩn';
-                        toggleJpBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-600 transition min-w-[75px] shadow-sm active:scale-95 select-none';
-                    } else {
-                        jpText.classList.add('hidden');
-                        toggleJpBtn.textContent = 'JP Xem';
-                        toggleJpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
-                    }
-                };
-
-                // 【ベトナム語】表示/非表示ボタン
-                const toggleViBtn = document.createElement('button');
-                toggleViBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
-                toggleViBtn.textContent = 'VI Xem';
-                toggleViBtn.onclick = () => {
-                    if (viText.classList.contains('hidden')) {
-                        viText.classList.remove('hidden');
-                        toggleViBtn.textContent = 'VI Ẩn';
-                        toggleViBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-600 transition min-w-[75px] shadow-sm active:scale-95 select-none';
-                    } else {
-                        viText.classList.add('hidden');
-                        toggleViBtn.textContent = 'VI Xem';
-                        toggleViBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
-                    }
-                };
-
-                // 個別「再生」スピーカーボタン
-                const playBtn = document.createElement('button');
-                playBtn.className = 'bg-indigo-50 text-indigo-600 p-2.5 rounded-lg hover:bg-indigo-100 border border-indigo-200 transition flex items-center justify-center active:scale-95 shadow-sm';
-                playBtn.title = 'Phát âm thanh';
-                playBtn.innerHTML = `
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"></path>
-                    </svg>
-                `;
-                playBtn.onclick = () => {
-                    isPlayingQueue = false;
-                    if (currentAudio) { try { currentAudio.pause(); } catch(e){} }
-                    highlightCard(q.id);
-                    currentAudio = new Audio(q.audioUrl);
-                    currentAudio.play().catch(e => {
-                        console.error(e);
-                        showError("音声ファイルの読み込みに失敗しました。");
-                    });
-                };
-
-                // 個別「停止」スクエアボタン
-                const inlineStopBtn = document.createElement('button');
-                inlineStopBtn.className = 'bg-red-50 text-red-600 p-2.5 rounded-lg hover:bg-red-100 border border-red-200 transition flex items-center justify-center active:scale-95 shadow-sm';
-                inlineStopBtn.title = 'Dừng';
-                inlineStopBtn.innerHTML = `
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <rect x="6" y="6" width="12" height="12" rx="1" />
-                    </svg>
-                `;
-                inlineStopBtn.onclick = () => {
-                    terminatePlayback();
-                };
-
-                btnSection.appendChild(toggleJpBtn);
-                btnSection.appendChild(toggleViBtn);
-                btnSection.appendChild(playBtn);
-                btnSection.appendChild(inlineStopBtn);
-
-                card.appendChild(textSection);
-                card.appendChild(btnSection);
-                questionsContainer.appendChild(card);
-            });
-        }
-
-        // --- Event Listeners Setup ---
-
-        // 1. 全一括再生
-        playAllBtn.addEventListener('click', () => {
-            lessonSelectContainer.classList.add('hidden');
-            renderCards(questions);
-            startQueuePlayback(questions);
-        });
-
-        // 2. 選択課別一括再生
-        playLessonBtn.addEventListener('click', () => {
-            terminatePlayback();
-            lessonSelect.selectedIndex = -1;
-            lessonSelectContainer.classList.remove('hidden');
-            questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài rồi nhấn nút "Hiển thị".</span></p>';
-        });
-
-        // 3. 選択課別シャッフル再生
-        shufflePlayBtn.addEventListener('click', () => {
-            terminatePlayback();
-            lessonSelect.selectedIndex = -1;
-            lessonSelectContainer.classList.remove('hidden');
-            questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">シャッフルする課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài muốn xáo trộn rồi nhấn nút "Hiển thị".</span></p>';
-            confirmBtn.setAttribute('data-mode', 'shuffle');
-        });
-
-        // 4. 個別再生（単発表示モード）
-        individualPlayBtn.addEventListener('click', () => {
-            terminatePlayback();
-            lessonSelect.selectedIndex = -1;
-            lessonSelectContainer.classList.remove('hidden');
-            questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">表示したい課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài muốn hiển thị rồi nhấn nút "Hiển thị".</span></p>';
-            confirmBtn.setAttribute('data-mode', 'individual');
-        });
-
-        // 5. 「表示 Hiển thị」ボタン確定処理
-        confirmBtn.addEventListener('click', () => {
-            const selected = getSelectedLessons();
-            if (selected.length === 0) {
-                showError('課が選択されていません。最低1つ選択してください。');
-                return;
-            }
-
-            let filtered = questions.filter(q => selected.includes(q.lesson));
-            const mode = confirmBtn.getAttribute('data-mode');
-
-            if (mode === 'shuffle') {
-                filtered = [...filtered];
-                for (let i = filtered.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+            
+            // 範囲内の課を選択状態にする
+            for (let i = 0; i < lessonSelect.options.length; i++) {
+                const val = parseInt(lessonSelect.options[i].value);
+                if (val >= start && val <= end) {
+                    lessonSelect.options[i].selected = true;
                 }
-                renderCards(filtered);
-                startQueuePlayback(filtered);
-            } else if (mode === 'individual') {
-                renderCards(filtered);
-            } else {
-                renderCards(filtered);
-                startQueuePlayback(filtered);
             }
-            confirmBtn.removeAttribute('data-mode');
-            lessonSelectContainer.classList.add('hidden');
-        });
 
-        // プラス・マイナス インターバルボタン
-        plusBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            let val = parseInt(pauseInput.value) || 0;
-            if (val < 30) pauseInput.value = val + 1;
+            // 範囲選択が完了した瞬間に、「表示 Hiển thị」の確定処理を自動で実行する
+            if (confirmBtn) {
+                confirmBtn.click();
+            }
         });
+    });
 
-        minusBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            let val = parseInt(pauseInput.value) || 0;
-            if (val > 0) pauseInput.value = val - 1;
+    // --- Get Selected Lessons Helper ---
+    function getSelectedLessons() {
+        return Array.from(lessonSelect.selectedOptions).map(opt => parseInt(opt.value));
+    }
+
+    // --- Error Display Helper ---
+    function showError(msg) {
+        if (msg) {
+            errorMessage.textContent = msg;
+            errorMessage.classList.remove('hidden');
+        } else {
+            errorMessage.textContent = '';
+            errorMessage.classList.add('hidden');
+        }
+    }
+
+    // --- Stop All Playback ---
+    function terminatePlayback() {
+        isPlayingQueue = false;
+        audioQueue = [];
+        queueIndex = 0;
+        if (currentAudio) {
+            try {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            } catch(e) {}
+        }
+        document.querySelectorAll('.question-card').forEach(card => {
+            card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
         });
+    }
 
-        // 🌟不具合修正：マニュアル開閉（独自追加したCSSクラスのtoggleに切り替え）
-        toggleManualBtn.addEventListener('click', () => {
-            manualContainer.classList.toggle('manual-open');
+    // --- Highlight Current Card ---
+    function highlightCard(id) {
+        document.querySelectorAll('.question-card').forEach(card => {
+            if (card.getAttribute('data-id') === id) {
+                card.classList.add('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
+            }
         });
+    }
 
-        closeManualBtn.addEventListener('click', () => {
-            manualContainer.classList.remove('manual-open');
+    // --- Build Queue and Play ---
+    function startQueuePlayback(items) {
+        isPlayingQueue = false; 
+        if (currentAudio) {
+            try { currentAudio.pause(); currentAudio.currentTime = 0; } catch(e) {}
+        }
+        showError('');
+
+        if (items.length === 0) {
+            showError('対象のデータが見つかりません。/ Không tìm thấy dữ liệu.');
+            return;
+        }
+
+        audioQueue = [...items];
+        isPlayingQueue = true;
+        queueIndex = 0;
+        executeNextQueueItem();
+    }
+
+    // --- Core Queue Processing Engine ---
+    function executeNextQueueItem() {
+        if (!isPlayingQueue || queueIndex >= audioQueue.length) {
+            terminatePlayback();
+            return;
+        }
+
+        const currentItem = audioQueue[queueIndex];
+        highlightCard(currentItem.id);
+
+        currentAudio = new Audio(currentItem.audioUrl);
+        
+        currentAudio.onended = () => {
+            if (!isPlayingQueue) return;
+            
+            const pauseInterval = Math.max(0, parseFloat(pauseInput.value) || 0) * 1000;
+            queueIndex++;
+            
+            setTimeout(() => {
+                if (isPlayingQueue) executeNextQueueItem();
+            }, pauseInterval);
+        };
+
+        currentAudio.onerror = (e) => {
+            console.error(`Audio playback failed for ID: ${currentItem.id}`, e);
+            queueIndex++;
+            const pauseInterval = Math.max(0, parseFloat(pauseInput.value) || 0) * 1000;
+            setTimeout(() => {
+                if (isPlayingQueue) executeNextQueueItem();
+            }, pauseInterval);
+        };
+
+        currentAudio.play().catch(err => {
+            console.warn("Autoplay blocked or stream interrupted:", err);
+            showError("端末の音声制限がかかっています。スピーカーマークか各ボタンを一度押してください。");
+            terminatePlayback();
         });
+    }
 
-        // 全体停止ボタン
-        stopBtn.addEventListener('click', terminatePlayback);
+    // --- Render UI Cards Function ---
+    function renderCards(targetQuestions) {
+        questionsContainer.innerHTML = '';
+        showError('');
 
-        // --- アプリケーション初期ブートストラップ ---
-        window.addEventListener('DOMContentLoaded', () => {
-            initLessonSelect();
-            scanAudioUrls(); // 音声リンク安全性スキャン実行
+        if (targetQuestions.length === 0) {
+            questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">表示するレッスンを選択してください。</p>';
+            return;
+        }
+
+        targetQuestions.forEach(q => {
+            const card = document.createElement('div');
+            card.className = 'question-card bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4';
+            card.setAttribute('data-id', q.id);
+
+            // --- テキストエリアコンテナ ---
+            const textSection = document.createElement('div');
+            textSection.className = 'flex-1';
+            
+            // ヘッダー情報 (Lesson & ID)
+            const headerInfo = document.createElement('span');
+            headerInfo.className = 'inline-block bg-indigo-100 text-indigo-800 text-xs px-2.5 py-1 rounded-md font-bold mb-2';
+            headerInfo.textContent = `Bài ${q.lesson} - ID: ${q.id}`;
+            textSection.appendChild(headerInfo);
+
+            // 日本語テキスト（デフォルト非表示）
+            const jpText = document.createElement('p');
+            jpText.className = 'text-lg font-medium text-gray-800 mb-2 hidden select-all leading-relaxed';
+            jpText.innerHTML = q.text;
+            textSection.appendChild(jpText);
+
+            // ベトナム語テキスト（デフォルト非表示）
+            const viText = document.createElement('p');
+            viText.className = 'text-sm text-slate-500 font-normal italic hidden select-all leading-relaxed';
+            viText.innerHTML = q.viText || `<span class="text-red-400 font-light">[Chưa cập nhật dịch nghĩa]</span>`;
+            textSection.appendChild(viText);
+
+            // --- コントロールボタンエリア ---
+            const btnSection = document.createElement('div');
+            btnSection.className = 'flex flex-wrap items-center gap-2 self-stretch md:self-auto justify-end border-t md:border-t-0 pt-3 md:pt-0 border-gray-100';
+
+            // 【日本語】表示/非表示ボタン
+            const toggleJpBtn = document.createElement('button');
+            toggleJpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
+            toggleJpBtn.textContent = 'JP Xem';
+            toggleJpBtn.onclick = () => {
+                if (jpText.classList.contains('hidden')) {
+                    jpText.classList.remove('hidden');
+                    toggleJpBtn.textContent = 'JP Ẩn';
+                    toggleJpBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-600 transition min-w-[75px] shadow-sm active:scale-95 select-none';
+                } else {
+                    jpText.classList.add('hidden');
+                    toggleJpBtn.textContent = 'JP Xem';
+                    toggleJpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
+                }
+            };
+
+            // 【ベトナム語】表示/非表示ボタン
+            const toggleViBtn = document.createElement('button');
+            toggleViBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
+            toggleViBtn.textContent = 'VI Xem';
+            toggleViBtn.onclick = () => {
+                if (viText.classList.contains('hidden')) {
+                    viText.classList.remove('hidden');
+                    toggleViBtn.textContent = 'VI Ẩn';
+                    toggleViBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-600 transition min-w-[75px] shadow-sm active:scale-95 select-none';
+                } else {
+                    viText.classList.add('hidden');
+                    toggleViBtn.textContent = 'VI Xem';
+                    toggleViBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
+                }
+            };
+
+            // 個別「再生」スピーカーボタン
+            const playBtn = document.createElement('button');
+            playBtn.className = 'bg-indigo-50 text-indigo-600 p-2.5 rounded-lg hover:bg-indigo-100 border border-indigo-200 transition flex items-center justify-center active:scale-95 shadow-sm';
+            playBtn.title = 'Phát âm thanh';
+            playBtn.innerHTML = `
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"></path>
+                </svg>
+            `;
+            playBtn.onclick = () => {
+                isPlayingQueue = false;
+                if (currentAudio) { try { currentAudio.pause(); } catch(e){} }
+                highlightCard(q.id);
+                currentAudio = new Audio(q.audioUrl);
+                currentAudio.play().catch(e => {
+                    console.error(e);
+                    showError("音声ファイルの読み込みに失敗しました。");
+                });
+            };
+
+            // 個別「停止」スクエアボタン
+            const inlineStopBtn = document.createElement('button');
+            inlineStopBtn.className = 'bg-red-50 text-red-600 p-2.5 rounded-lg hover:bg-red-100 border border-red-200 transition flex items-center justify-center active:scale-95 shadow-sm';
+            inlineStopBtn.title = 'Dừng';
+            inlineStopBtn.innerHTML = `
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <rect x="6" y="6" width="12" height="12" rx="1" />
+                </svg>
+            `;
+            inlineStopBtn.onclick = () => {
+                terminatePlayback();
+            };
+
+            btnSection.appendChild(toggleJpBtn);
+            btnSection.appendChild(toggleViBtn);
+            btnSection.appendChild(playBtn);
+            btnSection.appendChild(inlineStopBtn);
+
+            card.appendChild(textSection);
+            card.appendChild(btnSection);
+            questionsContainer.appendChild(card);
         });
-    </script>
+    }
+
+    // --- Event Listeners Setup ---
+
+    // 1. 全一括再生
+    playAllBtn.addEventListener('click', () => {
+        lessonSelectContainer.classList.add('hidden');
+        renderCards(questions);
+        startQueuePlayback(questions);
+    });
+
+    // 2. 選択課別一括再生
+    playLessonBtn.addEventListener('click', () => {
+        terminatePlayback();
+        lessonSelect.selectedIndex = -1;
+        lessonSelectContainer.classList.remove('hidden');
+        questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài rồi nhấn nút "Hiển thị".</span></p>';
+    });
+
+    // 3. 選択課別シャッフル再生
+    shufflePlayBtn.addEventListener('click', () => {
+        terminatePlayback();
+        lessonSelect.selectedIndex = -1;
+        lessonSelectContainer.classList.remove('hidden');
+        questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">シャッフルする課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài muốn xáo trộn rồi nhấn nút "Hiển thị".</span></p>';
+        confirmBtn.setAttribute('data-mode', 'shuffle');
+    });
+
+    // 4. 個別再生（単発表示モード）
+    individualPlayBtn.addEventListener('click', () => {
+        terminatePlayback();
+        lessonSelect.selectedIndex = -1;
+        lessonSelectContainer.classList.remove('hidden');
+        questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">表示したい課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài muốn hiển thị rồi nhấn nút "Hiển thị".</span></p>';
+        confirmBtn.setAttribute('data-mode', 'individual');
+    });
+
+    // 5. 「表示 Hiển thị」ボタン確定処理
+    confirmBtn.addEventListener('click', () => {
+        const selected = getSelectedLessons();
+        if (selected.length === 0) {
+            showError('課が選択されていません。最低1つ選択してください。');
+            return;
+        }
+
+        let filtered = questions.filter(q => selected.includes(q.lesson));
+        const mode = confirmBtn.getAttribute('data-mode');
+
+        if (mode === 'shuffle') {
+            filtered = [...filtered];
+            for (let i = filtered.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+            }
+            renderCards(filtered);
+            startQueuePlayback(filtered);
+        } else if (mode === 'individual') {
+            renderCards(filtered);
+        } else {
+            renderCards(filtered);
+            startQueuePlayback(filtered);
+        }
+        confirmBtn.removeAttribute('data-mode');
+        lessonSelectContainer.classList.add('hidden');
+    });
+
+    // プラス・マイナス インターバルボタン
+    plusBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        let val = parseInt(pauseInput.value) || 0;
+        if (val < 30) pauseInput.value = val + 1;
+    });
+
+    // マイナス・マイナス インターバルボタン
+    minusBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        let val = parseInt(pauseInput.value) || 0;
+        if (val > 0) pauseInput.value = val - 1;
+    });
+
+    // 🌟不具合修正：マニュアル開閉（独自追加したCSSクラスのtoggleに切り替え）
+    toggleManualBtn.addEventListener('click', () => {
+        manualContainer.classList.toggle('manual-open');
+    });
+
+    closeManualBtn.addEventListener('click', () => {
+        manualContainer.classList.remove('manual-open');
+    });
+
+    // 全体停止ボタン
+    stopBtn.addEventListener('click', terminatePlayback);
+
+    // --- アプリケーション初期ブートストラップ ---
+    window.addEventListener('DOMContentLoaded', () => {
+        initLessonSelect();
+        scanAudioUrls(); // 音声リンク安全性スキャン実行
+    });
+</script>
 </body>
-</html>   
+</html>
