@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A-PART / LAYOUT & USER INTERFACE SYSTEM</title>
+    <title>IQ会話反応チェック（大学生向け）</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         /* Aパート：モーダル（ポップアップ）用のスタイル */
@@ -63,15 +63,15 @@
                 <label for="lessonSelect" class="block text-sm font-semibold text-indigo-900">対象の課を選択してください（複数選択可）:</label>
                 
                 <div class="flex flex-wrap gap-2 mb-2">
-                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="1" data-end="10">1-10課</button>
-                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="11" data-end="20">11-20課</button>
-                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="21" data-end="30">21-30課</button>
-                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="31" data-end="40">31-40課</button>
-                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="41" data-end="50">41-50課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="1" data-end="3">1-3課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="4" data-end="7">4-7課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="8" data-end="12">8-12課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="13" data-end="19">13-19課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="20" data-end="25">20-25課</button>
                 </div>
 
                 <select id="lessonSelect" multiple class="w-full min-h-[120px] bg-white border border-indigo-200 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                    </select>
+                </select>
                 <button id="confirmBtn" class="w-full bg-indigo-600 text-white py-2 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm">表示 Hiển thị</button>
             </div>
 
@@ -113,16 +113,14 @@
     </div>
 
     <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60">
-        <span class="inline-block bg-slate-200 text-slate-600 text-xs px-3 py-1 rounded-full font-semibold shadow-inner">Ver2.971a</span>
+        <span class="inline-block bg-slate-200 text-slate-600 text-xs px-3 py-1 rounded-full font-semibold shadow-inner">Ver2.973a</span>
     </div>
-
-</body>
-</html>
-<script>
+   
+   <script>
     // =============================================================================
     // B-PART: QUESTION DATA VARIABLE
     // =============================================================================
-    const questions = [
+       const questions = [
         // ==================== LESSON 1 ====================
         { "lesson": 1, "id": "1-1a", "text": "おなまえは なんですか。/ なまえを いってください/ おしえてください。", "viText": "Tên bạn là gì? / Hãy đọc tên của bạn / Hãy cho tôi biết tên.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.1a.mp3" },
         { "lesson": 1, "id": "1-1b", "text": "おなまえは なんですか。/ なまえを いってください/ おしえてください。", "viText": "Tên bạn là gì? / Hãy đọc tên của bạn / Hãy cho tôi biết tên.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/1.1b.mp3" },
@@ -499,10 +497,11 @@
             { "lesson": 25, "id": "25-9", "text": "どうしたら、<ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になると<ruby>思<rt>おも</rt></ruby>う？", "viText": "Theo bạn thì phải luyện tập hay làm như thế nào thì vốn tiếng Nhật mới có thể tiến bộ vượt bậc được? (Thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.9.mp3" },
             { "lesson": 25, "id": "25-10", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、<ruby>健康<rt>けんこう</rt></ruby>と<ruby>家族<rt>かぞく</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>と、<ruby>何<rt>なに</rt></ruby>があったら<ruby>幸<rt>しあわ</rt></ruby>せ/うれしい？ どうして？", "viText": "Đối với bạn 〇〇, giữa sức khỏe, gia đình và bạn bè thân thiết, chỉ cần có được yếu tố nào là bạn đã thấy hạnh phúc / vui sướng nhất? Tại sao?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.10.mp3" }
         ];
-    <script>
-        // =============================================================================
-        // D-PART: LOGIC & AUDIO CONTROL SYSTEM (Ver2.971a - Responsive Grid & Fix Focus)   
-        // =============================================================================
+   </script>
+<script>
+    // =============================================================================
+    // D-PART: LOGIC & AUDIO CONTROL SYSTEM (Ver2.973a - Responsive Grid & Fix Focus)   
+    // =============================================================================
 
 (function() {
     // 状態管理変数
@@ -631,7 +630,7 @@
         });
     }
 
-    // 問題問題カードの動的レンダリング
+    // 問題カードの動的レンダリング
     function renderCards(targetList) {
         questionsContainer.innerHTML = '';
         hideError();
@@ -691,12 +690,12 @@
                 }
             };
 
-            // 個別再生ボタン
+            // 個別再生ボタン（連打対策付き）
             const playBtn = document.createElement('button');
             playBtn.className = 'bg-indigo-50 text-indigo-600 p-2 rounded-lg border border-indigo-200 hover:bg-indigo-100 transition flex items-center justify-center w-8 h-8 font-bold';
             playBtn.innerHTML = '▶';
             playBtn.onclick = () => {
-                terminatePlayback();
+                terminatePlayback(); // 全体再生キューおよび既存の個別オーディオをクリア
                 highlightCard(q.id);
                 currentAudio = new Audio(q.audioUrl);
                 currentAudio.play().catch(e => console.error('Individual play error:', e));
