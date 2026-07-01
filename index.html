@@ -1,194 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IQ 会話反応チェック（大学生向け）</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>IQ　会話反応チェック（大学生向け）</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        /* Custom styles for multi-select and improved aesthetics */
-        select[multiple] {
-            height: 150px;
-            width: 200px;
-            background-color: #f9fafb;
-            border-radius: 0.5rem;
-            padding: 0.5rem;
+        /* Aパート：モーダル（ポップアップ）用のスタイル */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
         }
-        select[multiple] option {
-            padding: 0.25rem;
-        }
-        select[multiple] option:checked {
-            background-color: #4f46e5;
-            color: white;
-        }
-        .gradient-bg {
-            background: linear-gradient(to bottom right, #e0f2fe, #e0e7ff);
-        }
-        .question-card {
-            transition: all 0.3s ease;
-        }
-        .question-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px 0;
-            border-top: 1px solid #E0E4EA;
-            color: #6B7280;
-            font-size: 0.9em;
-            font-family: 'Roboto', sans-serif;
-        }
-        /* PCの標準スピンボタンを非表示にしてデザインを統一 */
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
-        /* マニュアル開閉用のアニメーション */
-        .manual-transition {
-            transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
-        }
-        /* 🌟不具合修正：JavaScriptから確実に開閉制御するための専用クラスを追加 */
-        .manual-open {
-            max-height: 1000px !important;
-            opacity: 1 !important;
+        .modal-overlay.manual-open {
+            display: flex;
         }
     </style>
 </head>
-<body class="gradient-bg font-sans min-h-screen">
-    <div class="container mx-auto p-6">
-        <h1 class="text-4xl font-extrabold text-center text-indigo-800 mb-8">IQ 会話反応チェック（大学生向け）</h1>
-                              
-        <div class="mb-6 max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <button id="playAllBtn" class="w-full bg-teal-500 text-white px-2 py-3 rounded-lg hover:bg-teal-600 transition duration-200 shadow-md font-medium text-center flex flex-col justify-center items-center">
-                <span class="text-xs opacity-85 block">全体音声一括再生</span>
-                <span class="text-base font-semibold block mt-0.5">Phát tất cả</span>
-            </button>
-            <button id="playLessonBtn" class="w-full bg-indigo-500 text-white px-2 py-3 rounded-lg hover:bg-indigo-600 transition duration-200 shadow-md font-medium text-center flex flex-col justify-center items-center">
-                <span class="text-xs opacity-85 block">選択課別音声一括再生</span>
-                <span class="text-sm font-semibold block mt-1 whitespace-nowrap">Phát tự động theo bài</span>
-            </button>
-            <button id="shufflePlayBtn" class="w-full bg-indigo-100 text-indigo-700 px-2 py-3 rounded-lg hover:bg-indigo-200 transition duration-200 shadow-md font-bold text-center flex flex-col justify-center items-center">
-                <span class="text-xs opacity-85 block">選択課別音声<br>シャッフル再生</span>
-                <span class="text-base font-semibold block mt-0.5">Xáo trộn bài chọn</span>
-            </button>
-            <button id="individualPlayBtn" class="w-full bg-slate-400 text-white px-2 py-3 rounded-lg hover:bg-slate-500 transition duration-200 shadow-md font-medium text-center flex flex-col justify-center items-center">
-                <span class="text-xs opacity-85 block">音声個別再生</span>
-                <span class="text-base font-bold block mt-0.5">Phát từng câu</span>
-            </button>
-        </div>
-                        
-        <div class="mb-6 flex flex-col items-center">
-            <label for="pauseInput" class="text-sm font-medium text-gray-600 mb-1">再生間隔/秒 Khoảng dừng (giây):</label>
-            <div class="flex items-center mb-4">
-                <div class="bg-white p-1 rounded-lg shadow-sm border border-gray-200 flex items-center">
-                    <button id="minusBtn" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold rounded-l-md transition duration-150 active:scale-95 select-none">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15"></path></svg>
-                    </button>
-                    <input type="number" id="pauseInput" value="3" min="0" max="30" class="w-16 h-10 border-y border-transparent text-center focus:outline-none font-bold text-xl text-indigo-700 bg-white" readonly>
-                    <button id="plusBtn" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold rounded-r-md transition duration-150 active:scale-95 select-none">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
-                    </button>
+<body class="bg-slate-50 text-slate-800 min-h-screen p-4 md:p-8 flex flex-col justify-between">
+
+    <div class="max-w-4xl mx-auto w-full space-y-6 flex-grow">
+        
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex flex-wrap gap-3">
+                <button id="playAllBtn" class="bg-indigo-600 text-white px-4 py-2 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95">全一括再生</button>
+                <button id="playLessonBtn" class="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl font-medium hover:bg-slate-200 transition border border-slate-300 shadow-sm active:scale-95">課別一括再生</button>
+                <button id="shufflePlayBtn" class="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl font-medium hover:bg-slate-200 transition border border-slate-300 shadow-sm active:scale-95">課別シャッフル</button>
+                <button id="individualPlayBtn" class="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl font-medium hover:bg-slate-200 transition border border-slate-300 shadow-sm active:scale-95">個別表示モード</button>
+                <button id="stopBtn" class="bg-red-600 text-white px-4 py-2 rounded-xl font-medium hover:bg-red-700 transition shadow-sm active:scale-95">全体停止</button>
+                <button id="toggleManualBtn" class="bg-amber-500 text-white px-4 py-2 rounded-xl font-medium hover:bg-amber-600 transition shadow-sm active:scale-95">説明書を開く</button>
+            </div>
+
+            <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl w-fit border border-slate-200">
+                <span class="text-sm font-medium text-slate-600">再生間隔 (秒):</span>
+                <button id="minusBtn" class="bg-white text-slate-700 w-8 h-8 rounded-lg border border-slate-300 flex items-center justify-center font-bold hover:bg-slate-100 transition active:scale-95 shadow-sm">-</button>
+                <input id="pauseInput" type="number" value="2" min="0" max="30" class="w-12 text-center bg-white border border-slate-300 rounded-lg py-1 font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500" readonly>
+                <button id="plusBtn" class="bg-white text-slate-700 w-8 h-8 rounded-lg border border-slate-300 flex items-center justify-center font-bold hover:bg-slate-100 transition active:scale-95 shadow-sm">+</button>
+            </div>
+
+            <div id="lessonSelectContainer" class="hidden p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3">
+                <label for="lessonSelect" class="block text-sm font-semibold text-indigo-900">対象の課を選択してください（複数選択可）:</label>
+                
+                <div class="flex flex-wrap gap-2 mb-2">
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="1" data-end="10">1-10課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="11" data-end="20">11-20課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="21" data-end="30">21-30課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="31" data-end="40">31-40課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="41" data-end="50">41-50課</button>
                 </div>
-                <button id="stopBtn" class="ml-3 h-12 bg-red-500 text-white px-6 rounded-lg hover:bg-red-600 transition duration-200 shadow-md font-medium flex items-center justify-center active:scale-95">
-                    停止 Dừng
-                </button>
+
+                <select id="lessonSelect" multiple class="w-full min-h-[120px] bg-white border border-indigo-200 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    </select>
+                <button id="confirmBtn" class="w-full bg-indigo-600 text-white py-2 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm">表示 Hiển thị</button>
             </div>
-            <button id="toggleManualBtn" class="bg-slate-600 text-white px-5 py-2 rounded-md hover:bg-slate-700 transition duration-200 shadow-sm text-sm font-medium flex items-center gap-2 active:scale-95">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                説明書 Hướng dẫn
-            </button>
-                                    
-            <div class="mt-4 text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 select-none">
-                Ver2.960a
-            </div>
+
+            <div id="errorMessage" class="hidden p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl font-medium"></div>
         </div>
 
-        <div id="lessonSelectContainer" class="hidden mb-8 flex flex-col items-center space-y-4 bg-white p-4 rounded-xl shadow-sm max-w-md mx-auto border border-gray-100">
-            <div class="flex justify-center space-x-4 w-full">
-                <select id="lessonSelect" multiple class="border border-gray-300 focus:ring-2 focus:ring-indigo-500">
-                </select>
-                <button id="confirmBtn" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition duration-200 shadow-md font-medium self-end h-[150px] flex items-center justify-center">表示<br>Hiển thị</button>
-            </div>
-                        
-            <div class="w-full border-t border-gray-100 pt-3">
-                <p class="text-xs font-semibold text-gray-500 mb-2 text-center">範囲一括選択 / Chọn nhanh theo phạm vi:</p>
-                <div class="grid grid-cols-3 gap-2 w-full">
-                    <button type="button" class="preset-btn bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 py-1.5 px-1 rounded text-xs font-medium transition border border-slate-200" data-start="1" data-end="3">Bài 1 - 3</button>
-                    <button type="button" class="preset-btn bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 py-1.5 px-1 rounded text-xs font-medium transition border border-slate-200" data-start="4" data-end="7">Bài 4 - 7</button>
-                    <button type="button" class="preset-btn bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 py-1.5 px-1 rounded text-xs font-medium transition border border-slate-200" data-start="8" data-end="12">Bài 8 - 12</button>
-                    <button type="button" class="preset-btn bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 py-1.5 px-1 rounded text-xs font-medium transition border border-slate-200 grid-cols-1" data-start="13" data-end="19">Bài 13 - 19</button>
-                    <button type="button" class="preset-btn bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 py-1.5 px-1 rounded text-xs font-medium transition border border-slate-200 col-span-2" data-start="20" data-end="25">Bài 20 - 25</button>
-                </div>
-            </div>
+        <div id="questionsContainer" class="space-y-4">
+            <p class="text-center text-slate-400 py-12 bg-white rounded-2xl border border-slate-200">上のボタンから再生モードを選択してください。</p>
         </div>
 
-        <div id="errorMessage" class="hidden text-red-600 text-center mb-6 bg-red-100 p-3 rounded-lg"></div>
-        <div id="questionsContainer" class="space-y-6"></div>
     </div>
 
-    <div id="manualContainer" class="manual-transition max-h-0 opacity-0 overflow-hidden container mx-auto px-6 mb-8">
-        <div class="bg-slate-800 text-slate-100 p-6 rounded-xl shadow-xl border border-slate-750">
-            <div class="flex justify-between items-center border-b border-slate-700 pb-3 mb-4">
-                <h2 class="text-xl font-bold flex items-center gap-2 text-teal-400">
-                    📖 アプリ説明書 / Hướng dẫn sử dụng
-                </h2>
-                <button id="closeManualBtn" class="text-slate-400 hover:text-white transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
+    <div id="manualContainer" class="modal-overlay">
+        <div class="bg-white w-full max-w-lg m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+                <h3 class="text-lg font-bold text-slate-800">📖 アプリケーション説明書</h3>
+                <button id="closeManualBtn" class="text-slate-400 hover:text-slate-600 font-bold text-xl p-1">&times;</button>
             </div>
-                                    
-            <div class="space-y-6 text-sm leading-relaxed max-h-[400px] overflow-y-auto pr-2">
-                <div>
-                    <h3 class="text-base font-semibold text-teal-300 mb-1">1. 概要 / Tổng quan</h3>
-                    <p class="text-slate-300 pl-4">
-                        このWebアプリは、大学生向けの日本語会話反応チェックトレーニングツールです。<br>
-                        Ứng dụng Web này là công cụ luyện tập phản xạ kiểm tra hội thoại tiếng Nhật dành cho sinh viên đại học.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="text-base font-semibold text-teal-300 mb-1">2. 操作方法 / Cách sử dụng</h3>
-                    <ul class="list-disc pl-8 text-slate-300 space-y-3">
-                        <li>
-                            <strong>全体音声一括再生 Phát tất cả:</strong> 全ての課のカードを展開し、自動連続再生キューを作成します。<br>
-                            <span class="text-slate-400 italic font-light pl-4 block">Mở thẻ của tất cả các bài và tự động phát liên tục theo hàng đợi.</span>
-                        </li>
-                        <li>
-                            <strong>選択課別音声一括再生 Phát tự động theo bài:</strong> 選択した課に含まれる音声ファイルをボタン一つで連続再生します。<br>
-                            <span class="text-slate-400 italic font-light pl-4 block">Phát liên tục các file âm thanh trong các bài được chọn chỉ với một nút bấm.</span>
-                        </li>  
-                        <li>
-                            <strong>選択課別音声シャッフル再生 Xáo trộn bài chọn:</strong> 選択した課の質問文カードをランダムな順番に並び替えて自動連続再生します。<br>
-                            <span class="text-slate-400 italic font-light pl-4 block">Trộn ngẫu nhiên thứ tự các thẻ câu hỏi trong bài được chọn và tự động phát liên tục.</span>
-                        </li>
-                        <li>
-                            <strong>音声個別再生 Phát từng câu:</strong> ドロップダウンから選択した特定の課のカードのみを表示し、1つずつ確認・再生できます。<br>
-                            <span class="text-slate-400 italic font-light pl-4 block">Chỉ hiển thị các thẻ của bài học được chọn từ danh sách thả xuống để kiểm tra và phát từng câu một.</span>
-                        </li>
-                        <li>
-                            <strong>再生間隔 Khoảng dừng:</strong> 音声が流れた後の次の音声までの「秒数」を設定できます。<br>
-                            <span class="text-slate-400 italic font-light pl-4 block">Có thể cài đặt "số giây" tạm dừng giữa file âm thanh hiện tại và file tiếp theo.</span>
-                        </li>
-                        <li>
-                            <strong>Xem / Ẩn:</strong> 各質問の日本語テキスト/ベトナム語テキストを個別に表示・非表示に切り替えます。<br>
-                            <span class="text-slate-400 italic font-light pl-4 block">Bật/Tắt hiển thị riêng biệt nội dung văn bản tiếng Nhật của từng câu hỏi.</span>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-base font-semibold text-teal-300 mb-1">3. 注意事項 / Chú ý</h3>
-                    <p class="text-slate-300 pl-4">
-                        スマートフォンのブラウザで自動再生が動かない場合は、一度いずれかの個別再生（スピーカーマーク）または「Xem」ボタンを押して、ブラウザの音声制限を解除してください。<br>
-                        <span class="text-slate-400 italic font-light mt-1 block">Nếu tính năng tự động phát không hoạt động trên trình duyệt điện thoại, hãy nhấn thử nút phát nhạc (biểu tượng loa) hoặc nút "Xem" bất kỳ một lần để kích hoạt quyền âm thanh trên trình duyệt.</span>
-                    </p>
-                </div>
+            <div class="space-y-4 text-sm text-slate-600 overflow-y-auto pr-2 leading-relaxed">
+                <p class="font-medium text-slate-800">【各ボタンの機能】</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><strong class="text-indigo-600">全体音声一括再生:</strong> 登録されているすべての質問を上から順番に連続再生します。</li>
+                    <li><strong class="text-slate-700">選択課別一括再生:</strong> 選択した特定の「課（Bài）」のデータを順番に連続再生します。</li>
+                    <li><strong class="text-slate-700">選択課別シャッフル再生:</strong> 選択した課のデータをランダムに並び替えて連続再生します。</li>
+                    <li><strong class="text-slate-700">音声個別再生:</strong> 選択した課のカードを表示するのみで、自動再生は行いません。個別にじっくり確認したい場合に使用します。</li>
+                    <li><strong class="text-red-600">全体停止:</strong> 現在流れている音声、および再生キュー（連続再生）をすべて停止します。</li>
+                </ul>
+                <p class="font-medium text-slate-800 pt-2">【カード内の操作】</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><strong>JP Xem / Ẩn:</strong> 日本語テキストの表示・非表示を切り替えます。</li>
+                    <li><strong>VI Xem / Ẩn:</strong> ベトナム語の翻訳文の表示・非表示を切り替えます。</li>
+                    <li><strong>スピーカーマーク:</strong> 個別の文章の音声を一つだけ再生します。（連続再生は停止します）</li>
+                    <li><strong>赤の停止マーク:</strong> 再生中の音声をその場で停止します。</li>
+                </ul>
+            </div>
+            <div class="border-t border-slate-100 pt-3 mt-4 text-right">
+                <button id="modalCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる</button>
             </div>
         </div>
+    </div>
+
+    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60">
+        <span class="inline-block bg-slate-200 text-slate-600 text-xs px-3 py-1 rounded-full font-semibold shadow-inner">Ver2.970a</span>
     </div>
     <footer>
         <p>© 2025 Tài liệu kiểm tra | Thiết kế bởi Thuận / © 2026 ITM-Group.</p>
@@ -575,412 +487,433 @@
             { "lesson": 25, "id": "25-9", "text": "どうしたら、<ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になると<ruby>思<rt>おも</rt></ruby>う？", "viText": "Theo bạn thì phải luyện tập hay làm như thế nào thì vốn tiếng Nhật mới có thể tiến bộ vượt bậc được? (Thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.9.mp3" },
             { "lesson": 25, "id": "25-10", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、<ruby>健康<rt>けんこう</rt></ruby>と<ruby>家族<rt>かぞく</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>と、<ruby>何<rt>なに</rt></ruby>があったら<ruby>幸<rt>しあわ</rt></ruby>せ/うれしい？ どうして？", "viText": "Đối với bạn 〇〇, giữa sức khỏe, gia đình và bạn bè thân thiết, chỉ cần có được yếu tố nào là bạn đã thấy hạnh phúc / vui sướng nhất? Tại sao?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.10.mp3" }
         ];
-    // =============================================================================
-    // D-PART: LOGIC & AUDIO CONTROL SYSTEM (Ver2.950b)
-    // =============================================================================
-    let currentAudio = null;
-    let audioQueue = [];
-    let isPlayingQueue = false;
-    let queueIndex = 0;
+    <script>
+        // =============================================================================
+        // D-PART: LOGIC & AUDIO CONTROL SYSTEM (Ver2.965 - PopUp & Fixed-Scroll Focus)
+        // =============================================================================
+        let currentAudio = null;
+        let audioQueue = [];
+        let isPlayingQueue = false;
+        let queueIndex = 0;
 
-    // --- DOM Elements ---
-    const playAllBtn = document.getElementById('playAllBtn');
-    const playLessonBtn = document.getElementById('playLessonBtn');
-    const shufflePlayBtn = document.getElementById('shufflePlayBtn');
-    const individualPlayBtn = document.getElementById('individualPlayBtn');
-    const lessonSelectContainer = document.getElementById('lessonSelectContainer');
-    const lessonSelect = document.getElementById('lessonSelect');
-    const confirmBtn = document.getElementById('confirmBtn');
-    const questionsContainer = document.getElementById('questionsContainer');
-    const pauseInput = document.getElementById('pauseInput');
-    const stopBtn = document.getElementById('stopBtn');
-    const errorMessage = document.getElementById('errorMessage');
-    const plusBtn = document.getElementById('plusBtn');
-    const minusBtn = document.getElementById('minusBtn');
-    const toggleManualBtn = document.getElementById('toggleManualBtn');
-    const manualContainer = document.getElementById('manualContainer');
-    const closeManualBtn = document.getElementById('closeManualBtn');
+        // --- DOM Elements ---
+        const playAllBtn = document.getElementById('playAllBtn');
+        const playLessonBtn = document.getElementById('playLessonBtn');
+        const shufflePlayBtn = document.getElementById('shufflePlayBtn');
+        const individualPlayBtn = document.getElementById('individualPlayBtn');
+        const lessonSelectContainer = document.getElementById('lessonSelectContainer');
+        const lessonSelect = document.getElementById('lessonSelect');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const questionsContainer = document.getElementById('questionsContainer');
+        const pauseInput = document.getElementById('pauseInput');
+        const stopBtn = document.getElementById('stopBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const plusBtn = document.getElementById('plusBtn');
+        const minusBtn = document.getElementById('minusBtn');
+        const toggleManualBtn = document.getElementById('toggleManualBtn');
+        const manualContainer = document.getElementById('manualContainer');
+        const closeManualBtn = document.getElementById('closeManualBtn');
+        const modalCloseOkBtn = document.getElementById('modalCloseOkBtn');
 
-    // --- Audio URL Safety Scan (Auto Recovery Check) ---
-    function scanAudioUrls() {
-        console.log("=== Audio URL Safety Scan Started ===");
-        let errorCount = 0;
-        questions.forEach(q => {
-            if (!q.audioUrl) {
-                console.warn(`[Missing URL] ID: ${q.id} has no audio URL defined.`);
-                errorCount++;
+        // --- Audio URL Safety Scan (Auto Recovery Check) ---
+        function scanAudioUrls() {
+            console.log("=== Audio URL Safety Scan Started ===");
+            let errorCount = 0;
+            if (typeof questions === 'undefined') {
+                console.error("[Fatal Error] 'questions' data array is not defined. C-Part entry missing.");
+                showError("データ（Cパート）が読み込まれていません。");
                 return;
             }
-            const urlClean = q.audioUrl.trim();
-            if (!urlClean.toLowerCase().endsWith('.mp3')) {
-                console.error(`[Format Error] ID: ${q.id} has an invalid audio URL structure: "${q.audioUrl}"`);
-                errorCount++;
-            }
-        });
-        if (errorCount === 0) {
-            console.log("✓ All Audio URLs passed the validation scan.");
-        } else {
-            console.warn(`⚠ Scan completed with ${errorCount} warning(s). Please check details above.`);
-        }
-        console.log("======================================");
-    }
-
-    // --- Initialize Dropdown ---
-    function initLessonSelect() {
-        const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
-        lessonSelect.innerHTML = '';
-        lessons.forEach(l => {
-            const opt = document.createElement('option');
-            opt.value = l;
-            opt.textContent = `Bài ${l} (第${l}課)`;
-            lessonSelect.appendChild(opt);
-        });
-        lessonSelect.selectedIndex = -1;
-    }
-
-    // --- Preset Range Select Buttons ---
-    document.querySelectorAll('.preset-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!lessonSelect) return;
-            
-            const start = parseInt(btn.getAttribute('data-start'));
-            const end = parseInt(btn.getAttribute('data-end'));
-            
-            // 一旦すべての選択を解除
-            for (let i = 0; i < lessonSelect.options.length; i++) {
-                lessonSelect.options[i].selected = false;
-            }
-            
-            // 範囲内の課を選択状態にする
-            for (let i = 0; i < lessonSelect.options.length; i++) {
-                const val = parseInt(lessonSelect.options[i].value);
-                if (val >= start && val <= end) {
-                    lessonSelect.options[i].selected = true;
+            questions.forEach(q => {
+                if (!q.audioUrl) {
+                    console.warn(`[Missing URL] ID: ${q.id} has no audio URL defined.`);
+                    errorCount++;
+                    return;
                 }
-            }
-
-            // 範囲選択が完了した瞬間に、「表示 Hiển thị」の確定処理を自動で実行する
-            if (confirmBtn) {
-                confirmBtn.click();
-            }
-        });
-    });
-
-    // --- Get Selected Lessons Helper ---
-    function getSelectedLessons() {
-        return Array.from(lessonSelect.selectedOptions).map(opt => parseInt(opt.value));
-    }
-
-    // --- Error Display Helper ---
-    function showError(msg) {
-        if (msg) {
-            errorMessage.textContent = msg;
-            errorMessage.classList.remove('hidden');
-        } else {
-            errorMessage.textContent = '';
-            errorMessage.classList.add('hidden');
-        }
-    }
-
-    // --- Stop All Playback ---
-    function terminatePlayback() {
-        isPlayingQueue = false;
-        audioQueue = [];
-        queueIndex = 0;
-        if (currentAudio) {
-            try {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            } catch(e) {}
-        }
-        document.querySelectorAll('.question-card').forEach(card => {
-            card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
-        });
-    }
-
-    // --- Highlight Current Card ---
-    function highlightCard(id) {
-        document.querySelectorAll('.question-card').forEach(card => {
-            if (card.getAttribute('data-id') === id) {
-                card.classList.add('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const urlClean = q.audioUrl.trim();
+                if (!urlClean.toLowerCase().endsWith('.mp3')) {
+                    console.error(`[Format Error] ID: ${q.id} has an invalid audio URL structure: "${q.audioUrl}"`);
+                    errorCount++;
+                }
+            });
+            if (errorCount === 0) {
+                console.log("✓ All Audio URLs passed the validation scan.");
             } else {
+                console.warn(`⚠ Scan completed with ${errorCount} warning(s). Please check details above.`);
+            }
+            console.log("======================================");
+        }
+
+        // --- Initialize Dropdown ---
+        function initLessonSelect() {
+            if (typeof questions === 'undefined') return;
+            const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
+            lessonSelect.innerHTML = '';
+            lessons.forEach(l => {
+                const opt = document.createElement('option');
+                opt.value = l;
+                opt.textContent = `Bài ${l} (第${l}課)`;
+                lessonSelect.appendChild(opt);
+            });
+            lessonSelect.selectedIndex = -1;
+        }
+
+        // --- Preset Range Select Buttons ---
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!lessonSelect) return;
+                
+                const start = parseInt(btn.getAttribute('data-start'));
+                const end = parseInt(btn.getAttribute('data-end'));
+                
+                // 一旦すべての選択を解除
+                for (let i = 0; i < lessonSelect.options.length; i++) {
+                    lessonSelect.options[i].selected = false;
+                }
+                
+                // 範囲内の課を選択状態にする
+                for (let i = 0; i < lessonSelect.options.length; i++) {
+                    const val = parseInt(lessonSelect.options[i].value);
+                    if (val >= start && val <= end) {
+                        lessonSelect.options[i].selected = true;
+                    }
+                }
+
+                // 範囲選択が完了した瞬間に、「表示 Hiển thị」の確定処理を自動で実行する
+                if (confirmBtn) {
+                    confirmBtn.click();
+                }
+            });
+        });
+
+        // --- Get Selected Lessons Helper ---
+        function getSelectedLessons() {
+            return Array.from(lessonSelect.selectedOptions).map(opt => parseInt(opt.value));
+        }
+
+        // --- Error Display Helper ---
+        function showError(msg) {
+            if (msg) {
+                errorMessage.textContent = msg;
+                errorMessage.classList.remove('hidden');
+            } else {
+                errorMessage.textContent = '';
+                errorMessage.classList.add('hidden');
+            }
+        }
+
+        // --- Stop All Playback ---
+        function terminatePlayback() {
+            isPlayingQueue = false;
+            audioQueue = [];
+            queueIndex = 0;
+            if (currentAudio) {
+                try {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                } catch(e) {}
+            }
+            document.querySelectorAll('.question-card').forEach(card => {
                 card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
+            });
+        }
+
+        // --- Highlight Current Card (仕様変更：スクロール処理を完全撤廃) ---
+        function highlightCard(id) {
+            document.querySelectorAll('.question-card').forEach(card => {
+                if (card.getAttribute('data-id') === id) {
+                    card.classList.add('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
+                    // 🌟 画面位置を動かさないよう、scrollIntoViewの処理は組み込んでいません。
+                } else {
+                    card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
+                }
+            });
+        }
+
+        // --- Build Queue and Play ---
+        function startQueuePlayback(items) {
+            isPlayingQueue = false; 
+            if (currentAudio) {
+                try { currentAudio.pause(); currentAudio.currentTime = 0; } catch(e) {}
             }
-        });
-    }
+            showError('');
 
-    // --- Build Queue and Play ---
-    function startQueuePlayback(items) {
-        isPlayingQueue = false; 
-        if (currentAudio) {
-            try { currentAudio.pause(); currentAudio.currentTime = 0; } catch(e) {}
-        }
-        showError('');
+            if (items.length === 0) {
+                showError('対象のデータが見つかりません。/ Không tìm thấy dữ liệu.');
+                return;
+            }
 
-        if (items.length === 0) {
-            showError('対象のデータが見つかりません。/ Không tìm thấy dữ liệu.');
-            return;
+            audioQueue = [...items];
+            isPlayingQueue = true;
+            queueIndex = 0;
+            executeNextQueueItem();
         }
 
-        audioQueue = [...items];
-        isPlayingQueue = true;
-        queueIndex = 0;
-        executeNextQueueItem();
-    }
-
-    // --- Core Queue Processing Engine ---
-    function executeNextQueueItem() {
-        if (!isPlayingQueue || queueIndex >= audioQueue.length) {
-            terminatePlayback();
-            return;
-        }
-
-        const currentItem = audioQueue[queueIndex];
-        highlightCard(currentItem.id);
-
-        currentAudio = new Audio(currentItem.audioUrl);
-        
-        currentAudio.onended = () => {
-            if (!isPlayingQueue) return;
-            
-            const pauseInterval = Math.max(0, parseFloat(pauseInput.value) || 0) * 1000;
-            queueIndex++;
-            
-            setTimeout(() => {
-                if (isPlayingQueue) executeNextQueueItem();
-            }, pauseInterval);
-        };
-
-        currentAudio.onerror = (e) => {
-            console.error(`Audio playback failed for ID: ${currentItem.id}`, e);
-            queueIndex++;
-            const pauseInterval = Math.max(0, parseFloat(pauseInput.value) || 0) * 1000;
-            setTimeout(() => {
-                if (isPlayingQueue) executeNextQueueItem();
-            }, pauseInterval);
-        };
-
-        currentAudio.play().catch(err => {
-            console.warn("Autoplay blocked or stream interrupted:", err);
-            showError("端末の音声制限がかかっています。スピーカーマークか各ボタンを一度押してください。");
-            terminatePlayback();
-        });
-    }
-
-    // --- Render UI Cards Function ---
-    function renderCards(targetQuestions) {
-        questionsContainer.innerHTML = '';
-        showError('');
-
-        if (targetQuestions.length === 0) {
-            questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">表示するレッスンを選択してください。</p>';
-            return;
-        }
-
-        targetQuestions.forEach(q => {
-            const card = document.createElement('div');
-            card.className = 'question-card bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4';
-            card.setAttribute('data-id', q.id);
-
-            // --- テキストエリアコンテナ ---
-            const textSection = document.createElement('div');
-            textSection.className = 'flex-1';
-            
-            // ヘッダー情報 (Lesson & ID)
-            const headerInfo = document.createElement('span');
-            headerInfo.className = 'inline-block bg-indigo-100 text-indigo-800 text-xs px-2.5 py-1 rounded-md font-bold mb-2';
-            headerInfo.textContent = `Bài ${q.lesson} - ID: ${q.id}`;
-            textSection.appendChild(headerInfo);
-
-            // 日本語テキスト（デフォルト非表示）
-            const jpText = document.createElement('p');
-            jpText.className = 'text-lg font-medium text-gray-800 mb-2 hidden select-all leading-relaxed';
-            jpText.innerHTML = q.text;
-            textSection.appendChild(jpText);
-
-            // ベトナム語テキスト（デフォルト非表示）
-            const viText = document.createElement('p');
-            viText.className = 'text-sm text-slate-500 font-normal italic hidden select-all leading-relaxed';
-            viText.innerHTML = q.viText || `<span class="text-red-400 font-light">[Chưa cập nhật dịch nghĩa]</span>`;
-            textSection.appendChild(viText);
-
-            // --- コントロールボタンエリア ---
-            const btnSection = document.createElement('div');
-            btnSection.className = 'flex flex-wrap items-center gap-2 self-stretch md:self-auto justify-end border-t md:border-t-0 pt-3 md:pt-0 border-gray-100';
-
-            // 【日本語】表示/非表示ボタン
-            const toggleJpBtn = document.createElement('button');
-            toggleJpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
-            toggleJpBtn.textContent = 'JP Xem';
-            toggleJpBtn.onclick = () => {
-                if (jpText.classList.contains('hidden')) {
-                    jpText.classList.remove('hidden');
-                    toggleJpBtn.textContent = 'JP Ẩn';
-                    toggleJpBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-600 transition min-w-[75px] shadow-sm active:scale-95 select-none';
-                } else {
-                    jpText.classList.add('hidden');
-                    toggleJpBtn.textContent = 'JP Xem';
-                    toggleJpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
-                }
-            };
-
-            // 【ベトナム語】表示/非表示ボタン
-            const toggleViBtn = document.createElement('button');
-            toggleViBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
-            toggleViBtn.textContent = 'VI Xem';
-            toggleViBtn.onclick = () => {
-                if (viText.classList.contains('hidden')) {
-                    viText.classList.remove('hidden');
-                    toggleViBtn.textContent = 'VI Ẩn';
-                    toggleViBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-600 transition min-w-[75px] shadow-sm active:scale-95 select-none';
-                } else {
-                    viText.classList.add('hidden');
-                    toggleViBtn.textContent = 'VI Xem';
-                    toggleViBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
-                }
-            };
-
-            // 個別「再生」スピーカーボタン
-            const playBtn = document.createElement('button');
-            playBtn.className = 'bg-indigo-50 text-indigo-600 p-2.5 rounded-lg hover:bg-indigo-100 border border-indigo-200 transition flex items-center justify-center active:scale-95 shadow-sm';
-            playBtn.title = 'Phát âm thanh';
-            playBtn.innerHTML = `
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"></path>
-                </svg>
-            `;
-            playBtn.onclick = () => {
-                isPlayingQueue = false;
-                if (currentAudio) { try { currentAudio.pause(); } catch(e){} }
-                highlightCard(q.id);
-                currentAudio = new Audio(q.audioUrl);
-                currentAudio.play().catch(e => {
-                    console.error(e);
-                    showError("音声ファイルの読み込みに失敗しました。");
-                });
-            };
-
-            // 個別「停止」スクエアボタン
-            const inlineStopBtn = document.createElement('button');
-            inlineStopBtn.className = 'bg-red-50 text-red-600 p-2.5 rounded-lg hover:bg-red-100 border border-red-200 transition flex items-center justify-center active:scale-95 shadow-sm';
-            inlineStopBtn.title = 'Dừng';
-            inlineStopBtn.innerHTML = `
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <rect x="6" y="6" width="12" height="12" rx="1" />
-                </svg>
-            `;
-            inlineStopBtn.onclick = () => {
+        // --- Core Queue Processing Engine ---
+        function executeNextQueueItem() {
+            if (!isPlayingQueue || queueIndex >= audioQueue.length) {
                 terminatePlayback();
+                return;
+            }
+
+            const currentItem = audioQueue[queueIndex];
+            highlightCard(currentItem.id);
+
+            currentAudio = new Audio(currentItem.audioUrl);
+            
+            currentAudio.onended = () => {
+                if (!isPlayingQueue) return;
+                
+                const pauseInterval = Math.max(0, parseFloat(pauseInput.value) || 0) * 1000;
+                queueIndex++;
+                
+                setTimeout(() => {
+                    if (isPlayingQueue) executeNextQueueItem();
+                }, pauseInterval);
             };
 
-            btnSection.appendChild(toggleJpBtn);
-            btnSection.appendChild(toggleViBtn);
-            btnSection.appendChild(playBtn);
-            btnSection.appendChild(inlineStopBtn);
+            currentAudio.onerror = (e) => {
+                console.error(`Audio playback failed for ID: ${currentItem.id}`, e);
+                queueIndex++;
+                const pauseInterval = Math.max(0, parseFloat(pauseInput.value) || 0) * 1000;
+                setTimeout(() => {
+                    if (isPlayingQueue) executeNextQueueItem();
+                }, pauseInterval);
+            };
 
-            card.appendChild(textSection);
-            card.appendChild(btnSection);
-            questionsContainer.appendChild(card);
-        });
-    }
-
-    // --- Event Listeners Setup ---
-
-    // 1. 全一括再生
-    playAllBtn.addEventListener('click', () => {
-        lessonSelectContainer.classList.add('hidden');
-        renderCards(questions);
-        startQueuePlayback(questions);
-    });
-
-    // 2. 選択課別一括再生
-    playLessonBtn.addEventListener('click', () => {
-        terminatePlayback();
-        lessonSelect.selectedIndex = -1;
-        lessonSelectContainer.classList.remove('hidden');
-        questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài rồi nhấn nút "Hiển thị".</span></p>';
-    });
-
-    // 3. 選択課別シャッフル再生
-    shufflePlayBtn.addEventListener('click', () => {
-        terminatePlayback();
-        lessonSelect.selectedIndex = -1;
-        lessonSelectContainer.classList.remove('hidden');
-        questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">シャッフルする課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài muốn xáo trộn rồi nhấn nút "Hiển thị".</span></p>';
-        confirmBtn.setAttribute('data-mode', 'shuffle');
-    });
-
-    // 4. 個別再生（単発表示モード）
-    individualPlayBtn.addEventListener('click', () => {
-        terminatePlayback();
-        lessonSelect.selectedIndex = -1;
-        lessonSelectContainer.classList.remove('hidden');
-        questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">表示したい課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài muốn hiển thị rồi nhấn nút "Hiển thị".</span></p>';
-        confirmBtn.setAttribute('data-mode', 'individual');
-    });
-
-    // 5. 「表示 Hiển thị」ボタン確定処理
-    confirmBtn.addEventListener('click', () => {
-        const selected = getSelectedLessons();
-        if (selected.length === 0) {
-            showError('課が選択されていません。最低1つ選択してください。');
-            return;
+            currentAudio.play().catch(err => {
+                console.warn("Autoplay blocked or stream interrupted:", err);
+                showError("端末の音声制限がかかっています。スピーカーマークか各ボタンを一度押してください。");
+                terminatePlayback();
+            });
         }
 
-        let filtered = questions.filter(q => selected.includes(q.lesson));
-        const mode = confirmBtn.getAttribute('data-mode');
+        // --- Render UI Cards Function ---
+        function renderCards(targetQuestions) {
+            questionsContainer.innerHTML = '';
+            showError('');
 
-        if (mode === 'shuffle') {
-            filtered = [...filtered];
-            for (let i = filtered.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+            if (targetQuestions.length === 0) {
+                questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">表示するレッスンを選択してください。</p>';
+                return;
             }
-            renderCards(filtered);
-            startQueuePlayback(filtered);
-        } else if (mode === 'individual') {
-            renderCards(filtered);
-        } else {
-            renderCards(filtered);
-            startQueuePlayback(filtered);
+
+            targetQuestions.forEach(q => {
+                const card = document.createElement('div');
+                card.className = 'question-card bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-200';
+                card.setAttribute('data-id', q.id);
+
+                // --- テキストエリアコンテナ ---
+                const textSection = document.createElement('div');
+                textSection.className = 'flex-1';
+                
+                // ヘッダー情報 (Lesson & ID)
+                const headerInfo = document.createElement('span');
+                headerInfo.className = 'inline-block bg-indigo-100 text-indigo-800 text-xs px-2.5 py-1 rounded-md font-bold mb-2';
+                headerInfo.textContent = `Bài ${q.lesson} - ID: ${q.id}`;
+                textSection.appendChild(headerInfo);
+
+                // 日本語テキスト（デフォルト非表示）
+                const jpText = document.createElement('p');
+                jpText.className = 'text-lg font-medium text-gray-800 mb-2 hidden select-all leading-relaxed';
+                jpText.innerHTML = q.text;
+                textSection.appendChild(jpText);
+
+                // ベトナム語テキスト（デフォルト非表示）
+                const viText = document.createElement('p');
+                viText.className = 'text-sm text-slate-500 font-normal italic hidden select-all leading-relaxed';
+                viText.innerHTML = q.viText || `<span class="text-red-400 font-light">[Chưa cập nhật dịch nghĩa]</span>`;
+                textSection.appendChild(viText);
+
+                // --- コントロールボタンエリア ---
+                const btnSection = document.createElement('div');
+                btnSection.className = 'flex flex-wrap items-center gap-2 self-stretch md:self-auto justify-end border-t md:border-t-0 pt-3 md:pt-0 border-gray-100';
+
+                // 【日本語】表示/非表示ボタン
+                const toggleJpBtn = document.createElement('button');
+                toggleJpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
+                toggleJpBtn.textContent = 'JP Xem';
+                toggleJpBtn.onclick = () => {
+                    if (jpText.classList.contains('hidden')) {
+                        jpText.classList.remove('hidden');
+                        toggleJpBtn.textContent = 'JP Ẩn';
+                        toggleJpBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-600 transition min-w-[75px] shadow-sm active:scale-95 select-none';
+                    } else {
+                        jpText.classList.add('hidden');
+                        toggleJpBtn.textContent = 'JP Xem';
+                        toggleJpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
+                    }
+                };
+
+                // 【ベトナム語】表示/非表示ボタン
+                const toggleViBtn = document.createElement('button');
+                toggleViBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
+                toggleViBtn.textContent = 'VI Xem';
+                toggleViBtn.onclick = () => {
+                    if (viText.classList.contains('hidden')) {
+                        viText.classList.remove('hidden');
+                        toggleViBtn.textContent = 'VI Ẩn';
+                        toggleViBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-600 transition min-w-[75px] shadow-sm active:scale-95 select-none';
+                    } else {
+                        viText.classList.add('hidden');
+                        toggleViBtn.textContent = 'VI Xem';
+                        toggleViBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition min-w-[75px] border border-slate-300 shadow-sm active:scale-95 select-none';
+                    }
+                };
+
+                // 個別「再生」スピーカーボタン
+                const playBtn = document.createElement('button');
+                playBtn.className = 'bg-indigo-50 text-indigo-600 p-2.5 rounded-lg hover:bg-indigo-100 border border-indigo-200 transition flex items-center justify-center active:scale-95 shadow-sm';
+                playBtn.title = 'Phát âm thanh';
+                playBtn.innerHTML = `
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"></path>
+                    </svg>
+                `;
+                playBtn.onclick = () => {
+                    isPlayingQueue = false;
+                    if (currentAudio) { try { currentAudio.pause(); } catch(e){} }
+                    highlightCard(q.id);
+                    currentAudio = new Audio(q.audioUrl);
+                    currentAudio.play().catch(e => {
+                        console.error(e);
+                        showError("音声ファイルの読み込みに失敗しました。");
+                    });
+                };
+
+                // 個別「停止」スクエアボタン
+                const inlineStopBtn = document.createElement('button');
+                inlineStopBtn.className = 'bg-red-50 text-red-600 p-2.5 rounded-lg hover:bg-red-100 border border-red-200 transition flex items-center justify-center active:scale-95 shadow-sm';
+                inlineStopBtn.title = 'Dừng';
+                inlineStopBtn.innerHTML = `
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <rect x="6" y="6" width="12" height="12" rx="1" />
+                    </svg>
+                `;
+                inlineStopBtn.onclick = () => {
+                    terminatePlayback();
+                };
+
+                btnSection.appendChild(toggleJpBtn);
+                btnSection.appendChild(toggleViBtn);
+                btnSection.appendChild(playBtn);
+                btnSection.appendChild(inlineStopBtn);
+
+                card.appendChild(textSection);
+                card.appendChild(btnSection);
+                questionsContainer.appendChild(card);
+            });
         }
-        confirmBtn.removeAttribute('data-mode');
-        lessonSelectContainer.classList.add('hidden');
-    });
 
-    // プラス・マイナス インターバルボタン
-    plusBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        let val = parseInt(pauseInput.value) || 0;
-        if (val < 30) pauseInput.value = val + 1;
-    });
+        // --- Event Listeners Setup ---
 
-    // マイナス・マイナス インターバルボタン
-    minusBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        let val = parseInt(pauseInput.value) || 0;
-        if (val > 0) pauseInput.value = val - 1;
-    });
+        // 1. 全一括再生
+        playAllBtn.addEventListener('click', () => {
+            if (typeof questions === 'undefined') return;
+            lessonSelectContainer.classList.add('hidden');
+            renderCards(questions);
+            startQueuePlayback(questions);
+        });
 
-    // 🌟不具合修正：マニュアル開閉（独自追加したCSSクラスのtoggleに切り替え）
-    toggleManualBtn.addEventListener('click', () => {
-        manualContainer.classList.toggle('manual-open');
-    });
+        // 2. 選択課別一括再生
+        playLessonBtn.addEventListener('click', () => {
+            terminatePlayback();
+            lessonSelect.selectedIndex = -1;
+            lessonSelectContainer.classList.remove('hidden');
+            questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài rồi nhấn nút "Hiển thị".</span></p>';
+        });
 
-    closeManualBtn.addEventListener('click', () => {
-        manualContainer.classList.remove('manual-open');
-    });
+        // 3. 選択課別シャッフル再生
+        shufflePlayBtn.addEventListener('click', () => {
+            terminatePlayback();
+            lessonSelect.selectedIndex = -1;
+            lessonSelectContainer.classList.remove('hidden');
+            questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">シャッフルする課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài muốn xáo trộn rồi nhấn nút "Hiển thị".</span></p>';
+            confirmBtn.setAttribute('data-mode', 'shuffle');
+        });
 
-    // 全体停止ボタン
-    stopBtn.addEventListener('click', terminatePlayback);
+        // 4. 個別再生（単発表示モード）
+        individualPlayBtn.addEventListener('click', () => {
+            terminatePlayback();
+            lessonSelect.selectedIndex = -1;
+            lessonSelectContainer.classList.remove('hidden');
+            questionsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">表示したい課を選択して「表示 Hiển thị」ボタンを押してください。<br><span class="text-xs text-gray-400 block mt-1">Hãy chọn bài muốn hiển thị rồi nhấn nút "Hiển thị".</span></p>';
+            confirmBtn.setAttribute('data-mode', 'individual');
+        });
 
-    // --- アプリケーション初期ブートストラップ ---
-    window.addEventListener('DOMContentLoaded', () => {
-        initLessonSelect();
-        scanAudioUrls(); // 音声リンク安全性スキャン実行
-    });
-</script>
+        // 5. 「表示 Hiển thị」ボタン確定処理
+        confirmBtn.addEventListener('click', () => {
+            if (typeof questions === 'undefined') return;
+            const selected = getSelectedLessons();
+            if (selected.length === 0) {
+                showError('課が選択されていません。最低1つ選択してください。');
+                return;
+            }
+
+            let filtered = questions.filter(q => selected.includes(q.lesson));
+            const mode = confirmBtn.getAttribute('data-mode');
+
+            if (mode === 'shuffle') {
+                filtered = [...filtered];
+                for (let i = filtered.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+                }
+                renderCards(filtered);
+                startQueuePlayback(filtered);
+            } else if (mode === 'individual') {
+                renderCards(filtered);
+            } else {
+                renderCards(filtered);
+                startQueuePlayback(filtered);
+            }
+            confirmBtn.removeAttribute('data-mode');
+            lessonSelectContainer.classList.add('hidden');
+        });
+
+        // プラス・マイナス インターバルボタン
+        plusBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            let val = parseInt(pauseInput.value) || 0;
+            if (val < 30) pauseInput.value = val + 1;
+        });
+
+        // マイナス・マイナス インターバルボタン
+        minusBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            let val = parseInt(pauseInput.value) || 0;
+            if (val > 0) pauseInput.value = val - 1;
+        });
+
+        // 説明書モーダル（ポップアップ風ウィンドウ）の開閉処理
+        toggleManualBtn.addEventListener('click', () => {
+            manualContainer.classList.add('manual-open');
+        });
+
+        // モーダルの外側（グレーアウトエリア）をクリックした時も閉じる
+        manualContainer.addEventListener('click', (e) => {
+            if (e.target === manualContainer) {
+                manualContainer.classList.remove('manual-open');
+            }
+        });
+
+        closeManualBtn.addEventListener('click', () => {
+            manualContainer.classList.remove('manual-open');
+        });
+
+        modalCloseOkBtn.addEventListener('click', () => {
+            manualContainer.classList.remove('manual-open');
+        });
+
+        // 全体停止ボタン
+        stopBtn.addEventListener('click', terminatePlayback);
+
+        // --- アプリケーション初期ブートストラップ ---
+        window.addEventListener('DOMContentLoaded', () => {
+            initLessonSelect();
+            scanAudioUrls(); // 音声リンク安全性スキャン実行
+        });
+    </script>
 </body>
 </html>
