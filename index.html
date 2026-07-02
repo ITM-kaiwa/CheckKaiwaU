@@ -91,26 +91,31 @@
     <div id="manualContainer" class="modal-overlay">
         <div class="bg-white w-full max-w-lg m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col max-h-[85vh]">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
-                <h3 class="text-lg font-bold text-slate-800">📖 アプリケーション説明書</h3>
+                <h3 class="text-lg font-bold text-slate-800">📖 アプリケーション説明書 / Hướng dẫn sử dụng</h3>
                 <button id="closeManualBtn" class="text-slate-400 hover:text-slate-600 font-bold text-xl p-1">&times;</button>
             </div>
             <div class="space-y-4 text-sm text-slate-600 overflow-y-auto pr-2 leading-relaxed">
-                <p class="font-medium text-slate-800">【各ボタンの機能 / Chức năng của từng nút】</p>
+                <p class="font-medium text-slate-800">【機能説明 / Giải thích chức năng】</p>
                 <ul class="list-disc pl-5 space-y-2">
-                    <li><strong class="text-indigo-600">全体一括音声再生 (Phát toàn bộ liên tục):</strong> 登録されているすべての問題カードを上から順番に連続再生します。</li>
-                    <li><strong class="text-indigo-600">課別音声一括再生 (Phát liên tục theo bài):</strong> 選択した特定の「課（Bài）」のデータを順番に連続再生します。</li>
-                    <li><strong class="text-slate-700">選択課別シャッフル自動再生 (Phát ngẫu nhiên theo bài đã chọn):</strong> 選択した課のデータをランダムに並び替えて連続再生します。</li>
-                    <li><strong class="text-slate-700">個別音声再生指定 (Chế độ hiển thị thẻ cá nhân):</strong> 選択した課のカードを表示するのみで、自動再生は行いません。個別に確認したい場合に使用します。</li>
-                    <li><strong class="text-red-600">全体停止:</strong> 現在流れている音声、および再生キュー（連続再生）をすべて停止します。</li>
+                    <li><strong class="text-indigo-600">全体一括音声再生:</strong> すべての問題カードを連続再生します。<br><span class="text-xs text-slate-500">Phát toàn bộ các thẻ câu hỏi liên tục.</span></li>
+                    <li><strong class="text-indigo-600">課別音声一括再生:</strong> 選択した課のデータを順番に連続再生します。<br><span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span></li>
+                    <li><strong class="text-slate-700">選択課別シャッフル自動再生:</strong> 選択した課のデータをランダムに再生します。<br><span class="text-xs text-slate-500">Phát ngẫu nhiên các câu hỏi trong bài đã chọn.</span></li>
+                    <li><strong class="text-slate-700">個別音声再生指定:</strong> 自動再生せず、カードの表示のみ行います。<br><span class="text-xs text-slate-500">Chỉ hiển thị thẻ, không tự động phát âm thanh.</span></li>
+                    <li><strong class="text-red-600">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-slate-500">Dừng mọi âm thanh đang phát.</span></li>
                 </ul>
                 <p class="font-medium text-slate-800 pt-2">【カード内の操作 / Thao tác trong thẻ】</p>
                 <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>JP Xem / Ẩn:</strong> 日本語テキストの表示・非表示を切り替えます。</li>
-                    <li><strong>VI Xem / Ẩn:</strong> ベトナム語の翻訳文の表示・非表示を切り替えます。</li>
-                    <li><strong class="text-indigo-600">▶ (再生):</strong> そのカードの音声を単発で再生します。</li>
-                    <li><strong class="text-red-600">■ (個別停止):</strong> そのカードで再生中の音声を停止します。</li>
+                    <li><strong>JP Xem / Ẩn:</strong> 日本語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Nhật.</span></li>
+                    <li><strong>VI Xem / Ẩn:</strong> ベトナム語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Việt.</span></li>
+                    <li><strong class="text-indigo-600">▶ (再生):</strong> そのカードの音声を再生します。<br><span class="text-xs text-slate-500">Phát âm thanh của thẻ này.</span></li>
+                    <li><strong class="text-red-600">■ (個別停止):</strong> 音声を停止します。<br><span class="text-xs text-slate-500">Dừng âm thanh của thẻ này.</span></li>
                 </ul>
             </div>
+            <div class="border-t border-slate-100 pt-3 mt-4 text-right">
+                <button id="modalCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる / Đóng</button>
+            </div>
+        </div>
+    </div>
             <div class="border-t border-slate-100 pt-3 mt-4 text-right">
                 <button id="modalCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる</button>
             </div>
@@ -118,7 +123,7 @@
     </div>
 
     <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60">
-        <span class="inline-block bg-slate-200 text-slate-600 text-xs px-3 py-1 rounded-full font-semibold shadow-inner">Ver2.981c</span>
+        <span class="inline-block bg-slate-200 text-slate-600 text-xs px-3 py-1 rounded-full font-semibold shadow-inner">Ver2.981d</span>
     </div>
 
    <script>
