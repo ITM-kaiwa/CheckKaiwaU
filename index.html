@@ -53,13 +53,15 @@
 
         <div class="flex items-center justify-between gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200 w-full">
                 <div class="flex items-center gap-2 shrink-0">
-                    <span class="text-xs md:text-sm font-medium text-slate-600 whitespace-nowrap">再生間隔 (秒):</span>
+                    <span class="text-xs md:text-sm font-medium text-slate-600 whitespace-nowrap">再生間隔 / Khoảng cách phát (秒):</span>
                     <button id="minusBtn" class="bg-white text-slate-700 w-8 h-8 rounded-lg border border-slate-300 flex items-center justify-center font-bold hover:bg-slate-100 transition active:scale-95 shadow-sm">-</button>
                     <input id="pauseInput" type="number" value="3" min="0" max="30" class="w-10 md:w-12 text-center bg-white border border-slate-300 rounded-lg py-1 font-semibold focus:outline-none" readonly>
                     <button id="plusBtn" class="bg-white text-slate-700 w-8 h-8 rounded-lg border border-slate-300 flex items-center justify-center font-bold hover:bg-slate-100 transition active:scale-95 shadow-sm">+</button>
                 </div>
                 
-                <button id="stopBtn" class="bg-red-600 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-red-700 transition shadow-sm active:scale-95 flex-grow md:flex-grow-0 text-center">全体停止</button>
+                <button id="stopBtn" class="bg-red-600 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-red-700 transition shadow-sm active:scale-95 flex-grow md:flex-grow-0 text-center">
+                    停止<br><span class="text-xs font-normal opacity-90">Dừng</span>
+                </button>
             </div>
 
             <div id="lessonSelectContainer" class="hidden p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3">
@@ -116,7 +118,7 @@
     </div>
 
     <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60">
-        <span class="inline-block bg-slate-200 text-slate-600 text-xs px-3 py-1 rounded-full font-semibold shadow-inner">Ver2.981b</span>
+        <span class="inline-block bg-slate-200 text-slate-600 text-xs px-3 py-1 rounded-full font-semibold shadow-inner">Ver2.981c</span>
     </div>
 
    <script>
