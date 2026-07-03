@@ -157,11 +157,11 @@
     
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.000a</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.001a</span>
 </div>
  <script>
     // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.000a)   
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.001a)   
     // =============================================================================
 
 (function() {
@@ -426,6 +426,7 @@
         terminatePlayback();
         lessonSelectContainer.classList.remove('hidden');
         confirmBtn.setAttribute('data-mode', 'normal');
+        lessonSelect.focus();
     });
 
     // 3. 選択課別シャッフル自動再生
@@ -433,6 +434,7 @@
         terminatePlayback();
         lessonSelectContainer.classList.remove('hidden');
         confirmBtn.setAttribute('data-mode', 'shuffle');
+        lessonSelect.focus();
     });
 
     // 4. 個別音声再生指定
@@ -440,6 +442,7 @@
         terminatePlayback();
         lessonSelectContainer.classList.remove('hidden');
         confirmBtn.setAttribute('data-mode', 'individual');
+        lessonSelect.focus();
     });
 
     // 課選択後の「表示」確定処理
