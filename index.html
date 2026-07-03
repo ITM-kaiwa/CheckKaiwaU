@@ -175,11 +175,11 @@
     
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.001f</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.100a</span>
 </div>
  <script>
     // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.001f)   
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.100a)   
     // =============================================================================
 
 (function() {
@@ -333,10 +333,15 @@
             // テキストエリア
             const textSection = document.createElement('div');
             textSection.className = 'flex-1';
+            
+            // 画像がある場合のみ、隠された<img>タグを差し込む
+            const imageHtml = q.imageUrl ? `<div class="mt-3 hidden img-container"><img src="${q.imageUrl}" alt="イラスト" class="max-h-[120px] rounded-lg border border-slate-200 shadow-sm"></div>` : '';
+
             textSection.innerHTML = `
                 <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2.5 py-1 rounded-md font-bold mb-2">Bài ${q.lesson} - ID: ${q.id}</span>
                 <p class="text-lg font-medium text-gray-800 mb-2 hidden select-all">${q.text}</p>
                 <p class="text-sm text-slate-500 font-normal italic hidden select-all">${q.viText || ''}</p>
+                ${imageHtml}
             `;
 
             // ボタンコントロールエリア
@@ -374,6 +379,29 @@
                     viBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
                 }
             };
+            // ==========================================
+            // 👇 ここから追加：画像切替ボタンの生成（データがある場合のみ）
+            // ==========================================
+            let imgBtn = null; // 初期値は空にしておく
+            if (q.imageUrl) {
+                imgBtn = document.createElement('button');
+                imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+                imgBtn.textContent = '🖼️ Hình';
+                imgBtn.onclick = () => {
+                    const imgTarget = textSection.querySelector('.img-container');
+                    if (imgTarget) {
+                        imgTarget.classList.toggle('hidden');
+                        if (imgTarget.classList.contains('hidden')) {
+                            imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+                        } else {
+                            imgBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
+                        }
+                    }
+                };
+            }
+            // ==========================================
+            // 👆 ここまで追加
+            // ==========================================
             // ==========================================
             // 👇 ここから追加：個別録音ボタン（🎤）
             // ==========================================
@@ -1020,7 +1048,7 @@
             { "lesson": 22, "id": "22-7", "text": "<ruby>名前<rt>なまえ</rt></ruby>がわかりません。<ruby>私<rt>わたし</rt></ruby>に<ruby>聞<rt>き</rt></ruby>いてください。<br>（<ruby>服装<rt>ふくそう</rt></ruby>の<ruby>特徴<rt>とくちょう</rt></ruby> 〜ている<ruby>人<rt>ひと</rt></ruby>はだれですか）で<ruby>質問<rt>しつもん</rt></ruby>する", "viText": "Tôi không biết tên bạn đó, hãy đặt câu hỏi cho tôi đi. *Yêu cầu học sinh dùng mẫu định ngữ mô tả trang phục quần áo đang mặc để hỏi: Người đang mặc... là ai?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.7.mp3" },
             { "lesson": 22, "id": "22-8", "text": "<ruby>佐藤<rt>さとう</rt></ruby>さんはどの<ruby>人<rt>ひと</rt></ruby>ですか。<br>※<ruby>回答<rt>かいとう</rt></ruby> 〜ている<ruby>人<rt>ひと</rt></ruby>です。", "viText": "Anh/Chị Sato là người nào trong số những người kia vậy? *Mẫu trả lời: Là người đang thực hiện hành động cụ thể.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.8.mp3" },
             { "lesson": 22, "id": "22-9", "text": "この<ruby>中<rt>なか</rt></ruby>で、どの<ruby>人<rt>ひと</rt></ruby>が<ruby>好<rt>す</rt></ruby>きですか。<br>※〜ている<ruby>人<rt>ひと</rt></ruby>が<ruby>好<rt>す</rt></ruby>きです", "viText": "Trong số những người ở đây, bạn ấn tượng hay thích người nào nhất? *Mẫu trả lời định ngữ: Tôi thích người đang làm việc gì đó.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.9.mp3" },
-            { "lesson": 22, "id": "22-10", "text": "（ホーチミンさんの<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>見<rt>み</rt></ruby>せて）この<ruby>人<rt>ひと</rt></ruby>は<ruby>何<rt>なに</rt></ruby>をした<ruby>人<rt>ひと</rt></ruby>ですか。", "viText": "(Cho xem ảnh Bác Hồ) Người vĩ đại này là người đã cống hiến hay làm nên sự nghiệp gì vĩ đại?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.10.mp3" },
+            { "lesson": 22, "id": "22-10", "text": "（ホーチミンさんの<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>見<rt>み</rt></ruby>せて）この<ruby>人<rt>ひと</rt></ruby>は<ruby>何<rt>なに</rt></ruby>をした<ruby>人<rt>ひと</rt></ruby>ですか。", "viText": "(Cho xem ảnh Bác Hồ) Người vĩ đại này là người đã cống hiến hay làm nên sự nghiệp gì vĩ đại?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.10.mp3","imageUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.10.jpg"},
 
             // ==================== LESSON 23 ====================
             { "lesson": 23, "id": "23-1", "text": "<ruby>時間<rt>じかん</rt></ruby>に<ruby>遅<rt>おく</rt></ruby>れたとき、<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/23.1.mp3" },
