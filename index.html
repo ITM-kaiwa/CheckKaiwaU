@@ -94,45 +94,44 @@
 
     </div>
 <div id="recordModal" class="modal-overlay">
-        <div class="bg-white w-full max-w-md m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+        <div class="bg-white w-full max-w-md m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col max-h-[90vh]">
+            
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4 shrink-0">
                 <h3 class="text-lg font-bold text-slate-800">🎙️ 発音チェック / Ghi âm</h3>
-                <button id="closeRecordModalBtn" class="text-slate-400 hover:text-slate-600 font-bold text-xl p-1">&times;</button>
+                <button id="closeRecordModalBtn" class="text-slate-400 hover:text-slate-600 font-bold text-2xl p-2 -mr-2 leading-none">&times;</button>
             </div>
             
-            <div class="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs shadow-sm">
+            <div class="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs shadow-sm shrink-0">
                 <p class="font-bold">⚠️ 録音するには、マイクへのアクセス許可が必要です。</p>
                 <p class="mt-0.5 text-amber-700/90 italic">Vui lòng cấp quyền truy cập micro cho trình duyệt để ghi âm.</p>
             </div>
-            <div class="mb-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                <span id="recordModalId" class="inline-block bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-md font-bold mb-2"></span>
-                <p id="recordModalText" class="text-lg font-medium text-slate-800 leading-relaxed"></p>
-            </div>
-            
-            <div class="mb-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
+
+            <div class="mb-5 bg-slate-50 p-4 rounded-xl border border-slate-100 overflow-y-auto">
                 <span id="recordModalId" class="inline-block bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-md font-bold mb-2"></span>
                 <p id="recordModalText" class="text-lg font-medium text-slate-800 leading-relaxed"></p>
             </div>
 
-            <div class="grid grid-cols-2 gap-3 mb-3">
-                <button id="startRecordBtn" class="bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">
-                    🔴 録音開始
-                </button>
-                <button id="stopRecordBtn" class="bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed" disabled>
-                    ■ 停止
-                </button>
-            </div>
+            <div class="shrink-0">
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <button id="startRecordBtn" class="bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">
+                        🔴 録音開始
+                    </button>
+                    <button id="stopRecordBtn" class="bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed" disabled>
+                        ■ 停止
+                    </button>
+                </div>
 
-            <div class="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
-                <button id="playRecordBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 py-2.5 rounded-xl font-bold hover:bg-indigo-100 transition flex items-center justify-center gap-2 opacity-50 pointer-events-none">
-                    ▶️ 再生する
-                </button>
-                <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2.5 rounded-xl font-bold hover:bg-emerald-100 transition flex items-center justify-center gap-2 opacity-50 pointer-events-none">
-                    💾 保存する
-                </button>
+                <div class="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
+                    <button id="playRecordBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 py-2.5 rounded-xl font-bold hover:bg-indigo-100 transition flex items-center justify-center gap-2 opacity-50 pointer-events-none">
+                        ▶️ 再生する
+                    </button>
+                    <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2.5 rounded-xl font-bold hover:bg-emerald-100 transition flex items-center justify-center gap-2 opacity-50 pointer-events-none">
+                        💾 保存する
+                    </button>
+                </div>
+                
+                <div id="recordStatus" class="text-center text-xs text-slate-500 mt-4 h-4 font-medium">待機中... (Sẵn sàng)</div>
             </div>
-            
-            <div id="recordStatus" class="text-center text-xs text-slate-500 mt-4 h-4 font-medium">待機中... (Sẵn sàng)</div>
         </div>
     </div>
     <div id="manualContainer" class="modal-overlay">
@@ -170,11 +169,11 @@
     
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.001c</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.001d</span>
 </div>
  <script>
     // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.001c)   
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.001d)   
     // =============================================================================
 
 (function() {
