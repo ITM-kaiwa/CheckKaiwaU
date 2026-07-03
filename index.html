@@ -175,11 +175,11 @@
     
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.100a-debug3</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.101a</span>
 </div>
  <script>
     // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.100a-debug3)   
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.101a)   
     // =============================================================================
 
 (function() {
@@ -438,15 +438,14 @@
                 // このカード単体、または紐づく音声処理のみを安全にストップ
                 terminatePlayback();
             };
-
-            buttonSection.appendChild(jpBtn);
-            buttonSection.appendChild(viBtn);
-            buttonSection.appendChild(recordBtn);
-            buttonSection.appendChild(playBtn);
-            buttonSection.appendChild(stopIndividualBtn); // 右隣に結合
             // 【重要：この1行追加：バグ取り】
                 if (imgBtn) {buttonSection.appendChild(imgBtn);}
             // ------------------------------------
+                            buttonSection.appendChild(jpBtn);
+                            buttonSection.appendChild(viBtn);
+                            buttonSection.appendChild(recordBtn);
+                            buttonSection.appendChild(playBtn);
+                            buttonSection.appendChild(stopIndividualBtn); // 右隣に結合
             card.appendChild(textSection);
             card.appendChild(buttonSection);
             questionsContainer.appendChild(card);
