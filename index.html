@@ -93,7 +93,39 @@
             </div>
 
     </div>
+<div id="recordModal" class="modal-overlay">
+        <div class="bg-white w-full max-w-md m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+                <h3 class="text-lg font-bold text-slate-800">🎙️ 発音チェック / Ghi âm</h3>
+                <button id="closeRecordModalBtn" class="text-slate-400 hover:text-slate-600 font-bold text-xl p-1">&times;</button>
+            </div>
+            
+            <div class="mb-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                <span id="recordModalId" class="inline-block bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-md font-bold mb-2"></span>
+                <p id="recordModalText" class="text-lg font-medium text-slate-800 leading-relaxed"></p>
+            </div>
 
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <button id="startRecordBtn" class="bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">
+                    🔴 録音開始
+                </button>
+                <button id="stopRecordBtn" class="bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed" disabled>
+                    ■ 停止
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
+                <button id="playRecordBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 py-2.5 rounded-xl font-bold hover:bg-indigo-100 transition flex items-center justify-center gap-2 opacity-50 pointer-events-none">
+                    ▶️ 再生する
+                </button>
+                <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2.5 rounded-xl font-bold hover:bg-emerald-100 transition flex items-center justify-center gap-2 opacity-50 pointer-events-none">
+                    💾 保存する
+                </button>
+            </div>
+            
+            <div id="recordStatus" class="text-center text-xs text-slate-500 mt-4 h-4 font-medium">待機中... (Sẵn sàng)</div>
+        </div>
+    </div>
     <div id="manualContainer" class="modal-overlay">
         <div class="bg-white w-full max-w-lg m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col max-h-[85vh]">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
@@ -125,11 +157,11 @@
     
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver2.9830c</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.000a</span>
 </div>
  <script>
     // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver2.9830c)   
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.000a)   
     // =============================================================================
 
 (function() {
@@ -324,7 +356,19 @@
                     viBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
                 }
             };
-
+            // ==========================================
+            // 👇 ここから追加：個別録音ボタン（🎤）
+            // ==========================================
+            const recordBtn = document.createElement('button');
+            recordBtn.className = 'bg-emerald-50 text-emerald-600 p-2 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
+            recordBtn.innerHTML = '🎤';
+            recordBtn.onclick = () => {
+                terminatePlayback(); // 既存の再生処理を安全にクリア
+                openRecordModal(q.id, q.text, q.lesson); // モーダルを開いてデータを渡す
+            };
+            // ==========================================
+            // 👆 ここまで追加
+            // ==========================================
             // 個別再生ボタン（▶）
             const playBtn = document.createElement('button');
             playBtn.className = 'bg-indigo-50 text-indigo-600 p-2 rounded-lg border border-indigo-200 hover:bg-indigo-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
@@ -336,7 +380,7 @@
                 currentAudio.play().catch(e => console.error('Individual play error:', e));
             };
 
-            // 個別停止ボタン（■）[新規実装]
+            // 個別停止ボタン（■）
             const stopIndividualBtn = document.createElement('button');
             stopIndividualBtn.className = 'bg-red-50 text-red-600 p-2 rounded-lg border border-red-200 hover:bg-red-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
             stopIndividualBtn.innerHTML = '■';
@@ -347,6 +391,7 @@
 
             buttonSection.appendChild(jpBtn);
             buttonSection.appendChild(viBtn);
+            buttonSection.appendChild(recordBtn);
             buttonSection.appendChild(playBtn);
             buttonSection.appendChild(stopIndividualBtn); // 右隣に結合
             
@@ -463,6 +508,144 @@
     window.addEventListener('DOMContentLoaded', () => {
         initLessonSelect();
     });
+
+    // =============================================================================
+    // E-PART: RECORDING SYSTEM (フローティング録音機能)
+    // =============================================================================
+    let mediaRecorder;
+    let audioChunks = [];
+    let recordedAudioUrl = null;
+    let currentRecordId = "";
+    let currentRecordLesson = "";
+
+    const recordModal = document.getElementById('recordModal');
+    const closeRecordModalBtn = document.getElementById('closeRecordModalBtn');
+    const recordModalId = document.getElementById('recordModalId');
+    const recordModalText = document.getElementById('recordModalText');
+    
+    const startRecordBtn = document.getElementById('startRecordBtn');
+    const stopRecordBtn = document.getElementById('stopRecordBtn');
+    const playRecordBtn = document.getElementById('playRecordBtn');
+    const saveRecordBtn = document.getElementById('saveRecordBtn');
+    const recordStatus = document.getElementById('recordStatus');
+
+    // 録音モーダルを開く
+    window.openRecordModal = function(id, text, lesson) {
+        currentRecordId = id;
+        currentRecordLesson = lesson;
+        recordModalId.textContent = `Bài ${lesson} - ID: ${id}`;
+        recordModalText.innerHTML = text; // rubyタグを反映させるためinnerHTMLを使用
+        
+        // 状態を初期化
+        audioChunks = [];
+        recordedAudioUrl = null;
+        updateRecordUI('idle');
+        
+        // 既存のCSSクラスを利用して表示
+        recordModal.classList.add('manual-open'); 
+    };
+
+    // モーダルを閉じる（録音中なら安全に停止）
+    closeRecordModalBtn.addEventListener('click', () => {
+        recordModal.classList.remove('manual-open');
+        if(mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
+    });
+
+    // 録音開始
+    startRecordBtn.addEventListener('click', async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+            
+            mediaRecorder.ondataavailable = e => {
+                if(e.data.size > 0) audioChunks.push(e.data);
+            };
+            
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                recordedAudioUrl = URL.createObjectURL(audioBlob);
+                updateRecordUI('recorded');
+            };
+            
+            mediaRecorder.start();
+            updateRecordUI('recording');
+        } catch (err) {
+            alert('マイクへのアクセスが拒否されたか、エラーが発生しました。');
+            console.error(err);
+        }
+    });
+
+    // 録音停止
+    stopRecordBtn.addEventListener('click', () => {
+        if(mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            // マイクの使用を完全に終了させる
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
+    });
+
+    // 自分の声を再生
+    playRecordBtn.addEventListener('click', () => {
+        if(recordedAudioUrl) {
+            const audio = new Audio(recordedAudioUrl);
+            audio.play();
+        }
+    });
+
+    // ローカルへ保存（ダウンロード）
+    saveRecordBtn.addEventListener('click', () => {
+        if(recordedAudioUrl) {
+            const a = document.createElement('a');
+            a.href = recordedAudioUrl;
+            // Bài2_ID_2-1a.webm のようなファイル名を自動生成
+            a.download = `Bai${currentRecordLesson}_ID_${currentRecordId}.webm`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    });
+
+    // UIの表示状態を切り替える管理関数
+    function updateRecordUI(state) {
+        if(state === 'idle') {
+            startRecordBtn.disabled = false;
+            startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
+            startRecordBtn.innerHTML = '🔴 録音開始';
+            
+            stopRecordBtn.disabled = true;
+            stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
+            
+            playRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+            saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+            recordStatus.textContent = '待機中... (Sẵn sàng)';
+        } else if (state === 'recording') {
+            startRecordBtn.disabled = true;
+            startRecordBtn.className = 'bg-red-600 text-white border border-red-700 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 animate-pulse';
+            startRecordBtn.innerHTML = '🔴 録音中...';
+            
+            stopRecordBtn.disabled = false;
+            stopRecordBtn.className = 'bg-slate-800 text-white border border-slate-900 py-3 rounded-xl font-bold hover:bg-slate-700 transition flex items-center justify-center gap-2 shadow-md';
+            
+            playRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+            saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+            recordStatus.textContent = '録音しています... (Đang ghi âm)';
+        } else if (state === 'recorded') {
+            startRecordBtn.disabled = false;
+            startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
+            startRecordBtn.innerHTML = '🔄 やり直す';
+            
+            stopRecordBtn.disabled = true;
+            stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
+            
+            playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+            recordStatus.textContent = '保存完了--再生または保存できます (Hoàn thành)';
+        }
+    }
 })();
 </script>
     
