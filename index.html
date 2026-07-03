@@ -73,12 +73,18 @@
             <div id="lessonSelectContainer" class="hidden p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3">
                 <label for="lessonSelect" class="block text-sm font-semibold text-indigo-900">対象の課を選択してください（複数選択可）:</label>
                 
-                <div class="flex flex-wrap gap-2 mb-2">
+               <div class="flex flex-wrap gap-2 mb-2">
                     <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="1" data-end="3">1-3課</button>
                     <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="4" data-end="7">4-7課</button>
                     <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="8" data-end="12">8-12課</button>
                     <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="13" data-end="19">13-19課</button>
                     <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="20" data-end="25">20-25課</button>
+                    
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="26" data-end="30">26-30課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="31" data-end="35">31-35課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="36" data-end="40">36-40課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="41" data-end="45">41-45課</button>
+                    <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="46" data-end="50">46-50課</button>
                 </div>
 
                 <select id="lessonSelect" multiple class="w-full min-h-[120px] bg-white border border-indigo-200 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
@@ -169,11 +175,11 @@
     
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.001e</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.001f</span>
 </div>
  <script>
     // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.001e)   
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.001f)   
     // =============================================================================
 
 (function() {
@@ -493,10 +499,25 @@
             const start = parseInt(btn.getAttribute('data-start'));
             const end = parseInt(btn.getAttribute('data-end'));
             
+            let foundMatch = false; // データが存在するかどうかのフラグ
+
             for (let i = 0; i < lessonSelect.options.length; i++) {
                 const val = parseInt(lessonSelect.options[i].value);
-                lessonSelect.options[i].selected = (val >= start && val <= end);
+                const isMatch = (val >= start && val <= end);
+                lessonSelect.options[i].selected = isMatch;
+                
+                if (isMatch) {
+                    foundMatch = true; // 1つでも該当すればフラグを立てる
+                }
             }
+
+            // データが1つも存在しなかった場合のエラー処理
+            if (!foundMatch) {
+                showError(`第${start}課〜第${end}課のデータはまだありません。 / Dữ liệu bài ${start}-${end} chưa được cập nhật.`);
+                return; // ここで処理を中断し、「表示」ボタンを押させない
+            }
+
+            hideError(); // エラーが出ていた場合は消す
             confirmBtn.click();
         });
     });
