@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel=”icon” href=”/favicon.ico”>
+    <link rel="icon" href="/favicon.ico">
+
     <title>IQ　会話反応チェック（大学生向け）</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="coi-serviceworker.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/coi-serviceworker/0.1.7/coi-serviceworker.min.js"></script>
+        <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+
     <style>
         /* Aパート：モーダル（ポップアップ）用のスタイル */
         .modal-overlay {
@@ -26,12 +29,10 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen p-4 md:p-8">
 
+<body class="bg-slate-50 text-slate-800 min-h-screen p-4 md:p-8">
     <div class="max-w-4xl mx-auto space-y-6">
-        
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <button id="playAllBtn" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95 text-center leading-tight">
                 全体一括連続再生<br><span class="text-xs font-normal opacity-90">Phát toàn bộ liên tục</span>
@@ -46,7 +47,6 @@
                 （拡張用スロット）<br><span class="text-xs font-normal opacity-70">Coming soon</span>
                 </button>
             </div>
-          
             <div id="initialMessageContainer" class="text-center py-4 bg-slate-50 rounded-xl border border-dashed border-slate-300">
                 <p class="text-sm font-medium text-slate-600">上のボタンから再生モードを選択してください。</p>
                 <p class="text-xs text-slate-400 mt-1 italic">Vui lòng chọn chế độ phát từ các nút phía trên.</p>
@@ -57,17 +57,14 @@
             </button>
 
 <div class="flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 w-full">
-　    <div class="flex flex-col gap-2 w-full md:w-auto">
-          <span class="text-xs md:text-sm font-medium text-slate-600">
-                再生間隔 / Khoảng cách phát (秒):
-            </span>
+    <div class="flex flex-col gap-2 w-full md:w-auto">
+        <span class="text-xs md:text-sm font-medium text-slate-600">再生間隔 / Khoảng cách phát (秒):</span>
             <div class="flex items-center gap-2">
                 <button id="minusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold text-2xl hover:bg-slate-100 transition active:scale-95 shadow-sm">－</button>
                 <input id="pauseInput" type="number" value="1" min="0" max="15" class="w-14 text-center bg-white border border-slate-300 rounded-lg py-2 font-semibold focus:outline-none" readonly>
                 <button id="plusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold text-2xl hover:bg-slate-100 transition active:scale-95 shadow-sm">＋</button>
             </div>
         </div>
-        
         <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto">
                <button id="shuffleCurrentBtn" class="w-full md:w-auto bg-emerald-500 text-white px-5 py-2.5 rounded-xl font-medium hover:bg-emerald-600 transition shadow-sm active:scale-95 flex items-center justify-center gap-2 leading-tight">
                 <div>シャッフル表示<br><span class="text-xs font-normal opacity-90">Hiển thị ngẫu nhiên</span></div>
@@ -80,7 +77,6 @@
         
             <div id="lessonSelectContainer" class="hidden p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3">
                 <label for="lessonSelect" class="block text-sm font-semibold text-indigo-900">対象の課を選択してください（複数選択可）:</label>
-                
                <div class="flex flex-wrap gap-2 mb-2">
                     <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="1" data-end="3">1-3課</button>
                     <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="4" data-end="7">4-7課</button>
@@ -104,14 +100,12 @@
                         シャッフル表示<br><span class="text-xs font-normal opacity-90">Hiển thị ngẫu nhiên</span>
                         </button>
                     </div>
-
+            </div> 
             <div id="errorMessage" class="hidden p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl font-medium">
-            </div>
         </div>
-
-        <div id="questionsContainer" class="space-y-4">
+  </div>
+            <div id="questionsContainer" class="space-y-4">
             </div>
-
     </div>
         
 <div id="recordModal" class="modal-overlay">
@@ -120,12 +114,10 @@
             <h3 class="text-md font-bold text-slate-800">🎙️ 録音 / Ghi âm</h3>
             <button id="closeRecordModalBtn" class="text-slate-400 hover:text-slate-600 p-1">&times;</button>
         </div>
-
         <div class="mb-3 bg-slate-50 p-3 rounded-xl border border-slate-100 overflow-y-auto">
             <span id="recordModalId" class="inline-block bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded font-bold mb-1"></span>
             <p id="recordModalText" class="text-sm font-medium text-slate-800 leading-relaxed"></p>
         </div>
-
         <div class="shrink-0">
             <div class="grid grid-cols-2 gap-2 mb-2">
                 <button id="startRecordBtn" class="bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">🔴 録音開始</button>
@@ -151,8 +143,10 @@
                     <li><strong class="text-indigo-600">全体一括連続再生:</strong> すべての問題の音声を連続再生します。<br><span class="text-xs text-slate-500">Phát toàn bộ các thẻ câu hỏi liên tục.</span></li>
                     <li><strong class="text-indigo-600">指定課別一括連続再生:</strong> 選択した課の音声を順番に連続再生します。<br><span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span></li>
                     <li><strong class="text-slate-700">個別指定音声再生:</strong> 自動再生せず、文章の表示のみ行います。音声は手動で再生します。<br><span class="text-xs text-slate-500">Chỉ hiển thị thẻ, không tự động phát âm thanh.</span></li>
+                    <li><strong class="text-emerald-600">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。<br><span class="text-xs text-slate-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
                     <li><strong class="text-red-600">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-slate-500">Dừng mọi âm thanh đang phát.</span></li>
                 </ul>
+                
                 <p class="font-medium text-slate-800 pt-2">【カード内の操作 / Thao tác trong thẻ】</p>
                 <ul class="list-disc pl-5 space-y-2">
                     <li><strong>JP Xem / Ẩn:</strong> 日本語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Nhật.</span></li>
@@ -169,11 +163,10 @@
                 <button id="modalCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる / Đóng</button>
             </div>
         </div>
-    </div>
-    
+    </div>    
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.30j</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.50a</span>
 </div>
 
         <script>
@@ -214,7 +207,7 @@
         { "lesson": 2, "id": "2-9", "text": "〇〇さんのですか。（※いいえの<ruby>回答<rt>かいとう</rt></ruby>）", "viText": "Cái này của bạn 〇〇 phải không? (*Trả lời 'Không phải')", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/2.9.mp3" },
         { "lesson": 2, "id": "2-10", "text": "だれのですか。<br>※ <ruby>教科書<rt>きょうかしょ</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>を<ruby>見<rt>み</rt></ruby>るなど／「わかりません」もあり", "viText": "Cái này của ai? *Học sinh nhìn tên trên sách / Hoặc trả lời 'Tôi không biết'", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/2.10.mp3" },
 
-        // ==================== LESSON 3 ====================
+       // ==================== LESSON 3 ====================
         { "lesson": 3, "id": "3-1", "text": "この<ruby>魚<rt>さかな</rt></ruby>は、いくらですか？　→ 150<ruby>円<rt>えん</rt></ruby>／1,500円／15,000円です。", "viText": "Con cá này giá bao nhiêu? -> 150 Yên / 1.500 Yên / 15.000 Yên.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/3.1.mp3","imageUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/3.1.jpg" },
         { "lesson": 3, "id": "3-2", "text": "このかばんは、いくらですか？　→ 240<ruby>円<rt>えん</rt></ruby>／2,400円／24,000円です。", "viText": "Cái cặp này giá bao nhiêu? -> 240 Yên / 2.400 Yên / 24.000 Yên.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/3.2.mp3","imageUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/3.2.jpg" },
         { "lesson": 3, "id": "3-3", "text": "このハサミは、いくらですか？　→ 360<ruby>円<rt>えん</rt></ruby>／3,600円／36,000円です。", "viText": "Cái kéo này giá bao nhiêu? -> 360 Yên / 2.400 Yên / 36.000 Yên.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/3.3.mp3","imageUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/3.3.jpg" },
@@ -559,10 +552,10 @@
       
         ];
    </script>
-        
+       
 <script>
     // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.30j)   
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.50a)   
     // =============================================================================
 
 (function() {
@@ -594,6 +587,7 @@
     const modalCloseOkBtn = document.getElementById('modalCloseOkBtn');
 
     // 課選択ドロップダウンの初期化
+
     function initLessonSelect() {
         if (typeof questions === 'undefined' || !Array.isArray(questions)) {
             showError('データ（Cパート）が読み込まれていません。');
@@ -637,7 +631,7 @@
     function highlightCard(id) {
         document.querySelectorAll('.question-card').forEach(card => {
             if (card.getAttribute('data-id') === id) {
-                card.classList.add('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
+               card.classList.add('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
             } else {
                 card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
             }
@@ -667,9 +661,7 @@
 
         const currentItem = audioQueue[queueIndex];
         highlightCard(currentItem.id);
-
         currentAudio = new Audio(currentItem.audioUrl);
-        
         currentAudio.onended = () => {
             if (!isPlayingQueue) return;
             queueIndex++;
@@ -835,11 +827,12 @@
                             buttonSection.appendChild(recordBtn);
                             buttonSection.appendChild(playBtn);
                             buttonSection.appendChild(stopIndividualBtn); // 右隣に結合
-            card.appendChild(textSection);
-            card.appendChild(buttonSection);
-            questionsContainer.appendChild(card);
+                                card.appendChild(textSection);
+                                card.appendChild(buttonSection);
+                                questionsContainer.appendChild(card);
         });
     }
+
 
     // エラーメッセージ制御
     function showError(msg) {
@@ -920,7 +913,7 @@
 
     // 各ボタンのクリックイベント
     confirmBtn.addEventListener('click', () => executeDisplay(false));
-    
+   
     const shuffleConfirmBtn = document.getElementById('shuffleConfirmBtn');
     if (shuffleConfirmBtn) {
         shuffleConfirmBtn.addEventListener('click', () => executeDisplay(true));
@@ -931,9 +924,8 @@
         btn.addEventListener('click', () => {
             const start = parseInt(btn.getAttribute('data-start'));
             const end = parseInt(btn.getAttribute('data-end'));
-            
+    
             let foundMatch = false; // データが存在するかどうかのフラグ
-
             for (let i = 0; i < lessonSelect.options.length; i++) {
                 const val = parseInt(lessonSelect.options[i].value);
                 const isMatch = (val >= start && val <= end);
@@ -958,7 +950,7 @@
     // 再生間隔カウンター制御
     plusBtn.addEventListener('click', () => {
         let val = parseInt(pauseInput.value) || 0;
-        if (val < 30) pauseInput.value = val + 1;
+        if (val < 16) pauseInput.value = val + 1;
     });
     minusBtn.addEventListener('click', () => {
         let val = parseInt(pauseInput.value) || 0;
@@ -1010,9 +1002,28 @@
     // =============================================================================
     // E-PART: RECORDING SYSTEM (フローティング録音機能)
     // =============================================================================
+   // ▼▼▼ ここから追加：FFmpegの初期化 ▼▼▼
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    const ffmpeg = createFFmpeg({ 
+        log: false,
+        corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
+    }); // ★変更：corePathを明示的にCDNに向ける
+    let isFfmpegLoaded = false;
+    
+    (async () => {
+        try {
+            await ffmpeg.load();
+            isFfmpegLoaded = true;
+            console.log("MP3変換エンジンの準備が完了しました");
+        } catch (e) {
+            console.error("FFmpegの読み込みに失敗しました", e);
+        }
+    })();
+    // ▲▲▲ ここまで追加 ▲▲▲
     let mediaRecorder;
     let audioChunks = [];
     let recordedAudioUrl = null;
+    let currentPlayback = null; // ★追加：再生中の音声を管理する変数
     let currentRecordId = "";
     let currentRecordLesson = "";
 
@@ -1020,7 +1031,6 @@
     const closeRecordModalBtn = document.getElementById('closeRecordModalBtn');
     const recordModalId = document.getElementById('recordModalId');
     const recordModalText = document.getElementById('recordModalText');
-    
     const startRecordBtn = document.getElementById('startRecordBtn');
     const stopRecordBtn = document.getElementById('stopRecordBtn');
     const playRecordBtn = document.getElementById('playRecordBtn');
@@ -1033,7 +1043,14 @@
         currentRecordLesson = lesson;
         recordModalId.textContent = `Bài ${lesson} - ID: ${id}`;
         recordModalText.innerHTML = text; // rubyタグを反映させるためinnerHTMLを使用
-        
+        // ★追加：別のカードを開き直した際、前の音声データと再生状態を確実にリセット
+        if (recordedAudioUrl) {
+            URL.revokeObjectURL(recordedAudioUrl);
+        }
+        if (currentPlayback) {
+            currentPlayback.pause();
+            currentPlayback = null;
+        }
         // 状態を初期化
         audioChunks = [];
         recordedAudioUrl = null;
@@ -1050,7 +1067,15 @@
             mediaRecorder.stop();
             mediaRecorder.stream.getTracks().forEach(track => track.stop());
         }
+
+        // ★追加：もし自分の声が再生中なら、モーダルを閉じた瞬間に完全に消音する
+        if (currentPlayback) {
+            currentPlayback.pause();
+            currentPlayback.currentTime = 0;
+            currentPlayback = null;
+        }
     });
+    
     // 録音モーダルの背景クリックで閉じる処理（追加オプション）
     recordModal.addEventListener('click', (e) => {
         if (e.target === recordModal) {
@@ -1063,13 +1088,19 @@
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder = new MediaRecorder(stream);
             audioChunks = [];
-            
+            // ★追加：以前の録音データがメモリに残っていれば解放する
+            if (recordedAudioUrl) {
+                URL.revokeObjectURL(recordedAudioUrl);
+                recordedAudioUrl = null;
+            }
             mediaRecorder.ondataavailable = e => {
                 if(e.data.size > 0) audioChunks.push(e.data);
             };
-            
+
             mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                // ★修正：ブラウザが生成した本来のMIME typeを動的にセットする（iOS Safari対策）
+                const mimeType = mediaRecorder.mimeType || 'audio/webm';
+                const audioBlob = new Blob(audioChunks, { type: mimeType });
                 recordedAudioUrl = URL.createObjectURL(audioBlob);
                 updateRecordUI('recorded');
             };
@@ -1094,24 +1125,81 @@
     // 自分の声を再生
     playRecordBtn.addEventListener('click', () => {
         if(recordedAudioUrl) {
-            const audio = new Audio(recordedAudioUrl);
-            audio.play();
+            // ★修正：再生中に連打された場合、前の音声を停止して頭から再生し直す
+            if (currentPlayback) {
+                currentPlayback.pause();
+                currentPlayback.currentTime = 0;
+            }
+            currentPlayback = new Audio(recordedAudioUrl);
+            currentPlayback.play().catch(e => console.error("Playback failed:", e));
         }
     });
 
-    // ローカルへ保存（ダウンロード）
-    saveRecordBtn.addEventListener('click', () => {
-        if(recordedAudioUrl) {
+    // ローカルへ保存（MP3に変換してダウンロード）
+    saveRecordBtn.addEventListener('click', async () => {
+        if (!recordedAudioUrl) return;
+        
+        // エンジンが読み込めていない場合の安全対策
+        if (!isFfmpegLoaded) {
+            alert("変換エンジンの準備がまだ完了していません。数秒待ってから再度お試しください。");
+            return;
+        }
+
+        // 保存ボタンを「変換中」の見た目に変更
+        const originalText = saveRecordBtn.innerHTML;
+        saveRecordBtn.innerHTML = '⏳ 変換中...';
+        saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+        recordStatus.textContent = 'MP3に変換しています... (Đang chuyển đổi MP3...)';
+
+        let mp3Url = null; // スコープを広げてfinallyや例外処理で安全に扱えるようにします
+
+        try {
+            const response = await fetch(recordedAudioUrl);
+            const webmBlob = await response.blob();
+          
+            // 2. FFmpegの仮想ファイルシステムに書き込む
+            ffmpeg.FS('writeFile', 'input.webm', await fetchFile(webmBlob));
+            
+            // 3. 変換実行 (webm -> mp3)
+            await ffmpeg.run('-i', 'input.webm', '-q:a', '2', 'output.mp3');
+            
+            // 4. 変換されたMP3データを読み込む
+            const mp3Data = ffmpeg.FS('readFile', 'output.mp3');
+            const mp3Blob = new Blob([mp3Data.buffer], { type: 'audio/mp3' });
+            mp3Url = URL.createObjectURL(mp3Blob);
+            
+            // ★不要になった仮想ファイルシステムのメモリを確実に解放
+            ffmpeg.FS('unlink', 'input.webm');
+            ffmpeg.FS('unlink', 'output.mp3');
+            
+            // 5. ダウンロード実行（拡張子を.webmから.mp3に変更）
             const a = document.createElement('a');
-            a.href = recordedAudioUrl;
-            // Bài2_ID_2-1a.webm のようなファイル名を自動生成
-            a.download = `Bai${currentRecordLesson}_ID_${currentRecordId}.webm`;
+            a.href = mp3Url;
+            a.download = `Bai${currentRecordLesson}_ID_${currentRecordId}.mp3`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+            
+            // ★【追加】ダウンロードが完了したらブラウザの一時URLメモリも即座に解放
+            URL.revokeObjectURL(mp3Url);
+            mp3Url = null;
+
+            recordStatus.textContent = '保存が完了しました！ (Đã lưu MP3)';
+        } catch (error) {
+            console.error('変換エラー:', error);
+            alert("MP3への変換中にエラーが発生しました。");
+            recordStatus.textContent = 'エラーが発生しました (Lỗi)';
+            
+            // 途中でエラーが起きた場合も、仮想ファイルシステムにゴミが残っていれば念のため掃除
+            try { ffmpeg.FS('unlink', 'input.webm'); } catch(e){}
+            try { ffmpeg.FS('unlink', 'output.mp3'); } catch(e){}
+            if (mp3Url) { URL.revokeObjectURL(mp3Url); }
+        } finally {
+            saveRecordBtn.innerHTML = originalText;
+            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
         }
     });
-
+      
     // UIの表示状態を切り替える管理関数
     function updateRecordUI(state) {
         if(state === 'idle') {
@@ -1129,7 +1217,6 @@
             startRecordBtn.disabled = true;
             startRecordBtn.className = 'bg-red-600 text-white border border-red-700 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 animate-pulse';
             startRecordBtn.innerHTML = '🔴 録音中...';
-            
             stopRecordBtn.disabled = false;
             stopRecordBtn.className = 'bg-slate-800 text-white border border-slate-900 py-3 rounded-xl font-bold hover:bg-slate-700 transition flex items-center justify-center gap-2 shadow-md';
             
@@ -1140,7 +1227,6 @@
             startRecordBtn.disabled = false;
             startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
             startRecordBtn.innerHTML = '🔄 やり直す';
-            
             stopRecordBtn.disabled = true;
             stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
             
@@ -1151,6 +1237,6 @@
     }
 })();
 </script>
-    
 </body>
-</html>
+</html> 
+
