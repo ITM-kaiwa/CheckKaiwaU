@@ -1,4 +1,3 @@
- <script>
     // =============================================================================
     // DATA-PART: QUESTION DATA VARIABLE
     // =============================================================================
@@ -380,5 +379,4 @@
         { "lesson": 25, "id": "25-10", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、<ruby>健康<rt>けんこう</rt></ruby>と<ruby>家族<rt>かぞく</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>と、<ruby>何<rt>なに</rt></ruby>があったら<ruby>幸<rt>しあわ</rt></ruby>せ/うれしい？ どうして？", "viText": "Sức khỏe, gia đình, bạn bè, điều gì làm bạn hạnh phúc nhất?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.10.mp3" }
       
         ];
-   </script>
        
