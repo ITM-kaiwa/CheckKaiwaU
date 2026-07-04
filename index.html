@@ -124,8 +124,8 @@
                 <button id="stopRecordBtn" class="bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed" disabled>■ 停止</button>
             </div>
             <div class="grid grid-cols-2 gap-2 border-t border-slate-100 pt-2">
-                <button id="playRecordBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none">▶️ 再生</button>
-                <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none">💾 保存</button>
+                <button id="playRecordBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-indigo-400 active:bg-indigo-100">▶️ 再生</button>
+                <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-emerald-400 active:bg-emerald-100">💾 保存</button>
             </div>
             <div id="recordStatus" class="text-center text-[10px] text-slate-400 mt-2">待機中...</div>
         </div>
@@ -166,7 +166,7 @@
     </div>    
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.50a</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.50c</span>
 </div>
 
         <script>
@@ -555,7 +555,7 @@
        
 <script>
     // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.50a)   
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.50c)   
     // =============================================================================
 
 (function() {
@@ -766,6 +766,11 @@
                     console.log("ID:", q.id, "URL:", q.imageUrl);
             // 【修正前】if (q.imageUrl) { ... }
             // 【修正後：より確実にチェックする】
+            // 【修正後】（デバッグログを削除し、簡潔にする）
+            //    if (q.imageUrl && q.imageUrl.trim() !== "") {
+            //    imgBtn = document.createElement('button');
+            // }
+            
             if (q.imageUrl && q.imageUrl.trim() !== "") {
                 imgBtn = document.createElement('button');
                 imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
@@ -1009,17 +1014,21 @@
         corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
     }); // ★変更：corePathを明示的にCDNに向ける
     let isFfmpegLoaded = false;
-    
+      // ★初期状態として、ロード前はボタンを無効化しておく
+        saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+        saveRecordBtn.innerHTML = '⏳ エンジン準備中...';
     (async () => {
         try {
             await ffmpeg.load();
             isFfmpegLoaded = true;
             console.log("MP3変換エンジンの準備が完了しました");
+            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+            saveRecordBtn.innerHTML = '💾 保存';
         } catch (e) {
             console.error("FFmpegの読み込みに失敗しました", e);
         }
     })();
-    // ▲▲▲ ここまで追加 ▲▲▲
+      // ▲▲▲ ここまで追加 ▲▲▲
     let mediaRecorder;
     let audioChunks = [];
     let recordedAudioUrl = null;
@@ -1230,8 +1239,12 @@
             stopRecordBtn.disabled = true;
             stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
             
+            // ここでボタンを有効化
             playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+            // エンジンが読み込めていれば保存ボタンも有効化
+            if (isFfmpegLoaded) {
+                saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+            }
             recordStatus.textContent = '保存完了--再生または保存できます (Hoàn thành)';
         }
     }
