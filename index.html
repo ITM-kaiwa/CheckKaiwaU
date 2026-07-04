@@ -32,19 +32,19 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <button id="playAllBtn" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95 text-center leading-tight">
-                    全体一括音声再生<br><span class="text-xs font-normal opacity-90">Phát toàn bộ liên tục</span>
+                全体一括連続再生<br><span class="text-xs font-normal opacity-90">Phát toàn bộ liên tục</span>
                 </button>
                 <button id="playLessonBtn" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95 text-center leading-tight">
-                    課別一括音声再生<br><span class="text-xs font-normal opacity-90">Phát liên tục theo bài</span>
-                </button>
-                <button id="shufflePlayBtn" class="bg-slate-100 text-slate-700 px-4 py-2.5 rounded-xl font-medium hover:bg-slate-200 transition border border-slate-300 shadow-sm active:scale-95 text-center leading-tight">
-                    選択課別シャッフル自動再生<br><span class="text-xs font-normal text-slate-500">Phát ngẫu nhiên theo bài đã chọn</span>
+                指定課別一括連続再生<br><span class="text-xs font-normal opacity-90">Phát liên tục theo bài chỉ định</span>
                 </button>
                 <button id="individualPlayBtn" class="bg-slate-100 text-slate-700 px-4 py-2.5 rounded-xl font-medium hover:bg-slate-200 transition border border-slate-300 shadow-sm active:scale-95 text-center leading-tight">
-                    個別指定音声再生<br><span class="text-xs font-normal text-slate-500">Chế độ hiển thị thẻ cá nhân</span>
+                個別指定音声再生<br><span class="text-xs font-normal text-slate-500">Chế độ hiển thị thẻ cá nhân</span>
+                </button>
+                <button disabled class="bg-slate-50 text-slate-400 px-4 py-2.5 rounded-xl font-medium border border-dashed border-slate-300 shadow-sm cursor-not-allowed text-center leading-tight">
+                （拡張用スロット）<br><span class="text-xs font-normal opacity-70">Coming soon</span>
                 </button>
             </div>
-
+          
             <div id="initialMessageContainer" class="text-center py-4 bg-slate-50 rounded-xl border border-dashed border-slate-300">
                 <p class="text-sm font-medium text-slate-600">上のボタンから再生モードを選択してください。</p>
                 <p class="text-xs text-slate-400 mt-1 italic">Vui lòng chọn chế độ phát từ các nút phía trên.</p>
@@ -61,14 +61,14 @@
             再生間隔 / Khoảng cách phát (秒):
         </span>
         <div class="flex items-center gap-2">
-            <button id="minusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold hover:bg-slate-100 transition active:scale-95 shadow-sm">-</button>
+            <button id="minusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold text-2xl hover:bg-slate-100 transition active:scale-95 shadow-sm">－</button>
             <input id="pauseInput" type="number" value="3" min="0" max="30" class="w-14 text-center bg-white border border-slate-300 rounded-lg py-2 font-semibold focus:outline-none" readonly>
-            <button id="plusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold hover:bg-slate-100 transition active:scale-95 shadow-sm">+</button>
+            <button id="plusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold text-2xl hover:bg-slate-100 transition active:scale-95 shadow-sm">＋</button>
         </div>
     </div>
-       <button id="stopBtn" class="w-full md:w-auto md:min-w-[300px] bg-red-600 text-white py-2.5 rounded-xl font-medium hover:bg-red-700 transition shadow-sm active:scale-95 text-center leading-tight">
-    停止<br><span class="text-xs font-normal opacity-90">Dừng</span>
-</button>
+      <button id="stopBtn" class="w-full md:w-auto md:min-w-[300px] bg-red-600 text-white py-2.5 rounded-xl font-medium hover:bg-red-700 transition shadow-sm active:scale-95 flex items-center justify-center gap-3">
+        <span>停止</span> <span class="text-sm font-normal opacity-90">Dừng</span>
+      </button>
 </div>
             <div id="lessonSelectContainer" class="hidden p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3">
                 <label for="lessonSelect" class="block text-sm font-semibold text-indigo-900">対象の課を選択してください（複数選択可）:</label>
@@ -88,10 +88,17 @@
 
                 <select id="lessonSelect" multiple class="w-full min-h-[120px] bg-white border border-indigo-200 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
                 </select>
-                <button id="confirmBtn" class="w-full bg-indigo-600 text-white py-2 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm">表示 Hiển thị</button>
-            </div>
+                    <div class="flex flex-col gap-2 mt-3">
+                        <button id="confirmBtn" class="w-full bg-indigo-600 text-white py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95 text-center leading-tight">
+                            通常表示<br><span class="text-xs font-normal opacity-90">Hiển thị theo thứ tự</span>
+                        </button>
+                        <button id="shuffleConfirmBtn" class="w-full bg-fuchsia-600 text-white py-2.5 rounded-xl font-medium hover:bg-fuchsia-700 transition shadow-sm active:scale-95 text-center leading-tight">
+                        シャッフル表示<br><span class="text-xs font-normal opacity-90">Hiển thị ngẫu nhiên</span>
+                        </button>
+                    </div>
 
-            <div id="errorMessage" class="hidden p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl font-medium"></div>
+            <div id="errorMessage" class="hidden p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl font-medium">
+            </div>
         </div>
 
         <div id="questionsContainer" class="space-y-4">
@@ -132,9 +139,8 @@
             <div class="space-y-4 text-sm text-slate-600 overflow-y-auto pr-2 leading-relaxed">
                 <p class="font-medium text-slate-800">【機能説明 / Giải thích chức năng】</p>
                 <ul class="list-disc pl-5 space-y-2">
-                    <li><strong class="text-indigo-600">全体一括音声再生:</strong> すべての問題の音声を連続再生します。<br><span class="text-xs text-slate-500">Phát toàn bộ các thẻ câu hỏi liên tục.</span></li>
-                    <li><strong class="text-indigo-600">課別一括音声再生:</strong> 選択した課の音声を順番に連続再生します。<br><span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span></li>
-                    <li><strong class="text-slate-700">選択課別シャッフル自動再生:</strong> 選択した課の音声をランダムに再生します。<br><span class="text-xs text-slate-500">Phát ngẫu nhiên các câu hỏi trong bài đã chọn.</span></li>
+                    <li><strong class="text-indigo-600">全体一括連続再生:</strong> すべての問題の音声を連続再生します。<br><span class="text-xs text-slate-500">Phát toàn bộ các thẻ câu hỏi liên tục.</span></li>
+                    <li><strong class="text-indigo-600">指定課別一括連続再生:</strong> 選択した課の音声を順番に連続再生します。<br><span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span></li>
                     <li><strong class="text-slate-700">個別指定音声再生:</strong> 自動再生せず、文章の表示のみ行います。音声は手動で再生します。<br><span class="text-xs text-slate-500">Chỉ hiển thị thẻ, không tự động phát âm thanh.</span></li>
                     <li><strong class="text-red-600">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-slate-500">Dừng mọi âm thanh đang phát.</span></li>
                 </ul>
@@ -158,550 +164,10 @@
     
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.102d</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.200a</span>
 </div>
- <script>
-    // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.102d)   
-    // =============================================================================
 
-(function() {
-    // 状態管理変数
-    let currentAudio = null;
-    let audioQueue = [];
-    let isPlayingQueue = false;
-    let queueIndex = 0;
-
-    // DOM要素の取得
-    const playAllBtn = document.getElementById('playAllBtn');
-    const playLessonBtn = document.getElementById('playLessonBtn');
-    const shufflePlayBtn = document.getElementById('shufflePlayBtn');
-    const individualPlayBtn = document.getElementById('individualPlayBtn');
-    const lessonSelectContainer = document.getElementById('lessonSelectContainer');
-    const lessonSelect = document.getElementById('lessonSelect');
-    const confirmBtn = document.getElementById('confirmBtn');
-    const questionsContainer = document.getElementById('questionsContainer');
-    const initialMessageContainer = document.getElementById('initialMessageContainer');
-    const pauseInput = document.getElementById('pauseInput');
-    const stopBtn = document.getElementById('stopBtn');
-    const errorMessage = document.getElementById('errorMessage');
-    const plusBtn = document.getElementById('plusBtn');
-    const minusBtn = document.getElementById('minusBtn');
-    const toggleManualBtn = document.getElementById('toggleManualBtn');
-    const manualContainer = document.getElementById('manualContainer');
-    const closeManualBtn = document.getElementById('closeManualBtn');
-    const modalCloseOkBtn = document.getElementById('modalCloseOkBtn');
-
-    // 課選択ドロップダウンの初期化
-    function initLessonSelect() {
-        if (typeof questions === 'undefined' || !Array.isArray(questions)) {
-            showError('データ（Cパート）が読み込まれていません。');
-            return;
-        }
-        // 存在する課（lesson）を重複なく抽出してソート
-        const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
-        lessonSelect.innerHTML = '';
-        
-        lessons.forEach(l => {
-            const option = document.createElement('option');
-            option.value = l;
-            option.textContent = `Bài ${l} (第${l}課)`;
-            lessonSelect.appendChild(option);
-        });
-        lessonSelect.selectedIndex = -1; // 初期状態は未選択
-    }
-
-    // 再生状態の完全停止
-    function terminatePlayback() {
-        isPlayingQueue = false;
-        audioQueue = [];
-        queueIndex = 0;
-        
-        if (currentAudio) {
-            try {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            } catch (e) {
-                console.error('Audio pause error:', e);
-            }
-            currentAudio = null;
-        }
-        // すべてのカードのハイライトを解除
-        document.querySelectorAll('.question-card').forEach(card => {
-            card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
-        });
-    }
-
-    // 指定されたカードのハイライト処理
-    function highlightCard(id) {
-        document.querySelectorAll('.question-card').forEach(card => {
-            if (card.getAttribute('data-id') === id) {
-                card.classList.add('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
-            } else {
-                card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
-            }
-        });
-    }
-
-    // キュー再生（一括連続再生）の開始
-    function startQueuePlayback(items) {
-        terminatePlayback();
-        if (items.length === 0) {
-            showError('再生対象のデータがありません。');
-            return;
-        }
-        hideError();
-        audioQueue = [...items];
-        isPlayingQueue = true;
-        queueIndex = 0;
-        executeNextQueueItem();
-    }
-
-    // キューの次のアイテムを再生
-    function executeNextQueueItem() {
-        if (!isPlayingQueue || queueIndex >= audioQueue.length) {
-            terminatePlayback();
-            return;
-        }
-
-        const currentItem = audioQueue[queueIndex];
-        highlightCard(currentItem.id);
-
-        currentAudio = new Audio(currentItem.audioUrl);
-        
-        currentAudio.onended = () => {
-            if (!isPlayingQueue) return;
-            queueIndex++;
-            // 設定された再生間隔（秒）を取得して待機後に次を再生
-            const interval = (parseFloat(pauseInput.value) || 0) * 1000;
-            setTimeout(() => {
-                if (isPlayingQueue) {
-                    executeNextQueueItem();
-                }
-            }, interval);
-        };
-
-        currentAudio.onerror = () => {
-            console.error(`音声ファイルの読み込みに失敗しました: ${currentItem.audioUrl}`);
-            queueIndex++;
-            executeNextQueueItem();
-        };
-
-        currentAudio.play().catch(err => {
-            console.error('Playback failed:', err);
-            terminatePlayback();
-        });
-    }
-
-    // 問題カードの動的レンダリング
-    function renderCards(targetList) {
-        questionsContainer.innerHTML = '';
-        hideError();
-
-        // 案内初期メッセージを非表示にしてUIをスッキリさせる
-        if (initialMessageContainer) {
-            initialMessageContainer.classList.add('hidden');
-        }
-
-        if (targetList.length === 0) {
-            questionsContainer.innerHTML = '<p class="text-center text-slate-400 py-12 bg-white rounded-2xl border border-slate-200">対象のデータがありません。</p>';
-            return;
-        }
-
-        targetList.forEach(q => {
-            const card = document.createElement('div');
-            card.className = 'question-card bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-200';
-            card.setAttribute('data-id', q.id);
-
-            // テキストエリア
-            const textSection = document.createElement('div');
-            textSection.className = 'flex-1';
-            
-            // 画像がある場合のみ、隠された<img>タグを差し込む
-            const imageHtml = q.imageUrl ? `<div class="mt-3 hidden img-container"><img src="${q.imageUrl}" alt="イラスト" class="max-h-[120px] rounded-lg border border-slate-200 shadow-sm"></div>` : '';
-
-            textSection.innerHTML = `
-                <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2.5 py-1 rounded-md font-bold mb-2">Bài ${q.lesson} - ID: ${q.id}</span>
-                <p class="text-lg font-medium text-gray-800 mb-2 hidden select-all">${q.text}</p>
-                <p class="text-sm text-slate-500 font-normal italic hidden select-all">${q.viText || ''}</p>
-                ${imageHtml}
-            `;
-
-            // ボタンコントロールエリア
-            const buttonSection = document.createElement('div');
-            buttonSection.className = 'flex items-center gap-2 self-stretch md:self-auto justify-end border-t md:border-t-0 pt-3 md:pt-0 border-gray-100';
-
-            // JP 表示切替ボタン
-            const jpBtn = document.createElement('button');
-            jpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
-            jpBtn.textContent = 'JP Xem';
-            jpBtn.onclick = () => {
-                const p = textSection.querySelector('p:nth-of-type(1)');
-                p.classList.toggle('hidden');
-                if (p.classList.contains('hidden')) {
-                    jpBtn.textContent = 'JP Xem';
-                    jpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
-                } else {
-                    jpBtn.textContent = 'JP Ẩn';
-                    jpBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
-                }
-            };
-
-            // VI 表示切替ボタン
-            const viBtn = document.createElement('button');
-            viBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
-            viBtn.textContent = 'VI Xem';
-            viBtn.onclick = () => {
-                const p = textSection.querySelector('p:nth-of-type(2)');
-                p.classList.toggle('hidden');
-                if (p.classList.contains('hidden')) {
-                    viBtn.textContent = 'VI Xem';
-                    viBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
-                } else {
-                    viBtn.textContent = 'VI Ẩn';
-                    viBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
-                }
-            };
-            // ==========================================
-            // 👇 ここから追加：画像切替ボタンの生成（データがある場合のみ）
-            // ==========================================
-            let imgBtn = null; // 初期値は空にしておく
-            // 【デバッグ用】コンソールにデータの中身を表示する
-                    console.log("ID:", q.id, "URL:", q.imageUrl);
-            // 【修正前】if (q.imageUrl) { ... }
-            // 【修正後：より確実にチェックする】
-            if (q.imageUrl && q.imageUrl.trim() !== "") {
-                imgBtn = document.createElement('button');
-                imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
-                imgBtn.textContent = '🖼️ Hình';
-                imgBtn.onclick = () => {
-                    const imgTarget = textSection.querySelector('.img-container');
-                    if (imgTarget) {
-                        imgTarget.classList.toggle('hidden');
-                        if (imgTarget.classList.contains('hidden')) {
-                            imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
-                        } else {
-                            imgBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
-                        }
-                    }
-                };
-            }
-            // ==========================================
-            // 👆 ここまで追加
-            // ==========================================
-            // ==========================================
-            // 👇 ここから追加：個別録音ボタン（🎤）
-            // ==========================================
-            const recordBtn = document.createElement('button');
-            recordBtn.className = 'bg-emerald-50 text-emerald-600 p-2 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
-            recordBtn.innerHTML = '🎤';
-            recordBtn.onclick = () => {
-                terminatePlayback(); // 既存の再生処理を安全にクリア
-                openRecordModal(q.id, q.text, q.lesson); // モーダルを開いてデータを渡す
-            };
-            // ==========================================
-            // 👆 ここまで追加
-            // ==========================================
-            // 個別再生ボタン（▶）
-            const playBtn = document.createElement('button');
-            playBtn.className = 'bg-indigo-50 text-indigo-600 p-2 rounded-lg border border-indigo-200 hover:bg-indigo-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
-            playBtn.innerHTML = '▶';
-            playBtn.onclick = () => {
-                terminatePlayback(); // 既存の再生処理を安全にクリア
-                highlightCard(q.id);
-                currentAudio = new Audio(q.audioUrl);
-                currentAudio.play().catch(e => console.error('Individual play error:', e));
-            };
-
-            // 個別停止ボタン（■）
-            const stopIndividualBtn = document.createElement('button');
-            stopIndividualBtn.className = 'bg-red-50 text-red-600 p-2 rounded-lg border border-red-200 hover:bg-red-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
-            stopIndividualBtn.innerHTML = '■';
-            stopIndividualBtn.onclick = () => {
-                // このカード単体、または紐づく音声処理のみを安全にストップ
-                terminatePlayback();
-            };
-            // 【重要：この1行追加：バグ取り】
-                if (imgBtn) {buttonSection.appendChild(imgBtn);}
-            // ------------------------------------
-                            buttonSection.appendChild(jpBtn);
-                            buttonSection.appendChild(viBtn);
-                            buttonSection.appendChild(recordBtn);
-                            buttonSection.appendChild(playBtn);
-                            buttonSection.appendChild(stopIndividualBtn); // 右隣に結合
-            card.appendChild(textSection);
-            card.appendChild(buttonSection);
-            questionsContainer.appendChild(card);
-        });
-    }
-
-    // エラーメッセージ制御
-    function showError(msg) {
-        errorMessage.textContent = msg;
-        errorMessage.classList.remove('hidden');
-    }
-    function hideError() {
-        errorMessage.textContent = '';
-        errorMessage.classList.add('hidden');
-    }
-
-    // --- イベントリスナー設定 ---
-
-    // 1. 全体一括音声再生
-    playAllBtn.addEventListener('click', () => {
-        if (typeof questions === 'undefined') return;
-        lessonSelectContainer.classList.add('hidden');
-        renderCards(questions);
-        startQueuePlayback(questions);
-    });
-
-    // 2. 課別音声一括再生
-    playLessonBtn.addEventListener('click', () => {
-        terminatePlayback();
-        lessonSelectContainer.classList.remove('hidden');
-        confirmBtn.setAttribute('data-mode', 'normal');
-        lessonSelect.focus();
-    });
-
-    // 3. 選択課別シャッフル自動再生
-    shufflePlayBtn.addEventListener('click', () => {
-        terminatePlayback();
-        lessonSelectContainer.classList.remove('hidden');
-        confirmBtn.setAttribute('data-mode', 'shuffle');
-        lessonSelect.focus();
-    });
-
-    // 4. 個別音声再生指定
-    individualPlayBtn.addEventListener('click', () => {
-        terminatePlayback();
-        lessonSelectContainer.classList.remove('hidden');
-        confirmBtn.setAttribute('data-mode', 'individual');
-        lessonSelect.focus();
-    });
-
-    // 課選択後の「表示」確定処理
-    confirmBtn.addEventListener('click', () => {
-        const selectedLessons = Array.from(lessonSelect.selectedOptions).map(o => parseInt(o.value));
-        if (selectedLessons.length === 0) {
-            showError('少なくとも1つの課を選択してください。');
-            return;
-        }
-        hideError();
-
-        // 選択された課のデータを抽出
-        let filtered = questions.filter(q => selectedLessons.includes(q.lesson));
-        const mode = confirmBtn.getAttribute('data-mode');
-
-        if (mode === 'shuffle') {
-            // フィッシャー–イェーツのシャッフルアルゴリズム
-            for (let i = filtered.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
-            }
-            renderCards(filtered);
-            startQueuePlayback(filtered);
-        } else if (mode === 'individual') {
-            renderCards(filtered); // カード展開のみ（自動連続再生はしない）
-        } else {
-            renderCards(filtered);
-            startQueuePlayback(filtered);
-        }
-        lessonSelectContainer.classList.add('hidden');
-    });
-
-    // 簡易プリセット範囲選択ボタンの挙動
-    document.querySelectorAll('.preset-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const start = parseInt(btn.getAttribute('data-start'));
-            const end = parseInt(btn.getAttribute('data-end'));
-            
-            let foundMatch = false; // データが存在するかどうかのフラグ
-
-            for (let i = 0; i < lessonSelect.options.length; i++) {
-                const val = parseInt(lessonSelect.options[i].value);
-                const isMatch = (val >= start && val <= end);
-                lessonSelect.options[i].selected = isMatch;
-                
-                if (isMatch) {
-                    foundMatch = true; // 1つでも該当すればフラグを立てる
-                }
-            }
-
-            // データが1つも存在しなかった場合のエラー処理
-            if (!foundMatch) {
-                showError(`第${start}課〜第${end}課のデータはまだありません。 / Dữ liệu bài ${start}-${end} chưa được cập nhật.`);
-                return; // ここで処理を中断し、「表示」ボタンを押させない
-            }
-
-            hideError(); // エラーが出ていた場合は消す
-            confirmBtn.click();
-        });
-    });
-
-    // 再生間隔カウンター制御
-    plusBtn.addEventListener('click', () => {
-        let val = parseInt(pauseInput.value) || 0;
-        if (val < 30) pauseInput.value = val + 1;
-    });
-    minusBtn.addEventListener('click', () => {
-        let val = parseInt(pauseInput.value) || 0;
-        if (val > 0) pauseInput.value = val - 1;
-    });
-
-    // 全体停止ボタン
-    stopBtn.addEventListener('click', terminatePlayback);
-
-    // 説明書モーダルの開閉
-    toggleManualBtn.addEventListener('click', () => manualContainer.classList.add('manual-open'));
-    closeManualBtn.addEventListener('click', () => manualContainer.classList.remove('manual-open'));
-    modalCloseOkBtn.addEventListener('click', () => manualContainer.classList.remove('manual-open'));
-
-    // 初期起動
-    window.addEventListener('DOMContentLoaded', () => {
-        initLessonSelect();
-    });
-
-    // =============================================================================
-    // E-PART: RECORDING SYSTEM (フローティング録音機能)
-    // =============================================================================
-    let mediaRecorder;
-    let audioChunks = [];
-    let recordedAudioUrl = null;
-    let currentRecordId = "";
-    let currentRecordLesson = "";
-
-    const recordModal = document.getElementById('recordModal');
-    const closeRecordModalBtn = document.getElementById('closeRecordModalBtn');
-    const recordModalId = document.getElementById('recordModalId');
-    const recordModalText = document.getElementById('recordModalText');
-    
-    const startRecordBtn = document.getElementById('startRecordBtn');
-    const stopRecordBtn = document.getElementById('stopRecordBtn');
-    const playRecordBtn = document.getElementById('playRecordBtn');
-    const saveRecordBtn = document.getElementById('saveRecordBtn');
-    const recordStatus = document.getElementById('recordStatus');
-
-    // 録音モーダルを開く
-    window.openRecordModal = function(id, text, lesson) {
-        currentRecordId = id;
-        currentRecordLesson = lesson;
-        recordModalId.textContent = `Bài ${lesson} - ID: ${id}`;
-        recordModalText.innerHTML = text; // rubyタグを反映させるためinnerHTMLを使用
-        
-        // 状態を初期化
-        audioChunks = [];
-        recordedAudioUrl = null;
-        updateRecordUI('idle');
-        
-        // 既存のCSSクラスを利用して表示
-        recordModal.classList.add('manual-open'); 
-    };
-
-    // モーダルを閉じる（録音中なら安全に停止）
-    closeRecordModalBtn.addEventListener('click', () => {
-        recordModal.classList.remove('manual-open');
-        if(mediaRecorder && mediaRecorder.state === 'recording') {
-            mediaRecorder.stop();
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
-        }
-    });
-
-    // 録音開始
-    startRecordBtn.addEventListener('click', async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            audioChunks = [];
-            
-            mediaRecorder.ondataavailable = e => {
-                if(e.data.size > 0) audioChunks.push(e.data);
-            };
-            
-            mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                recordedAudioUrl = URL.createObjectURL(audioBlob);
-                updateRecordUI('recorded');
-            };
-            
-            mediaRecorder.start();
-            updateRecordUI('recording');
-        } catch (err) {
-            alert('マイクへのアクセスが拒否されたか、エラーが発生しました。');
-            console.error(err);
-        }
-    });
-
-    // 録音停止
-    stopRecordBtn.addEventListener('click', () => {
-        if(mediaRecorder && mediaRecorder.state === 'recording') {
-            mediaRecorder.stop();
-            // マイクの使用を完全に終了させる
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
-        }
-    });
-
-    // 自分の声を再生
-    playRecordBtn.addEventListener('click', () => {
-        if(recordedAudioUrl) {
-            const audio = new Audio(recordedAudioUrl);
-            audio.play();
-        }
-    });
-
-    // ローカルへ保存（ダウンロード）
-    saveRecordBtn.addEventListener('click', () => {
-        if(recordedAudioUrl) {
-            const a = document.createElement('a');
-            a.href = recordedAudioUrl;
-            // Bài2_ID_2-1a.webm のようなファイル名を自動生成
-            a.download = `Bai${currentRecordLesson}_ID_${currentRecordId}.webm`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-    });
-
-    // UIの表示状態を切り替える管理関数
-    function updateRecordUI(state) {
-        if(state === 'idle') {
-            startRecordBtn.disabled = false;
-            startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
-            startRecordBtn.innerHTML = '🔴 録音開始';
-            
-            stopRecordBtn.disabled = true;
-            stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
-            
-            playRecordBtn.classList.add('opacity-50', 'pointer-events-none');
-            saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
-            recordStatus.textContent = '待機中... (Sẵn sàng)';
-        } else if (state === 'recording') {
-            startRecordBtn.disabled = true;
-            startRecordBtn.className = 'bg-red-600 text-white border border-red-700 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 animate-pulse';
-            startRecordBtn.innerHTML = '🔴 録音中...';
-            
-            stopRecordBtn.disabled = false;
-            stopRecordBtn.className = 'bg-slate-800 text-white border border-slate-900 py-3 rounded-xl font-bold hover:bg-slate-700 transition flex items-center justify-center gap-2 shadow-md';
-            
-            playRecordBtn.classList.add('opacity-50', 'pointer-events-none');
-            saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
-            recordStatus.textContent = '録音しています... (Đang ghi âm)';
-        } else if (state === 'recorded') {
-            startRecordBtn.disabled = false;
-            startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
-            startRecordBtn.innerHTML = '🔄 やり直す';
-            
-            stopRecordBtn.disabled = true;
-            stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
-            
-            playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-            recordStatus.textContent = '保存完了--再生または保存できます (Hoàn thành)';
-        }
-    }
-})();
-</script>
-    
-   <script>
+        <script>
     // =============================================================================
     // DATA-PART: QUESTION DATA VARIABLE
     // =============================================================================
@@ -974,61 +440,61 @@
         { "lesson": 18, "id": "18-5", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは何が<ruby>上手<rt>じょうず</rt></ruby>ですか。何をすることができますか。<ruby>教<rt>おし</rt></ruby>えてください。", "viText": "Bạn 〇〇 có sở trường hay làm giỏi việc gì? Có thể thực hiện được tài lẻ nào không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/18.5.mp3" },
         { "lesson": 18, "id": "18-6a", "text": "<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>読<rt>よ</rt></ruby>む /<ruby>書<rt>か</rt></ruby>くことができますか。いくつ / どのぐらい読むこと / 書くこと ができますか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/18.6a.mp3" },
         { "lesson": 18, "id": "18-6b", "text": "<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>読<rt>よ</rt></ruby>む /<ruby>書<rt>か</rt></ruby>くことができますか。いくつ / どのぐらい読むこと / 書くこと ができますか。", "viText": "Bạn có thể đọc / viết được chữ Hán (Kanji) không? Tầm khoảng bao nhiêu chữ rồi?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/18.6b.mp3" },
-        { "lesson": 18, "id": "18-7", "text": "<ruby>日本語<rt>にほんご</rt></ruby>で<ruby>歌<rt>うた</rt></ruby>を歌うことができますか。どんな歌を歌うことができますか。", "viText": "Bạn có thể hát một bài hát bằng tiếng Nhật không? Có thể hát thể loại bài hát như thế nào?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/18.7.mp3" },
+        { "lesson": 18, "id": "18-7", "text": "<ruby>日本語<rt>にほんご</rt></ruby>で<ruby>歌<rt>うた</rt></ruby>を<ruby>歌<rt>うた</rt></ruby>うことができますか。どんな歌を歌うことができますか。", "viText": "Bạn có thể hát một bài hát bằng tiếng Nhật không? Có thể hát thể loại bài hát như thế nào?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/18.7.mp3" },
         { "lesson": 18, "id": "18-8a", "text": "（日本で）<ruby>一週間<rt>いっしゅうかん</rt></ruby><ruby>毎日<rt>まいにち</rt></ruby>/毎日12<ruby>時間<rt>じかん</rt></ruby> <ruby>働<rt>はたら</rt></ruby>くことができますか。<br>はい➞<ruby>本当<rt>ほんとう</rt></ruby>ですか/<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですか。 いいえ➞<ruby>何日<rt>なんにち</rt></ruby>/<ruby>何時間<rt>なんじかん</rt></ruby><ruby>働<rt>はたら</rt></ruby>くことができますか", "viText": "(Sang Nhật) Bạn có thể làm việc liên tục cả tuần / làm 12 tiếng mỗi ngày không? *Nếu trả lời được -> Hỏi lại: Thật chứ, có sao không? Nếu nói không -> Có thể làm mấy ngày / mấy tiếng?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/18.8a.mp3" },
         { "lesson": 18, "id": "18-8b", "text": "（日本で）<ruby>一週間<rt>いっしゅうかん</rt></ruby><ruby>毎日<rt>まいにち</rt></ruby>/毎日12<ruby>時間<rt>じかん</rt></ruby> <ruby>働<rt>はたら</rt></ruby>くことができますか。<br>はい➞<ruby>本当<rt>ほんとう</rt></ruby>ですか/<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですか。 いいえ➞<ruby>何日<rt>なんにち</rt></ruby>/<ruby>何時間<rt>なんじかん</rt></ruby><ruby>働<rt>はたら</rt></ruby>くことができますか", "viText": "(Sang Nhật) Bạn có thể làm việc liên tục cả tuần / làm 12 tiếng mỗi ngày không? *Nếu trả lời được -> Hỏi lại: Thật chứ, có sao không? Nếu nói không -> Có thể làm mấy ngày / mấy tiếng?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/18.8b.mp3" },
-        { "lesson": 18, "id": "18-9", "text": "<ruby>趣味<rt>しゅみ</rt></ruby>は何ですか。<br>※サッカーです。➞します、見ます / 料理です➞つくります  ※Vることです", "viText": "Sở thích của bạn là gì? *Nếu trả lời danh từ (Bóng đá -> đi đá hay đi xem? / Nấu ăn -> tự nấu à?) *Yêu cầu dùng mẫu cấu trúc chuẩn V-ru koto desu.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/18.9.mp3" },
+        { "lesson": 18, "id": "18-9", "text": "<ruby>趣味<rt>しゅみ</rt></ruby>は何ですか。<br>※サッカーです。➞します、見ます / <ruby>料理<rt>りょうり</rt></ruby>です➞つくります  ※Vることです", "viText": "Sở thích của bạn là gì? *Nếu trả lời danh từ (Bóng đá -> đi đá hay đi xem? / Nấu ăn -> tự nấu à?) *Yêu cầu dùng mẫu cấu trúc chuẩn V-ru koto desu.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/18.9.mp3" },
         { "lesson": 18, "id": "18-10", "text": "<ruby>将来<rt>しょうらい</rt></ruby>の<ruby>夢<rt>ゆめ</rt></ruby>は何ですか。<br>※Vることです。", "viText": "Ước mơ trong tương lai của bạn là gì? *Yêu cầu trả lời theo cấu trúc chuẩn V-ru koto desu.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/18.10.mp3" },
 
         // ==================== LESSON 19 ====================
-        { "lesson": 19, "id": "19-1a", "text": "<ruby>雪<rt>ゆき</rt></ruby>を見た/飛行機に乗った/船に乗った/着物を着た/温泉に入った/カラオケに行った ことがありますか。（2つ聞く）どうでしたか。<br>いいえ➞〜たいですか。", "viText": "Bạn đã từng ngắm tuyết / đi máy bay / đi tàu thủy / mặc áo Kimono / tắm suối nước nóng / đi hát Karaoke chưa? (Hỏi ngẫu nhiên 2 ý) Trải nghiệm đó thế nào? *Nếu chưa từng -> Có muốn thử không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.1a.mp3" },
-        { "lesson": 19, "id": "19-1b", "text": "<ruby>雪<rt>ゆき</rt></ruby>を見た/飛行機に乗った/船に乗った/着物を着た/温泉に入った/カラオケに行った ことがありますか。（2つ聞く）どうでしたか。<br>いいえ➞〜たいですか。", "viText": "Bạn đã từng ngắm tuyết / đi máy bay / đi tàu thủy / mặc áo Kimono / tắm suối nước nóng / đi hát Karaoke chưa? (Hỏi ngẫu nhiên 2 ý) Trải nghiệm đó thế nào? *Nếu chưa từng -> Có muốn thử không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.1b.mp3" },
-        { "lesson": 19, "id": "19-2a", "text": "日本料理を食べた/日本のアニメを見た/日本の歌を歌った/日本の祭りに参加した ことが ありますか。（2つ聞く）<br>何を/何の/どんな〜ましたか。", "viText": "Bạn đã từng ăn món ăn Nhật / xem anime Nhật / hát ca khúc tiếng Nhật / tham gia lễ hội của Nhật chưa? (Hỏi 2 ý) Cụ thể là món nào / bộ phim nào / như thế nào?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.2a.mp3" },
-        { "lesson": 19, "id": "19-2b", "text": "日本料理を食べた/日本のアニメを見た/日本の歌を歌った/日本の祭りに参加した ことが ありますか。（2つ聞く）<br>何を/何の/どんな〜ましたか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.2b.mp3" },
-        { "lesson": 19, "id": "19-3a", "text": "宿題を忘れた/授業に遅れた/授業を休んだことがありますか。どうしてですか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.3a.mp3" },
-        { "lesson": 19, "id": "19-3b", "text": "宿題を忘れた/授業に遅れた/授業を休んだことがありますか。どうしてですか。", "viText": "Bạn đã từng quên làm bài tập / đi học muộn / nghỉ học buổi nào chưa? Lý do tại sao?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.3b.mp3" },
-        { "lesson": 19, "id": "19-4", "text": "<ruby>暗記<rt>あんき</rt></ruby>：〇〇大学/〇〇短大で どんなイベントに参加したことがありますか。", "viText": "Bạn đã từng tham gia sự kiện hay hoạt động tập thể nào tại trường Đại học/Cao đẳng 〇〇?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.4.mp3" },
-        { "lesson": 19, "id": "19-5", "text": "今まで、どこに旅行に行ったことがありますか。", "viText": "Tính đến nay, bạn đã từng đi du lịch ở những địa phương nào rồi?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.5.mp3" },
-        { "lesson": 19, "id": "19-6", "text": "日本語クラスに入ってから、〇〇さんは 日本語が上手になりましたか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.6.mp3" },
-        { "lesson": 19, "id": "19-7a", "text": "将来、社長/日本語の先生/エンジニア になりたいですか。<br>いいえ➞何に なりたいですか。", "viText": "Trong tương lai, bạn có muốn trở thành giám đốc / giáo viên tiếng Nhật / kỹ sư không? *Nếu nói không -> Vậy bạn muốn làm nghề gì?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.7a.mp3" },
-        { "lesson": 19, "id": "19-7b", "text": "将来、社長/日本語の先生/エンジニア になりたいですか。<br>いいえ➞何に なりたいですか。", "viText": "Trong tương lai, bạn có muốn trở thành giám đốc / giáo viên tiếng Nhật / kỹ sư không? *Nếu nói không -> Vậy bạn muốn làm nghề gì?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.7b.mp3" },
-        { "lesson": 19, "id": "19-8a", "text": "〇〇さん、今眠く/最近背が高く/最近暑く・涼しくなりましたか。", "viText": "Bạn 〇〇 thấy bây giờ buồn ngủ hơn / dạo này cao lên / dạo này trời nóng lên hay mát đi không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.8a.mp3" },
-        { "lesson": 19, "id": "19-8b", "text": "〇〇さん、今眠く/最近背が高く/最近暑く・涼しくなりましたか。", "viText": "Bạn 〇〇 thấy bây giờ buồn ngủ hơn / dạo này cao lên / dạo này trời nóng lên hay mát đi không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.8b.mp3" },
-        { "lesson": 19, "id": "19-9", "text": "先週の日曜日、何をしましたか。2つ答えてください。（「〜たり〜たり」）", "viText": "Chủ nhật tuần trước bạn đã làm những gì? Hãy nêu 2 hành động sử dụng cấu trúc liệt kê mẫu '~ tari ~ tari desu'.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.9.mp3" },
-        { "lesson": 19, "id": "19-10", "text": "日本へ行って、何をしたいですか。2つ答えてください。（「〜たり〜たり」で答える）", "viText": "Sau khi đến Nhật Bản, bạn muốn làm những gì? Hãy trả lời bằng cách dùng mẫu ngữ pháp liệt kê '~ tari ~ tari shitai desu'.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.10.mp3" },
+        { "lesson": 19, "id": "19-1a", "text": "<ruby>雪<rt>ゆき</rt></ruby>を<ruby>見<rt>み</rt></ruby>た/<ruby>飛行機<rt>ひこうき</rt></ruby>に<ruby>乗<rt>の</rt></ruby>った/<ruby>船<rt>ふね</rt></ruby>に<ruby>乗<rt>の</rt></ruby>った/<ruby>着物<rt>きもの</rt></ruby>を<ruby>着<rt>き</rt></ruby>た/<ruby>温泉<rt>おんせん</rt></ruby>に<ruby>入<rt>はい</rt></ruby>った/カラオケに<ruby>行<rt>い</rt></ruby>った ことがありますか。（2つ<ruby>聞<rt>き</rt></ruby>く）どうでしたか。<br>いいえ➞〜たいですか。", "viText": "Bạn đã từng ngắm tuyết / đi máy bay / đi tàu thủy / mặc áo Kimono / tắm suối nước nóng / đi hát Karaoke chưa? (Hỏi ngẫu nhiên 2 ý) Trải nghiệm đó thế nào? *Nếu chưa từng -> Có muốn thử không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.1a.mp3" },
+        { "lesson": 19, "id": "19-1b", "text": "<ruby>雪<rt>ゆき</rt></ruby>を<ruby>見<rt>み</rt></ruby>た/<ruby>飛行機<rt>ひこうき</rt></ruby>に<ruby>乗<rt>の</rt></ruby>った/<ruby>船<rt>ふね</rt></ruby>に<ruby>乗<rt>の</rt></ruby>った/<ruby>着物<rt>きもの</rt></ruby>を<ruby>着<rt>き</rt></ruby>た/<ruby>温泉<rt>おんせん</rt></ruby>に<ruby>入<rt>はい</rt></ruby>った/カラオケに<ruby>行<rt>い</rt></ruby>った ことがありますか。（2つ<ruby>聞<rt>き</rt></ruby>く）どうでしたか。<br>いいえ➞〜たいですか。", "viText": "Bạn đã từng ngắm tuyết / đi máy bay / đi tàu thủy / mặc áo Kimono / tắm suối nước nóng / đi hát Karaoke chưa? (Hỏi ngẫu nhiên 2 ý) Trải nghiệm đó thế nào? *Nếu chưa từng -> Có muốn thử không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.1b.mp3" },
+        { "lesson": 19, "id": "19-2a", "text": "<ruby>日本料理<rt>にほんりょうり</rt></ruby>を<ruby>食<rt>た</rt></ruby>べた/<ruby>日本<rt>にほん</rt></ruby>のアニメを<ruby>見<rt>み</rt></ruby>た/<ruby>日本<rt>にほん</rt></ruby>の<ruby>歌<rt>うた</rt></ruby>を<ruby>歌<rt>うた</rt></ruby>った/<ruby>日本<rt>にほん</rt></ruby>の<ruby>祭<rt>まつ</rt></ruby>りに<ruby>参加<rt>さんか</rt></ruby>した ことが ありますか。（2つ<ruby>聞<rt>き</rt></ruby>く）<br><ruby>何<rt>なに</rt></ruby>を/<ruby>何<rt>なん</rt></ruby>の/どんな〜ましたか。", "viText": "Bạn đã từng ăn món ăn Nhật / xem anime Nhật / hát ca khúc tiếng Nhật / tham gia lễ hội của Nhật chưa? (Hỏi 2 ý) Cụ thể là món nào / bộ phim nào / như thế nào?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.2a.mp3" },
+        { "lesson": 19, "id": "19-2b", "text": "<ruby>日本料理<rt>にほんりょうり</rt></ruby>を<ruby>食<rt>た</rt></ruby>べた/<ruby>日本<rt>にほん</rt></ruby>のアニメを<ruby>見<rt>み</rt></ruby>た/<ruby>日本<rt>にほん</rt></ruby>の<ruby>歌<rt>うた</rt></ruby>を<ruby>歌<rt>うた</rt></ruby>った/<ruby>日本<rt>にほん</rt></ruby>の<ruby>祭<rt>まつ</rt></ruby>りに<ruby>参加<rt>さんか</rt></ruby>した ことが ありますか。（2つ<ruby>聞<rt>き</rt></ruby>く）<br><ruby>何<rt>なに</rt></ruby>を/<ruby>何<rt>なん</rt></ruby>の/どんな〜ましたか。", "viText": "Bạn đã từng ăn món ăn Nhật / xem anime Nhật / hát ca khúc tiếng Nhật / tham gia lễ hội của Nhật chưa? (Hỏi 2 ý) Cụ thể là món nào / bộ phim nào / như thế nào?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.2b.mp3" },
+        { "lesson": 19, "id": "19-3a", "text": "<ruby>宿題<rt>しゅくだい</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れた/<ruby>授業<rt>じゅぎょう</rt></ruby>に<ruby>遅<rt>おく</rt></ruby>れた/<ruby>授業<rt>じゅぎょう</rt></ruby>を<ruby>休<rt>やす</rt></ruby>んだことがありますか。どうしてですか。", "viText": "Bạn đã từng quên làm bài tập / đi học muộn / nghỉ học buổi nào chưa? Lý do tại sao?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.3a.mp3" },
+        { "lesson": 19, "id": "19-3b", "text": "<ruby>宿題<rt>しゅくだい</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れた/<ruby>授業<rt>じゅぎょう</rt></ruby>に<ruby>遅<rt>おく</rt></ruby>れた/<ruby>授業<rt>じゅぎょう</rt></ruby>を<ruby>休<rt>やす</rt></ruby>んだことがありますか。どうしてですか。", "viText": "Bạn đã từng quên làm bài tập / đi học muộn / nghỉ học buổi nào chưa? Lý do tại sao?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.3b.mp3" },
+        { "lesson": 19, "id": "19-4", "text": "〇〇<ruby>大学<rt>だいがく</rt></ruby>/〇〇<ruby>短大<rt>たんだい</rt></ruby>で どんなイベントに<ruby>参加<rt>さんか</rt></ruby>したことがありますか。", "viText": "Bạn đã từng tham gia sự kiện hay hoạt động tập thể nào tại trường Đại học/Cao đẳng 〇〇?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.4.mp3" },
+        { "lesson": 19, "id": "19-5", "text": "<ruby>今<rt>いま</rt></ruby>まで、どこに<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>ったことがありますか。", "viText": "Tính đến nay, bạn đã từng đi du lịch ở những địa phương nào rồi?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.5.mp3" },
+        { "lesson": 19, "id": "19-6", "text": "<ruby>日本語<rt>にほんご</rt></ruby>クラスに<ruby>入<rt>はい</rt></ruby>ってから、〇〇さんは <ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になりましたか。",  "viText": "Từ khi vào trung tâm, bạn 〇〇 có giỏi tiếng Nhật lên không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.6.mp3" },
+        { "lesson": 19, "id": "19-7a", "text": "<ruby>将来<rt>しょうらい</rt></ruby>、<ruby>社長<rt>しゃちょう</rt></ruby>/<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>/エンジニア になりたいですか。<br>いいえ➞<ruby>何<rt>なに</rt></ruby>に なりたいですか。", "viText": "Trong tương lai, bạn có muốn trở thành giám đốc / giáo viên tiếng Nhật / kỹ sư không? *Nếu nói không -> Vậy bạn muốn làm nghề gì?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.7a.mp3" },
+        { "lesson": 19, "id": "19-7b", "text": "<ruby>将来<rt>しょうらい</rt></ruby>、<ruby>社長<rt>しゃちょう</rt></ruby>/<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>/エンジニア になりたいですか。<br>いいえ➞<ruby>何<rt>なに</rt></ruby>に なりたいですか。", "viText": "Trong tương lai, bạn có muốn trở thành giám đốc / giáo viên tiếng Nhật / kỹ sư không? *Nếu nói không -> Vậy bạn muốn làm nghề gì?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.7b.mp3" },
+        { "lesson": 19, "id": "19-8a", "text": "〇〇さん、<ruby>今<rt>いま</rt></ruby>、<ruby>眠<rt>ねむ</rt></ruby>く/<ruby>最近<rt>さいきん</rt></ruby><ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>く/<ruby>最近<rt>さいきん</rt></ruby><ruby>暑<rt>あつ</rt></ruby>く・<ruby>涼<rt>すず</rt></ruby>しくなりましたか。", "viText": "Bạn 〇〇 thấy bây giờ buồn ngủ hơn / dạo này cao lên / dạo này trời nóng lên hay mát đi không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.8a.mp3" },
+        { "lesson": 19, "id": "19-8b", "text": "〇〇さん、<ruby>今<rt>いま</rt></ruby>、<ruby>眠<rt>ねむ</rt></ruby>く/<ruby>最近<rt>さいきん</rt></ruby><ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>く/<ruby>最近<rt>さいきん</rt></ruby><ruby>暑<rt>あつ</rt></ruby>く・<ruby>涼<rt>すず</rt></ruby>しくなりましたか。", "viText": "Bạn 〇〇 thấy bây giờ buồn ngủ hơn / dạo này cao lên / dạo này trời nóng lên hay mát đi không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.8b.mp3" },
+        { "lesson": 19, "id": "19-9", "text": "<ruby>先週<rt>せんしゅう</rt></ruby>の<ruby>日曜日<rt>にちようび</rt></ruby>、<ruby>何<rt>なに</rt></ruby>をしましたか。2つ<ruby>答<rt>こた</rt></ruby>えてください。（「〜たり〜たり」）", "viText": "Chủ nhật tuần trước bạn đã làm những gì? Hãy nêu 2 hành động sử dụng cấu trúc liệt kê mẫu '~ tari ~ tari desu'.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.9.mp3" },
+        { "lesson": 19, "id": "19-10", "text": "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>って、<ruby>何<rt>なに</rt></ruby>をしたいですか。2つ<ruby>答<rt>こた</rt></ruby>えてください。（「〜たり〜たり」で<ruby>答<rt>こた</rt></ruby>える）", "viText": "Sau khi đến Nhật Bản, bạn muốn làm những gì? Hãy trả lời bằng cách dùng mẫu ngữ pháp liệt kê '~ tari ~ tari shitai desu'.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/19.10.mp3" },
 
         // ==================== LESSON 20 ====================
-        { "lesson": 20, "id": "20-1", "text": "〇〇さん、元気？", "viText": "Bạn 〇〇 khoẻ không? (Thể thông thường - nói thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.1.mp3" },
-        { "lesson": 20, "id": "20-2", "text": "〇〇さん、今何歳？ 誕生日 教えて。", "viText": "〇〇 năm nay bao nhiêu tuổi rồi? Nói cho mình biết sinh nhật đi. (Thể thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.2.mp3" },
-        { "lesson": 20, "id": "20-3", "text": "大学名/短期大学名は？", "viText": "Tên trường Đại học / Cao đẳng của bạn là gì? (Thể ngắn gọn)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.3.mp3" },
-        { "lesson": 20, "id": "20-4", "text": "大学/短期大学の住所、知ってる？<br>知っている➞言って。  知らない➞覚えてないの？", "viText": "Có biết địa chỉ trường Đại học/Cao đẳng không? Nếu biết -> nói xem nào. Nếu không -> Bộ không nhớ nổi à? (Thể thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.4.mp3" },
-        { "lesson": 20, "id": "20-5", "text": "日本に行きたい？", "viText": "Có muốn đi Nhật không? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.5.mp3" },
-        { "lesson": 20, "id": "20-6", "text": "〇〇大学/〇〇短大に入ってから、どれくらい？<br>（〇か月です/〇か月ぐらいです）", "viText": "Từ lúc vào học trường Đại học / Cao đẳng 〇〇 đến giờ được bao lâu rồi? (Trả lời: khoảng mấy tháng...)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.6.mp3" },
-        { "lesson": 20, "id": "20-7", "text": "日本語、上手になった？", "viText": "Tiếng Nhật đã giỏi lên chút nào chưa? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.7.mp3" },
-        { "lesson": 20, "id": "20-8", "text": "漢字 書くことができる？ いくつぐらい？", "viText": "Có viết được chữ Hán không? Được tầm bao nhiêu chữ rồi? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.8.mp3" },
-        { "lesson": 20, "id": "20-9", "text": "勉強で 何がいちばん むずかしい？", "viText": "Trong việc học thì phần nào là khó nhất đối với bạn? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.9.mp3" },
-        { "lesson": 20, "id": "20-10", "text": "明日 ひま？", "viText": "Ngày mai rảnh không? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.10.mp3" },
+        { "lesson": 20, "id": "20-1", "text": "〇〇さん、<ruby>元気<rt>げんき</rt></ruby>？", "viText": "Bạn 〇〇 khoẻ không? (Thể thông thường - nói thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.1.mp3" },
+        { "lesson": 20, "id": "20-2", "text": "〇〇さん、<ruby>今<rt>いま</rt></ruby>、<ruby>何歳<rt>なんさい</rt></ruby>？ <ruby>誕生日<rt>たんじょうび</rt></ruby> <ruby>教<rt>おし</rt></ruby>えて。", "viText": "〇〇 năm nay bao nhiêu tuổi rồi? Nói cho mình biết sinh nhật đi. (Thể thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.2.mp3" },
+        { "lesson": 20, "id": "20-3", "text": "<ruby>大学名<rt>だいがくめい</rt></ruby>/<ruby>短期大学名<rt>たんきだいがくめい</rt></ruby>は？", "viText": "Tên trường Đại học / Cao đẳng của bạn là gì? (Thể ngắn gọn)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.3.mp3" },
+        { "lesson": 20, "id": "20-4", "text": "<ruby>大学<rt>だいがく</rt></ruby>/<ruby>短期大学<rt>たんきだいがく</rt></ruby>の<ruby>住所<rt>じゅうしょ</rt></ruby>、<ruby>知<rt>し</rt></ruby>ってる？<br><ruby>知<rt>し</rt></ruby>っている➞<ruby>言<rt>い</rt></ruby>って。  <ruby>知<rt>し</rt></ruby>らない➞<ruby>覚<rt>おぼ</rt></ruby>えてないの？", "viText": "Có biết địa chỉ trường Đại học/Cao đẳng không? Nếu biết -> nói xem nào. Nếu không -> Bộ không nhớ nổi à? (Thể thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.4.mp3" },
+        { "lesson": 20, "id": "20-5", "text": "<ruby>日本<rt>にほん</rt></ruby>に<ruby>行<rt>い</rt></ruby>きたい？", "viText": "Có muốn đi Nhật không? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.5.mp3" },
+        { "lesson": 20, "id": "20-6", "text": "〇〇<ruby>大学<rt>だいがく</rt></ruby>/〇〇<ruby>短大<rt>たんだい</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ってから、どれくらい？<br>（〇か<ruby>月<rt>げつ</rt></ruby>です/〇か<ruby>月<rt>げつ</rt></ruby>ぐらいです）", "viText": "Từ lúc vào học trường Đại học / Cao đẳng 〇〇 đến giờ được bao lâu rồi? (Trả lời: khoảng mấy tháng...)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.6.mp3" },
+        { "lesson": 20, "id": "20-7", "text": "<ruby>日本語<rt>にほんご</rt></ruby>、<ruby>上手<rt>じょうず</rt></ruby>になった？", "viText": "Tiếng Nhật đã giỏi lên chút nào chưa? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.7.mp3" },
+        { "lesson": 20, "id": "20-8", "text": "<ruby>漢字<rt>かんじ</rt></ruby> <ruby>書<rt>か</rt></ruby>くことができる？ いくつぐらい？", "viText": "Có viết được chữ Hán không? Được tầm bao nhiêu chữ rồi? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.8.mp3" },
+        { "lesson": 20, "id": "20-9", "text": "<ruby>勉強<rt>べんきょう</rt></ruby>で <ruby>何<rt>なに</rt></ruby>がいちばん むずかしい？", "viText": "Trong việc học thì phần nào là khó nhất đối với bạn? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.9.mp3" },
+        { "lesson": 20, "id": "20-10", "text": "<ruby>明日<rt>あした</rt></ruby> ひま？", "viText": "Ngày mai rảnh không? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.10.mp3" },
 
         // ==================== LESSON 21 ====================
-        { "lesson": 21, "id": "21-1a", "text": "けさ/テストの前に、担任の先生は 何と 言いましたか。", "viText": "Sáng nay / trước khi kiểm tra, thầy cô chủ nhiệm đã dặn dò điều gì?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.1a.mp3" },
-        { "lesson": 21, "id": "21-1b", "text": "けさ/テストの前に、担任の先生は 何と 言いましたか。", "viText": "Sáng nay / trước khi kiểm tra, thầy cô chủ nhiệm đã dặn dò điều gì?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.1b.mp3" },
-        { "lesson": 21, "id": "21-2", "text": "日本人と話しています。日本語がわかりません。何と言いますか。", "viText": "Bạn đang nói chuyện với người Nhật nhưng không hiểu tiếng Nhật của họ. Bạn sẽ nói thế nào để nhờ vả?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.2.mp3" },
-        { "lesson": 21, "id": "21-3", "text": "日本人と話しています。声が小さいです。何と言いますか。", "viText": "Bạn đang nói chuyện với người Nhật nhưng giọng họ nhỏ quá không nghe rõ. Bạn sẽ nói thế nào lịch sự?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.3.mp3" },
-        { "lesson": 21, "id": "21-4a", "text": "「よく聞いてください/これを見てください/・・・」 今、私は何と言いましたか。", "viText": "Thầy cô làm mẫu: 'Hãy nghe rõ đây / hãy nhìn cái này...'. Vừa rồi tôi đã nói câu gì vậy?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.4a.mp3" },
-        { "lesson": 21, "id": "21-4b", "text": "「よく聞いてください/これを見てください/・・・」 今、私は何と言いましたか。", "viText": "Thầy cô làm mẫu: 'Hãy nghe rõ đây / hãy nhìn cái này...'. Vừa rồi tôi đã nói câu gì vậy?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.4b.mp3" },
-        { "lesson": 21, "id": "21-5", "text": "日本語はかんたんでしょう？", "viText": "Tiếng Nhật rất đơn giản và dễ dàng đúng không nào?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.5.mp3" },
-        { "lesson": 21, "id": "21-6a", "text": "きょうは 暑い/いい天気ね/雨が降っていますね。 明日も〜と思いますか。", "viText": "Hôm nay trời nóng / thời tiết đẹp nhỉ / trời đang mưa nhỉ. Bạn có nghĩ là ngày mai thời tiết cũng sẽ tiếp diễn như thế không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.6a.mp3" },
-        { "lesson": 21, "id": "21-6b", "text": "きょうは 暑い/いい天気ね/雨が降っていますね。 明日も〜と思いますか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.6b.mp3" },
+        { "lesson": 21, "id": "21-1a", "text": "けさ/テストの<ruby>前<rt>まえ</rt></ruby>に、<ruby>担任<rt>たんにん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>は <ruby>何<rt>なん</rt></ruby>と <ruby>言<rt>い</rt></ruby>いましたか。", "viText": "Sáng nay / trước khi kiểm tra, thầy cô chủ nhiệm đã dặn dò điều gì?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.1a.mp3" },
+        { "lesson": 21, "id": "21-1b", "text": "けさ/テストの<ruby>前<rt>まえ</rt></ruby>に、<ruby>担任<rt>たんにん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>は <ruby>何<rt>なん</rt></ruby>と <ruby>言<rt>い</rt></ruby>いましたか。", "viText": "Sáng nay / trước khi kiểm tra, thầy cô chủ nhiệm đã dặn dò điều gì?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.1b.mp3" },
+        { "lesson": 21, "id": "21-2", "text": "<ruby>日本人<rt>にほんじん</rt></ruby>と<ruby>話<rt>はな</rt></ruby>しています。<ruby>日本語<rt>にほんご</rt></ruby>がわかりません。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。", "viText": "Bạn đang nói chuyện với người Nhật nhưng không hiểu tiếng Nhật của họ. Bạn sẽ nói thế nào để nhờ vả?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.2.mp3" },
+        { "lesson": 21, "id": "21-3", "text": "<ruby>日本人<rt>にほんじん</rt></ruby>と<ruby>話<rt>はな</rt></ruby>しています。<ruby>声<rt>こえ</rt></ruby>が<ruby>小<rt>ちい</rt></ruby>さいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。", "viText": "Bạn đang nói chuyện với người Nhật nhưng giọng họ nhỏ quá không nghe rõ. Bạn sẽ nói thế nào lịch sự?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.3.mp3" },
+        { "lesson": 21, "id": "21-4a", "text": "「よく<ruby>聞<rt>き</rt></ruby>いてください/これを<ruby>見<rt>み</rt></ruby>てください/・・・」 <ruby>今<rt>いま</rt></ruby>、<ruby>私<rt>わたし</rt></ruby>は<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いましたか。", "viText": "Thầy cô làm mẫu: 'Hãy nghe rõ đây / hãy nhìn cái này...'. Vừa rồi tôi đã nói câu gì vậy?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.4a.mp3" },
+        { "lesson": 21, "id": "21-4b", "text": "「よく<ruby>聞<rt>き</rt></ruby>いてください/これを<ruby>見<rt>み</rt></ruby>てください/・・・」 <ruby>今<rt>いま</rt></ruby>、<ruby>私<rt>わたし</rt></ruby>は<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いましたか。", "viText": "Thầy cô làm mẫu: 'Hãy nghe rõ đây / hãy nhìn cái này...'. Vừa rồi tôi đã nói câu gì vậy?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.4b.mp3" },
+        { "lesson": 21, "id": "21-5", "text": "<ruby>日本語<rt>にほんご</rt></ruby>はかんたんでしょう？", "viText": "Tiếng Nhật rất đơn giản và dễ dàng đúng không nào?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.5.mp3" },
+        { "lesson": 21, "id": "21-6a", "text": "きょうは <ruby>暑<rt>あつ</rt></ruby>い/いい<ruby>天気<rt>てんき</rt></ruby>ね/<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>っていますね。 <ruby>明日<rt>あした</rt></ruby>も〜と<ruby>思<rt>おも</rt></ruby>いますか。", "viText": "Hôm nay trời nóng / thời tiết đẹp nhỉ / trời đang mưa nhỉ. Bạn có nghĩ là ngày mai thời tiết cũng sẽ tiếp diễn như thế không?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.6a.mp3" },
+        { "lesson": 21, "id": "21-6b", "text": "きょうは <ruby>暑<rt>あつ</rt></ruby>い/いい<ruby>天気<rt>てんき</rt></ruby>ね/<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>っていますね。 <ruby>明日<rt>あした</rt></ruby>も〜と<ruby>思<rt>おも</rt></ruby>いますか。", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.6b.mp3" },
         { "lesson": 21, "id": "21-7a", "text": "<ruby>今<rt>いま</rt></ruby><ruby>何時<rt>なんじ</rt></ruby>ですか。<ruby>〇〇<rt>まるまる</rt></ruby>さんのお<ruby>父<rt>とう</rt></ruby>さん/お<ruby>母<rt>かあ</rt></ruby>さんは<ruby>今<rt>いま</rt></ruby><ruby>何<rt>なに</rt></ruby>をしていると<ruby>思<rt>おも</rt></ruby>いますか。", "viText": "Bây giờ là mấy giờ? Bạn nghĩ hiện tại bố / mẹ của bạn 〇〇 đang làm việc gì ở quê nhà?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.7a.mp3" },
-            { "lesson": 21, "id": "21-7b", "text": "<ruby>今<rt>いま</rt></ruby><ruby>何時<rt>なんじ</rt></ruby>ですか。<ruby>〇〇<rt>まるまる</rt></ruby>さんのお<ruby>父<rt>とう</rt></ruby>さん/お<ruby>母<rt>かあ</rt></ruby>さんは<ruby>今<rt>いま</rt></ruby><ruby>何<rt>なに</rt></ruby>をしていると<ruby>思<rt>おも</rt></ruby>いますか。", "viText": "Bây giờ là mấy giờ? Bạn nghĩ hiện tại bố / mẹ của bạn 〇〇 đang làm việc gì ở quê nhà?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.7b.mp3" },
-            { "lesson": 21, "id": "21-8", "text": "<ruby>〇〇<rt>まるまる</rt></ruby><ruby>大学<rt>だいがく</rt></ruby>/<ruby>〇〇<rt>まるまる</rt></ruby><ruby>短大<rt>たんだい</rt></ruby>についてどう<ruby>思<rt>おも</rt></ruby>いますか。", "viText": "Bạn có suy nghĩ cảm nhận như thế nào về ngôi trường Đại học / Cao đẳng 〇〇 của mình?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.8.mp3" },
-            { "lesson": 21, "id": "21-9a", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんの<ruby>友達<rt>ともだち</rt></ruby>はだれですか。 （<ruby>友達<rt>ともだち</rt></ruby><ruby>名<rt>めい</rt></ruby>）について、どう<ruby>思<rt>おも</rt></ruby>いますか。（2つ以上 〜くて 〜で）", "viText": "Bạn thân của bạn 〇〇 là ai? Bạn nghĩ người bạn (tên cụ thể) đó là người thế nào? *Đưa ra từ 2 nhận xét trở lên nối đuôi tính từ dạng thể Te.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.9a.mp3" },
-            { "lesson": 21, "id": "21-9b", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんの<ruby>友達<rt>ともだち</rt></ruby>はだれですか。 （<ruby>友達<rt>ともだち</rt></ruby><ruby>名<rt>めい</rt></ruby>）について、どう<ruby>思<rt>おも</rt></ruby>いますか。（2つ以上 〜くて 〜で）", "viText": "Bạn thân của bạn 〇〇 là ai? Bạn nghĩ người bạn (tên cụ thể) đó là người thế nào? *Đưa ra từ 2 nhận xét trở lên nối đuôi tính từ dạng thể Te.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.9b.mp3" },
-            { "lesson": 21, "id": "21-10", "text": "のどがかわいたでしょう？/おなかが<ruby>空<rt>す</rt></ruby>いたでしょう？<br>※はい、すきました。いいえ、すいていません。<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。など", "viText": "Chắc hẳn bạn đang khát nước đúng không? / Đang đói bụng đúng không? *Mẫu trả lời: Vâng tôi đói rồi / Hoặc Không tôi không đói, tôi vẫn ổn...", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.10.mp3" },
+        { "lesson": 21, "id": "21-7b", "text": "<ruby>今<rt>いま</rt></ruby><ruby>何時<rt>なんじ</rt></ruby>ですか。<ruby>〇〇<rt>まるまる</rt></ruby>さんのお<ruby>父<rt>とう</rt></ruby>さん/お<ruby>母<rt>かあ</rt></ruby>さんは<ruby>今<rt>いま</rt></ruby><ruby>何<rt>なに</rt></ruby>をしていると<ruby>思<rt>おも</rt></ruby>いますか。", "viText": "Bây giờ là mấy giờ? Bạn nghĩ hiện tại bố / mẹ của bạn 〇〇 đang làm việc gì ở quê nhà?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.7b.mp3" },
+        { "lesson": 21, "id": "21-8", "text": "<ruby>〇〇<rt>まるまる</rt></ruby><ruby>大学<rt>だいがく</rt></ruby>/<ruby>〇〇<rt>まるまる</rt></ruby><ruby>短大<rt>たんだい</rt></ruby>についてどう<ruby>思<rt>おも</rt></ruby>いますか。", "viText": "Bạn có suy nghĩ cảm nhận như thế nào về ngôi trường Đại học / Cao đẳng 〇〇 của mình?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.8.mp3" },
+        { "lesson": 21, "id": "21-9a", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんの<ruby>友達<rt>ともだち</rt></ruby>はだれですか。 （<ruby>友達<rt>ともだち</rt></ruby><ruby>名<rt>めい</rt></ruby>）について、どう<ruby>思<rt>おも</rt></ruby>いますか。（2つ以上 〜くて 〜で）", "viText": "Bạn thân của bạn 〇〇 là ai? Bạn nghĩ người bạn (tên cụ thể) đó là người thế nào? *Đưa ra từ 2 nhận xét trở lên nối đuôi tính từ dạng thể Te.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.9a.mp3" },
+        { "lesson": 21, "id": "21-9b", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんの<ruby>友達<rt>ともだち</rt></ruby>はだれですか。 （<ruby>友達<rt>ともだち</rt></ruby><ruby>名<rt>めい</rt></ruby>）について、どう<ruby>思<rt>おも</rt></ruby>いますか。（2つ以上 〜くて 〜で）", "viText": "Bạn thân của bạn 〇〇 là ai? Bạn nghĩ người bạn (tên cụ thể) đó là người thế nào? *Đưa ra từ 2 nhận xét trở lên nối đuôi tính từ dạng thể Te.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.9b.mp3" },
+        { "lesson": 21, "id": "21-10", "text": "のどがかわいたでしょう？/おなかが<ruby>空<rt>す</rt></ruby>いたでしょう？<br>※はい、すきました。いいえ、すいていません。<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。など", "viText": "Chắc hẳn bạn đang khát nước đúng không? / Đang đói bụng đúng không? *Mẫu trả lời: Vâng tôi đói rồi / Hoặc Không tôi không đói, tôi vẫn ổn...", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.10.mp3" },
 
             // ==================== LESSON 22 ====================
             { "lesson": 22, "id": "22-1", "text": "どんな<ruby>人<rt>ひと</rt></ruby>が <ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になりますか。<ruby>勉強<rt>べんきょう</rt></ruby>する<ruby>人<rt>ひと</rt></ruby>ですか。<ruby>勉強<rt>べんきょう</rt></ruby>しない<ruby>人<rt>ひと</rt></ruby>ですか。", "viText": "Người như thế nào thì sẽ giỏi tiếng Nhật lên? Người chăm học hay người lười học không chịu ôn bài?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.1.mp3" },
-            { "lesson": 22, "id": "22-2", "text": "パーティーをします。<ruby>〇〇<rt>まるまる</rt></ruby>さんはいつも<ruby>何<rt>なに</rt></ruby>をする<ruby>人<rt>ひと</rt></ruby>ですか。<ruby>料理<rt>りょうり</rt></ruby>を<ruby>作<rt>つく</rt></ruby>る<ruby>人<rt>ひと</rt></ruby>ですか。<ruby>皿<rt>さら</rt></ruby>を<ruby>洗<rt>あら</rt></ruby>う人ですか。", "viText": "Khi tổ chức một bữa tiệc liên hoan, bạn 〇〇 thường đóng vai trò là người làm gì? Người đứng bếp nấu món ăn hay người dọn rửa bát đĩa?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.2.mp3" },
+            { "lesson": 22, "id": "22-2", "text": "パーティーをします。<ruby>〇〇<rt>まるまる</rt></ruby>さんはいつも<ruby>何<rt>なに</rt></ruby>をする<ruby>人<rt>ひと</rt></ruby>ですか。<ruby>料理<rt>りょうり</rt></ruby>を<ruby>作<rt>つく</rt></ruby>る<ruby>人<rt>ひと</rt></ruby>ですか。<ruby>皿<rt>さら</rt></ruby>を<ruby>洗<rt>あら</rt></ruby>う<ruby>人<rt>ひと</rt></ruby>ですか。", "viText": "Khi tổ chức một bữa tiệc liên hoan, bạn 〇〇 thường đóng vai trò là người làm gì? Người đứng bếp nấu món ăn hay người dọn rửa bát đĩa?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.2.mp3" },
             { "lesson": 22, "id": "22-3", "text": "これはどんなところですか。<ruby>何<rt>なに</rt></ruby>をするところですか。<br>※〜するところです/〜てはいけないところです など", "viText": "Nơi này/phòng này là địa điểm như thế nào? Dùng để làm việc gì? *Trả lời: Là nơi dùng để... / Là nơi không được phép làm...", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.3.mp3" },
             { "lesson": 22, "id": "22-4", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんの<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>何<rt>なに</rt></ruby>をする<ruby>会社<rt>かいしゃ</rt></ruby>ですか。<br>※<ruby>車<rt>くるま</rt></ruby>の<ruby>部品<rt>ぶひん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>る会社です/ブタを<ruby>育<rt>そだ</rt></ruby>てる会社です/ビルをつくる<ruby>会社<rt>かいしゃ</rt></ruby>ですなど", "viText": "Công ty tiếp nhận của bạn 〇〇 hoạt động về lĩnh vực gì? *Ví dụ: Là công ty sản xuất linh kiện ô tô / công ty chăn nuôi lợn / công ty xây dựng tòa nhà...", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.4.mp3" },
             { "lesson": 22, "id": "22-5", "text": "ロボットをもらいます。 どんなロボットがほしいですか。", "viText": "Nếu được tặng một chú robot, bạn muốn sở hữu một chú robot có tính năng như thế nào?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/22.5.mp3" },
@@ -1062,7 +528,7 @@
             { "lesson": 24, "id": "24-7", "text": "<ruby>誰<rt>だれ</rt></ruby>かにお<ruby>礼<rt>れい</rt></ruby>を<ruby>言<rt>い</rt></ruby>ってください。<br>※<ruby>〇〇<rt>まるまる</rt></ruby>さん、〜くれてありがとう。", "viText": "Hãy gửi một lời cảm ơn chân thành đến một người bất kỳ xung quanh. *Mẫu câu: Bạn 〇〇, cảm ơn vì đã làm việc gì cho mình.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/24.7.mp3" },
             { "lesson": 24, "id": "24-8", "text": "<ruby>漢字<rt>かんじ</rt></ruby>の<ruby>読<rt>よみ</rt></ruby><ruby>方<rt>かた</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてもらいたいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。<br>※〜くれませんか/もらえませんか  「〜ください」➞<ruby>他<rt>ほか</rt></ruby>の<ruby>言<rt>い</rt></ruby>い<ruby>方<rt>かた</rt></ruby>で", "viText": "Bạn đang muốn nhờ đối phương chỉ cách đọc của một chữ Hán. Bạn sẽ nói thế nào cho lịch sự? *Yêu cầu dùng đuôi kuremasenka / moraemasenka, không dùng cấu trúc sai khiến kudasai.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/24.8.mp3" },
             { "lesson": 24, "id": "24-9a", "text": "<ruby>友達<rt>ともだち</rt></ruby>に、<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>撮<rt>と</rt></ruby>って/ <ruby>部屋<rt>へや</rt></ruby>をそうじして/<ruby>料理<rt>りょうり</rt></ruby>を<ruby>作<rt>つく</rt></ruby>って/もらいたいとき、<ruby>何<rt>なん</rt></ruby>て<ruby>言<rt>い</rt></ruby>う？", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/24.9a.mp3" },
-            { "lesson": 24, "id": "24-9b", "text": "<ruby>友達<rt>ともだち</rt></ruby>に、<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>撮<rt>と</rt></ruby>して/ <ruby>部屋<rt>へや</rt></ruby>をそうじして/<ruby>料理<rt>りょうり</rt></ruby>を<ruby>作<rt>つく</rt></ruby>して/もらいたいとき、<ruby>何<rt>なん</rt></ruby>て<ruby>言<rt>い</rt></ruby>う？", "viText": "Khi muốn bạn bè chụp ảnh hộ / dọn phòng hộ / nấu ăn giúp cho thì sẽ mở lời nhờ vả thế nào thân mật? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/24.9b.mp3" },
+            { "lesson": 24, "id": "24-9b", "text": "<ruby>友達<rt>ともだち</rt></ruby>に、<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>撮<rt>と</rt></ruby>って/ <ruby>部屋<rt>へや</rt></ruby>をそうじして/<ruby>料理<rt>りょうり</rt></ruby>を<ruby>作<rt>つく</rt></ruby>って/もらいたいとき、<ruby>何<rt>なん</rt></ruby>て<ruby>言<rt>い</rt></ruby>う？", "viText": "Khi muốn bạn bè chụp ảnh hộ / dọn phòng hộ / nấu ăn giúp cho thì sẽ mở lời nhờ vả thế nào thân mật? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/24.9b.mp3" },
             { "lesson": 24, "id": "24-10", "text": "どんなとき「ありがとう」って<ruby>言<rt>い</rt></ruby>う？<br>※〜もらったとき、<ruby>言<rt>い</rt></ruby>います。", "viText": "Trong những tình huống đời thường nào thì bạn sẽ nói ra lời cảm ơn 'Arigatou'? *Mẫu trả lời: Nói câu đó những khi nhận được sự giúp đỡ.", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/24.10.mp3" },
 
             // ==================== LESSON 25 ====================
@@ -1081,7 +547,580 @@
             { "lesson": 25, "id": "25-8", "text": "60<ruby>歳<rt>さい</rt></ruby>になっても <ruby>働<rt>はたら</rt></ruby>きたい？<br>※ ～たら、<ruby>働<rt>はたら</rt></ruby>きたくないです/～ても、<ruby>働<rt>はたら</rt></ruby>きたいです。", "viText": "Dẫu cho sau này bước sang tuổi 60, bạn vẫn muốn tiếp tục cống hiến làm việc chứ? *Mẫu: Nếu đến tuổi đó tôi không muốn làm / Hoặc Dẫu 60 tuổi tôi vẫn muốn làm. (Thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.8.mp3" },
             { "lesson": 25, "id": "25-9", "text": "どうしたら、<ruby>日本語<rt>にほんご</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になると<ruby>思<rt>おも</rt></ruby>う？", "viText": "Theo bạn thì phải luyện tập hay làm như thế nào thì vốn tiếng Nhật mới có thể tiến bộ vượt bậc được? (Thân mật)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.9.mp3" },
             { "lesson": 25, "id": "25-10", "text": "<ruby>〇〇<rt>まるまる</rt></ruby>さんは、<ruby>健康<rt>けんこう</rt></ruby>と<ruby>家族<rt>かぞく</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>と、<ruby>何<rt>なに</rt></ruby>があったら<ruby>幸<rt>しあわ</rt></ruby>せ/うれしい？ どうして？", "viText": "Đối với bạn 〇〇, giữa sức khỏe, gia đình và bạn bè thân thiết, chỉ cần có được yếu tố nào là bạn đã thấy hạnh phúc / vui sướng nhất? Tại sao?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/25.10.mp3" }
+      
         ];
    </script>
+
+
+        
+<script>
+    // =============================================================================
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.200a)   
+    // =============================================================================
+
+(function() {
+    // 状態管理変数
+    let currentAudio = null;
+    let audioQueue = [];
+    let isPlayingQueue = false;
+    let queueIndex = 0;
+
+    // DOM要素の取得
+    const playAllBtn = document.getElementById('playAllBtn');
+    const playLessonBtn = document.getElementById('playLessonBtn');
+    // const shufflePlayBtn = document.getElementById('shufflePlayBtn'); 機能OFF
+    const individualPlayBtn = document.getElementById('individualPlayBtn');
+    const lessonSelectContainer = document.getElementById('lessonSelectContainer');
+    const lessonSelect = document.getElementById('lessonSelect');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const questionsContainer = document.getElementById('questionsContainer');
+    const initialMessageContainer = document.getElementById('initialMessageContainer');
+    const pauseInput = document.getElementById('pauseInput');
+    const stopBtn = document.getElementById('stopBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const plusBtn = document.getElementById('plusBtn');
+    const minusBtn = document.getElementById('minusBtn');
+    const toggleManualBtn = document.getElementById('toggleManualBtn');
+    const manualContainer = document.getElementById('manualContainer');
+    const closeManualBtn = document.getElementById('closeManualBtn');
+    const modalCloseOkBtn = document.getElementById('modalCloseOkBtn');
+
+    // 課選択ドロップダウンの初期化
+    function initLessonSelect() {
+        if (typeof questions === 'undefined' || !Array.isArray(questions)) {
+            showError('データ（Cパート）が読み込まれていません。');
+            return;
+        }
+        // 存在する課（lesson）を重複なく抽出してソート
+        const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
+        lessonSelect.innerHTML = '';
+        
+        lessons.forEach(l => {
+            const option = document.createElement('option');
+            option.value = l;
+            option.textContent = `Bài ${l} (第${l}課)`;
+            lessonSelect.appendChild(option);
+        });
+        lessonSelect.selectedIndex = -1; // 初期状態は未選択
+    }
+
+    // 再生状態の完全停止
+    function terminatePlayback() {
+        isPlayingQueue = false;
+        audioQueue = [];
+        queueIndex = 0;
+        
+        if (currentAudio) {
+            try {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            } catch (e) {
+                console.error('Audio pause error:', e);
+            }
+            currentAudio = null;
+        }
+        // すべてのカードのハイライトを解除
+        document.querySelectorAll('.question-card').forEach(card => {
+            card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
+        });
+    }
+
+    // 指定されたカードのハイライト処理
+    function highlightCard(id) {
+        document.querySelectorAll('.question-card').forEach(card => {
+            if (card.getAttribute('data-id') === id) {
+                card.classList.add('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
+            } else {
+                card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
+            }
+        });
+    }
+
+    // キュー再生（一括連続再生）の開始
+    function startQueuePlayback(items) {
+        terminatePlayback();
+        if (items.length === 0) {
+            showError('再生対象のデータがありません。');
+            return;
+        }
+        hideError();
+        audioQueue = [...items];
+        isPlayingQueue = true;
+        queueIndex = 0;
+        executeNextQueueItem();
+    }
+
+    // キューの次のアイテムを再生
+    function executeNextQueueItem() {
+        if (!isPlayingQueue || queueIndex >= audioQueue.length) {
+            terminatePlayback();
+            return;
+        }
+
+        const currentItem = audioQueue[queueIndex];
+        highlightCard(currentItem.id);
+
+        currentAudio = new Audio(currentItem.audioUrl);
+        
+        currentAudio.onended = () => {
+            if (!isPlayingQueue) return;
+            queueIndex++;
+            // 設定された再生間隔（秒）を取得して待機後に次を再生
+            const interval = (parseFloat(pauseInput.value) || 0) * 1000;
+            setTimeout(() => {
+                if (isPlayingQueue) {
+                    executeNextQueueItem();
+                }
+            }, interval);
+        };
+
+        currentAudio.onerror = () => {
+            console.error(`音声ファイルの読み込みに失敗しました: ${currentItem.audioUrl}`);
+            queueIndex++;
+            executeNextQueueItem();
+        };
+
+        currentAudio.play().catch(err => {
+            console.error('Playback failed:', err);
+            terminatePlayback();
+        });
+    }
+
+    // 問題カードの動的レンダリング
+    function renderCards(targetList) {
+        questionsContainer.innerHTML = '';
+        hideError();
+
+        // 案内初期メッセージを非表示にしてUIをスッキリさせる
+        if (initialMessageContainer) {
+            initialMessageContainer.classList.add('hidden');
+        }
+
+        if (targetList.length === 0) {
+            questionsContainer.innerHTML = '<p class="text-center text-slate-400 py-12 bg-white rounded-2xl border border-slate-200">対象のデータがありません。</p>';
+            return;
+        }
+
+        targetList.forEach(q => {
+            const card = document.createElement('div');
+            card.className = 'question-card bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-200';
+            card.setAttribute('data-id', q.id);
+
+            // テキストエリア
+            const textSection = document.createElement('div');
+            textSection.className = 'flex-1';
+            
+            // 画像がある場合のみ、隠された<img>タグを差し込む
+            const imageHtml = q.imageUrl ? `<div class="mt-3 hidden img-container"><img src="${q.imageUrl}" alt="イラスト" class="max-h-[120px] rounded-lg border border-slate-200 shadow-sm"></div>` : '';
+
+            textSection.innerHTML = `
+                <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2.5 py-1 rounded-md font-bold mb-2">Bài ${q.lesson} - ID: ${q.id}</span>
+                <p class="text-lg font-medium text-gray-800 mb-2 hidden select-all">${q.text}</p>
+                <p class="text-sm text-slate-500 font-normal italic hidden select-all">${q.viText || ''}</p>
+                ${imageHtml}
+            `;
+
+            // ボタンコントロールエリア
+            const buttonSection = document.createElement('div');
+            buttonSection.className = 'flex items-center gap-2 self-stretch md:self-auto justify-end border-t md:border-t-0 pt-3 md:pt-0 border-gray-100';
+
+            // JP 表示切替ボタン
+            const jpBtn = document.createElement('button');
+            jpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+            jpBtn.textContent = 'JP Xem';
+            jpBtn.onclick = () => {
+                const p = textSection.querySelector('p:nth-of-type(1)');
+                p.classList.toggle('hidden');
+                if (p.classList.contains('hidden')) {
+                    jpBtn.textContent = 'JP Xem';
+                    jpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+                } else {
+                    jpBtn.textContent = 'JP Ẩn';
+                    jpBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
+                }
+            };
+
+            // VI 表示切替ボタン
+            const viBtn = document.createElement('button');
+            viBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+            viBtn.textContent = 'VI Xem';
+            viBtn.onclick = () => {
+                const p = textSection.querySelector('p:nth-of-type(2)');
+                p.classList.toggle('hidden');
+                if (p.classList.contains('hidden')) {
+                    viBtn.textContent = 'VI Xem';
+                    viBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+                } else {
+                    viBtn.textContent = 'VI Ẩn';
+                    viBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
+                }
+            };
+            // ==========================================
+            // 👇 ここから追加：画像切替ボタンの生成（データがある場合のみ）
+            // ==========================================
+            let imgBtn = null; // 初期値は空にしておく
+            // 【デバッグ用】コンソールにデータの中身を表示する
+                    console.log("ID:", q.id, "URL:", q.imageUrl);
+            // 【修正前】if (q.imageUrl) { ... }
+            // 【修正後：より確実にチェックする】
+            if (q.imageUrl && q.imageUrl.trim() !== "") {
+                imgBtn = document.createElement('button');
+                imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+                imgBtn.textContent = '🖼️ Hình';
+                imgBtn.onclick = () => {
+                    const imgTarget = textSection.querySelector('.img-container');
+                    if (imgTarget) {
+                        imgTarget.classList.toggle('hidden');
+                        if (imgTarget.classList.contains('hidden')) {
+                            imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+                        } else {
+                            imgBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
+                        }
+                    }
+                };
+            }
+            // ==========================================
+            // 👆 ここまで追加
+            // ==========================================
+            // ==========================================
+            // 👇 ここから追加：個別録音ボタン（🎤）
+            // ==========================================
+            const recordBtn = document.createElement('button');
+            recordBtn.className = 'bg-emerald-50 text-emerald-600 p-2 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
+            recordBtn.innerHTML = '🎤';
+            recordBtn.onclick = () => {
+                terminatePlayback(); // 既存の再生処理を安全にクリア
+                openRecordModal(q.id, q.text, q.lesson); // モーダルを開いてデータを渡す
+            };
+            // ==========================================
+            // 👆 ここまで追加
+            // ==========================================
+            // 個別再生ボタン（▶）
+            const playBtn = document.createElement('button');
+            playBtn.className = 'bg-indigo-50 text-indigo-600 p-2 rounded-lg border border-indigo-200 hover:bg-indigo-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
+            playBtn.innerHTML = '▶';
+            playBtn.onclick = () => {
+                terminatePlayback(); // 既存の再生処理を安全にクリア
+                highlightCard(q.id);
+                currentAudio = new Audio(q.audioUrl);
+                //  ここから変更：catchブロック内にalertを追加
+                currentAudio.play().catch(e => {
+                    console.error('Individual play error:', e);
+                    alert('音声ファイルがまだ準備されていないか、読み込めませんでした。');
+                });
+                //  ここまで変更currentAudio.play().catch(e => console.error('Individual play error:', e));
+            };
+
+            // 個別停止ボタン（■）
+            const stopIndividualBtn = document.createElement('button');
+            stopIndividualBtn.className = 'bg-red-50 text-red-600 p-2 rounded-lg border border-red-200 hover:bg-red-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
+            stopIndividualBtn.innerHTML = '■';
+            stopIndividualBtn.onclick = () => {
+                // このカード単体、または紐づく音声処理のみを安全にストップ
+                terminatePlayback();
+            };
+            // 【重要：この1行追加：バグ取り】
+                if (imgBtn) {buttonSection.appendChild(imgBtn);}
+            // ------------------------------------
+                            buttonSection.appendChild(jpBtn);
+                            buttonSection.appendChild(viBtn);
+                            buttonSection.appendChild(recordBtn);
+                            buttonSection.appendChild(playBtn);
+                            buttonSection.appendChild(stopIndividualBtn); // 右隣に結合
+            card.appendChild(textSection);
+            card.appendChild(buttonSection);
+            questionsContainer.appendChild(card);
+        });
+    }
+
+    // エラーメッセージ制御
+    function showError(msg) {
+        errorMessage.textContent = msg;
+        errorMessage.classList.remove('hidden');
+    }
+    function hideError() {
+        errorMessage.textContent = '';
+        errorMessage.classList.add('hidden');
+    }
+
+    // --- イベントリスナー設定 ---
+
+    // 1. 全体一括音声再生
+    playAllBtn.addEventListener('click', () => {
+        if (typeof questions === 'undefined') return;
+        lessonSelectContainer.classList.add('hidden');
+        renderCards(questions);
+        startQueuePlayback(questions);
+    });
+
+    // 2. 課別音声一括再生
+    playLessonBtn.addEventListener('click', () => {
+        terminatePlayback();
+        lessonSelectContainer.classList.remove('hidden');
+        confirmBtn.setAttribute('data-mode', 'normal');
+        lessonSelect.focus();
+    });
+
+    // 3. 選択課別シャッフル自動再生　（機能削除）
+    //shufflePlayBtn.addEventListener('click', () => {
+    //    terminatePlayback();
+    //    lessonSelectContainer.classList.remove('hidden');
+    //    confirmBtn.setAttribute('data-mode', 'shuffle');
+    //    lessonSelect.focus();
+    // });
+
+    // 4. 個別音声再生指定
+    individualPlayBtn.addEventListener('click', () => {
+        terminatePlayback();
+        lessonSelectContainer.classList.remove('hidden');
+        confirmBtn.setAttribute('data-mode', 'individual');
+        lessonSelect.focus();
+    });
+
+    // 課選択後の「表示」確定処理（通常・シャッフル共通）
+    function executeDisplay(isShuffle) {
+        const selectedLessons = Array.from(lessonSelect.selectedOptions).map(o => parseInt(o.value));
+        if (selectedLessons.length === 0) {
+            showError('少なくとも1つの課を選択してください。');
+            return;
+        }
+        hideError();
+
+        // 選択された課のデータを抽出
+        let filtered = questions.filter(q => selectedLessons.includes(q.lesson));
+        const mode = confirmBtn.getAttribute('data-mode');
+
+        // 新しいシャッフルボタンが押されたか、上部でシャッフルモードが選ばれている場合
+        if (isShuffle || mode === 'shuffle') {
+            // フィッシャー–イェーツのシャッフルアルゴリズム
+            for (let i = filtered.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+            }
+        }
+
+        // 個別指定モードなら展開のみ、それ以外は自動再生スタート
+        if (mode === 'individual') {
+            renderCards(filtered);
+        } else {
+            renderCards(filtered);
+            startQueuePlayback(filtered);
+        }
+        
+        lessonSelectContainer.classList.add('hidden');
+    }
+
+    // 各ボタンのクリックイベント
+    confirmBtn.addEventListener('click', () => executeDisplay(false));
+    
+    const shuffleConfirmBtn = document.getElementById('shuffleConfirmBtn');
+    if (shuffleConfirmBtn) {
+        shuffleConfirmBtn.addEventListener('click', () => executeDisplay(true));
+    }
+    
+    // 簡易プリセット範囲選択ボタンの挙動
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const start = parseInt(btn.getAttribute('data-start'));
+            const end = parseInt(btn.getAttribute('data-end'));
+            
+            let foundMatch = false; // データが存在するかどうかのフラグ
+
+            for (let i = 0; i < lessonSelect.options.length; i++) {
+                const val = parseInt(lessonSelect.options[i].value);
+                const isMatch = (val >= start && val <= end);
+                lessonSelect.options[i].selected = isMatch;
+                
+                if (isMatch) {
+                    foundMatch = true; // 1つでも該当すればフラグを立てる
+                }
+            }
+
+            // データが1つも存在しなかった場合のエラー処理
+            if (!foundMatch) {
+                showError(`第${start}課〜第${end}課のデータはまだありません。 / Dữ liệu bài ${start}-${end} chưa được cập nhật.`);
+                return; // ここで処理を中断し、「表示」ボタンを押させない
+            }
+
+            hideError(); // エラーが出ていた場合は消す
+            confirmBtn.click();
+        });
+    });
+
+    // 再生間隔カウンター制御
+    plusBtn.addEventListener('click', () => {
+        let val = parseInt(pauseInput.value) || 0;
+        if (val < 30) pauseInput.value = val + 1;
+    });
+    minusBtn.addEventListener('click', () => {
+        let val = parseInt(pauseInput.value) || 0;
+        if (val > 0) pauseInput.value = val - 1;
+    });
+
+    // 全体停止ボタン
+    stopBtn.addEventListener('click', terminatePlayback);
+
+    // 説明書モーダルの開閉
+    toggleManualBtn.addEventListener('click', () => manualContainer.classList.add('manual-open'));
+    closeManualBtn.addEventListener('click', () => manualContainer.classList.remove('manual-open'));
+    modalCloseOkBtn.addEventListener('click', () => manualContainer.classList.remove('manual-open'));
+    //  ここから挿入：背景の黒い部分をクリックしたらマニュアルを閉じる
+    manualContainer.addEventListener('click', (e) => {
+        if (e.target === manualContainer) {
+            manualContainer.classList.remove('manual-open');
+        }
+    });
+    // ここまで挿入
+    
+    // 初期起動
+    window.addEventListener('DOMContentLoaded', () => {
+        initLessonSelect();
+    });
+
+    // =============================================================================
+    // E-PART: RECORDING SYSTEM (フローティング録音機能)
+    // =============================================================================
+    let mediaRecorder;
+    let audioChunks = [];
+    let recordedAudioUrl = null;
+    let currentRecordId = "";
+    let currentRecordLesson = "";
+
+    const recordModal = document.getElementById('recordModal');
+    const closeRecordModalBtn = document.getElementById('closeRecordModalBtn');
+    const recordModalId = document.getElementById('recordModalId');
+    const recordModalText = document.getElementById('recordModalText');
+    
+    const startRecordBtn = document.getElementById('startRecordBtn');
+    const stopRecordBtn = document.getElementById('stopRecordBtn');
+    const playRecordBtn = document.getElementById('playRecordBtn');
+    const saveRecordBtn = document.getElementById('saveRecordBtn');
+    const recordStatus = document.getElementById('recordStatus');
+
+    // 録音モーダルを開く
+    window.openRecordModal = function(id, text, lesson) {
+        currentRecordId = id;
+        currentRecordLesson = lesson;
+        recordModalId.textContent = `Bài ${lesson} - ID: ${id}`;
+        recordModalText.innerHTML = text; // rubyタグを反映させるためinnerHTMLを使用
+        
+        // 状態を初期化
+        audioChunks = [];
+        recordedAudioUrl = null;
+        updateRecordUI('idle');
+        
+        // 既存のCSSクラスを利用して表示
+        recordModal.classList.add('manual-open'); 
+    };
+
+    // モーダルを閉じる（録音中なら安全に停止）
+    closeRecordModalBtn.addEventListener('click', () => {
+        recordModal.classList.remove('manual-open');
+        if(mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
+    });
+    // 録音モーダルの背景クリックで閉じる処理（追加オプション）
+    recordModal.addEventListener('click', (e) => {
+        if (e.target === recordModal) {
+            closeRecordModalBtn.click(); // 既存の閉じるボタンの処理を呼び出して安全に停止
+        }
+    });
+    // 録音開始
+    startRecordBtn.addEventListener('click', async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+            
+            mediaRecorder.ondataavailable = e => {
+                if(e.data.size > 0) audioChunks.push(e.data);
+            };
+            
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                recordedAudioUrl = URL.createObjectURL(audioBlob);
+                updateRecordUI('recorded');
+            };
+            
+            mediaRecorder.start();
+            updateRecordUI('recording');
+        } catch (err) {
+            alert('マイクへのアクセスが拒否されたか、エラーが発生しました。');
+            console.error(err);
+        }
+    });
+
+    // 録音停止
+    stopRecordBtn.addEventListener('click', () => {
+        if(mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            // マイクの使用を完全に終了させる
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
+    });
+
+    // 自分の声を再生
+    playRecordBtn.addEventListener('click', () => {
+        if(recordedAudioUrl) {
+            const audio = new Audio(recordedAudioUrl);
+            audio.play();
+        }
+    });
+
+    // ローカルへ保存（ダウンロード）
+    saveRecordBtn.addEventListener('click', () => {
+        if(recordedAudioUrl) {
+            const a = document.createElement('a');
+            a.href = recordedAudioUrl;
+            // Bài2_ID_2-1a.webm のようなファイル名を自動生成
+            a.download = `Bai${currentRecordLesson}_ID_${currentRecordId}.webm`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    });
+
+    // UIの表示状態を切り替える管理関数
+    function updateRecordUI(state) {
+        if(state === 'idle') {
+            startRecordBtn.disabled = false;
+            startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
+            startRecordBtn.innerHTML = '🔴 録音開始';
+            
+            stopRecordBtn.disabled = true;
+            stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
+            
+            playRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+            saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+            recordStatus.textContent = '待機中... (Sẵn sàng)';
+        } else if (state === 'recording') {
+            startRecordBtn.disabled = true;
+            startRecordBtn.className = 'bg-red-600 text-white border border-red-700 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 animate-pulse';
+            startRecordBtn.innerHTML = '🔴 録音中...';
+            
+            stopRecordBtn.disabled = false;
+            stopRecordBtn.className = 'bg-slate-800 text-white border border-slate-900 py-3 rounded-xl font-bold hover:bg-slate-700 transition flex items-center justify-center gap-2 shadow-md';
+            
+            playRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+            saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+            recordStatus.textContent = '録音しています... (Đang ghi âm)';
+        } else if (state === 'recorded') {
+            startRecordBtn.disabled = false;
+            startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
+            startRecordBtn.innerHTML = '🔄 やり直す';
+            
+            stopRecordBtn.disabled = true;
+            stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
+            
+            playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+            recordStatus.textContent = '保存完了--再生または保存できます (Hoàn thành)';
+        }
+    }
+})();
+</script>
+    
 </body>
 </html>
