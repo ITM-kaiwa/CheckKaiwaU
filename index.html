@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/favicon.ico">
 
-    <title>IQ　会話反応チェック（大学生向け）</title>
+    <title>IQ 会話反応チェック（大学生向け）</title>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/coi-serviceworker/0.1.7/coi-serviceworker.min.js"></script>
         <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
@@ -99,11 +99,9 @@
                         </button>
                     </div>
             </div> 
-            <div id="errorMessage" class="hidden p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl font-medium">
+            <div id="errorMessage" class="hidden p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl font-medium"></div>
         </div>
-  </div>
-            <div id="questionsContainer" class="space-y-4">
-            </div>
+        <div id="questionsContainer" class="space-y-4"></div>
     </div>
         
 <div id="recordModal" class="modal-overlay">
@@ -164,13 +162,13 @@
     </div>    
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.71a</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.70b</span>
 </div>
 
 <script>
-    // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.71a)   
-    // =============================================================================
+// =============================================================================
+// LOGIC & AUDIO CONTROL SYSTEM (Ver3.70b)   
+// =============================================================================
 
 (function() {
     // 状態管理変数
@@ -182,7 +180,6 @@
     // DOM要素の取得
     const playAllBtn = document.getElementById('playAllBtn');
     const playLessonBtn = document.getElementById('playLessonBtn');
-    // const shufflePlayBtn = document.getElementById('shufflePlayBtn'); 機能OFF
     const individualPlayBtn = document.getElementById('individualPlayBtn');
     const lessonSelectContainer = document.getElementById('lessonSelectContainer');
     const lessonSelect = document.getElementById('lessonSelect');
@@ -200,13 +197,11 @@
     const modalCloseOkBtn = document.getElementById('modalCloseOkBtn');
 
     // 課選択ドロップダウンの初期化
-
     function initLessonSelect() {
         if (typeof questions === 'undefined' || !Array.isArray(questions)) {
             showError('データ（Cパート）が読み込まれていません。');
             return;
         }
-        // 存在する課（lesson）を重複なく抽出してソート
         const lessons = [...new Set(questions.map(q => q.lesson))].sort((a, b) => a - b);
         lessonSelect.innerHTML = '';
         
@@ -216,7 +211,7 @@
             option.textContent = `Bài ${l} (第${l}課)`;
             lessonSelect.appendChild(option);
         });
-        lessonSelect.selectedIndex = -1; // 初期状態は未選択
+        lessonSelect.selectedIndex = -1;
     }
 
     // 再生状態の完全停止
@@ -234,7 +229,6 @@
             }
             currentAudio = null;
         }
-        // すべてのカードのハイライトを解除
         document.querySelectorAll('.question-card').forEach(card => {
             card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
         });
@@ -278,7 +272,6 @@
         currentAudio.onended = () => {
             if (!isPlayingQueue) return;
             queueIndex++;
-            // 設定された再生間隔（秒）を取得して待機後に次を再生
             const interval = (parseFloat(pauseInput.value) || 0) * 1000;
             setTimeout(() => {
                 if (isPlayingQueue) {
@@ -293,10 +286,8 @@
             executeNextQueueItem();
         };
 
-      // エラーがあったらスキップして次の音声を再生して連続性を保持する。
         currentAudio.play().catch(err => {
             console.error('Playback failed:', err);
-            // エラー時は全体を停止させず、次のキューへスキップさせる
             queueIndex++;
             executeNextQueueItem();
         });
@@ -307,7 +298,6 @@
         questionsContainer.innerHTML = '';
         hideError();
 
-        // 案内初期メッセージを非表示にしてUIをスッキリさせる
         if (initialMessageContainer) {
             initialMessageContainer.classList.add('hidden');
         }
@@ -322,11 +312,9 @@
             card.className = 'question-card bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-200';
             card.setAttribute('data-id', q.id);
 
-            // テキストエリア
             const textSection = document.createElement('div');
             textSection.className = 'flex-1';
             
-            // 画像がある場合のみ、隠された<img>タグを差し込む
             const imageHtml = q.imageUrl ? `<div class="mt-3 hidden img-container"><img src="${q.imageUrl}" alt="イラスト" class="max-h-[120px] rounded-lg border border-slate-200 shadow-sm"></div>` : '';
 
             textSection.innerHTML = `
@@ -336,11 +324,9 @@
                 ${imageHtml}
             `;
 
-            // ボタンコントロールエリア
             const buttonSection = document.createElement('div');
             buttonSection.className = 'flex items-center gap-2 self-stretch md:self-auto justify-end border-t md:border-t-0 pt-3 md:pt-0 border-gray-100';
 
-            // JP 表示切替ボタン
             const jpBtn = document.createElement('button');
             jpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
             jpBtn.textContent = 'JP Xem';
@@ -356,7 +342,6 @@
                 }
             };
 
-            // VI 表示切替ボタン
             const viBtn = document.createElement('button');
             viBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
             viBtn.textContent = 'VI Xem';
@@ -371,19 +356,8 @@
                     viBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
                 }
             };
-            // ==========================================================
-            // ここから追加：画像切替ボタンの生成（データがある場合のみ）
-            // ==========================================================
-            let imgBtn = null; // 初期値は空にしておく
-            // 【デバッグ用】コンソールにデータの中身を表示する
-                    console.log("ID:", q.id, "URL:", q.imageUrl);
-            // 【修正前】if (q.imageUrl) { ... }
-            // 【修正後：より確実にチェックする】
-            // 【修正後】（デバッグログを削除し、簡潔にする）
-            //    if (q.imageUrl && q.imageUrl.trim() !== "") {
-            //    imgBtn = document.createElement('button');
-            // }
             
+            let imgBtn = null;
             if (q.imageUrl && q.imageUrl.trim() !== "") {
                 imgBtn = document.createElement('button');
                 imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
@@ -400,57 +374,46 @@
                     }
                 };
             }
-            // ==========================================
-            // ここから追加：個別録音ボタン（🎤）
-            // ==========================================
+            
             const recordBtn = document.createElement('button');
             recordBtn.className = 'bg-emerald-50 text-emerald-600 p-2 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
             recordBtn.innerHTML = '🎤';
             recordBtn.onclick = () => {
-                terminatePlayback(); // 既存の再生処理を安全にクリア
-                openRecordModal(q.id, q.text, q.lesson); // モーダルを開いてデータを渡す
+                terminatePlayback();
+                openRecordModal(q.id, q.text, q.lesson);
             };
-            // ==========================================
-            // ここまで追加
-            // ==========================================
-            // 個別再生ボタン（▶）
+            
             const playBtn = document.createElement('button');
             playBtn.className = 'bg-indigo-50 text-indigo-600 p-2 rounded-lg border border-indigo-200 hover:bg-indigo-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
             playBtn.innerHTML = '▶';
             playBtn.onclick = () => {
-                terminatePlayback(); // 既存の再生処理を安全にクリア
+                terminatePlayback();
                 highlightCard(q.id);
                 currentAudio = new Audio(q.audioUrl);
-                //  ここから変更：catchブロック内にalertを追加
                 currentAudio.play().catch(e => {
                     console.error('Individual play error:', e);
                     alert('音声ファイルがまだ準備されていないか、読み込めませんでした。');
                 });
-                //  ここまで変更currentAudio.play().catch(e => console.error('Individual play error:', e));
             };
 
-            // 個別停止ボタン（■）
             const stopIndividualBtn = document.createElement('button');
             stopIndividualBtn.className = 'bg-red-50 text-red-600 p-2 rounded-lg border border-red-200 hover:bg-red-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
             stopIndividualBtn.innerHTML = '■';
             stopIndividualBtn.onclick = () => {
-                // このカード単体、または紐づく音声処理のみを安全にストップ
                 terminatePlayback();
             };
-            // 【重要：この1行追加：バグ取り】
-                if (imgBtn) {buttonSection.appendChild(imgBtn);}
-            // ------------------------------------
-                            buttonSection.appendChild(jpBtn);
-                            buttonSection.appendChild(viBtn);
-                            buttonSection.appendChild(recordBtn);
-                            buttonSection.appendChild(playBtn);
-                            buttonSection.appendChild(stopIndividualBtn); // 右隣に結合
-                                card.appendChild(textSection);
-                                card.appendChild(buttonSection);
-                                questionsContainer.appendChild(card);
+            
+            if (imgBtn) { buttonSection.appendChild(imgBtn); }
+            buttonSection.appendChild(jpBtn);
+            buttonSection.appendChild(viBtn);
+            buttonSection.appendChild(recordBtn);
+            buttonSection.appendChild(playBtn);
+            buttonSection.appendChild(stopIndividualBtn);
+            card.appendChild(textSection);
+            card.appendChild(buttonSection);
+            questionsContainer.appendChild(card);
         });
     }
-
 
     // エラーメッセージ制御
     function showError(msg) {
@@ -480,14 +443,6 @@
         lessonSelect.focus();
     });
 
-    // 3. 選択課別シャッフル自動再生　（機能削除）
-    //shufflePlayBtn.addEventListener('click', () => {
-    //    terminatePlayback();
-    //    lessonSelectContainer.classList.remove('hidden');
-    //    confirmBtn.setAttribute('data-mode', 'shuffle');
-    //    lessonSelect.focus();
-    // });
-
     // 4. 個別指定音声再生
     individualPlayBtn.addEventListener('click', () => {
         terminatePlayback();
@@ -496,7 +451,7 @@
         lessonSelect.focus();
     });
 
-    // 課選択後の「表示」確定処理（通常・シャッフル共通）
+    // 課選択後の「表示」確定処理
     function executeDisplay(isShuffle) {
         const selectedLessons = Array.from(lessonSelect.selectedOptions).map(o => parseInt(o.value));
         if (selectedLessons.length === 0) {
@@ -505,20 +460,16 @@
         }
         hideError();
 
-        // 選択された課のデータを抽出
         let filtered = questions.filter(q => selectedLessons.includes(q.lesson));
         const mode = confirmBtn.getAttribute('data-mode');
 
-        // 新しいシャッフルボタンが押されたか
         if (isShuffle || mode === 'shuffle') {
-            // フィッシャー–イェーツのシャッフルアルゴリズム
             for (let i = filtered.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
             }
         }
 
-        // 個別指定モードなら展開のみ、それ以外は自動再生スタート
         if (mode === 'individual') {
             renderCards(filtered);
         } else {
@@ -529,7 +480,6 @@
         lessonSelectContainer.classList.add('hidden');
     }
 
-    // 各ボタンのクリックイベント
     confirmBtn.addEventListener('click', () => executeDisplay(false));
    
     const shuffleConfirmBtn = document.getElementById('shuffleConfirmBtn');
@@ -543,24 +493,23 @@
             const start = parseInt(btn.getAttribute('data-start'));
             const end = parseInt(btn.getAttribute('data-end'));
     
-            let foundMatch = false; // データが存在するかどうかのフラグ
+            let foundMatch = false;
             for (let i = 0; i < lessonSelect.options.length; i++) {
                 const val = parseInt(lessonSelect.options[i].value);
                 const isMatch = (val >= start && val <= end);
                 lessonSelect.options[i].selected = isMatch;
                 
                 if (isMatch) {
-                    foundMatch = true; // 1つでも該当すればフラグを立てる
+                    foundMatch = true;
                 }
             }
 
-            // データが1つも存在しなかった場合のエラー処理
             if (!foundMatch) {
                 showError(`第${start}課〜第${end}課のデータはまだありません。 / Dữ liệu bài ${start}-${end} chưa được cập nhật.`);
-                return; // ここで処理を中断し、「表示」ボタンを押させない
+                return;
             }
 
-            hideError(); // エラーが出ていた場合は消す
+            hideError();
             confirmBtn.click();
         });
     });
@@ -582,24 +531,22 @@
     toggleManualBtn.addEventListener('click', () => manualContainer.classList.add('manual-open'));
     closeManualBtn.addEventListener('click', () => manualContainer.classList.remove('manual-open'));
     modalCloseOkBtn.addEventListener('click', () => manualContainer.classList.remove('manual-open'));
-    //  ここから挿入：背景の黒い部分をクリックしたらマニュアルを閉じる
     manualContainer.addEventListener('click', (e) => {
         if (e.target === manualContainer) {
             manualContainer.classList.remove('manual-open');
         }
     });
-    // ここまで挿入
     
     // 初期起動
     window.addEventListener('DOMContentLoaded', () => {
         initLessonSelect();
-    });
+    }); 
 
-   // =============================================================================
-    // E-PART: RECORDING SYSTEM (フローティング録音機能)
+    //=============================================================================
+    // RECORDING-SYSTEM (フローティング録音機能)
     // =============================================================================
     
-    // 1. まず必要なDOM要素と変数を先に全て定義する
+    // 1. DOM要素と変数の定義
     const recordModal = document.getElementById('recordModal');
     const closeRecordModalBtn = document.getElementById('closeRecordModalBtn');
     const recordModalId = document.getElementById('recordModalId');
@@ -617,7 +564,7 @@
     let currentRecordId = "";
     let currentRecordLesson = "";
 
-    // 2. UIの表示状態を切り替える管理関数
+    // 2. UIの状態切り替え管理関数
     function updateRecordUI(state) {
         if(state === 'idle') {
             startRecordBtn.disabled = false;
@@ -648,14 +595,17 @@
             stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
             
             playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
             if (isFfmpegLoaded) {
-                saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+                saveRecordBtn.innerHTML = '💾 保存 (MP3)';
+            } else {
+                saveRecordBtn.innerHTML = '💾 保存 (Webm)';
             }
             recordStatus.textContent = '保存完了--再生または保存できます (Hoàn thành)';
         }
     }
 
-    // 3. 録音モーダルを開く関数（外部要因で停止しないよう安全に配置）
+    // 3. 録音モーダルを開く関数
     function openRecordModal(id, text, lesson) {
         currentRecordId = id;
         currentRecordLesson = lesson;
@@ -678,7 +628,7 @@
     }
     window.openRecordModal = openRecordModal;
 
-    // 4. ▼▼▼ FFmpegの初期化（安定版のCDNリポジトリへ修正） ▼▼▼
+    // 4. FFmpegの初期化（GitHub Pages環境のセキュリティブロック対策仕様）
     let ffmpeg = null;
     let fetchFile = null;
     let isFfmpegLoaded = false;
@@ -688,9 +638,8 @@
 
     try {
         if (typeof FFmpeg !== 'undefined') {
-            // HTML側の 0.11.6 と同一バージョンのコアを明示的に指定
             ffmpeg = FFmpeg.createFFmpeg({ 
-                log: true, // 原因特定のために一時的にログを有効化
+                log: false,
                 corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
             });
             fetchFile = FFmpeg.fetchFile;
@@ -700,28 +649,24 @@
                     await ffmpeg.load();
                     isFfmpegLoaded = true;
                     console.log("MP3変換エンジンの準備が完了しました");
-                    saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
                     saveRecordBtn.innerHTML = '💾 保存';
                 } catch (e) {
-                    console.error("FFmpegのロード処理で失敗しました:", e);
-                    // ロード失敗時もボタン自体のロックを解除し、Webmでの保存を可能にする
+                    console.error("GitHub Pages環境などの制約によりFFmpegのロードをスキップしました (SharedArrayBuffer制限)。Webmフォールバックを有効化します。");
                     isFfmpegLoaded = false;
-                    saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-                    saveRecordBtn.innerHTML = '💾 保存 (Webm)';
+                    saveRecordBtn.innerHTML = '💾 保存';
                 }
             })();
         } else {
-            console.warn("FFmpegライブラリがHTMLで読み込まれていません。");
-            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-            saveRecordBtn.innerHTML = '💾 保存 (Webm)';
+            console.warn("FFmpegライブラリが見つかりません。Webmフォールバックモードで動作します。");
+            isFfmpegLoaded = false;
+            saveRecordBtn.innerHTML = '💾 保存';
         }
     } catch (err) {
-        console.error("FFmpegの初期化エラー:", err);
-        saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-        saveRecordBtn.innerHTML = '💾 保存 (Webm)';
+        console.error("FFmpeg初期化スキップ:", err);
+        isFfmpegLoaded = false;
+        saveRecordBtn.innerHTML = '💾 保存';
     }
-    // ▲▲▲ ここまで ▲▲▲
-    
+
     // 5. 各種イベントリスナーの設定
     closeRecordModalBtn.addEventListener('click', () => {
         recordModal.classList.remove('manual-open');
@@ -793,14 +738,13 @@
     saveRecordBtn.addEventListener('click', async () => {
         if (!recordedAudioUrl) return;
         
-        // 元のテキストを保持
         const originalText = saveRecordBtn.innerHTML;
         saveRecordBtn.innerHTML = '⏳ 処理中...';
         saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
 
-        // 変換エンジンが使えるかチェック
+        // 1. MP3変換環境が利用可能であれば変換を試みる
         if (isFfmpegLoaded) {
-            recordStatus.textContent = 'MP3に変換しています...';
+            recordStatus.textContent = 'MP3に変換しています... (Đang chuyển đổi MP3...)';
             try {
                 const response = await fetch(recordedAudioUrl);
                 const webmBlob = await response.blob();
@@ -815,30 +759,33 @@
                 
                 ffmpeg.FS('unlink', 'input.webm');
                 ffmpeg.FS('unlink', 'output.mp3');
-                recordStatus.textContent = '保存完了 (MP3)';
-                return; // 成功したらここで終了
+                recordStatus.textContent = '保存が完了しました！ (Đã lưu MP3)';
+                
+                saveRecordBtn.innerHTML = originalText;
+                saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+                return; 
             } catch (error) {
-                console.error('MP3変換失敗、Webmで保存を試みます:', error);
+                console.error('MP3変換に失敗したためWebm保存へフォールバックします:', error);
             }
         }
 
-        // MP3変換ができない、またはエラーになった場合はWebmで保存
+        // 2. FFmpegが読み込めない環境、または変換エラー時はWebmで直接ダウンロードさせる
         try {
-            recordStatus.textContent = 'Webm形式で保存します...';
+            recordStatus.textContent = 'Webm形式で保存します... (Đang lưu file Webm...)';
             const response = await fetch(recordedAudioUrl);
             const webmBlob = await response.blob();
             downloadBlob(webmBlob, `Bai${currentRecordLesson}_ID_${currentRecordId}.webm`);
-            recordStatus.textContent = '保存完了 (Webm)';
+            recordStatus.textContent = '保存が完了しました！ (Đã lưu Webm)';
         } catch (error) {
-            alert("ファイルの保存に失敗しました。");
-            recordStatus.textContent = 'エラーが発生しました';
+            alert("ファイルの保存に失敗しました。 / Lưu file thất bại.");
+            recordStatus.textContent = 'エラーが発生しました (Lỗi)';
         } finally {
             saveRecordBtn.innerHTML = originalText;
             saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
         }
     });
 
-    // 保存用共通関数（コードの重複を避けるため追加）
+    // 補助関数: ダウンロード処理の実行
     function downloadBlob(blob, filename) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -848,10 +795,9 @@
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        }
-        
-    })();
+    }
+
+})();
 </script>
 </body>
-</html> 
-
+</html>
