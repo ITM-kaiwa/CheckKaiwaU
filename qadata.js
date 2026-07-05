@@ -305,7 +305,7 @@
         { "lesson": 20, "id": "20-9", "text": "<ruby>勉強<rt>べんきょう</rt></ruby>で <ruby>何<rt>なに</rt></ruby>がいちばん むずかしい？", "viText": "Trong việc học thì phần nào là khó nhất đối với bạn? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.9.mp3" },
         { "lesson": 20, "id": "20-10", "text": "<ruby>明日<rt>あした</rt></ruby> ひま？", "viText": "Ngày mai rảnh không? (Thể thông thường)", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/20.10.mp3" },
 
-        // ==================== LESSON 21 ====================
+        // ==================== LESSON 21 ==================== 21-9a, 21-9b void
         { "lesson": 21, "id": "21-1a", "text": "けさ/テストの<ruby>前<rt>まえ</rt></ruby>に、<ruby>担任<rt>たんにん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>は <ruby>何<rt>なん</rt></ruby>と <ruby>言<rt>い</rt></ruby>いましたか。", "viText": "Sáng nay / trước khi kiểm tra, thầy cô chủ nhiệm đã nói gì?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.1a.mp3" },
         { "lesson": 21, "id": "21-1b", "text": "けさ/テストの<ruby>前<rt>まえ</rt></ruby>に、<ruby>担任<rt>たんにん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>は <ruby>何<rt>なん</rt></ruby>と <ruby>言<rt>い</rt></ruby>いましたか。", "viText": "Sáng nay / trước khi kiểm tra, thầy cô chủ nhiệm đã nói gì?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.1b.mp3" },
         { "lesson": 21, "id": "21-2", "text": "<ruby>日本人<rt>にほんじん</rt></ruby>と<ruby>話<rt>はな</rt></ruby>しています。<ruby>日本語<rt>にほんご</rt></ruby>がわかりません。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いましたか。", "viText": "Bạn đang nói chuyện với người Nhật và không hiểu tiếng Nhật. Bạn sẽ nói thế nào?", "audioUrl": "https://itm-kaiwa.github.io/Checkkaiwahanoudaigakusei-/21.2.mp3" },
