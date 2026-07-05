@@ -164,12 +164,12 @@
     </div>    
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.60c</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.70a</span>
 </div>
 
 <script>
     // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.60c)   
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.70a)   
     // =============================================================================
 
 (function() {
@@ -595,38 +595,11 @@
         initLessonSelect();
     });
 
-    // =============================================================================
+   // =============================================================================
     // E-PART: RECORDING SYSTEM (フローティング録音機能)
     // =============================================================================
-   // ▼▼▼ ここから追加：FFmpegの初期化 ▼▼▼
-    const { createFFmpeg, fetchFile } = FFmpeg;
-    const ffmpeg = createFFmpeg({ 
-        log: false,
-        corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
-    }); // ★変更：corePathを明示的にCDNに向ける
-    let isFfmpegLoaded = false;
-      // ★初期状態として、ロード前はボタンを無効化しておく
-        saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
-        saveRecordBtn.innerHTML = '⏳ エンジン準備中...';
-    (async () => {
-        try {
-            await ffmpeg.load();
-            isFfmpegLoaded = true;
-            console.log("MP3変換エンジンの準備が完了しました");
-            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-            saveRecordBtn.innerHTML = '💾 保存';
-        } catch (e) {
-            console.error("FFmpegの読み込みに失敗しました", e);
-        }
-    })();
-      // ▲▲▲ ここまで追加 ▲▲▲
-    let mediaRecorder;
-    let audioChunks = [];
-    let recordedAudioUrl = null;
-    let currentPlayback = null; // ★追加：再生中の音声を管理する変数
-    let currentRecordId = "";
-    let currentRecordLesson = "";
-
+    
+    // 1. まず必要なDOM要素と変数を先に全て定義する
     const recordModal = document.getElementById('recordModal');
     const closeRecordModalBtn = document.getElementById('closeRecordModalBtn');
     const recordModalId = document.getElementById('recordModalId');
@@ -637,170 +610,14 @@
     const saveRecordBtn = document.getElementById('saveRecordBtn');
     const recordStatus = document.getElementById('recordStatus');
 
-    // 録音モーダルを開く
-    window.openRecordModal = function(id, text, lesson) {
-        currentRecordId = id;
-        currentRecordLesson = lesson;
-        recordModalId.textContent = `Bài ${lesson} - ID: ${id}`;
-        recordModalText.innerHTML = text; // rubyタグを反映させるためinnerHTMLを使用
-        // ★追加：別のカードを開き直した際、前の音声データと再生状態を確実にリセット
-        if (recordedAudioUrl) {
-            URL.revokeObjectURL(recordedAudioUrl);
-        }
-        if (currentPlayback) {
-            currentPlayback.pause();
-            currentPlayback = null;
-        }
-        // 状態を初期化
-        audioChunks = [];
-        recordedAudioUrl = null;
-        updateRecordUI('idle');
-        
-        // 既存のCSSクラスを利用して表示
-        recordModal.classList.add('manual-open'); 
-    };
+    let mediaRecorder;
+    let audioChunks = [];
+    let recordedAudioUrl = null;
+    let currentPlayback = null;
+    let currentRecordId = "";
+    let currentRecordLesson = "";
 
-    // モーダルを閉じる（録音中なら安全に停止）
-    closeRecordModalBtn.addEventListener('click', () => {
-        recordModal.classList.remove('manual-open');
-        if(mediaRecorder && mediaRecorder.state === 'recording') {
-            mediaRecorder.stop();
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
-        }
-
-        // ★追加：もし自分の声が再生中なら、モーダルを閉じた瞬間に完全に消音する
-        if (currentPlayback) {
-            currentPlayback.pause();
-            currentPlayback.currentTime = 0;
-            currentPlayback = null;
-        }
-    });
-    
-    // 録音モーダルの背景クリックで閉じる処理（追加オプション）
-    recordModal.addEventListener('click', (e) => {
-        if (e.target === recordModal) {
-            closeRecordModalBtn.click(); // 既存の閉じるボタンの処理を呼び出して安全に停止
-        }
-    });
-    // 録音開始
-    startRecordBtn.addEventListener('click', async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            audioChunks = [];
-            // ★追加：以前の録音データがメモリに残っていれば解放する
-            if (recordedAudioUrl) {
-                URL.revokeObjectURL(recordedAudioUrl);
-                recordedAudioUrl = null;
-            }
-            mediaRecorder.ondataavailable = e => {
-                if(e.data.size > 0) audioChunks.push(e.data);
-            };
-
-            mediaRecorder.onstop = () => {
-                // ★修正：ブラウザが生成した本来のMIME typeを動的にセットする（iOS Safari対策）
-                const mimeType = mediaRecorder.mimeType || 'audio/webm';
-                const audioBlob = new Blob(audioChunks, { type: mimeType });
-                recordedAudioUrl = URL.createObjectURL(audioBlob);
-                updateRecordUI('recorded');
-            };
-            
-            mediaRecorder.start();
-            updateRecordUI('recording');
-        } catch (err) {
-            alert('マイクへのアクセスが拒否されたか、エラーが発生しました。');
-            console.error(err);
-        }
-    });
-
-    // 録音停止
-    stopRecordBtn.addEventListener('click', () => {
-        if(mediaRecorder && mediaRecorder.state === 'recording') {
-            mediaRecorder.stop();
-            // マイクの使用を完全に終了させる
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
-        }
-    });
-
-    // 自分の声を再生
-    playRecordBtn.addEventListener('click', () => {
-        if(recordedAudioUrl) {
-            // ★修正：再生中に連打された場合、前の音声を停止して頭から再生し直す
-            if (currentPlayback) {
-                currentPlayback.pause();
-                currentPlayback.currentTime = 0;
-            }
-            currentPlayback = new Audio(recordedAudioUrl);
-            currentPlayback.play().catch(e => console.error("Playback failed:", e));
-        }
-    });
-
-    // ローカルへ保存（MP3に変換してダウンロード）
-    saveRecordBtn.addEventListener('click', async () => {
-        if (!recordedAudioUrl) return;
-        
-        // エンジンが読み込めていない場合の安全対策
-        if (!isFfmpegLoaded) {
-            alert("変換エンジンの準備がまだ完了していません。数秒待ってから再度お試しください。");
-            return;
-        }
-
-        // 保存ボタンを「変換中」の見た目に変更
-        const originalText = saveRecordBtn.innerHTML;
-        saveRecordBtn.innerHTML = '⏳ 変換中...';
-        saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
-        recordStatus.textContent = 'MP3に変換しています... (Đang chuyển đổi MP3...)';
-
-        let mp3Url = null; // スコープを広げてfinallyや例外処理で安全に扱えるようにします
-
-        try {
-            const response = await fetch(recordedAudioUrl);
-            const webmBlob = await response.blob();
-          
-            // 2. FFmpegの仮想ファイルシステムに書き込む
-            ffmpeg.FS('writeFile', 'input.webm', await fetchFile(webmBlob));
-            
-            // 3. 変換実行 (webm -> mp3)
-            await ffmpeg.run('-i', 'input.webm', '-q:a', '2', 'output.mp3');
-            
-            // 4. 変換されたMP3データを読み込む
-            const mp3Data = ffmpeg.FS('readFile', 'output.mp3');
-            const mp3Blob = new Blob([mp3Data.buffer], { type: 'audio/mp3' });
-            mp3Url = URL.createObjectURL(mp3Blob);
-            
-            // ★不要になった仮想ファイルシステムのメモリを確実に解放
-            ffmpeg.FS('unlink', 'input.webm');
-            ffmpeg.FS('unlink', 'output.mp3');
-            
-            // 5. ダウンロード実行（拡張子を.webmから.mp3に変更）
-            const a = document.createElement('a');
-            a.href = mp3Url;
-            a.download = `Bai${currentRecordLesson}_ID_${currentRecordId}.mp3`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            
-            // ★【追加】ダウンロードが完了したらブラウザの一時URLメモリも即座に解放
-            URL.revokeObjectURL(mp3Url);
-            mp3Url = null;
-
-            recordStatus.textContent = '保存が完了しました！ (Đã lưu MP3)';
-        } catch (error) {
-            console.error('変換エラー:', error);
-            alert("MP3への変換中にエラーが発生しました。");
-            recordStatus.textContent = 'エラーが発生しました (Lỗi)';
-            
-            // 途中でエラーが起きた場合も、仮想ファイルシステムにゴミが残っていれば念のため掃除
-            try { ffmpeg.FS('unlink', 'input.webm'); } catch(e){}
-            try { ffmpeg.FS('unlink', 'output.mp3'); } catch(e){}
-            if (mp3Url) { URL.revokeObjectURL(mp3Url); }
-        } finally {
-            saveRecordBtn.innerHTML = originalText;
-            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-        }
-    });
-      
-    // UIの表示状態を切り替える管理関数
+    // 2. UIの表示状態を切り替える管理関数
     function updateRecordUI(state) {
         if(state === 'idle') {
             startRecordBtn.disabled = false;
@@ -830,16 +647,204 @@
             stopRecordBtn.disabled = true;
             stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
             
-            // ここでボタンを有効化
             playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-            // エンジンが読み込めていれば保存ボタンも有効化
             if (isFfmpegLoaded) {
                 saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
             }
             recordStatus.textContent = '保存完了--再生または保存できます (Hoàn thành)';
         }
     }
-})();
+
+    // 3. 録音モーダルを開く関数（外部要因で停止しないよう安全に配置）
+    function openRecordModal(id, text, lesson) {
+        currentRecordId = id;
+        currentRecordLesson = lesson;
+        recordModalId.textContent = `Bài ${lesson} - ID: ${id}`;
+        recordModalText.innerHTML = text;
+        
+        if (recordedAudioUrl) {
+            URL.revokeObjectURL(recordedAudioUrl);
+        }
+        if (currentPlayback) {
+            currentPlayback.pause();
+            currentPlayback = null;
+        }
+        
+        audioChunks = [];
+        recordedAudioUrl = null;
+        updateRecordUI('idle');
+        
+        recordModal.classList.add('manual-open'); 
+    }
+    window.openRecordModal = openRecordModal;
+
+    // 4. ▼▼▼ FFmpegの初期化（エラーで画面全体が止まらないよう安全に記述） ▼▼▼
+    let ffmpeg = null;
+    let fetchFile = null;
+    let isFfmpegLoaded = false;
+    
+    saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+    saveRecordBtn.innerHTML = '⏳ エンジン準備中...';
+
+    try {
+        if (typeof FFmpeg !== 'undefined') {
+            ffmpeg = FFmpeg.createFFmpeg({ 
+                log: false,
+                corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
+            });
+            fetchFile = FFmpeg.fetchFile;
+
+            (async () => {
+                try {
+                    await ffmpeg.load();
+                    isFfmpegLoaded = true;
+                    console.log("MP3変換エンジンの準備が完了しました");
+                    saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+                    saveRecordBtn.innerHTML = '💾 保存';
+                } catch (e) {
+                    console.error("FFmpegの読み込みに失敗しました", e);
+                    saveRecordBtn.innerHTML = '⚠️ エンジン読込失敗';
+                }
+            })();
+        } else {
+            console.warn("FFmpegライブラリが見つかりません。");
+            saveRecordBtn.innerHTML = '⚠️ エンジン読込失敗';
+        }
+    } catch (err) {
+        console.error("FFmpegの初期化エラー:", err);
+        saveRecordBtn.innerHTML = '⚠️ エンジン読込失敗';
+    }
+    // ▲▲▲ ここまで ▲▲▲
+
+    // 5. 各種イベントリスナーの設定
+    closeRecordModalBtn.addEventListener('click', () => {
+        recordModal.classList.remove('manual-open');
+        if(mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
+        if (currentPlayback) {
+            currentPlayback.pause();
+            currentPlayback.currentTime = 0;
+            currentPlayback = null;
+        }
+    });
+    
+    recordModal.addEventListener('click', (e) => {
+        if (e.target === recordModal) {
+            closeRecordModalBtn.click();
+        }
+    });
+
+    startRecordBtn.addEventListener('click', async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+            
+            if (recordedAudioUrl) {
+                URL.revokeObjectURL(recordedAudioUrl);
+                recordedAudioUrl = null;
+            }
+            
+            mediaRecorder.ondataavailable = e => {
+                if(e.data.size > 0) audioChunks.push(e.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const mimeType = mediaRecorder.mimeType || 'audio/webm';
+                const audioBlob = new Blob(audioChunks, { type: mimeType });
+                recordedAudioUrl = URL.createObjectURL(audioBlob);
+                updateRecordUI('recorded');
+            };
+            
+            mediaRecorder.start();
+            updateRecordUI('recording');
+        } catch (err) {
+            alert('マイクへのアクセスが拒否されたか、エラーが発生しました。');
+            console.error(err);
+        }
+    });
+
+    stopRecordBtn.addEventListener('click', () => {
+        if(mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
+    });
+
+    playRecordBtn.addEventListener('click', () => {
+        if(recordedAudioUrl) {
+            if (currentPlayback) {
+                currentPlayback.pause();
+                currentPlayback.currentTime = 0;
+            }
+            currentPlayback = new Audio(recordedAudioUrl);
+            currentPlayback.play().catch(e => console.error("Playback failed:", e));
+        }
+    });
+
+    saveRecordBtn.addEventListener('click', async () => {
+        if (!recordedAudioUrl) return;
+        
+        // 元のテキストを保持
+        const originalText = saveRecordBtn.innerHTML;
+        saveRecordBtn.innerHTML = '⏳ 処理中...';
+        saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
+
+        // 変換エンジンが使えるかチェック
+        if (isFfmpegLoaded) {
+            recordStatus.textContent = 'MP3に変換しています...';
+            try {
+                const response = await fetch(recordedAudioUrl);
+                const webmBlob = await response.blob();
+                
+                ffmpeg.FS('writeFile', 'input.webm', await fetchFile(webmBlob));
+                await ffmpeg.run('-i', 'input.webm', '-q:a', '2', 'output.mp3');
+                
+                const mp3Data = ffmpeg.FS('readFile', 'output.mp3');
+                const mp3Blob = new Blob([mp3Data.buffer], { type: 'audio/mp3' });
+                
+                downloadBlob(mp3Blob, `Bai${currentRecordLesson}_ID_${currentRecordId}.mp3`);
+                
+                ffmpeg.FS('unlink', 'input.webm');
+                ffmpeg.FS('unlink', 'output.mp3');
+                recordStatus.textContent = '保存完了 (MP3)';
+                return; // 成功したらここで終了
+            } catch (error) {
+                console.error('MP3変換失敗、Webmで保存を試みます:', error);
+            }
+        }
+
+        // MP3変換ができない、またはエラーになった場合はWebmで保存
+        try {
+            recordStatus.textContent = 'Webm形式で保存します...';
+            const response = await fetch(recordedAudioUrl);
+            const webmBlob = await response.blob();
+            downloadBlob(webmBlob, `Bai${currentRecordLesson}_ID_${currentRecordId}.webm`);
+            recordStatus.textContent = '保存完了 (Webm)';
+        } catch (error) {
+            alert("ファイルの保存に失敗しました。");
+            recordStatus.textContent = 'エラーが発生しました';
+        } finally {
+            saveRecordBtn.innerHTML = originalText;
+            saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+        }
+    });
+
+    // 保存用共通関数（コードの重複を避けるため追加）
+    function downloadBlob(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        }
+        
+    })();
 </script>
 </body>
 </html> 
