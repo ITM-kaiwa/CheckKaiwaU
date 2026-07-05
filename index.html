@@ -167,12 +167,12 @@
     </div>    
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.60a</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.60b</span>
 </div>
 
 <script>
     // =============================================================================
-    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.60a)   
+    // LOGIC & AUDIO CONTROL SYSTEM (Ver3.60b)   
     // =============================================================================
 
 (function() {
@@ -582,23 +582,33 @@
     // 全体停止ボタン
     stopBtn.addEventListener('click', terminatePlayback);
     
-    // 表示中のカードをシャッフルする処理を追加
+   // 既存の shuffleCurrentBtn の処理をこれに差し替え
     shuffleCurrentBtn.addEventListener('click', () => {
-        // 音声がずれないよう、安全のため再生は一度停止します
-        terminatePlayback();
-
-        // コンテナ内にある表示中のすべてのカード要素を取得
-        const cards = Array.from(questionsContainer.querySelectorAll('.question-card'));
-        
-        if (cards.length <= 1) return; // 1枚以下の場合はシャッフル不要
-
-        // フィッシャー–イェーツアルゴリズムでカード配列をシャッフル
-        for (let i = cards.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [cards[i], cards[j]] = [cards[j], cards[i]];
+        // コンテナ内のカード数をチェック
+            const cards = Array.from(questionsContainer.querySelectorAll('.question-card'));
+    
+        // カードが1枚も表示されていない（＝課が未選択）場合
+            if (cards.length === 0) {
+                lessonSelectContainer.classList.remove('hidden'); // 選択欄を開く
+                showError('シャッフルする前に、少なくとも１つの課を選択してください。'); // メッセージ表示
+                lessonSelect.focus(); // 選択欄にフォーカス
+            return;
         }
 
-        // 一度コンテナの中身を空にして、シャッフルした順序でDOMに戻す
+        // 以下、元々のシャッフル処理
+            terminatePlayback();
+    
+        // フィッシャー–イェーツアルゴリズムでカードをシャッフル
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+
+    questionsContainer.innerHTML = '';
+    cards.forEach(card => questionsContainer.appendChild(card));
+    
+    
+    // 一度コンテナの中身を空にして、シャッフルした順序でDOMに戻す
         questionsContainer.innerHTML = '';
         cards.forEach(card => questionsContainer.appendChild(card));
     });
