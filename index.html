@@ -182,7 +182,7 @@
     </div>    
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.70g</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.70h</span>
 </div>
 
 <script>
@@ -196,6 +196,7 @@
     let audioQueue = [];
     let isPlayingQueue = false;
     let queueIndex = 0;
+    let playbackTimeout = null; // ★二重再生バグを防ぐ Ver3.70h
     
     // 現在表示中のカードリストを保持する変数（再シャッフル用）
     let currentFilteredQuestions = [];
@@ -247,7 +248,13 @@
         isPlayingQueue = false;
         audioQueue = [];
         queueIndex = 0;
-        
+
+    // ★追加：実行待ちのタイマーがあればキャンセルしてリセット Ver3.70h
+        if (playbackTimeout) {
+            clearTimeout(playbackTimeout);
+            playbackTimeout = null;
+        }
+    // 追加ここまで    
         if (currentAudio) {
             try {
                 currentAudio.pause();
@@ -311,17 +318,30 @@
         const currentItem = audioQueue[queueIndex];
         highlightCard(currentItem.id);
         currentAudio = new Audio(currentItem.audioUrl);
+       // currentAudio.onended = () => {
+       //     if (!isPlayingQueue) return;
+       //     queueIndex++;
+       //     const interval = (parseFloat(pauseInput.value) || 0) * 1000;
+       //     setTimeout(() => {
+       //         if (isPlayingQueue) {
+       //             executeNextQueueItem();
+       //         }
+       //     }, interval);
+       // };
+        // ★二重再生バグ防止 Ver3.70h
         currentAudio.onended = () => {
             if (!isPlayingQueue) return;
             queueIndex++;
             const interval = (parseFloat(pauseInput.value) || 0) * 1000;
-            setTimeout(() => {
+            
+            // ★修正：setTimeoutの戻り値を変数に格納する
+            playbackTimeout = setTimeout(() => {
                 if (isPlayingQueue) {
                     executeNextQueueItem();
                 }
             }, interval);
         };
-
+        
         currentAudio.onerror = () => {
             console.error(`音声ファイルの読み込みに失敗しました: ${currentItem.audioUrl}`);
             queueIndex++;
