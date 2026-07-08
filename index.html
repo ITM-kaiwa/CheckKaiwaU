@@ -182,7 +182,7 @@
     </div>    
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.70h</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.71a</span>
 </div>
 
 <script>
@@ -662,6 +662,7 @@
     let audioChunks = [];
     let recordedAudioUrl = null;
     let currentPlayback = null;
+    let recordedExtension = 'webm'; // ★追加：ブラウザごとの拡張子を記憶する変数
     let currentRecordId = "";
     let currentRecordLesson = "";
 
@@ -803,8 +804,11 @@
                 if(e.data.size > 0) audioChunks.push(e.data);
             };
 
-            mediaRecorder.onstop = () => {
+           mediaRecorder.onstop = () => {
                 const mimeType = mediaRecorder.mimeType || 'audio/webm';
+                
+                // ★追加：MIMEタイプに'mp4'が含まれていれば mp4、それ以外は webm とする
+                recordedExtension = mimeType.includes('mp4') ? 'mp4' : 'webm';
                 const audioBlob = new Blob(audioChunks, { type: mimeType });
                 recordedAudioUrl = URL.createObjectURL(audioBlob);
                 updateRecordUI('recorded');
@@ -875,8 +879,9 @@
             recordStatus.textContent = 'Webm形式で保存します... (Đang lưu file Webm...)';
             const response = await fetch(recordedAudioUrl);
             const webmBlob = await response.blob();
-            downloadBlob(webmBlob, `Bai${currentRecordLesson}_ID_${currentRecordId}.webm`);
-            recordStatus.textContent = '保存が完了しました！ (Đã lưu Webm)';
+            // ★修正：固定の .webm ではなく、判定した拡張子(recordedExtension)を使う
+            downloadBlob(webmBlob, `Bai${currentRecordLesson}_ID_${currentRecordId}.${recordedExtension}`);
+            recordStatus.textContent = '保存が完了しました！ (Đã lưu)';
         } catch (error) {
             alert("ファイルの保存に失敗しました。 / Lưu file thất bại.");
             recordStatus.textContent = 'エラーが発生しました (Lỗi)';
