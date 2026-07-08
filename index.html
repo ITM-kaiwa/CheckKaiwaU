@@ -140,10 +140,14 @@
             </div>
             <div class="grid grid-cols-2 gap-2 border-t border-slate-100 pt-2">
                 <button id="playRecordBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-indigo-400 active:bg-indigo-100">▶️ 再生</button>
-                <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-emerald-400 active:bg-emerald-100">💾 保存</button>
+                <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-emerald-400 active:bg-indigo-100">💾 保存</button>
             </div>
             <div id="recordStatus" class="text-center text-[10px] text-slate-400 mt-2">待機中...</div>
-        </div>
+            
+            <div class="border-t border-slate-100 pt-3 mt-3 text-right">
+                <button id="modalRecordCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる / Đóng</button>
+            </div>
+            </div>
     </div>
 </div>
     <div id="manualContainer" class="modal-overlay">
@@ -182,7 +186,7 @@
     </div>    
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.71a</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.72a</span>
 </div>
 
 <script>
@@ -657,7 +661,7 @@
     const playRecordBtn = document.getElementById('playRecordBtn');
     const saveRecordBtn = document.getElementById('saveRecordBtn');
     const recordStatus = document.getElementById('recordStatus');
-
+    const modalRecordCloseOkBtn = document.getElementById('modalRecordCloseOkBtn'); // ★この1行を追加
     let mediaRecorder;
     let audioChunks = [];
     let recordedAudioUrl = null;
@@ -782,6 +786,12 @@
             currentPlayback = null;
         }
     });
+    
+    // ★ここから追加：最下部「閉じる」ボタンのクリックイベント
+    modalRecordCloseOkBtn.addEventListener('click', () => {
+        closeRecordModalBtn.click(); // 既存の×ボタンの閉じる処理（Recorder停止やストリーム解除）をそのまま安全に呼び出します
+    });
+    // ★ここまで追加
     
     recordModal.addEventListener('click', (e) => {
         if (e.target === recordModal) {
