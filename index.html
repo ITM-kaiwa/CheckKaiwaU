@@ -876,7 +876,7 @@
 
         // 2. FFmpegが読み込めない環境、または変換エラー時はWebmで直接ダウンロードさせる
         try {
-            recordStatus.textContent = 'Webm形式で保存します... (Đang lưu file Webm...)';
+            recordStatus.textContent = '保存します... (Đang lưu file Webm...)';
             const response = await fetch(recordedAudioUrl);
             const webmBlob = await response.blob();
             // ★修正：固定の .webm ではなく、判定した拡張子(recordedExtension)を使う
