@@ -86,7 +86,7 @@
                         <span class="text-xs font-normal opacity-90 mt-0.5">Dừng</span>
                     </button>
                 </div>
-            </div>
+            </div>            
             
             <div id="lessonSelectContainer" class="hidden p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3">
                 <label for="lessonSelect" class="block text-sm font-semibold text-indigo-900">対象の課を選択してください（複数選択可）:</label>
@@ -105,8 +105,8 @@
                 <select id="lessonSelect" multiple class="w-full min-h-[120px] bg-white border border-indigo-200 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"></select>
                 
                 <div id="randomCountContainer" class="hidden items-center justify-between bg-white border border-indigo-200 rounded-xl p-3 mt-3 shadow-sm">
-                    <label for="randomCountInput" class="text-sm font-semibold text-indigo-900">抽出する問題数を選んでください。 (Số câu hỏi):</label>
-                    <input id="randomCountInput" type="number" min="1" max="100" value="8" class="w-20 text-center bg-indigo-50 border border-indigo-300 rounded-lg py-1.5 font-bold text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                    <label for="randomCountInput" class="text-sm font-semibold text-indigo-900">抽出する問題数 (Số câu hỏi):</label>
+                    <input id="randomCountInput" type="number" min="1" max="100" value="5" class="w-20 text-center bg-indigo-50 border border-indigo-300 rounded-lg py-1.5 font-bold text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
                 </div>
 
                 <div class="flex flex-col gap-2 mt-3">
@@ -151,13 +151,13 @@
             
             <div class="shrink-0">
                 <div class="grid grid-cols-2 gap-2 mb-2">
-                    <button id="startRecordBtn" class="bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">🔴 録音開始</button>
-                    <button id="stopRecordBtn" class="bg-slate-100 text-slate-400 border border-slate-200 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 cursor-not-allowed" disabled>■ 停止</button>
+                    <button id="startRecordBtn" class="bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">🔴 録音開始 (Ghi âm)</button>
+                    <button id="stopRecordBtn" class="bg-slate-100 text-slate-400 border border-slate-200 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 cursor-not-allowed" disabled>■ 停止 (Dừng)</button>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-2 border-t border-slate-100 pt-2 mb-2">
-                    <button id="playRecordBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-indigo-400 active:bg-indigo-100">▶️ 再生</button>
-                    <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-emerald-400 active:bg-indigo-100">💾 保存</button>
+                    <button id="playRecordBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-indigo-400 active:bg-indigo-100">▶️ 再生 (Phát lại)</button>
+                    <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-emerald-400 active:bg-indigo-100">💾 保存 (Lưu)</button>
                 </div>
                 <div class="mb-2">
                     <button id="aiAdviceBtn" onclick="window.open('https://itm-kaiwa.github.io/Pronunciation_Analysis/index.html', '_blank')" class="w-full bg-emerald-300 text-white py-1 rounded-xl text-xs font-medium hover:bg-emerald-400 transition shadow-sm active:scale-95">
@@ -212,7 +212,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.91b</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.92c</span>
     </div>
 
 <script>
@@ -250,9 +250,9 @@
     const playAllBtn = document.getElementById('playAllBtn');
     const playLessonBtn = document.getElementById('playLessonBtn');
     const individualPlayBtn = document.getElementById('individualPlayBtn');
-    const randomPracticeBtn = document.getElementById('randomPracticeBtn'); // 新規追加
-    const randomCountContainer = document.getElementById('randomCountContainer'); // 新規追加
-    const randomCountInput = document.getElementById('randomCountInput'); // 新規追加
+    const randomPracticeBtn = document.getElementById('randomPracticeBtn');
+    const randomCountContainer = document.getElementById('randomCountContainer');
+    const randomCountInput = document.getElementById('randomCountInput');
     
     const lessonSelectContainer = document.getElementById('lessonSelectContainer');
     const lessonSelect = document.getElementById('lessonSelect');
@@ -608,7 +608,8 @@
         if (state === 'idle') {
             startRecordBtn.disabled = false;
             startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
-            startRecordBtn.innerHTML = '🔴 録音開始';
+            // ベトナム語を追記
+            startRecordBtn.innerHTML = '🔴 録音開始 (Ghi âm)';
             
             stopRecordBtn.disabled = true;
             stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
@@ -620,7 +621,8 @@
         } else if (state === 'recording') {
             startRecordBtn.disabled = true;
             startRecordBtn.className = 'bg-red-600 text-white border border-red-700 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 animate-pulse';
-            startRecordBtn.innerHTML = '🔴 録音中...';
+            // ベトナム語を追記
+            startRecordBtn.innerHTML = '🔴 録音中... (Đang ghi)';
             
             stopRecordBtn.disabled = false;
             stopRecordBtn.className = 'bg-slate-800 text-white border border-slate-900 py-2 rounded-xl text-sm font-bold hover:bg-slate-700 transition flex items-center justify-center gap-2 shadow-md';
@@ -632,14 +634,16 @@
         } else if (state === 'recorded') {
             startRecordBtn.disabled = false;
             startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
-            startRecordBtn.innerHTML = '🔄 やり直す';
+            // ベトナム語を追記
+            startRecordBtn.innerHTML = '🔄 やり直す (Ghi lại)';
             
             stopRecordBtn.disabled = true;
             stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
             
             playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
             saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-            saveRecordBtn.innerHTML = isFfmpegLoaded ? '💾 保存 (MP3)' : '💾 保存 (Webm)';
+            // ベトナム語を追記
+            saveRecordBtn.innerHTML = isFfmpegLoaded ? '💾 保存 (Lưu MP3)' : '💾 保存 (Lưu Webm)';
             recordStatus.textContent = '保存完了--再生または保存できます (Hoàn thành)';
         }
     }
@@ -676,7 +680,8 @@
 
     // FFmpeg エンジンのロードランタイム初期化
     saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
-    saveRecordBtn.innerHTML = '⏳ エンジン準備中...';
+    // ベトナム語を追記
+    saveRecordBtn.innerHTML = '⏳ エンジン準備中... (Đang chuẩn bị...)';
 
     try {
         if (typeof FFmpeg !== 'undefined') {
@@ -691,22 +696,26 @@
                     await ffmpeg.load();
                     isFfmpegLoaded = true;
                     console.log("MP3変換エンジンの準備が完了しました");
-                    saveRecordBtn.innerHTML = '💾 保存';
+                    // ベトナム語を追記
+                    saveRecordBtn.innerHTML = '💾 保存 (Lưu)';
                 } catch (e) {
                     console.error("GitHub Pages等の環境制約(SharedArrayBuffer)によりFFmpegロードをスキップしました。Webmフォールバックで動作します。");
                     isFfmpegLoaded = false;
-                    saveRecordBtn.innerHTML = '💾 保存';
+                    // ベトナム語を追記
+                    saveRecordBtn.innerHTML = '💾 保存 (Lưu)';
                 }
             })();
         } else {
             console.warn("FFmpegライブラリが検出されません。Webmフォールバックモードで動作します。");
             isFfmpegLoaded = false;
-            saveRecordBtn.innerHTML = '💾 保存';
+            // ベトナム語を追記
+            saveRecordBtn.innerHTML = '💾 保存 (Lưu)';
         }
     } catch (err) {
         console.error("FFmpeg初期化エラーによりスキップ:", err);
         isFfmpegLoaded = false;
-        saveRecordBtn.innerHTML = '💾 保存';
+        // ベトナム語を追記
+        saveRecordBtn.innerHTML = '💾 保存 (Lưu)';
     }
 
     function downloadBlob(blob, filename) {
@@ -761,7 +770,7 @@
         lessonSelect.focus();
     });
 
-    // ランダム抽出練習モード（新規追加）
+    // ランダム抽出練習モード
     randomPracticeBtn.addEventListener('click', () => {
         terminatePlayback();
         lessonSelectContainer.classList.remove('hidden');
@@ -961,7 +970,8 @@
     saveRecordBtn.addEventListener('click', async () => {
         if (!recordedAudioUrl) return;                
         const originalText = saveRecordBtn.innerHTML;
-        saveRecordBtn.innerHTML = '⏳ 処理中...';
+        // ベトナム語を追記
+        saveRecordBtn.innerHTML = '⏳ 処理中... (Đang xử lý)';
         saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
 
         if (isFfmpegLoaded) {
