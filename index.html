@@ -35,8 +35,8 @@
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-800 min-h-screen p-4 md:p-8">
-    <div class="max-w-4xl mx-auto space-y-6">
+<body class="bg-slate-50 text-slate-800 min-h-screen p-2 md:p-4">
+    <div class="max-w-4xl mx-auto space-y-4">
         
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -133,7 +133,7 @@
                 <button id="closeRecordModalBtn" class="text-slate-400 hover:text-slate-600 p-1">&times;</button>
             </div>
             
-            <div class="mb-3 bg-slate-50 p-3 rounded-xl border border-slate-100 overflow-y-auto flex-1 min-h-[80px]">
+           <div class="mb-3 bg-slate-50 p-3 rounded-xl border border-slate-100 overflow-y-auto flex-1 min-h-[140px]">
                 <div class="flex items-center justify-between mb-2 border-b border-slate-200/50 pb-2">
                     <span id="recordModalId" class="inline-block bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded font-bold"></span>
                     <button id="playModelAudioBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-indigo-100 transition flex items-center gap-1 active:scale-95 shadow-sm">
@@ -145,15 +145,16 @@
             
             <div class="shrink-0">
                 <div class="grid grid-cols-2 gap-2 mb-2">
-                    <button id="startRecordBtn" class="bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">🔴 録音開始</button>
-                    <button id="stopRecordBtn" class="bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed" disabled>■ 停止</button>
+                    <button id="startRecordBtn" class="bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">🔴 録音開始</button>
+                    <button id="stopRecordBtn" class="bg-slate-100 text-slate-400 border border-slate-200 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 cursor-not-allowed" disabled>■ 停止</button>
                 </div>
+                
                 <div class="grid grid-cols-2 gap-2 border-t border-slate-100 pt-2 mb-2">
                     <button id="playRecordBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-indigo-400 active:bg-indigo-100">▶️ 再生</button>
                     <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-emerald-400 active:bg-indigo-100">💾 保存</button>
                 </div>
-                <div class="mb-2">
-                    <button id="aiAdviceBtn" onclick="window.open('https://itm-kaiwa.github.io/Pronunciation_Analysis/index.html', '_blank')" class="w-full bg-emerald-300 text-white py-2 rounded-xl text-sm font-medium hover:bg-emerald-400 transition shadow-sm active:scale-95">
+               <div class="mb-2">
+                    <button id="aiAdviceBtn" onclick="window.open('https://itm-kaiwa.github.io/Pronunciation_Analysis/index.html', '_blank')" class="w-full bg-emerald-300 text-white py-1 rounded-xl text-xs font-medium hover:bg-emerald-400 transition shadow-sm active:scale-95">
                         AIに発音アドバイスを受ける / Nhận tư vấn từ AI
                     </button>
                 </div>
@@ -202,9 +203,9 @@
         </div>
     </div>
 
-    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
+    <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.81a</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.82a</span>
     </div>
 
 <script>
@@ -564,11 +565,11 @@
     function updateRecordUI(state) {
         if (state === 'idle') {
             startRecordBtn.disabled = false;
-            startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
+            startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
             startRecordBtn.innerHTML = '🔴 録音開始';
             
             stopRecordBtn.disabled = true;
-            stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
+            stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
             
             playRecordBtn.classList.add('opacity-50', 'pointer-events-none');
             saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
@@ -576,11 +577,11 @@
             
         } else if (state === 'recording') {
             startRecordBtn.disabled = true;
-            startRecordBtn.className = 'bg-red-600 text-white border border-red-700 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 animate-pulse';
+            startRecordBtn.className = 'bg-red-600 text-white border border-red-700 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 animate-pulse';
             startRecordBtn.innerHTML = '🔴 録音中...';
             
             stopRecordBtn.disabled = false;
-            stopRecordBtn.className = 'bg-slate-800 text-white border border-slate-900 py-3 rounded-xl font-bold hover:bg-slate-700 transition flex items-center justify-center gap-2 shadow-md';
+            stopRecordBtn.className = 'bg-slate-800 text-white border border-slate-900 py-2 rounded-xl text-sm font-bold hover:bg-slate-700 transition flex items-center justify-center gap-2 shadow-md';
             
             playRecordBtn.classList.add('opacity-50', 'pointer-events-none');
             saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
@@ -588,11 +589,11 @@
             
         } else if (state === 'recorded') {
             startRecordBtn.disabled = false;
-            startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
+            startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
             startRecordBtn.innerHTML = '🔄 やり直す';
             
             stopRecordBtn.disabled = true;
-            stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
+            stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
             
             playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
             saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
