@@ -9,7 +9,7 @@
     <script src="qadata.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/coi-serviceworker/0.1.7/coi-serviceworker.min.js"></script>
-    <script src="https://unpkg.com/@ffmpeg/core@0.11.6/dist/ffmpeg-core.js"></script> 
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>        
     
     <style>
         /* モーダル（ポップアップ）用レイヤー */
@@ -216,7 +216,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.94a</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.940a</span>
     </div>
 
 <script>
@@ -392,19 +392,19 @@
             queueIndex++;
             executeNextQueueItem();
         };
- 
 
-    // ※もし連打時のコンソールエラーを完全に消したい場合は、こう書くこともできます（必須ではありません）
         const playPromise = currentAudio.play();
         if (playPromise !== undefined) {
             playPromise.then(_ => {
                 // 再生が正常に開始された
             }).catch(error => {
-                // 連打によるキャンセルエラー等はここで無視できる
                 console.warn('Playback interrupted or failed:', error);
+                queueIndex++;
+                executeNextQueueItem();
             });
         }
     }
+    
     // -------------------------------------------------------------------------
     // 4. UI・カードレンダリング処理 (UI & Card Rendering)
     // -------------------------------------------------------------------------
@@ -575,6 +575,11 @@
 
     // ドロップダウンで指定された課の表示を判定・確定する共通ロジック
     function executeDisplay(isShuffle) {
+        if (typeof questions === 'undefined') {
+            showError('データが読み込まれていません。');
+            return;
+        }
+
         const selectedLessons = Array.from(lessonSelect.selectedOptions).map(o => parseInt(o.value));
         if (selectedLessons.length === 0) {
             showError('少なくとも1つの課を選択してください。');
@@ -615,7 +620,7 @@
         } else {
             reFetchRandomBtn.classList.add('hidden');
         }
-        // --- ここまで追加 ---
+        
         lessonSelectContainer.classList.add('hidden');
     }
 
@@ -626,7 +631,6 @@
         if (state === 'idle') {
             startRecordBtn.disabled = false;
             startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
-            // ベトナム語を追記
             startRecordBtn.innerHTML = '🔴 録音開始 (Ghi âm)';
             
             stopRecordBtn.disabled = true;
@@ -639,7 +643,6 @@
         } else if (state === 'recording') {
             startRecordBtn.disabled = true;
             startRecordBtn.className = 'bg-red-600 text-white border border-red-700 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 animate-pulse';
-            // ベトナム語を追記
             startRecordBtn.innerHTML = '🔴 録音中... (Đang ghi)';
             
             stopRecordBtn.disabled = false;
@@ -652,7 +655,6 @@
         } else if (state === 'recorded') {
             startRecordBtn.disabled = false;
             startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
-            // ベトナム語を追記
             startRecordBtn.innerHTML = '🔄 やり直す (Ghi lại)';
             
             stopRecordBtn.disabled = true;
@@ -660,7 +662,6 @@
             
             playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
             saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-            // ベトナム語を追記
             saveRecordBtn.innerHTML = isFfmpegLoaded ? '💾 保存 (Lưu MP3)' : '💾 保存 (Lưu Webm)';
             recordStatus.textContent = '保存完了--再生または保存できます (Hoàn thành)';
         }
@@ -698,7 +699,6 @@
 
     // FFmpeg エンジンのロードランタイム初期化
     saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
-    // ベトナム語を追記
     saveRecordBtn.innerHTML = '⏳ エンジン準備中... (Đang chuẩn bị...)';
 
     try {
@@ -714,25 +714,21 @@
                     await ffmpeg.load();
                     isFfmpegLoaded = true;
                     console.log("MP3変換エンジンの準備が完了しました");
-                    // ベトナム語を追記
                     saveRecordBtn.innerHTML = '💾 保存 (Lưu)';
                 } catch (e) {
                     console.error("GitHub Pages等の環境制約(SharedArrayBuffer)によりFFmpegロードをスキップしました。Webmフォールバックで動作します。");
                     isFfmpegLoaded = false;
-                    // ベトナム語を追記
                     saveRecordBtn.innerHTML = '💾 保存 (Lưu)';
                 }
             })();
         } else {
             console.warn("FFmpegライブラリが検出されません。Webmフォールバックモードで動作します。");
             isFfmpegLoaded = false;
-            // ベトナム語を追記
             saveRecordBtn.innerHTML = '💾 保存 (Lưu)';
         }
     } catch (err) {
         console.error("FFmpeg初期化エラーによりスキップ:", err);
         isFfmpegLoaded = false;
-        // ベトナム語を追記
         saveRecordBtn.innerHTML = '💾 保存 (Lưu)';
     }
 
@@ -772,7 +768,7 @@
     playLessonBtn.addEventListener('click', () => {
         terminatePlayback();
         lessonSelectContainer.classList.remove('hidden');
-        randomCountContainer.classList.add('hidden'); // ランダム用入力を非表示
+        randomCountContainer.classList.add('hidden');
         randomCountContainer.classList.remove('flex');
         confirmBtn.setAttribute('data-mode', 'normal');
         lessonSelect.focus();
@@ -782,7 +778,7 @@
     individualPlayBtn.addEventListener('click', () => {
         terminatePlayback();
         lessonSelectContainer.classList.remove('hidden');
-        randomCountContainer.classList.add('hidden'); // ランダム用入力を非表示
+        randomCountContainer.classList.add('hidden');
         randomCountContainer.classList.remove('flex');
         confirmBtn.setAttribute('data-mode', 'individual');
         lessonSelect.focus();
@@ -792,7 +788,7 @@
     randomPracticeBtn.addEventListener('click', () => {
         terminatePlayback();
         lessonSelectContainer.classList.remove('hidden');
-        randomCountContainer.classList.remove('hidden'); // ランダム用入力を表示
+        randomCountContainer.classList.remove('hidden');
         randomCountContainer.classList.add('flex');
         confirmBtn.setAttribute('data-mode', 'random');
         lessonSelect.focus();
@@ -830,7 +826,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
-    //  --- ここから追加 ---
+
     // 「別の問題で練習する」ボタンの処理
     if (reFetchRandomBtn) {
         reFetchRandomBtn.addEventListener('click', () => {
@@ -838,6 +834,7 @@
             executeDisplay(false); // 選択されている課から再度ランダム抽出し直して画面更新
             window.scrollTo({ top: 0, behavior: 'smooth' }); // 画面の一番上へスクロール
         });
+    }
         
     // プリセットボタングループのバインディング
     document.querySelectorAll('.preset-btn').forEach(btn => {
@@ -996,7 +993,7 @@
     saveRecordBtn.addEventListener('click', async () => {
         if (!recordedAudioUrl) return;                
         const originalText = saveRecordBtn.innerHTML;
-        // ベトナム語を追記
+        
         saveRecordBtn.innerHTML = '⏳ 処理中... (Đang xử lý)';
         saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
 
@@ -1008,7 +1005,7 @@
                 
                 ffmpeg.FS('writeFile', 'input.webm', await fetchFile(webmBlob));
                 await ffmpeg.run('-i', 'input.webm', '-c:a', 'libmp3lame', '-q:a', '2', 'output.mp3');
-                                                
+                                                                
                 const mp3Data = ffmpeg.FS('readFile', 'output.mp3');
                 const mp3Blob = new Blob([mp3Data.buffer], { type: 'audio/mp3' });                                
                 
