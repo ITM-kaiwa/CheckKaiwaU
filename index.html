@@ -134,25 +134,27 @@
             <p id="recordModalText" class="text-sm font-medium text-slate-800 leading-relaxed"></p>
         </div>
         <div class="shrink-0">
-            <div class="grid grid-cols-2 gap-2 mb-2">
-                <button id="startRecordBtn" class="bg-red-50 text-red-600 border border-red-200 py-3 rounded-xl font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">🔴 録音開始</button>
-                <button id="stopRecordBtn" class="bg-slate-100 text-slate-400 border border-slate-200 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 cursor-not-allowed" disabled>■ 停止</button>
-            </div>
-            <div class="grid grid-cols-2 gap-2 border-t border-slate-100 pt-2">
+            <div class="grid grid-cols-2 gap-2 border-t border-slate-100 pt-2 mb-3">
                 <button id="playRecordBtn" class="bg-indigo-50 text-indigo-600 border border-indigo-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-indigo-400 active:bg-indigo-100">▶️ 再生</button>
                 <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-emerald-400 active:bg-indigo-100">💾 保存</button>
             </div>
-            <div id="recordStatus" class="text-center text-[10px] text-slate-400 mt-2">待機中...</div>
 
             <div class="mb-3">
-                <button id="aiAdviceBtn" onclick="window.open('https://itm-kaiwa.github.io/Pronunciation_Analysis/index.html', '_blank')" class="w-full bg-emerald-300 text-white py-2 rounded-xl text-sm font-medium hover:bg-emerald-400 transition">
+                <button id="aiAdviceBtn" onclick="window.open('https://itm-kaiwa.github.io/Pronunciation_Analysis/index.html', '_blank')" class="w-full bg-emerald-300 text-white py-2 rounded-xl text-sm font-medium hover:bg-emerald-400 transition shadow-sm active:scale-95">
                 AIに発音アドバイスを受ける / Nhận tư vấn từ AI
                 </button>
             </div>
             
-            <div class="border-t border-slate-100 pt-3 mt-3 text-right">
-                <button id="modalRecordCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる / Đóng</button>
+            <div id="recordStatus" class="text-center text-sm md:text-base font-bold text-indigo-700 bg-indigo-50 py-2 px-3 rounded-lg border border-indigo-100 shadow-inner mb-2 transition-all">
+                待機中...
             </div>
+                        
+            <div class="border-t border-slate-100 pt-3 mt-3 text-right">
+                <button id="modalRecordCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition shadow-sm active:scale-95">閉じる / Đóng</button>
+            </div>
+            
+            
+           
             </div>
     </div>
 </div>
@@ -193,7 +195,7 @@
     </div>    
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.80d</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.80e</span>
 </div>
 
 <script>
