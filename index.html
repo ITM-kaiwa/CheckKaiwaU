@@ -193,7 +193,7 @@
     </div>    
    <div class="w-full text-center py-4 mt-8 border-t border-slate-200/60 text-slate-500">
     <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.80c</span>
+    <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.80d</span>
 </div>
 
 <script>
@@ -506,7 +506,7 @@
 
     // --- イベントリスナー設定 ---
 
-    // 1. 全体一括連続再生
+   // 1. 全体一括連続再生
     playAllBtn.addEventListener('click', () => {
         if (typeof questions === 'undefined') return;
         lessonSelectContainer.classList.add('hidden');
@@ -514,6 +514,14 @@
         currentFilteredQuestions = [...questions]; // 現在のリストに保存
         renderCards(currentFilteredQuestions);
         startQueuePlayback(currentFilteredQuestions);
+
+        // ★追加：ID「1-1a」のカードへ自動スクロールしてフォーカスを当てる
+        setTimeout(() => {
+            const targetCard = document.querySelector('.question-card[data-id="1-1a"]');
+            if (targetCard) {
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100); // 描画完了を少し待ってからスクロールを実行
     });
 
     // 2. 指定課別一括再生
