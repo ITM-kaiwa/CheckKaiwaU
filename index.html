@@ -9,7 +9,7 @@
     <script src="qadata.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/coi-serviceworker/0.1.7/coi-serviceworker.min.js"></script>
-    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>        
+    <script src="https://unpkg.com/@ffmpeg/core@0.11.6/dist/ffmpeg-core.js"></script> 
     
     <style>
         /* モーダル（ポップアップ）用レイヤー */
@@ -124,10 +124,15 @@
         
         <div id="questionsContainer" class="space-y-4"></div>
         
-        <div id="backToTopContainer" class="hidden mt-8 flex justify-center pb-4">
+       <div id="backToTopContainer" class="hidden mt-8 flex flex-col items-center gap-4 pb-4">
             <button id="backToTopBtn" class="bg-slate-700 text-white px-8 py-3 rounded-xl font-medium hover:bg-slate-800 transition shadow-sm active:scale-95 flex flex-col items-center leading-tight">
                 <span>⬆️ カードの先頭に戻る</span>
                 <span class="text-xs font-normal opacity-80 mt-1">Trở lên đầu trang</span>
+            </button>
+            
+            <button id="reFetchRandomBtn" class="hidden w-full bg-sky-500 text-white px-4 py-3.5 rounded-xl font-medium hover:bg-sky-600 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight border border-sky-600">
+                <span class="text-base font-bold">🔄 別の問題で練習する</span>
+                <span class="text-xs font-normal opacity-90 mt-1">Luyện tập với các câu hỏi khác</span>
             </button>
         </div>
     </div>
@@ -211,7 +216,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.92d</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.94a</span>
     </div>
 
 <script>
@@ -271,6 +276,7 @@
     const reshuffleBtn = document.getElementById('reshuffleBtn');
     const backToTopContainer = document.getElementById('backToTopContainer');
     const backToTopBtn = document.getElementById('backToTopBtn');
+    const reFetchRandomBtn = document.getElementById('reFetchRandomBtn'); //---ランダム抽出機能の再出題
 
     // 録音モーダル内コンポーネント
     const recordModal = document.getElementById('recordModal');
@@ -386,14 +392,19 @@
             queueIndex++;
             executeNextQueueItem();
         };
+ 
 
-        currentAudio.play().catch(err => {
-            console.error('Playback failed:', err);
-            queueIndex++;
-            executeNextQueueItem();
-        });
+    // ※もし連打時のコンソールエラーを完全に消したい場合は、こう書くこともできます（必須ではありません）
+        const playPromise = currentAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                // 再生が正常に開始された
+            }).catch(error => {
+                // 連打によるキャンセルエラー等はここで無視できる
+                console.warn('Playback interrupted or failed:', error);
+            });
+        }
     }
-
     // -------------------------------------------------------------------------
     // 4. UI・カードレンダリング処理 (UI & Card Rendering)
     // -------------------------------------------------------------------------
@@ -584,7 +595,8 @@
         
         // ランダムモードの場合は指定した数だけ切り出す
         if (mode === 'random') {
-            let count = parseInt(randomCountInput.value) || 10;
+            let count = parseInt(randomCountInput.value);
+            if (isNaN(count) || count < 1) count = 10; // 空欄や0以下の場合はデフォルトの10にする
             if (count > filtered.length) count = filtered.length;
             filtered = filtered.slice(0, count);
         }
@@ -597,6 +609,13 @@
             renderCards(currentFilteredQuestions);
             startQueuePlayback(currentFilteredQuestions);
         }
+        // ランダムモードの時だけ「別の問題で練習する」ボタンを表示する
+        if (mode === 'random') {
+            reFetchRandomBtn.classList.remove('hidden');
+        } else {
+            reFetchRandomBtn.classList.add('hidden');
+        }
+        // --- ここまで追加 ---
         lessonSelectContainer.classList.add('hidden');
     }
 
@@ -811,6 +830,14 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
+    //  --- ここから追加 ---
+    // 「別の問題で練習する」ボタンの処理
+    if (reFetchRandomBtn) {
+        reFetchRandomBtn.addEventListener('click', () => {
+            terminatePlayback(); // 現在の音声を停止
+            executeDisplay(false); // 選択されている課から再度ランダム抽出し直して画面更新
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // 画面の一番上へスクロール
+        });
         
     // プリセットボタングループのバインディング
     document.querySelectorAll('.preset-btn').forEach(btn => {
