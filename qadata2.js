@@ -1,7 +1,7 @@
 // =============================================================================
-// DATA-PART2: QUESTION DATA VARIABLE (qadata.js) Ver1.00a
+// DATA-PART2: QUESTION DATA VARIABLE (qadata.js) Ver1.00b
 // =============================================================================
-    const questions = [
+    const questions2 = [
     {
         "lesson": 26,
         "id": "26-1",
