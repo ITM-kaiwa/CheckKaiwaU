@@ -1,4 +1,7 @@
-[
+// =============================================================================
+// DATA-PART2: QUESTION DATA VARIABLE (qadata.js) Ver1.00a
+// =============================================================================
+    const questions = [
     {
         "lesson": 26,
         "id": "26-1",
@@ -1904,4 +1907,4 @@
         "viText": "Tôi đã có thể gặp người nổi tiếng mà tôi muốn gặp. Tôi muốn bày tỏ hạnh phúc của mình. Tôi nên đặt nó như thế nào?　(※ \"Rất vui được gặp bạn~.\" / \"Rất vui được gặp bạn~.\" ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.10mp3"
     }
-]
+ ];
