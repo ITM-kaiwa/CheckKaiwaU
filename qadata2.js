@@ -5,7 +5,7 @@
     {
         "lesson": 26,
         "id": "26-1",
-        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>話し方<rt>はなしかた</rt></ruby>が<ruby>速い<rt>はやい</rt></ruby><ruby>時<rt>とき</rt></ruby>、<ruby>何と<rt>なんと</rt></ruby><ruby>言った<rt>いった</rt></ruby>らいいですか。　（※「～ていただけませんか」と<ruby>言い<rt>いい</rt></ruby>ます。）",
+        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>話<rt>はな</rt></ruby>し<ruby>方<rt>かた</rt></ruby>が<ruby>速<rt>はや</rt></ruby>い<ruby>時<rt>とき</rt></ruby>、<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>ったらいいですか。　（※「～ていただけませんか」と<ruby>言<rt>い</rt></ruby>います。）",
         "viText": "Tôi nên nói gì khi người Nhật nói nhanh như vậy?　(※ Nói \"~ Bạn có thể vui lòng lấy nó không?\".) ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/26.1mp3"
     },
