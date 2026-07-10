@@ -87,8 +87,8 @@
         { "lesson": 6, "id": "6-2a", "text": "<ruby>今朝<rt>けさ</rt></ruby>、コーヒー／<ruby>水<rt>みず</rt></ruby>／<ruby>牛乳<rt>ぎゅうにゅう</rt></ruby> を <ruby>飲<rt>の</rt></ruby>みましたか。", "viText": "Sáng nay bạn có uống cà phê / nước / sữa không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/6.2a.mp3" },
         { "lesson": 6, "id": "6-2b", "text": "<ruby>今朝<rt>けさ</rt></ruby>、コーヒー／<ruby>水<rt>みず</rt></ruby>／<ruby>牛乳<rt>ぎゅうにゅう</rt></ruby> を <ruby>飲<rt>の</rt></ruby>みましたか。", "viText": "Sáng nay bạn có uống cà phê / nước / sữa không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/6.2b.mp3" },
         { "lesson": 6, "id": "6-3", "text": "<ruby>毎日<rt>まいにち</rt></ruby> <ruby>朝<rt>あさ</rt></ruby>ごはんを <ruby>食<rt>た</rt></ruby>べますか。", "viText": "Hàng ngày bạn có ăn sáng không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/6.3.mp3" },
-        { "lesson": 6, "id": "6-4a", "text": "<ruby>今朝<rt>けさ</rt></ruby>、<ruby>何<rt>なに</rt></ruby>を <ruby>食<rt>た</rt></ruby>べましたか。<br>※食べていない<ruby>場合<rt>ばあい</rt></ruby>：<ruby>昨日<rt>きのう</rt></ruby>、食べましたか。", "viText": "Sáng nay bạn đã ăn gì? *Trường hợp chưa ăn: Hôm qua bạn có ăn không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/6.4a.mp3" },
-        { "lesson": 6, "id": "6-4b", "text": "<ruby>今朝<rt>けさ</rt></ruby>、<ruby>何<rt>なに</rt></ruby>を <ruby>食<rt>た</rt></ruby>べましたか。<br>※食べていない<ruby>場合<rt>ばあい</rt></ruby>：<ruby>昨日<rt>きのう</rt></ruby>、<ruby>何<rt>なに</rt></ruby>を食べましたか。", "viText": "Sáng nay bạn đã ăn gì? *Trường hợp chưa ăn: Hôm qua bạn đã ăn gì?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/6.4b.mp3" },
+        { "lesson": 6, "id": "6-4a", "text": "<ruby>今朝<rt>けさ</rt></ruby>、<ruby>何<rt>なに</rt></ruby>を <ruby>食<rt>た</rt></ruby>べましたか。<br>※食いない<ruby>場合<rt>ばあい</rt></ruby>：<ruby>昨日<rt>きのう</rt></ruby>、食ましたか。", "viText": "Sáng nay bạn đã ăn gì? *Trường hợp chưa ăn: Hôm qua bạn có ăn không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/6.4a.mp3" },
+        { "lesson": 6, "id": "6-4b", "text": "<ruby>今朝<rt>けさ</rt></ruby>、<ruby>何<rt>なに</rt></ruby>を <ruby>食<rt>た</rt></ruby>べましたか。<br>※食いない<ruby>場合<rt>ばあい</rt></ruby>：<ruby>昨日<rt>きのう</rt></ruby>、<ruby>何<rt>なに</rt></ruby>を食ましたか。", "viText": "Sáng nay bạn đã ăn gì? *Trường hợp chưa ăn: Hôm qua bạn đã ăn gì?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/6.4b.mp3" },
         { "lesson": 6, "id": "6-5", "text": "あなたは たばこを <ruby>吸<rt>す</rt></ruby>いますか。お<ruby>酒<rt>さけ</rt></ruby>を <ruby>飲<rt>の</rt></ruby>みますか。", "viText": "Bạn 〇〇 có hút thuốc không? Có uống rượu không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/6.5.mp3" },
         { "lesson": 6, "id": "6-6", "text": "<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>、いつも <ruby>何時<rt>なんじ</rt></ruby>に <ruby>起<rt>お</rt></ruby>きますか。", "viText": "Vào ngày nghỉ, bạn thường thức dậy lúc mấy giờ?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/6.6.mp3" },
         { "lesson": 6, "id": "6-7a", "text": "<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>、<ruby>勉強<rt>べんきょう</rt></ruby>しましたか／テレビを<ruby>見<rt>み</rt></ruby>ましたか／<ruby>音楽<rt>おんがく</rt></ruby>を<ruby>聞<rt>き</rt></ruby>きましたか。", "viText": "Vào ngày nghỉ, bạn có học bài / xem tivi / nghe nhạc không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/6.7a.mp3" },
@@ -169,8 +169,8 @@
         { "lesson": 11, "id": "11-7", "text": "（はさみ／<ruby>鍵<rt>かぎ</rt></ruby>／<ruby>消<rt>け</rt></ruby>しゴム）（ひとつ／ふたつ／みっつ／よっつ／いつつ） とって。", "viText": "Lấy giùm tôi (1 / 2 / 3 / 4 / 5) cái (kéo / chìa khóa / cục tẩy).", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.7.mp3" },
         { "lesson": 11, "id": "11-8a", "text": "ペットボトル（いっぽん／にほん／さんぼん／よんほん／ごほん）とって。", "viText": "Lấy giùm tôi (1 / 2 / 3 / 4 / 5) cây chai nhựa.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.8a.mp3" },
         { "lesson": 11, "id": "11-8b", "text": "<ruby>缶<rt>かん</rt></ruby>（いっぽん／にほん／さんぼん／よんほん／ごほん）とって。", "viText": "Lấy giùm tôi (1 / 2 / 3 / 4 / 5) lon nước ngọt.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.8b.mp3" },
-        { "lesson": 11, "id": "11-9", "text": "<ruby>数<rt>かぞ</rt></ruby>えて、<ruby>報告<rt>ほうこく</rt></ruby>してください。<br>〇〇がXX <ruby>枚<rt>まい</rt></ruby>／つ／<ruby>台<rt>だい</rt></ruby>／<ruby>人<rt>にん</rt></ruby>／<ruby>本<rt>ほん</rt></ruby> います／あります。", "viText": "Hãy đếm và báo cáo lại. (Nếu học sinh không hiểu chỉ thị, giáo viên sẽ làm mẫu nhìn vào tranh để nói) Có XX tờ / cái / chiếc / người / cây 〇〇.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.9.mp3", "imageUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.9.jpg" },
-        { "lesson": 11, "id": "11-10", "text": "<ruby>数<rt>かぞ</rt></ruby>えて、<ruby>報告<rt>ほうこく</rt></ruby>してください。<br>〇〇がXX <ruby>枚<rt>まい</rt></ruby>／つ／<ruby>台<rt>だい</rt></ruby>／<ruby>人<rt>にん</rt></ruby>／<ruby>本<rt>ほん</rt></ruby> います／あります。", "viText": "Hãy đếm và báo cáo lại. (Nếu học sinh không hiểu chỉ thị, giáo viên sẽ làm mẫu nhìn vào tranh để nói) Có XX tờ / cái / chiếc / người / cây 〇〇.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.10.mp3", "imageUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.10.jpg" },
+        { "lesson": 11, "id": "11-9", "text": "<ruby>数<rt>かぞ</rt></ruby>えて、<ruby>報告<rt>ほうこく</rt></ruby>してください。<br>〇〇がXX <ruby>枚<rt>まい</rt></ruby>／つ／<ruby>台<rt>だい</rt></ruby>／<ruby>人<rt>ひと</rt></ruby>／<ruby>本<rt>ほん</rt></ruby> います／あります。", "viText": "Hãy đếm và báo cáo lại. (Nếu học sinh không hiểu chỉ thị, giáo viên sẽ làm mẫu nhìn vào tranh để nói) Có XX tờ / cái / chiếc / người / cây 〇〇.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.9.mp3", "imageUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.9.jpg" },
+        { "lesson": 11, "id": "11-10", "text": "<ruby>数<rt>かぞ</rt></ruby>えて、<ruby>報告<rt>ほうこく</rt></ruby>してください。<br>〇〇がXX <ruby>枚<rt>まい</rt></ruby>／つ／<ruby>台<rt>だい</rt></ruby>／<ruby>人<rt>ひと</rt></ruby>／<ruby>本<rt>ほん</rt></ruby> います／あります。", "viText": "Hãy đếm và báo cáo lại. (Nếu học sinh không hiểu chỉ thị, giáo viên sẽ làm mẫu nhìn vào tranh để nói) Có XX tờ / cái / chiếc / người / cây 〇〇.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.10.mp3", "imageUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/11.10.jpg" },
 
         // ==================== LESSON 12 ====================
         { "lesson": 12, "id": "12-1a", "text": "<ruby>今日<rt>きょう</rt></ruby>は、<ruby>晴<rt>は</rt></ruby>れ／<ruby>雨<rt>あめ</rt></ruby>／<ruby>曇<rt>くも</rt></ruby>り ですか。", "viText": "Hôm nay trời nắng / mưa / nhiều mây? Trời nóng / mát mẻ / lạnh?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/12.1a.mp3" },
@@ -185,7 +185,7 @@
         { "lesson": 12, "id": "12-7", "text": "どうしてですか。", "viText": "Tại sao lại như thế?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/12.7.mp3" },
         { "lesson": 12, "id": "12-8a", "text": "（HN／DN／HCM）で <ruby>何月<rt>なんがつ</rt></ruby>がいちばん<ruby>暑<rt>あつ</rt></ruby>いですか。", "viText": "Tháng mấy ở (HN/DN/HCM) là nóng nhất?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/12.8a.mp3" },
         { "lesson": 12, "id": "12-8b", "text": "（HN／DN／HCM）で <ruby>何月<rt>なんがつ</rt></ruby>がいちばん<ruby>暑<rt>あつ</rt></ruby>いですか。", "viText": "Tháng mấy ở (HN/DN/HCM) là nóng nhất?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/12.8b.mp3" },
-        { "lesson": 12, "id": "12-9", "text": "あなたは、<ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>で<ruby>何<rt>なに</rt></ruby>がいちばん<ruby>好<rt>す</rt></ruby>きですか。<br>※（ベトナム<ruby>語<rt>ご</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>OK）が好きです。", "viText": "Về đồ ăn, bạn 〇〇 thích món nào nhất? *Trả lời bằng tiếng Việt (tên món ăn) cũng được chấp nhận.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/12.9.mp3" },
+        { "lesson": 12, "id": "12-9", "text": "あなたは、<ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>で<ruby>何<rt>なに</rt></ruby>がいちばん<ruby>好<rt>す</rt></ruby>きですか。<br>※（ベトナム<ruby>語<rt>ご</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>OK）が好です。", "viText": "Về đồ ăn, bạn 〇〇 thích món nào nhất? *Trả lời bằng tiếng Việt (tên món ăn) cũng được chấp nhận.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/12.9.mp3" },
         { "lesson": 12, "id": "12-10a", "text": "クラスで <ruby>誰<rt>だれ</rt></ruby>が<ruby>一番<rt>いちばん</rt></ruby> <ruby>歌<rt>うた</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>／<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>た</rt></ruby>かい／おもしろい／<ruby>元気<rt>げんき</rt></ruby> ですか。", "viText": "Trong lớp ai là người hát hay nhất / cao nhất / thú vị nhất / năng nổ nhất?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/12.10a.mp3" },
         { "lesson": 12, "id": "12-10b", "text": "クラスで <ruby>誰<rt>だれ</rt></ruby>が<ruby>一番<rt>いちばん</rt></ruby> <ruby>歌<rt>うた</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>／<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>た</rt></ruby>かい／おもしろい／<ruby>元気<rt>げんき</rt></ruby> ですか。", "viText": "Trong lớp ai là người hát hay nhất / cao nhất / thú vị nhất / năng nổ nhất?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/12.10b.mp3" },
 
@@ -220,7 +220,7 @@
         { "lesson": 15, "id": "15-1", "text": "あなたの／〇〇さんの  <ruby>家族<rt>かぞく</rt></ruby>は、どこに<ruby>住<rt>す</rt></ruby>んでいますか。", "viText": "Bạn 〇〇 / gia đình của bạn 〇〇 đang sinh sống ở đâu?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/15.1.mp3" },
         { "lesson": 15, "id": "15-2a", "text": "お<ruby>父<rt>とう</rt></ruby>さんは/お<ruby>母<rt>かあ</rt></ruby>さんは、<ruby>何<rt>なん</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>をしていますか。<br>※「〜をしています」と<ruby>答<rt>こた</rt></ruby>える<br><ruby>兄弟<rt>きょうだい</rt></ruby>がいる<ruby>場合<rt>ばあい</rt></ruby>：お<ruby>兄<rt>にい</rt></ruby>さん/お<ruby>姉<rt>ねえ</rt></ruby>さんは<ruby>結婚<rt>けっこん</rt></ruby>していますか。", "viText": "Bố / Mẹ bạn đang làm công việc gì? *Yêu cầu trả lời đuôi '~ wo shiteimasu'. Nếu có anh chị: Anh / Chị của bạn đã kết hôn chưa?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/15.2a.mp3" },
         { "lesson": 15, "id": "15-2b", "text": "お<ruby>父<rt>とう</rt></ruby>さんは/お<ruby>母<rt>かあ</rt></ruby>さんは、<ruby>何<rt>なん</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>をしていますか。<br>※「〜をしています」と<ruby>答<rt>こた</rt></ruby>える<br><ruby>兄弟<rt>きょうだい</rt></ruby>がいる<ruby>場合<rt>ばあい</rt></ruby>：お<ruby>兄<rt>にい</rt></ruby>さん/お<ruby>姉<rt>ねえ</rt></ruby>さんは<ruby>結婚<rt>けっこん</rt></ruby>していますか。", "viText": "Bố / Mẹ bạn đang làm công việc gì? *Yêu cầu trả lời đuôi '~ wo shiteimasu'. Nếu có anh chị: Anh / Chị của bạn đã kết hôn chưa?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/15.2b.mp3" },
-        { "lesson": 15, "id": "15-3", "text": "どうやって<ruby>家<rt>うち</rt></ruby>まで<ruby>帰<rt>かえ</rt></ruby>りますか。<br>※バスでかえります。（<ruby>詳細<rt>しょうさい</rt></ruby>は<ruby>不要<rt>ふよう</rt></ruby>）<br><ruby>毎日<rt>まいにち</rt></ruby>どうやってセンターに<ruby>来<rt>き</rt></ruby>ていますか。<br>※バイクで来ています（詳細は不要）", "viText": "Bạn đi về nhà bằng cách nào? *Ví dụ: Về bằng xe buýt (không cần chi tiết). Hàng ngày bạn đến trung tâm bằng cách nào? *Ví dụ: Đến bằng xe máy.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/15.3.mp3" },
+        { "lesson": 15, "id": "15-3", "text": "どうやって<ruby>家<rt>うち</rt></ruby>まで<ruby>帰<rt>かえ</rt></ruby>りますか。<br>※バスでかえります。（<ruby>詳細<rt>しょうさい</rt></ruby>は<ruby>不要<rt>ふよう</rt></ruby>）<br><ruby>毎日<rt>まいにち</rt></ruby>どうやってセンターに<ruby>来<rt>き</rt></ruby>ていますか。<br>※バイクで来います（詳細は不要）", "viText": "Bạn đi về nhà bằng cách nào? *Ví dụ: Về bằng xe buýt (không cần chi tiết). Hàng ngày bạn đến trung tâm bằng cách nào? *Ví dụ: Đến bằng xe máy.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/15.3.mp3" },
         { "lesson": 15, "id": "15-4", "text": "あなたの<ruby>大学<rt>だいがく</rt></ruby>の<ruby>住所<rt>じゅうしょ</rt></ruby>を<ruby>知<rt>し</rt></ruby>っていますか。", "viText": "Bạn có biết địa chỉ của trường đại học không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/15.4.mp3" },
         { "lesson": 15, "id": "15-5a", "text": "<ruby>日本<rt>にほん</rt></ruby>に<ruby>友<rt>とも</rt></ruby>だちはいますか。<br>はい→<ruby>友<rt>とも</rt></ruby>だちはどこに<ruby>住<rt>す</rt></ruby>んでいますか。", "viText": "Bạn có bạn bè ở Nhật Bản không? Nếu có -> Bạn của bạn sống ở đâu? Nếu không -> Bạn có muốn có bạn là người Nhật không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/15.5a.mp3" },
         { "lesson": 15, "id": "15-5b", "text": "<ruby>日本<rt>にほん</rt></ruby>に<ruby>友<rt>とも</rt></ruby>だちはいますか。<br>いいえ→ 日本人の<ruby>友<rt>とも</rt></ruby>だちがほしいですか。", "viText": "Bạn có bạn bè ở Nhật Bản không? Nếu có -> Bạn của bạn sống ở đâu? Nếu không -> Bạn có muốn có bạn là người Nhật không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/15.5b.mp3" },
@@ -263,9 +263,9 @@
         // ==================== LESSON 18 ====================
         { "lesson": 18, "id": "18-1a", "text": "<ruby>車<rt>くるま</rt></ruby>の<ruby>運転<rt>うんてん</rt></ruby>ができますか。バイクは<ruby>運転<rt>うんてん</rt></ruby>できますか。<ruby>自転車<rt>じてんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>ることができますか。<br>車:できない→バイク:できない", "viText": "Bạn có thể lái ô tô không? Bạn có thể lái xe máy không? Bạn có thể đi xe đạp không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.1a.mp3" },
         { "lesson": 18, "id": "18-1b", "text": "<ruby>車<rt>くるま</rt></ruby>の<ruby>運転<rt>うんてん</rt></ruby>ができますか。バイクは<ruby>運転<rt>うんてん</rt></ruby>できますか。<ruby>自転車<rt>じてんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>ることができますか。<br>車:できない→バイク:できない", "viText": "Bạn có thể lái ô tô không? Bạn có thể lái xe máy không? Bạn có thể đi xe đạp không?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.1b.mp3" },
-        { "lesson": 18, "id": "18-2", "text": "スマホで 何ができますか / 何をすることができますか。", "viText": "Bạn có thể làm được những việc gì trên chiếc điện thoại di động thông minh của mình?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.2.mp3" },
-        { "lesson": 18, "id": "18-3", "text": "あなたの<ruby>出身地<rt>しゅっしんち</rt></ruby> / (<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>場所<rt>ばしょ</rt></ruby>) で 何をすることができますか。", "viText": "Tại quê hương của bạn / tại địa điểm nổi tiếng thì có thể làm những gì?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.3.mp3" },
-        { "lesson": 18, "id": "18-4", "text": "ベトナムでは できません。日本で、何をすることができますか。", "viText": "Điều gì không thể làm ở Việt Nam nhưng có thể làm ở Nhật Bản?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.4.mp3" },
+        { "lesson": 18, "id": "18-2", "text": "スマホで 何ができますか / 何することができますか。", "viText": "Bạn có thể làm được những việc gì trên chiếc điện thoại di động thông minh của mình?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.2.mp3" },
+        { "lesson": 18, "id": "18-3", "text": "あなたの<ruby>出身地<rt>しゅっしんち</rt></ruby> / (<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>場所<rt>ばしょ</rt></ruby>) で 何することができますか。", "viText": "Tại quê hương của bạn / tại địa điểm nổi tiếng thì có thể làm những gì?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.3.mp3" },
+        { "lesson": 18, "id": "18-4", "text": "ベトナムでは できません。日本で、何することができますか。", "viText": "Điều gì không thể làm ở Việt Nam nhưng có thể làm ở Nhật Bản?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.4.mp3" },
         { "lesson": 18, "id": "18-5", "text": "あなたは<ruby>何<rt>なに</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>ですか。<ruby>何<rt>なに</rt></ruby>をすることができますか。<ruby>教<rt>おし</rt></ruby>えてください。", "viText": "Bạn 〇〇 giỏi điều gì? Có thể làm được điều gì? Hãy kể cho tôi.", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.5.mp3" },
         { "lesson": 18, "id": "18-6a", "text": "<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>読<rt>よ</rt></ruby>む / <ruby>書<rt>か</rt></ruby>く  ことができますか。いくつ / どのぐらい<ruby>読<rt>よ</rt></ruby>むこと / <ruby>書<rt>か</rt></ruby>く こと ができますか。", "viText": "Bạn có thể đọc / viết được chữ Hán (Kanji) không? Tầm khoảng bao nhiêu chữ?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.6a.mp3" },
         { "lesson": 18, "id": "18-6b", "text": "<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>読<rt>よ</rt></ruby>む / <ruby>書<rt>か</rt></ruby>く  ことができますか。いくつ / どのぐらい<ruby>読<rt>よ</rt></ruby>むこと / <ruby>書<rt>か</rt></ruby>く こと ができますか。", "viText": "Bạn có thể đọc / viết được chữ Hán (Kanji) không? Tầm khoảng bao nhiêu chữ?", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/18.6b.mp3" },
@@ -473,7 +473,7 @@
     {
         "lesson": 27,
         "id": "27-2",
-        "text": "<ruby>何<rt>なに</rt></ruby>かスポーツが<ruby>出来<rt>でき</rt></ruby>ますか。 どんなスポーツが<ruby>出来ま<rt>できま</rt></ruby>すか。（※「～ができます。」/「<ruby>得意<rt>とくい</rt></ruby>です。」） ",
+        "text": "<ruby>何<rt>なに</rt></ruby>かスポーツが<ruby>出来<rt>でき</rt></ruby>ますか。 どんなスポーツが<ruby>出来<rt>でき</rt></ruby>ますか。（※「～ができます。」/「<ruby>得意<rt>とくい</rt></ruby>です。」） ",
         "viText": "Bạn có thể chơi bất kỳ môn thể thao nào không? Bạn có thể chơi loại thể thao nào? (※ \"Tôi có thể làm ~.\" / \"Tôi giỏi về nó.\" ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/27.2.mp3"
     },
@@ -550,84 +550,84 @@
     {
         "lesson": 28,
         "id": "28-1",
-        "text": "<ruby>日本<rt>にほん</rt></ruby>の<ruby>交通<rt>こうつう</rt></ruby>ルールではスマホを<ruby>使い<rt>つかい</rt></ruby>ながら<ruby>自転車<rt>じてんしゃ</rt></ruby>に<ruby>乗って<rt>のって</rt></ruby>もいいですか。　（※「いいえ、～ながら～してはいけません。」）",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>の<ruby>交通<rt>こうつう</rt></ruby>ルールではスマホを<ruby>使<rt>つか</rt></ruby>いながら<ruby>自転車<rt>じてんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>ってもいいですか。　（※「いいえ、～ながら～してはいけません。」）",
         "viText": "Theo quy tắc giao thông Nhật Bản, vừa đi xe đạp vừa sử dụng điện thoại thông minh có sao không?　(※ \"Không, đừng làm ~trong khi ~\".)",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.1.mp3"
     },
     {
         "lesson": 28,
         "id": "28-2",
-        "text": "<ruby>何を<rt>なにを</rt></ruby>しながら<ruby>歩く<rt>あるく</rt></ruby>と、<ruby>危ない<rt>あぶない</rt></ruby>ですか/よくないですか。　（※「スマホを<ruby>使い<rt>つかい</rt></ruby>ながら/<ruby>電話<rt>でんわ</rt></ruby>しながら/タバコを<ruby>吸い<rt>すい</rt></ruby>ながら、<ruby>歩く<rt>あるく</rt></ruby>とよくないです。」）",
+        "text": "<ruby>何<rt>なに</rt></ruby>をしながら<ruby>歩<rt>ある</rt></ruby>くと、<ruby>危<rt>あぶ</rt></ruby>ないですか/よくないですか。　（※「スマホを<ruby>使<rt>つか</rt></ruby>いながら/<ruby>電話<rt>でんわ</rt></ruby>しながら/タバコを<ruby>吸<rt>す</rt></ruby>いながら、<ruby>歩<rt>ある</rt></ruby>くとよくないです。」）",
         "viText": "Đi bộ trong khi làm điều gì đó có nguy hiểm hay xấu?　(※ \"Đi bộ trong khi sử dụng điện thoại thông minh, điện thoại hoặc hút thuốc lá là không tốt.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.2.mp3"
     },
     {
         "lesson": 28,
         "id": "28-3",
-        "text": "<ruby>先生<rt>せんせい</rt></ruby>や<ruby>上司<rt>じょうし</rt></ruby>の<ruby>話<rt>はなし</rt></ruby>を<ruby>聞く<rt>きく</rt></ruby><ruby>時<rt>とき</rt></ruby>、<ruby>何を<rt>なにを</rt></ruby>しながら<ruby>聞く<rt>きく</rt></ruby>といいですか。　（※「メモをしながら<ruby>聞く<rt>きく</rt></ruby>といいです。」）",
+        "text": "<ruby>先生<rt>せんせい</rt></ruby>や<ruby>上司<rt>じょうし</rt></ruby>の<ruby>話<rt>はなし</rt></ruby>を<ruby>聞<rt>き</rt></ruby>く<ruby>時<rt>とき</rt></ruby>、<ruby>何<rt>なに</rt></ruby>をしながら<ruby>聞<rt>き</rt></ruby>くといいですか。　（※「メモをしながら<ruby>聞<rt>き</rt></ruby>くといいです。」）",
         "viText": "Khi lắng nghe giáo viên hoặc người giám sát, bạn nên làm gì trong khi nghe?　(※ \"Thật tốt khi vừa nghe vừa ghi chép.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.3.mp3"
     },
     {
         "lesson": 28,
         "id": "28-4",
-        "text": "<ruby>暇<rt>ひま</rt></ruby>な<ruby>時<rt>とき</rt></ruby>、いつも<ruby>何を<rt>なにを</rt></ruby>していますか。　（※「～ています。」）",
+        "text": "<ruby>暇<rt>ひま</rt></ruby>な<ruby>時<rt>とき</rt></ruby>、いつも<ruby>何<rt>なに</rt></ruby>していますか。　（※「～ています。」）",
         "viText": "Bạn thường làm gì khi có thời gian rảnh?　(※ \"~desu.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.4.mp3"
     },
     {
         "lesson": 28,
         "id": "28-5",
-        "text": "いつも<ruby>何時<rt>なんじ</rt></ruby>に<ruby>起き<rt>おき</rt></ruby>ていますか。　（※「～ています。」）",
+        "text": "いつも<ruby>何時<rt>なんじ</rt></ruby>に<ruby>起<rt>お</rt></ruby>きていますか。　（※「～ています。」）",
         "viText": "Bạn thường thức dậy lúc mấy giờ?　(※ \"~desu.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.5.mp3"
     },
     {
         "lesson": 28,
         "id": "28-5a",
-        "text": "いつもどうやって<ruby>大学<rt>だいがく</rt></ruby>/<ruby>短期大学<rt>たんきだいがく</rt></ruby>へ<ruby>来て<rt>きて</rt></ruby>いますか。　（※「～ています。」）",
+        "text": "いつもどうやって<ruby>大学<rt>だいがく</rt></ruby>/<ruby>短期大学<rt>たんきだいがく</rt></ruby>へ<ruby>来<rt>き</rt></ruby>ていますか。　（※「～ています。」）",
         "viText": "Làm thế nào để bạn thường đến được đại học / cao đẳng cơ sở?　(※ \"~desu.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.5a.mp3"
     },
     {
         "lesson": 28,
         "id": "28-5b",
-        "text": "いつも<ruby>朝ごはん<rt>あさごはん</rt></ruby>に<ruby>何を<rt>なにを</rt></ruby><ruby>食べて<rt>たべて</rt></ruby>いますか。　（※「～ています。」）",
+        "text": "いつも<ruby>朝<rt>あさ</rt></ruby>ごはんに<ruby>何<rt>なに</rt></ruby>を<ruby>食<rt>たべ</rt></ruby>ていますか。　（※「～ています。」）",
         "viText": "Bạn thường ăn gì vào bữa sáng?　(※ \"~desu.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.5b.mp3"
     },
     {
         "lesson": 28,
         "id": "28-6",
-        "text": "<ruby>今<rt>いま</rt></ruby>、ベトナムで<ruby>人気<rt>にんき</rt></ruby>があるベトナム<ruby>人<rt>にん</rt></ruby>や<ruby>日本人<rt>にほんじん</rt></ruby>を<ruby>教え<rt>おしえ</rt></ruby>て。その<ruby>人<rt>にん</rt></ruby>は<ruby>何を<rt>なにを</rt></ruby>している<ruby>人<rt>にん</rt></ruby>？　（※「〇〇さんです。」/「～です。」、「～をしています。」）",
+        "text": "<ruby>今<rt>いま</rt></ruby>、ベトナムで<ruby>人気<rt>にんき</rt></ruby>があるベトナム<ruby>人<rt>じん</rt></ruby>や<ruby>日本人<rt>にほんじん</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えて。その<ruby>人<rt>ひと</rt></ruby>は<ruby>何<rt>なに</rt></ruby>している<ruby>人<rt>ひと</rt></ruby>？　（※「〇〇さんです。」/「～です。」、「～をしています。」）",
         "viText": "Hãy cho tôi biết về những người Việt Nam và Nhật Bản đang nổi tiếng ở Việt Nam hiện nay. Người đó đang làm gì?　(※ \"Đây là Mr. 〇〇.\" / \"~\" \"~\"",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.6.mp3"
     },
     {
         "lesson": 28,
         "id": "28-7",
-        "text": "その<ruby>人<rt>にん</rt></ruby>は、どうして<ruby>人気<rt>にんき</rt></ruby>があるの？　※（「その<ruby>人<rt>にん</rt></ruby>は、〜し、〜し、それで、<ruby>人気<rt>にんき</rt></ruby>があります。」）",
+        "text": "その<ruby>人<rt>ひと</rt></ruby>は、どうして<ruby>人気<rt>にんき</rt></ruby>があるの？　※（「その<ruby>人<rt>ひと</rt></ruby>は、〜し、〜し、それで、<ruby>人気<rt>にんき</rt></ruby>があります。」）",
         "viText": "Tại sao người đó lại nổi tiếng như vậy?　※ (\"Người đó là, và vì điều đó, anh ấy nổi tiếng.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.7.mp3"
     },
     {
         "lesson": 28,
         "id": "28-8",
-        "text": "あなたが、よくごはんを<ruby>食べ<rt>たべ</rt></ruby>に<ruby>行く<rt>いく</rt></ruby><ruby>店<rt>みせ</rt></ruby>はどこ？　どうしてそこによく<ruby>行く<rt>いく</rt></ruby>の？",
+        "text": "あなたが、よくごはんを<ruby>食<rt>た</rt></ruby>べに<ruby>行<rt>い</rt></ruby>く<ruby>店<rt>みせ</rt></ruby>はどこ？　どうしてそこによく<ruby>行<rt>い</rt></ruby>くの？",
         "viText": "Bạn thường đi ăn ở đâu tại nhà hàng?　Tại sao bạn đến đó thường xuyên?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.8.mp3"
     },
     {
         "lesson": 28,
         "id": "28-9",
-        "text": "<ruby>日本<rt>にほん</rt></ruby>のアニメで<ruby>何<rt>なに</rt></ruby>が<ruby>好き<rt>すき</rt></ruby>？　どうしてそのアニメが<ruby>好き<rt>すき</rt></ruby>なの？",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>のアニメで<ruby>何<rt>なに</rt></ruby>が<ruby>好<rt>す</rt></ruby>？　どうしてそのアニメが<ruby>好<rt>す</rt></ruby>きなの？",
         "viText": "Bạn thích điều gì ở anime Nhật Bản?　Tại sao bạn thích anime đó?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.9.mp3"
     },
     {
         "lesson": 28,
         "id": "28-10",
-        "text": "あなたは<ruby>誰が<rt>だれが</rt></ruby><ruby>一番好き<rt>いちばんすき</rt></ruby>？　どうしてその<ruby>人<rt>にん</rt></ruby>が<ruby>好き<rt>すき</rt></ruby>なの？",
+        "text": "あなたは<ruby>誰<rt>だれ</rt></ruby><ruby>が一番<rt>いちばん</rt></ruby><ruby>好<rt>す</rt></ruby>き？　どうしてその<ruby>人<rt>ひと</rt></ruby>が<ruby>好<rt>す</rt></ruby>きなの？",
         "viText": "Bạn thích ai nhất?　Tại sao bạn thích người đó?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.10.mp3"
     },
@@ -676,7 +676,7 @@
     {
         "lesson": 29,
         "id": "29-5",
-        "text": "コーヒーです。<ruby>取り<rt>とり</rt></ruby><ruby>替え<rt>かえ</rt></ruby>たいです。<ruby>何と<rt>なんと</rt></ruby><ruby>言い<rt>いい</rt></ruby>ますか。　（※「～ていますから、<ruby>取り<rt>とり</rt></ruby>かえてください。」）",
+        "text": "コーヒーです。<ruby>取り<rt>とり</rt></ruby><ruby>替え<rt>かえ</rt></ruby>たいです。<ruby>何と<rt>なんと</rt></ruby><ruby>言<rt>いい</rt></ruby>ますか。　（※「～ていますから、<ruby>取り<rt>とり</rt></ruby>かえてください。」）",
         "viText": "Đó là cà phê. Tôi muốn thay thế nó. Tôi nên đặt nó như thế nào?　(※ \"~, vì vậy vui lòng thay thế nó.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/29.5.mp3"
     },
@@ -697,14 +697,14 @@
     {
         "lesson": 29,
         "id": "29-9",
-        "text": "<ruby>他の<rt>ほかの</rt></ruby><ruby>人<rt>にん</rt></ruby>の<ruby>物<rt>もの</rt></ruby>を<ruby>壊し<rt>こわし</rt></ruby>てしまいました。<ruby>謝っ<rt>あやまっ</rt></ruby>てください。　（※「○○をこわしてしまいました。」（<ruby>割る<rt>わる</rt></ruby>、<ruby>破る<rt>やぶる</rt></ruby>、<ruby>汚す<rt>よごす</rt></ruby>などもOK））",
+        "text": "<ruby>他の<rt>ほかの</rt></ruby><ruby>人<rt>ひと</rt></ruby>の<ruby>物<rt>もの</rt></ruby>を<ruby>壊し<rt>こわし</rt></ruby>てしまいました。<ruby>謝っ<rt>あやまっ</rt></ruby>てください。　（※「○○をこわしてしまいました。」（<ruby>割る<rt>わる</rt></ruby>、<ruby>破る<rt>やぶる</rt></ruby>、<ruby>汚す<rt>よごす</rt></ruby>などもOK））",
         "viText": "Cuối cùng tôi đã làm hỏng đồ đạc của người khác. Xin lỗi nhé.　(※ \"Tôi đã phá vỡ ○○.\" (Vỡ, rách, bẩn, v.v.)",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/29.9.mp3"
     },
     {
         "lesson": 29,
         "id": "29-10",
-        "text": "<ruby>仕事中<rt>しごとちゅう</rt></ruby>、<ruby>機械<rt>きかい</rt></ruby>が<ruby>止まり<rt>どまり</rt></ruby>ました。<ruby>課長<rt>かちょう</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言い<rt>いい</rt></ruby>ますか。　（※「<ruby>機械<rt>きかい</rt></ruby>が<ruby>止ま<rt>とま</rt></ruby>ってしまいました。どうしたらいいですか。」）",
+        "text": "<ruby>仕事中<rt>しごとちゅう</rt></ruby>、<ruby>機械<rt>きかい</rt></ruby>が<ruby>止まり<rt>どまり</rt></ruby>ました。<ruby>課長<rt>かちょう</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言<rt>いい</rt></ruby>ますか。　（※「<ruby>機械<rt>きかい</rt></ruby>が<ruby>止ま<rt>とま</rt></ruby>ってしまいました。どうしたらいいですか。」）",
         "viText": "Trong quá trình làm việc, máy dừng lại. Bạn sẽ nói gì với trưởng bộ phận?　(※ \"Máy đã dừng. Tôi nên làm gì?\" ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/29.10.mp3"
     },
@@ -760,21 +760,21 @@
     {
         "lesson": 30,
         "id": "30-8",
-        "text": "いつ<ruby>卒業<rt>そつぎょう</rt></ruby>しますか。　<ruby>卒業<rt>そつぎょう</rt></ruby>する<ruby>前<rt>まえ</rt></ruby>に、<ruby>何を<rt>なにを</rt></ruby>しておきたいですか。",
+        "text": "いつ<ruby>卒業<rt>そつぎょう</rt></ruby>しますか。　<ruby>卒業<rt>そつぎょう</rt></ruby>する<ruby>前<rt>まえ</rt></ruby>に、<ruby>何<rt>なに</rt></ruby>しておきたいですか。",
         "viText": "Khi nào bạn sẽ tốt nghiệp?　Bạn muốn làm gì trước khi tốt nghiệp?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/30.8.mp3"
     },
     {
         "lesson": 30,
         "id": "30-9",
-        "text": "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ます。<ruby>旅行<rt>りょこう</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>に、<ruby>何を<rt>なにを</rt></ruby>しておきますか。",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ます。<ruby>旅行<rt>りょこう</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>に、<ruby>何<rt>なに</rt></ruby>しておきますか。",
         "viText": "Tôi sẽ đi du lịch Nhật Bản. Bạn nên làm gì trước chuyến đi của mình?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/30.9.mp3"
     },
     {
         "lesson": 30,
         "id": "30-10",
-        "text": "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>働き<rt>はたらき</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ます。 <ruby>行く<rt>いく</rt></ruby><ruby>前<rt>まえ</rt></ruby>に、どれくらい<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>しておいたらいいと<ruby>思い<rt>おもい</rt></ruby>ますか。（※「〇<ruby>課<rt>か</rt></ruby>まで<ruby>勉強<rt>べんきょう</rt></ruby>して/N5・４を<ruby>取っ<rt>とっ</rt></ruby>て　おいたら/おくと　いいと<ruby>思い<rt>おもい</rt></ruby>ます。」）",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>働き<rt>はたらき</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ます。 <ruby>行<rt>いく</rt></ruby><ruby>前<rt>まえ</rt></ruby>に、どれくらい<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>しておいたらいいと<ruby>思い<rt>おもい</rt></ruby>ますか。（※「〇<ruby>課<rt>か</rt></ruby>まで<ruby>勉強<rt>べんきょう</rt></ruby>して/N5・４を<ruby>取っ<rt>とっ</rt></ruby>て　おいたら/おくと　いいと<ruby>思い<rt>おもい</rt></ruby>ます。」）",
         "viText": "Tôi sẽ đến Nhật Bản để làm việc. Bạn nghĩ mình nên học bao nhiêu tiếng Nhật trước khi đi? (※ \"Học đến Phần X / Nhận N5 và 4 / Nếu bạn có chúng, tôi nghĩ giữ chúng là tốt.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/30.10.mp3"
     },
@@ -788,14 +788,14 @@
     {
         "lesson": 31,
         "id": "31-2",
-        "text": "<ruby>卒業<rt>そつぎょう</rt></ruby>したら、<ruby>何を<rt>なにを</rt></ruby>する<ruby>予定<rt>よてい</rt></ruby>/つもりですか？",
+        "text": "<ruby>卒業<rt>そつぎょう</rt></ruby>したら、<ruby>何<rt>なに</rt></ruby>する<ruby>予定<rt>よてい</rt></ruby>/つもりですか？",
         "viText": "Bạn dự định làm gì sau khi tốt nghiệp?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/31.2.mp3"
     },
     {
         "lesson": 31,
         "id": "31-3a",
-        "text": "Q2の<ruby>答え<rt>こたえ</rt></ruby>：<ruby>日本<rt>にほん</rt></ruby>に<ruby>行く<rt>いく</rt></ruby>：どのぐらい<ruby>日本<rt>にほん</rt></ruby>で<ruby>働こ<rt>はたらこ</rt></ruby>うと<ruby>思って<rt>おもって</rt></ruby>いますか。 <ruby>他の<rt>ほかの</rt></ruby><ruby>答え<rt>こたえ</rt></ruby>：<ruby>日本<rt>にほん</rt></ruby>に<ruby>行こ<rt>いこ</rt></ruby>うと<ruby>思って<rt>おもって</rt></ruby>いますか。",
+        "text": "Q2の<ruby>答え<rt>こたえ</rt></ruby>：<ruby>日本<rt>にほん</rt></ruby>に<ruby>行<rt>いく</rt></ruby>：どのぐらい<ruby>日本<rt>にほん</rt></ruby>で<ruby>働こ<rt>はたらこ</rt></ruby>うと<ruby>思って<rt>おもって</rt></ruby>いますか。 <ruby>他の<rt>ほかの</rt></ruby><ruby>答え<rt>こたえ</rt></ruby>：<ruby>日本<rt>にほん</rt></ruby>に<ruby>行こ<rt>いこ</rt></ruby>うと<ruby>思って<rt>おもって</rt></ruby>いますか。",
         "viText": "Câu trả lời Q2: Đến Nhật Bản: Bạn dự định làm việc tại Nhật Bản trong bao lâu? Một câu trả lời khác: Bạn đang nghĩ đến việc đến Nhật Bản?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/31.3a.mp3"
     },
@@ -816,7 +816,7 @@
     {
         "lesson": 31,
         "id": "31-5",
-        "text": "もし、<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行った<rt>いった</rt></ruby>ら、<ruby>何を<rt>なにを</rt></ruby>しようと<ruby>思って<rt>おもって</rt></ruby>いますか。",
+        "text": "もし、<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行った<rt>いった</rt></ruby>ら、<ruby>何<rt>なに</rt></ruby>しようと<ruby>思って<rt>おもって</rt></ruby>いますか。",
         "viText": "Nếu bạn đến Nhật Bản, bạn sẽ làm gì tiếp theo?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/31.5.mp3"
     },
@@ -865,14 +865,14 @@
     {
         "lesson": 32,
         "id": "32-1",
-        "text": "のどが<ruby>痛い<rt>いたい</rt></ruby><ruby>時<rt>とき</rt></ruby>、<ruby>冷たい<rt>つめたい</rt></ruby><ruby>水<rt>みず</rt></ruby>を<ruby>飲ん<rt>のん</rt></ruby>でもいいですか？/<ruby>辛い<rt>つらい</rt></ruby>ものを<ruby>食べて<rt>たべて</rt></ruby>もいいですか？/<ruby>何を<rt>なにを</rt></ruby>したほうが いいですか？　（※「いいえ、(～<ruby>時<rt>とき</rt></ruby>)～ないほうがいいです。」）",
+        "text": "のどが<ruby>痛い<rt>いたい</rt></ruby><ruby>時<rt>とき</rt></ruby>、<ruby>冷たい<rt>つめたい</rt></ruby><ruby>水<rt>みず</rt></ruby>を<ruby>飲ん<rt>のん</rt></ruby>でもいいですか？/<ruby>辛い<rt>つらい</rt></ruby>ものを<ruby>食<rt>たべて</rt></ruby>もいいですか？/<ruby>何<rt>なに</rt></ruby>したほうが いいですか？　（※「いいえ、(～<ruby>時<rt>とき</rt></ruby>)～ないほうがいいです。」）",
         "viText": "Uống nước lạnh khi đau họng có sao không? /Tôi ăn cay có sao không? /Tôi nên làm gì?　(※ \"Không, tốt hơn hết là không nên có (~thời gian)~.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/32.1.mp3"
     },
     {
         "lesson": 32,
         "id": "32-2",
-        "text": "<ruby>風邪<rt>かぜ</rt></ruby>をひいた<ruby>時<rt>とき</rt></ruby>、①<ruby>何を<rt>なにを</rt></ruby>しない<ruby>方が<rt>ほうが</rt></ruby>いい？/②シャワーを<ruby>浴び<rt>あび</rt></ruby>てもいい？/③<ruby>運動<rt>うんどう</rt></ruby>しない<ruby>方が<rt>ほうが</rt></ruby>いい？",
+        "text": "<ruby>風邪<rt>かぜ</rt></ruby>をひいた<ruby>時<rt>とき</rt></ruby>、①<ruby>何<rt>なに</rt></ruby>しない<ruby>方が<rt>ほうが</rt></ruby>いい？/②シャワーを<ruby>浴び<rt>あび</rt></ruby>てもいい？/③<ruby>運動<rt>うんどう</rt></ruby>しない<ruby>方が<rt>ほうが</rt></ruby>いい？",
         "viText": "Khi bị cảm lạnh, (1) Bạn nên tránh điều gì? /(2) Tắm có sao không? /(3) Tôi có nên tránh tập thể dục không?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/32.2.mp3"
     },
@@ -997,7 +997,7 @@
     {
         "lesson": 33,
         "id": "33-10",
-        "text": "これをあの<ruby>人<rt>にん</rt></ruby>(その<ruby>教室<rt>きょうしつ</rt></ruby>にいる<ruby>人<rt>にん</rt></ruby>/<ruby>画面<rt>がめん</rt></ruby>にいる<ruby>人<rt>にん</rt></ruby>)に<ruby>伝え<rt>つたえ</rt></ruby>ていただけませんか。（※「○○さん、＊＊<ruby>先生<rt>せんせい</rt></ruby>が～と<ruby>言って<rt>いって</rt></ruby>いました。」）",
+        "text": "これをあの<ruby>人<rt>ひと</rt></ruby>(その<ruby>教室<rt>きょうしつ</rt></ruby>にいる<ruby>人<rt>ひと</rt></ruby>/<ruby>画面<rt>がめん</rt></ruby>にいる<ruby>人<rt>ひと</rt></ruby>)に<ruby>伝え<rt>つたえ</rt></ruby>ていただけませんか。（※「○○さん、＊＊<ruby>先生<rt>せんせい</rt></ruby>が～と<ruby>言って<rt>いって</rt></ruby>いました。」）",
         "viText": "Bạn có thể vui lòng truyền đạt điều này cho người đó (người trong lớp học hoặc người trên màn hình) không? (*\"Ông ○○, **Giáo viên nói ~.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/33.10.mp3",
         "imageUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/33.10..jpg"
@@ -1005,7 +1005,7 @@
     {
         "lesson": 34,
         "id": "34-1",
-        "text": "<ruby>出か<rt>でか</rt></ruby>ける<ruby>時<rt>とき</rt></ruby>、いつも  <ruby>何を<rt>なにを</rt></ruby><ruby>持っ<rt>もっ</rt></ruby>て　<ruby>出か<rt>でか</rt></ruby>けますか。",
+        "text": "<ruby>出か<rt>でか</rt></ruby>ける<ruby>時<rt>とき</rt></ruby>、いつも  <ruby>何<rt>なに</rt></ruby><ruby>持っ<rt>もっ</rt></ruby>て　<ruby>出か<rt>でか</rt></ruby>けますか。",
         "viText": "Bạn luôn mang theo những gì khi ra ngoài?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/34.1.mp3"
     },
@@ -1033,7 +1033,7 @@
     {
         "lesson": 34,
         "id": "34-4",
-        "text": "あなたは、<ruby>寿司<rt>すし</rt></ruby>/<ruby>刺身<rt>さしみ</rt></ruby>/マンゴー/<ruby>西瓜<rt>すいか</rt></ruby>　に、　<ruby>何を<rt>なにを</rt></ruby>つけて<ruby>食べ<rt>たべ</rt></ruby>ますか。",
+        "text": "あなたは、<ruby>寿司<rt>すし</rt></ruby>/<ruby>刺身<rt>さしみ</rt></ruby>/マンゴー/<ruby>西瓜<rt>すいか</rt></ruby>　に、　<ruby>何<rt>なに</rt></ruby>つけて<ruby>食<rt>たべ</rt></ruby>ますか。",
         "viText": "Bạn sẽ nhúng gì vào sushi, sashimi, xoài hoặc dưa hấu?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/34.4.mp3"
     },
@@ -1082,7 +1082,7 @@
     {
         "lesson": 35,
         "id": "35-1",
-        "text": "<ruby>何を<rt>なにを</rt></ruby>すれば、<ruby>会話<rt>かいわ</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になると<ruby>思い<rt>おもい</rt></ruby>ますか。",
+        "text": "<ruby>何<rt>なに</rt></ruby>すれば、<ruby>会話<rt>かいわ</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>になると<ruby>思い<rt>おもい</rt></ruby>ますか。",
         "viText": "Em nghĩ mình nên làm gì để trở nên giỏi hơn trong cuộc trò chuyện?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/35.1.mp3"
     },
@@ -1117,7 +1117,7 @@
     {
         "lesson": 35,
         "id": "35-5b",
-        "text": "<ruby>誰が<rt>だれが</rt></ruby>いれば　<ruby>幸せ<rt>しあわせ</rt></ruby>ですか。",
+        "text": "<ruby>誰<rt>だれが</rt></ruby>いれば　<ruby>幸せ<rt>しあわせ</rt></ruby>ですか。",
         "viText": "Ai sẽ hạnh phúc nếu bạn có nó?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/35.5b.mp3"
     },
@@ -1152,14 +1152,14 @@
     {
         "lesson": 35,
         "id": "35-10a",
-        "text": "ベトナムを<ruby>旅行<rt>りょこう</rt></ruby>します。どこへ<ruby>行って<rt>いって</rt></ruby><ruby>何を<rt>なにを</rt></ruby><ruby>食べ<rt>たべ</rt></ruby>ればいいですか。<ruby>教え<rt>おしえ</rt></ruby>てください。　（※「Aなら～/Bなら～。」（２つ<ruby>答え<rt>こたえ</rt></ruby>る））",
+        "text": "ベトナムを<ruby>旅行<rt>りょこう</rt></ruby>します。どこへ<ruby>行って<rt>いって</rt></ruby><ruby>何<rt>なに</rt></ruby><ruby>食<rt>たべ</rt></ruby>ればいいですか。<ruby>教<rt>おしえ</rt></ruby>てください。　（※「Aなら～/Bなら～。」（２つ<ruby>答え<rt>こたえ</rt></ruby>る））",
         "viText": "Du lịch tại Việt Nam. Bạn nên đi đâu và nên ăn gì? Xin hãy cho tôi biết.　(※ \"Nếu là A~/Nếu là B~.\" (Câu trả lời hai))",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/35.10a.mp3"
     },
     {
         "lesson": 35,
         "id": "35-10a",
-        "text": "ベトナムを<ruby>旅行<rt>りょこう</rt></ruby>します。どこへ<ruby>行って<rt>いって</rt></ruby><ruby>何を<rt>なにを</rt></ruby><ruby>見れ<rt>みれ</rt></ruby>ばいいですか。<ruby>教え<rt>おしえ</rt></ruby>てください。　（※「Aなら～/Bなら～。」（２つ<ruby>答え<rt>こたえ</rt></ruby>る））",
+        "text": "ベトナムを<ruby>旅行<rt>りょこう</rt></ruby>します。どこへ<ruby>行って<rt>いって</rt></ruby><ruby>何<rt>なに</rt></ruby><ruby>見れ<rt>みれ</rt></ruby>ばいいですか。<ruby>教<rt>おしえ</rt></ruby>てください。　（※「Aなら～/Bなら～。」（２つ<ruby>答え<rt>こたえ</rt></ruby>る））",
         "viText": "Du lịch tại Việt Nam. Bạn nên đi đâu và bạn nên xem gì? Xin hãy cho tôi biết.　(※ \"Nếu là A~/Nếu là B~.\" (Câu trả lời hai))",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/35.10a.mp3"
     },
@@ -1243,7 +1243,7 @@
     {
         "lesson": 37,
         "id": "37-1",
-        "text": "<ruby>両親<rt>りょうしん</rt></ruby>に<ruby>叱ら<rt>しから</rt></ruby>れたことがありますか。　<ruby>何を<rt>なにを</rt></ruby>して <ruby>叱ら<rt>しから</rt></ruby>れましたか。",
+        "text": "<ruby>両親<rt>りょうしん</rt></ruby>に<ruby>叱ら<rt>しから</rt></ruby>れたことがありますか。　<ruby>何<rt>なに</rt></ruby>して <ruby>叱ら<rt>しから</rt></ruby>れましたか。",
         "viText": "Bạn đã bao giờ bị cha mẹ mắng chưa?　Bạn đã làm gì và bị mắng?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/37.1.mp3"
     },
@@ -1264,14 +1264,14 @@
     {
         "lesson": 37,
         "id": "37-4",
-        "text": "<ruby>友達<rt>ともだち</rt></ruby>に　<ruby>何を<rt>なにを</rt></ruby>されたら、<ruby>困り<rt>こまり</rt></ruby>ますか。/<ruby>嫌で<rt>いやで</rt></ruby>すか。　（※「バイクを<ruby>壊さ<rt>こわさ</rt></ruby>れたら / <ruby>服<rt>ふく</rt></ruby>を<ruby>汚さ<rt>よごさ</rt></ruby>れたら / <ruby>殴ら<rt>なぐら</rt></ruby>れたら / ・・・。」）",
+        "text": "<ruby>友達<rt>ともだち</rt></ruby>に　<ruby>何<rt>なに</rt></ruby>されたら、<ruby>困り<rt>こまり</rt></ruby>ますか。/<ruby>嫌で<rt>いやで</rt></ruby>すか。　（※「バイクを<ruby>壊さ<rt>こわさ</rt></ruby>れたら / <ruby>服<rt>ふく</rt></ruby>を<ruby>汚さ<rt>よごさ</rt></ruby>れたら / <ruby>殴ら<rt>なぐら</rt></ruby>れたら / ・・・。」）",
         "viText": "Bạn sẽ gặp rắc rối gì nếu bạn bè làm điều gì đó với bạn? /Bạn không thích nó?　(※ \"Nếu xe đạp của bạn bị hỏng / Nếu quần áo của bạn bị bẩn / Nếu bạn bị va chạm / ...\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/37.4.mp3"
     },
     {
         "lesson": 37,
         "id": "37-5",
-        "text": "<ruby>友達<rt>ともだち</rt></ruby>が<ruby>何を<rt>なにを</rt></ruby>してくれたら、<ruby>嬉しい<rt>うれしい</rt></ruby>ですか。　（※「<ruby>一緒に<rt>いっしょに</rt></ruby><ruby>遊んで<rt>あそんで</rt></ruby>くれたら / <ruby>料理<rt>りょうり</rt></ruby>を<ruby>作っ<rt>つくっ</rt></ruby>てくれたら・・・。」）",
+        "text": "<ruby>友達<rt>ともだち</rt></ruby>が<ruby>何<rt>なに</rt></ruby>してくれたら、<ruby>嬉しい<rt>うれしい</rt></ruby>ですか。　（※「<ruby>一緒に<rt>いっしょに</rt></ruby><ruby>遊んで<rt>あそんで</rt></ruby>くれたら / <ruby>料理<rt>りょうり</rt></ruby>を<ruby>作っ<rt>つくっ</rt></ruby>てくれたら・・・。」）",
         "viText": "Điều gì sẽ khiến bạn hạnh phúc nếu bạn bè của bạn làm điều đó cho bạn?　(※ \"Nếu bạn chơi với tôi / Nếu bạn nấu ăn cho tôi...\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/37.5.mp3"
     },
@@ -1299,7 +1299,7 @@
     {
         "lesson": 37,
         "id": "37-9",
-        "text": "ベトナムでは フォーを<ruby>食べ<rt>たべ</rt></ruby>るね。フォーは <ruby>何か<rt>なにか</rt></ruby>ら　<ruby>作ら<rt>つくら</rt></ruby>れているの？",
+        "text": "ベトナムでは フォーを<ruby>食<rt>たべ</rt></ruby>るね。フォーは <ruby>何か<rt>なにか</rt></ruby>ら　<ruby>作ら<rt>つくら</rt></ruby>れているの？",
         "viText": "Ở Việt Nam, chúng ta ăn phở. Phở được làm từ gì?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/37.9.mp3"
     },
@@ -1313,14 +1313,14 @@
     {
         "lesson": 38,
         "id": "38-1a",
-        "text": "（２<ruby>問<rt>とん</rt></ruby>）サッカーをするのが<ruby>好き<rt>すき</rt></ruby>ですか。<ruby>見る<rt>みる</rt></ruby>のが<ruby>好き<rt>すき</rt></ruby>ですか。\n。",
+        "text": "（２<ruby>問<rt>とん</rt></ruby>）サッカーをするのが<ruby>好<rt>す</rt></ruby>ですか。<ruby>見る<rt>みる</rt></ruby>のが<ruby>好<rt>す</rt></ruby>ですか。\n。",
         "viText": "(Câu hỏi 2) Bạn có thích chơi bóng đá không? Bạn có thích xem không?\n",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/38.1a.mp3"
     },
     {
         "lesson": 38,
         "id": "38-1b",
-        "text": "（２<ruby>問<rt>とん</rt></ruby>）<ruby>歌を<rt>うたを</rt></ruby><ruby>歌う<rt>うたう</rt></ruby>のが/<ruby>歌を<rt>うたを</rt></ruby><ruby>聴く<rt>きく</rt></ruby>のが/<ruby>絵<rt>え</rt></ruby>を<ruby>見る<rt>みる</rt></ruby>のが/<ruby>絵<rt>え</rt></ruby>を<ruby>描く<rt>えがく</rt></ruby>のが/ダンスをするのが/…<ruby>好き<rt>すき</rt></ruby>ですか。\n。",
+        "text": "（２<ruby>問<rt>とん</rt></ruby>）<ruby>歌を<rt>うたを</rt></ruby><ruby>歌う<rt>うたう</rt></ruby>のが/<ruby>歌を<rt>うたを</rt></ruby><ruby>聴く<rt>きく</rt></ruby>のが/<ruby>絵<rt>え</rt></ruby>を<ruby>見る<rt>みる</rt></ruby>のが/<ruby>絵<rt>え</rt></ruby>を<ruby>描く<rt>えがく</rt></ruby>のが/ダンスをするのが/…<ruby>好<rt>す</rt></ruby>ですか。\n。",
         "viText": "(2 câu hỏi) Ca hát / Nghe hát / Ngắm tranh / Vẽ / Nhảy múa / ... Bạn có thích nó không?\n",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/38.1b.mp3"
     },
@@ -1334,35 +1334,35 @@
     {
         "lesson": 38,
         "id": "38-3a",
-        "text": "<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>勉強<rt>べんきょう</rt></ruby>で、<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>書く<rt>かく</rt></ruby>のは<ruby>難しい<rt>むずかしい</rt></ruby>ですか。　<ruby>何を<rt>なにを</rt></ruby>するのは <ruby>難しい<rt>むずかしい</rt></ruby>ですか。 ※（「はい、<ruby>難しい<rt>むずかしい</rt></ruby>です。/<ruby>全部<rt>ぜんぶ</rt></ruby><ruby>難しい<rt>むずかしい</rt></ruby>です。」）",
+        "text": "<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>勉強<rt>べんきょう</rt></ruby>で、<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>書く<rt>かく</rt></ruby>のは<ruby>難しい<rt>むずかしい</rt></ruby>ですか。　<ruby>何<rt>なに</rt></ruby>するのは <ruby>難しい<rt>むずかしい</rt></ruby>ですか。 ※（「はい、<ruby>難しい<rt>むずかしい</rt></ruby>です。/<ruby>全部<rt>ぜんぶ</rt></ruby><ruby>難しい<rt>むずかしい</rt></ruby>です。」）",
         "viText": "Viết kanji khi học tiếng Nhật có khó không?　Điều gì là khó làm? ※(\"Vâng, nó khó. / Mọi thứ đều khó khăn.\" ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/38.3a.mp3"
     },
     {
         "lesson": 38,
         "id": "38-3b",
-        "text": "<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>勉強<rt>べんきょう</rt></ruby>で、<ruby>何を<rt>なにを</rt></ruby>するのは<ruby>難しく<rt>むずかしく</rt></ruby>ないですか。 ※（「<ruby>話す<rt>はなす</rt></ruby>のは<ruby>難しく<rt>むずかしく</rt></ruby>ないです。/<ruby>全部<rt>ぜんぶ</rt></ruby><ruby>難しい<rt>むずかしい</rt></ruby>です。」）",
+        "text": "<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>勉強<rt>べんきょう</rt></ruby>で、<ruby>何<rt>なに</rt></ruby>するのは<ruby>難しく<rt>むずかしく</rt></ruby>ないですか。 ※（「<ruby>話す<rt>はなす</rt></ruby>のは<ruby>難しく<rt>むずかしく</rt></ruby>ないです。/<ruby>全部<rt>ぜんぶ</rt></ruby><ruby>難しい<rt>むずかしい</rt></ruby>です。」）",
         "viText": "Không khó để làm bất cứ điều gì trong học tiếng Nhật? ※(\"Không khó để nói về. / Mọi thứ đều khó khăn.\" ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/38.3b.mp3"
     },
     {
         "lesson": 38,
         "id": "38-4a",
-        "text": "あなたは　<ruby>何を<rt>なにを</rt></ruby>するのが<ruby>早い<rt>はやい</rt></ruby>ですか。",
+        "text": "あなたは　<ruby>何<rt>なに</rt></ruby>するのが<ruby>早い<rt>はやい</rt></ruby>ですか。",
         "viText": "Bạn làm gì nhanh?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/38.4a.mp3"
     },
     {
         "lesson": 38,
         "id": "38-4b",
-        "text": "あなたは　<ruby>何を<rt>なにを</rt></ruby>するのが<ruby>遅い<rt>おそい</rt></ruby>ですか。",
+        "text": "あなたは　<ruby>何<rt>なに</rt></ruby>するのが<ruby>遅い<rt>おそい</rt></ruby>ですか。",
         "viText": "Bạn chậm làm gì?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/38.4b.mp3"
     },
     {
         "lesson": 38,
         "id": "38-5",
-        "text": "あなたは  <ruby>何を<rt>なにを</rt></ruby>するのが <ruby>嫌い<rt>きらい</rt></ruby>ですか。",
+        "text": "あなたは  <ruby>何<rt>なに</rt></ruby>するのが <ruby>嫌い<rt>きらい</rt></ruby>ですか。",
         "viText": "Bạn không thích làm gì?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/38.5.mp3"
     },
@@ -1390,14 +1390,14 @@
     {
         "lesson": 38,
         "id": "38-9",
-        "text": "<ruby>今<rt>いま</rt></ruby>、あなたが<ruby>一番<rt>いちばん</rt></ruby><ruby>欲しい<rt>ほしい</rt></ruby>もの、<ruby>二番目<rt>にばんめ</rt></ruby>に<ruby>欲しい<rt>ほしい</rt></ruby>ものを<ruby>教え<rt>おしえ</rt></ruby>て。　（※「<ruby>一番<rt>いちばん</rt></ruby><ruby>欲しい<rt>ほしい</rt></ruby>のは●です。<ruby>二番目<rt>にばんめ</rt></ruby>に<ruby>欲しい<rt>ほしい</rt></ruby>のは▲です。」）",
+        "text": "<ruby>今<rt>いま</rt></ruby>、あなたが<ruby>一番<rt>いちばん</rt></ruby><ruby>欲しい<rt>ほしい</rt></ruby>もの、<ruby>二番目<rt>にばんめ</rt></ruby>に<ruby>欲しい<rt>ほしい</rt></ruby>ものを<ruby>教<rt>おしえ</rt></ruby>て。　（※「<ruby>一番<rt>いちばん</rt></ruby><ruby>欲しい<rt>ほしい</rt></ruby>のは●です。<ruby>二番目<rt>にばんめ</rt></ruby>に<ruby>欲しい<rt>ほしい</rt></ruby>のは▲です。」）",
         "viText": "Bây giờ, hãy nói cho tôi biết bạn muốn gì nhất, và thứ hai bạn muốn gì.　(※ \"Mong muốn nhất là ●. Mong muốn thứ hai là ▲.\" ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/38.9.mp3"
     },
     {
         "lesson": 38,
         "id": "38-10",
-        "text": "<ruby>今<rt>いま</rt></ruby>、<ruby>何を<rt>なにを</rt></ruby>するのが<ruby>楽しみ<rt>たのしみ</rt></ruby>？　（※「～のが<ruby>楽しみ<rt>たのしみ</rt></ruby>です。」）",
+        "text": "<ruby>今<rt>いま</rt></ruby>、<ruby>何<rt>なに</rt></ruby>するのが<ruby>楽しみ<rt>たのしみ</rt></ruby>？　（※「～のが<ruby>楽しみ<rt>たのしみ</rt></ruby>です。」）",
         "viText": "Bạn mong muốn làm gì bây giờ?　(※ \"Tôi đang mong đợi ~ một.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/38.10.mp3"
     },
@@ -1439,7 +1439,7 @@
     {
         "lesson": 39,
         "id": "39-6",
-        "text": "<ruby>事故<rt>じこ</rt></ruby>がありました。<ruby>会社<rt>かいしゃ</rt></ruby>に/<ruby>学校<rt>がっこう</rt></ruby>に<ruby>遅れ<rt>おくれ</rt></ruby>ました。<ruby>何と<rt>なんと</rt></ruby>いいますか。（※「『<ruby>事故<rt>じこ</rt></ruby>で/<ruby>事故<rt>じこ</rt></ruby>があって、<ruby>遅れ<rt>おくれ</rt></ruby>ました。すみません。』と<ruby>言い<rt>いい</rt></ruby>ます。」）",
+        "text": "<ruby>事故<rt>じこ</rt></ruby>がありました。<ruby>会社<rt>かいしゃ</rt></ruby>に/<ruby>学校<rt>がっこう</rt></ruby>に<ruby>遅れ<rt>おくれ</rt></ruby>ました。<ruby>何と<rt>なんと</rt></ruby>いいますか。（※「『<ruby>事故<rt>じこ</rt></ruby>で/<ruby>事故<rt>じこ</rt></ruby>があって、<ruby>遅れ<rt>おくれ</rt></ruby>ました。すみません。』と<ruby>言<rt>いい</rt></ruby>ます。」）",
         "viText": "Có một tai nạn. Tôi đã đi làm / đi học muộn. Tôi nên đặt nó như thế nào? (※ \"'Do tai nạn / Đã xảy ra tai nạn và tôi đã đến muộn. Xin lỗi.') anh ấy nói. ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/39.6.mp3"
     },
@@ -1460,7 +1460,7 @@
     {
         "lesson": 39,
         "id": "39-9",
-        "text": "<ruby>大学<rt>だいがく</rt></ruby>/<ruby>短期大学<rt>たんきだいがく</rt></ruby>で、ケガをした<ruby>人<rt>にん</rt></ruby>がいます。　<ruby>誰か<rt>だれか</rt></ruby>を<ruby>呼ん<rt>よん</rt></ruby>でください。　（※「○○さんがケガをした/ケガをた<ruby>人<rt>にん</rt></ruby>がいる　ので、<ruby>来て<rt>きて</rt></ruby>ください。」）",
+        "text": "<ruby>大学<rt>だいがく</rt></ruby>/<ruby>短期大学<rt>たんきだいがく</rt></ruby>で、ケガをした<ruby>人<rt>ひと</rt></ruby>がいます。　<ruby>誰か<rt>だれか</rt></ruby>を<ruby>呼ん<rt>よん</rt></ruby>でください。　（※「○○さんがケガをした/ケガをた<ruby>人<rt>ひと</rt></ruby>がいる　ので、<ruby>来<rt>きて</rt></ruby>ください。」）",
         "viText": "Có một người đã bị thương tại một trường đại học hoặc cao đẳng cơ sở.　Gọi cho ai đó.　(※ \"Ông ○○ bị thương / Có người bị thương, vì vậy hãy đến.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/39.9.mp3"
     },
@@ -1474,56 +1474,56 @@
     {
         "lesson": 40,
         "id": "40-1",
-        "text": "スイッチ/<ruby>電源<rt>でんげん</rt></ruby>　がどこにあるかわかりません。<ruby>聞い<rt>きい</rt></ruby>てください。（※「～か、<ruby>教え<rt>おしえ</rt></ruby>てください。」）",
+        "text": "スイッチ/<ruby>電源<rt>でんげん</rt></ruby>　がどこにあるかわかりません。<ruby>聞い<rt>きい</rt></ruby>てください。（※「～か、<ruby>教<rt>おしえ</rt></ruby>てください。」）",
         "viText": "Tôi không biết công tắc / nguồn điện ở đâu. Lắng nghe. (※ \"~ka, xin hãy nói cho tôi biết.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/40.1.mp3"
     },
     {
         "lesson": 40,
         "id": "40-2",
-        "text": "１つ<ruby>仕事<rt>しごと</rt></ruby>が<ruby>終わり<rt>おわり</rt></ruby>ました。<ruby>次<rt>つぎ</rt></ruby>は<ruby>何を<rt>なにを</rt></ruby>したらいいですか。わかりません。<ruby>聞い<rt>きい</rt></ruby>てください。　（※「<ruby>次<rt>つぎ</rt></ruby>は<ruby>何を<rt>なにを</rt></ruby>したらいいか/すればいいか、<ruby>教え<rt>おしえ</rt></ruby>てください。」）",
+        "text": "１つ<ruby>仕事<rt>しごと</rt></ruby>が<ruby>終わり<rt>おわり</rt></ruby>ました。<ruby>次<rt>つぎ</rt></ruby>は<ruby>何<rt>なに</rt></ruby>したらいいですか。わかりません。<ruby>聞い<rt>きい</rt></ruby>てください。　（※「<ruby>次<rt>つぎ</rt></ruby>は<ruby>何<rt>なに</rt></ruby>したらいいか/すればいいか、<ruby>教<rt>おしえ</rt></ruby>てください。」）",
         "viText": "Một nhiệm vụ đã được hoàn thành. Tôi nên làm gì tiếp theo? Tôi không biết. Lắng nghe.　(※ \"Tôi nên làm gì tiếp theo/Tôi nên làm gì tiếp theo? Vui lòng cho tôi biết.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/40.2.mp3"
     },
     {
         "lesson": 40,
         "id": "40-3",
-        "text": "<ruby>燃え<rt>もえ</rt></ruby>るゴミは<ruby>何曜日<rt>なんようび</rt></ruby>に<ruby>捨て<rt>すて</rt></ruby>ますか。わかりません。<ruby>聞い<rt>きい</rt></ruby>てください。　（※「～か、<ruby>教え<rt>おしえ</rt></ruby>てください。」）",
+        "text": "<ruby>燃え<rt>もえ</rt></ruby>るゴミは<ruby>何曜日<rt>なんようび</rt></ruby>に<ruby>捨て<rt>すて</rt></ruby>ますか。わかりません。<ruby>聞い<rt>きい</rt></ruby>てください。　（※「～か、<ruby>教<rt>おしえ</rt></ruby>てください。」）",
         "viText": "Bạn vứt rác có thể đốt vào ngày nào? Tôi không biết. Lắng nghe.　(※ \"~ka, xin hãy nói cho tôi biết.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/40.3.mp3"
     },
     {
         "lesson": 40,
         "id": "40-4",
-        "text": "いつも<ruby>出か<rt>でか</rt></ruby>ける<ruby>前<rt>まえ</rt></ruby>に、<ruby>何を<rt>なにを</rt></ruby><ruby>確か<rt>たしか</rt></ruby>めますか。　（※ケータイをもっているかどうか/<ruby>鍵<rt>かぎ</rt></ruby>をかけたかどうか/<ruby>電気<rt>でんき</rt></ruby>を<ruby>消し<rt>けし</rt></ruby>たかどうか・・・。）",
+        "text": "いつも<ruby>出か<rt>でか</rt></ruby>ける<ruby>前<rt>まえ</rt></ruby>に、<ruby>何<rt>なに</rt></ruby><ruby>確か<rt>たしか</rt></ruby>めますか。　（※ケータイをもっているかどうか/<ruby>鍵<rt>かぎ</rt></ruby>をかけたかどうか/<ruby>電気<rt>でんき</rt></ruby>を<ruby>消し<rt>けし</rt></ruby>たかどうか・・・。）",
         "viText": "Bạn luôn kiểm tra những gì trước khi ra ngoài?　(※ Cho dù bạn có điện thoại di động, khóa hay tắt đèn...) ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/40.4.mp3"
     },
     {
         "lesson": 40,
         "id": "40-5",
-        "text": "１０<ruby>年後<rt>ねんご</rt></ruby>、あなたは<ruby>何を<rt>なにを</rt></ruby>していますか。　/どこに<ruby>住ん<rt>すん</rt></ruby>でいますか（※「～かわかりません。」、「～に<ruby>住ん<rt>すん</rt></ruby>でいます。/～をしています。」）",
+        "text": "１０<ruby>年後<rt>ねんご</rt></ruby>、あなたは<ruby>何<rt>なに</rt></ruby>していますか。　/どこに<ruby>住ん<rt>すん</rt></ruby>でいますか（※「～かわかりません。」、「～に<ruby>住ん<rt>すん</rt></ruby>でいます。/～をしています。」）",
         "viText": "Bạn sẽ làm gì trong mười năm tới?　/Bạn sống ở đâu? (※ \"Tôi không biết ~,\" \"Tôi sống ở ~.\" /~. ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/40.5.mp3"
     },
     {
         "lesson": 40,
         "id": "40-6",
-        "text": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>服<rt>ふく</rt></ruby>を<ruby>買う<rt>かう</rt></ruby><ruby>前<rt>まえ</rt></ruby>に、<ruby>服<rt>ふく</rt></ruby>を<ruby>着た<rt>きた</rt></ruby>い<ruby>時<rt>とき</rt></ruby>、<ruby>店<rt>みせ</rt></ruby>の<ruby>人<rt>にん</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言う<rt>いう</rt></ruby>？",
+        "text": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>服<rt>ふく</rt></ruby>を<ruby>買う<rt>かう</rt></ruby><ruby>前<rt>まえ</rt></ruby>に、<ruby>服<rt>ふく</rt></ruby>を<ruby>着た<rt>きた</rt></ruby>い<ruby>時<rt>とき</rt></ruby>、<ruby>店<rt>みせ</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言う<rt>いう</rt></ruby>？",
         "viText": "Trước khi mua quần áo mới, khi muốn mặc, bạn nói gì với nhân viên cửa hàng?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/40.6.mp3"
     },
     {
         "lesson": 40,
         "id": "40-7",
-        "text": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>靴<rt>くつ</rt></ruby>を<ruby>買う<rt>かう</rt></ruby><ruby>前<rt>まえ</rt></ruby>に、<ruby>靴<rt>くつ</rt></ruby>を<ruby>履き<rt>はき</rt></ruby>たい<ruby>時<rt>とき</rt></ruby>、<ruby>店<rt>みせ</rt></ruby>の<ruby>人<rt>にん</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言う<rt>いう</rt></ruby>？",
+        "text": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>靴<rt>くつ</rt></ruby>を<ruby>買う<rt>かう</rt></ruby><ruby>前<rt>まえ</rt></ruby>に、<ruby>靴<rt>くつ</rt></ruby>を<ruby>履き<rt>はき</rt></ruby>たい<ruby>時<rt>とき</rt></ruby>、<ruby>店<rt>みせ</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言う<rt>いう</rt></ruby>？",
         "viText": "Trước khi mua giày mới, khi muốn xỏ vào, bạn nói gì với nhân viên cửa hàng?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/40.7.mp3"
     },
     {
         "lesson": 40,
         "id": "40-8",
-        "text": "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行った<rt>いった</rt></ruby>ら、<ruby>何を<rt>なにを</rt></ruby><ruby>食べて<rt>たべて</rt></ruby>みたい？/<ruby>何を<rt>なにを</rt></ruby>してみたい？",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行った<rt>いった</rt></ruby>ら、<ruby>何<rt>なに</rt></ruby><ruby>食<rt>たべて</rt></ruby>みたい？/<ruby>何<rt>なに</rt></ruby>してみたい？",
         "viText": "Bạn muốn thử gì khi đến thăm Nhật Bản? /Bạn muốn thử gì?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/40.8.mp3"
     },
@@ -1544,7 +1544,7 @@
     {
         "lesson": 41,
         "id": "41-1",
-        "text": "クラスの<ruby>友達<rt>ともだち</rt></ruby>から<ruby>何か<rt>なにか</rt></ruby>もらったことがありますか。<ruby>誰<rt>だれ</rt></ruby>に<ruby>何を<rt>なにを</rt></ruby>もらいましたか。　（※「はい、あります。○さんに●をもらいました。」、「いいえ、ありません。」）",
+        "text": "クラスの<ruby>友達<rt>ともだち</rt></ruby>から<ruby>何か<rt>なにか</rt></ruby>もらったことがありますか。<ruby>誰<rt>だれ</rt></ruby>に<ruby>何<rt>なに</rt></ruby>もらいましたか。　（※「はい、あります。○さんに●をもらいました。」、「いいえ、ありません。」）",
         "viText": "Bạn đã bao giờ nhận được bất cứ điều gì từ các bạn cùng lớp chưa? Ai đã cho tôi những gì tôi nhận được?　(※ \"Vâng, vâng, có. Tôi đã nhận được ● từ ○-san.\" \"Không, không, tôi không.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/41.1.mp3"
     },
@@ -1558,56 +1558,56 @@
     {
         "lesson": 41,
         "id": "41-3",
-        "text": "<ruby>誰が<rt>だれが</rt></ruby><ruby>大学<rt>だいがく</rt></ruby>の<ruby>学費<rt>がくひ</rt></ruby>を<ruby>払っ<rt>はらっ</rt></ruby>てくれますか。　　",
+        "text": "<ruby>誰<rt>だれ</rt></ruby><ruby>が大学<rt>だいがく</rt></ruby>の<ruby>学費<rt>がくひ</rt></ruby>を<ruby>払っ<rt>はらっ</rt></ruby>てくれますか。　　",
         "viText": "Ai trả học phí đại học?　　",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/41.3.mp3"
     },
     {
         "lesson": 41,
         "id": "41-4",
-        "text": "<ruby>今まで<rt>いままで</rt></ruby><ruby>誰が<rt>だれが</rt></ruby><ruby>日本語<rt>にほんご</rt></ruby>を<ruby>教え<rt>おしえ</rt></ruby>てくれましたか。",
+        "text": "<ruby>今まで<rt>いままで</rt></ruby><ruby>誰<rt>だれ</rt></ruby><ruby>が日本語<rt>にほんご</rt></ruby>を<ruby>教<rt>おしえ</rt></ruby>てくれましたか。",
         "viText": "Ai đã dạy bạn tiếng Nhật cho đến bây giờ?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/41.4.mp3"
     },
     {
         "lesson": 41,
         "id": "41-5",
-        "text": "<ruby>先生<rt>せんせい</rt></ruby>にもう<ruby>一度<rt>いちど</rt></ruby><ruby>説明し<rt>せつめいし</rt></ruby>てもらいたい<ruby>時<rt>とき</rt></ruby>、<ruby>何と<rt>なんと</rt></ruby><ruby>言い<rt>いい</rt></ruby>ますか。　（※「～んですが、～くださいませんか。/いただけませんか。」）",
+        "text": "<ruby>先生<rt>せんせい</rt></ruby>にもう<ruby>一度<rt>いちど</rt></ruby><ruby>説明し<rt>せつめいし</rt></ruby>てもらいたい<ruby>時<rt>とき</rt></ruby>、<ruby>何と<rt>なんと</rt></ruby><ruby>言<rt>いい</rt></ruby>ますか。　（※「～んですが、～くださいませんか。/いただけませんか。」）",
         "viText": "Khi bạn muốn giáo viên giải thích lại, bạn sẽ nói gì?　(※ \"~, nhưng, bạn có thể làm ơn ~? / Bạn có thể vui lòng chấp nhận nó không?\" ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/41.5.mp3"
     },
     {
         "lesson": 41,
         "id": "41-6",
-        "text": "<ruby>先生<rt>せんせい</rt></ruby>に<ruby>何を<rt>なにを</rt></ruby><ruby>教え<rt>おしえ</rt></ruby>てもらいたいですか。（<ruby>文法<rt>ぶんぽう</rt></ruby>、<ruby>言葉<rt>ことば</rt></ruby>、<ruby>日本<rt>にほん</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>など）　（※「～いただきたいです。」）",
+        "text": "<ruby>先生<rt>せんせい</rt></ruby>に<ruby>何<rt>なに</rt></ruby><ruby>教<rt>おしえ</rt></ruby>てもらいたいですか。（<ruby>文法<rt>ぶんぽう</rt></ruby>、<ruby>言葉<rt>ことば</rt></ruby>、<ruby>日本<rt>にほん</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>など）　（※「～いただきたいです。」）",
         "viText": "Em muốn giáo viên dạy em điều gì? (Ngữ pháp, ngôn ngữ, văn hóa Nhật Bản, v.v.) (※ \"~Itadakimashisu.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/41.6.mp3"
     },
     {
         "lesson": 41,
         "id": "41-7",
-        "text": "<ruby>漢字<rt>かんじ</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>がわかりません。<ruby>先生<rt>せんせい</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言い<rt>いい</rt></ruby>ますか。　（※「～んですが、～くださいませんか。/いただけませんか。」）",
+        "text": "<ruby>漢字<rt>かんじ</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>がわかりません。<ruby>先生<rt>せんせい</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言<rt>いい</rt></ruby>ますか。　（※「～んですが、～くださいませんか。/いただけませんか。」）",
         "viText": "Tôi không hiểu ý nghĩa của chữ kanji. Bạn sẽ nói gì với giáo viên?　(※ \"~, nhưng, bạn có thể làm ơn ~? / Bạn có thể vui lòng chấp nhận nó không?\" ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/41.7.mp3"
     },
     {
         "lesson": 41,
         "id": "41-8",
-        "text": "<ruby>先生<rt>せんせい</rt></ruby>が<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>説明し<rt>せつめいし</rt></ruby>てくれました。<ruby>何と<rt>なんと</rt></ruby>お<ruby>礼<rt>れい</rt></ruby>を<ruby>言い<rt>いい</rt></ruby>ますか。　（※「～くださって、…。」）",
+        "text": "<ruby>先生<rt>せんせい</rt></ruby>が<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>説明し<rt>せつめいし</rt></ruby>てくれました。<ruby>何と<rt>なんと</rt></ruby>お<ruby>礼<rt>れい</rt></ruby>を<ruby>言<rt>いい</rt></ruby>ますか。　（※「～くださって、…。」）",
         "viText": "Bác sĩ giải thích mọi thứ một cách cẩn thận. Làm thế nào tôi có thể nói lời cảm ơn?　(※ \"~Vui lòng 、...。\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/41.8.mp3"
     },
     {
         "lesson": 41,
         "id": "41-9a",
-        "text": "あなたの<ruby>妹<rt>いもうと</rt></ruby>の<ruby>誕生日<rt>たんじょうび</rt></ruby>です。<ruby>何を<rt>なにを</rt></ruby>してあげたいですか。",
+        "text": "あなたの<ruby>妹<rt>いもうと</rt></ruby>の<ruby>誕生日<rt>たんじょうび</rt></ruby>です。<ruby>何<rt>なに</rt></ruby>してあげたいですか。",
         "viText": "Đó là sinh nhật của em gái bạn. Bạn muốn làm gì cho họ?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/41.9a.mp3"
     },
     {
         "lesson": 41,
         "id": "41-9b",
-        "text": "あなたの<ruby>弟<rt>おとうと</rt></ruby>の<ruby>誕生日<rt>たんじょうび</rt></ruby>です。<ruby>何を<rt>なにを</rt></ruby>してあげたいですか。",
+        "text": "あなたの<ruby>弟<rt>おとうと</rt></ruby>の<ruby>誕生日<rt>たんじょうび</rt></ruby>です。<ruby>何<rt>なに</rt></ruby>してあげたいですか。",
         "viText": "Đó là sinh nhật của anh trai bạn. Bạn muốn làm gì cho họ?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/41.9b.mp3"
     },
@@ -1621,21 +1621,21 @@
     {
         "lesson": 42,
         "id": "42-1",
-        "text": "<ruby>健康<rt>けんこう</rt></ruby>のために、<ruby>何を<rt>なにを</rt></ruby>していますか。",
+        "text": "<ruby>健康<rt>けんこう</rt></ruby>のために、<ruby>何<rt>なに</rt></ruby>していますか。",
         "viText": "Bạn đang làm gì cho sức khỏe của mình?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/42.1.mp3"
     },
     {
         "lesson": 42,
         "id": "42-2a",
-        "text": "<ruby>風邪<rt>かぜ</rt></ruby>をひいた<ruby>時<rt>とき</rt></ruby>、<ruby>早く<rt>はやく</rt></ruby>　<ruby>治す<rt>なおす</rt></ruby>ために、<ruby>何を<rt>なにを</rt></ruby>　したらいいですか。",
+        "text": "<ruby>風邪<rt>かぜ</rt></ruby>をひいた<ruby>時<rt>とき</rt></ruby>、<ruby>早く<rt>はやく</rt></ruby>　<ruby>治す<rt>なおす</rt></ruby>ために、<ruby>何<rt>なに</rt></ruby>　したらいいですか。",
         "viText": "Khi bị cảm lạnh, bạn nên làm gì để nhanh chóng hồi phục?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/42.2a.mp3"
     },
     {
         "lesson": 42,
         "id": "42-2b",
-        "text": "<ruby>好き<rt>すき</rt></ruby>な　<ruby>仕事<rt>しごと</rt></ruby>を　するために、<ruby>何を<rt>なにを</rt></ruby>　したらいいですか。",
+        "text": "<ruby>好<rt>す</rt></ruby>な　<ruby>仕事<rt>しごと</rt></ruby>を　するために、<ruby>何<rt>なに</rt></ruby>　したらいいですか。",
         "viText": "Tôi nên làm gì để làm công việc mình yêu thích?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/42.2b.mp3"
     },
@@ -1663,14 +1663,14 @@
     {
         "lesson": 42,
         "id": "42-6a",
-        "text": "<ruby>都会<rt>とかい</rt></ruby>/（<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>場所<rt>ばしょ</rt></ruby>）は <ruby>何を<rt>なにを</rt></ruby>するのに<ruby>便利<rt>べんり</rt></ruby>な ところだと<ruby>思い<rt>おもい</rt></ruby>ますか。",
+        "text": "<ruby>都会<rt>とかい</rt></ruby>/（<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>場所<rt>ばしょ</rt></ruby>）は <ruby>何<rt>なに</rt></ruby>するのに<ruby>便利<rt>べんり</rt></ruby>な ところだと<ruby>思い<rt>おもい</rt></ruby>ますか。",
         "viText": "Bạn nghĩ điều gì là thuận tiện cho việc làm trong thành phố / (địa điểm nổi tiếng)?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/42.6a.mp3"
     },
     {
         "lesson": 42,
         "id": "42-6b",
-        "text": "<ruby>田舎<rt>いなか</rt></ruby>/（<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>場所<rt>ばしょ</rt></ruby>）は <ruby>何を<rt>なにを</rt></ruby>するのにいい ところだと<ruby>思い<rt>おもい</rt></ruby>ますか。",
+        "text": "<ruby>田舎<rt>いなか</rt></ruby>/（<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>場所<rt>ばしょ</rt></ruby>）は <ruby>何<rt>なに</rt></ruby>するのにいい ところだと<ruby>思い<rt>おもい</rt></ruby>ますか。",
         "viText": "Bạn nghĩ đâu là một nơi tốt để làm ở nông thôn (những địa điểm nổi tiếng)?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/42.6b.mp3"
     },
@@ -1691,14 +1691,14 @@
     {
         "lesson": 42,
         "id": "42-9",
-        "text": "あなたは、いつも<ruby>何を<rt>なにを</rt></ruby>するためにスマホを<ruby>使って<rt>つかって</rt></ruby>いますか。",
+        "text": "あなたは、いつも<ruby>何<rt>なに</rt></ruby>するためにスマホを<ruby>使って<rt>つかって</rt></ruby>いますか。",
         "viText": "Bạn thường sử dụng điện thoại thông minh của mình để làm gì?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/42.9.mp3"
     },
     {
         "lesson": 42,
         "id": "42-10",
-        "text": "スマホはパソコンより<ruby>何を<rt>なにを</rt></ruby>するのに、<ruby>便利<rt>べんり</rt></ruby>ですか。どうしてですか。",
+        "text": "スマホはパソコンより<ruby>何<rt>なに</rt></ruby>するのに、<ruby>便利<rt>べんり</rt></ruby>ですか。どうしてですか。",
         "viText": "Những thứ tiện lợi hơn cho điện thoại thông minh so với máy tính là gì? Tại sao vậy?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/42.10.mp3"
     },
@@ -1726,7 +1726,7 @@
     {
         "lesson": 43,
         "id": "43-4",
-        "text": "この<ruby>人<rt>にん</rt></ruby>を<ruby>見て<rt>みて</rt></ruby>どう<ruby>思い<rt>おもい</rt></ruby>ますか。",
+        "text": "この<ruby>人<rt>ひと</rt></ruby>を<ruby>見て<rt>みて</rt></ruby>どう<ruby>思い<rt>おもい</rt></ruby>ますか。",
         "viText": "Bạn nghĩ gì về người này?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/43.4.mp3",
         "imageUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/43.4..jpg"
@@ -1734,14 +1734,14 @@
     {
         "lesson": 43,
         "id": "43-5",
-        "text": "（４の<ruby>人<rt>にん</rt></ruby>に）この<ruby>人<rt>にん</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言い<rt>いい</rt></ruby>ますか/<ruby>話し<rt>はなし</rt></ruby>かけますか。　（※「～そうですね。どうしたんですか。」）",
+        "text": "（４の<ruby>人<rt>ひと</rt></ruby>に）この<ruby>人<rt>ひと</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言<rt>いい</rt></ruby>ますか/<ruby>話<rt>はなし</rt></ruby>かけますか。　（※「～そうですね。どうしたんですか。」）",
         "viText": "(Đối với người 4) Bạn sẽ nói gì với người này / nói chuyện với họ?　(※ \"~Đúng vậy. Có chuyện gì vậy?\" ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/43.5.mp3"
     },
     {
         "lesson": 43,
         "id": "43-6",
-        "text": "ベトナムで<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>する<ruby>人<rt>にん</rt></ruby>は、これから<ruby>増え<rt>ふえ</rt></ruby>ますか。<ruby>減り<rt>へり</rt></ruby>ますか。どうなりそうですか。\n。",
+        "text": "ベトナムで<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>する<ruby>人<rt>ひと</rt></ruby>は、これから<ruby>増え<rt>ふえ</rt></ruby>ますか。<ruby>減り<rt>へり</rt></ruby>ますか。どうなりそうですか。\n。",
         "viText": "Số lượng người học tiếng Nhật tại Việt Nam sẽ tăng lên trong tương lai? Nó sẽ giảm? Bạn nghĩ điều gì sẽ xảy ra?\n",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/43.6.mp3"
     },
@@ -1797,7 +1797,7 @@
     {
         "lesson": 44,
         "id": "44-4",
-        "text": "<ruby>聴解<rt>ちょうかい</rt></ruby>の<ruby>授業<rt>じゅぎょう</rt></ruby>で、<ruby>音<rt>おと</rt></ruby>が<ruby>少し<rt>すこし</rt></ruby><ruby>小さい<rt>ちーさい</rt></ruby><ruby>時<rt>とき</rt></ruby>、<ruby>先生<rt>せんせい</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby>　<ruby>言い<rt>いい</rt></ruby>ますか。　　（※「～ので、Aに／Aく していただけませんか。」）",
+        "text": "<ruby>聴解<rt>ちょうかい</rt></ruby>の<ruby>授業<rt>じゅぎょう</rt></ruby>で、<ruby>音<rt>おと</rt></ruby>が<ruby>少し<rt>すこし</rt></ruby><ruby>小さい<rt>ちーさい</rt></ruby><ruby>時<rt>とき</rt></ruby>、<ruby>先生<rt>せんせい</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby>　<ruby>言<rt>いい</rt></ruby>ますか。　　（※「～ので、Aに／Aく していただけませんか。」）",
         "viText": "Trong lớp nghe, khi âm thanh hơi nhỏ, bạn nói gì với giáo viên?　　(※ \"Bạn có thể làm ơn /A-ku đến A, vậy ~?\"",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/44.4.mp3"
     },
@@ -1818,7 +1818,7 @@
     {
         "lesson": 44,
         "id": "44-7",
-        "text": "<ruby>何を<rt>なにを</rt></ruby>しすぎると、<ruby>体<rt>からだ</rt></ruby>によくないと<ruby>思い<rt>おもい</rt></ruby>ますか。",
+        "text": "<ruby>何<rt>なに</rt></ruby>しすぎると、<ruby>体<rt>からだ</rt></ruby>によくないと<ruby>思い<rt>おもい</rt></ruby>ますか。",
         "viText": "Bạn nghĩ điều gì có hại cho cơ thể khi bạn làm quá nhiều?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/44.7.mp3"
     },
@@ -1902,28 +1902,28 @@
     {
         "lesson": 45,
         "id": "45-8a",
-        "text": "<ruby>何を<rt>なにを</rt></ruby><ruby>買う<rt>かう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、<ruby>家族<rt>かぞく</rt></ruby>に<ruby>相談<rt>そうだん</rt></ruby>しますか。（※「〇を<ruby>買う<rt>かう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、<ruby>家族<rt>かぞく</rt></ruby>に<ruby>相談<rt>そうだん</rt></ruby>します。」）",
+        "text": "<ruby>何<rt>なに</rt></ruby><ruby>買う<rt>かう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、<ruby>家族<rt>かぞく</rt></ruby>に<ruby>相談<rt>そうだん</rt></ruby>しますか。（※「〇を<ruby>買う<rt>かう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、<ruby>家族<rt>かぞく</rt></ruby>に<ruby>相談<rt>そうだん</rt></ruby>します。」）",
         "viText": "Khi mua thứ gì đó, bạn có tham khảo ý kiến của gia đình không? (※ \"Nếu bạn muốn mua 〇, hãy tham khảo ý kiến của gia đình bạn.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/45.8a.mp3"
     },
     {
         "lesson": 45,
         "id": "45-8b",
-        "text": "<ruby>何を<rt>なにを</rt></ruby><ruby>買う<rt>かう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、ひとりで<ruby>決め<rt>きめ</rt></ruby>ますか。　（※「〇を<ruby>買う<rt>かう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、ひとりで<ruby>決め<rt>きめ</rt></ruby>ます。」）",
+        "text": "<ruby>何<rt>なに</rt></ruby><ruby>買う<rt>かう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、ひとりで<ruby>決め<rt>きめ</rt></ruby>ますか。　（※「〇を<ruby>買う<rt>かう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、ひとりで<ruby>決め<rt>きめ</rt></ruby>ます。」）",
         "viText": "Khi bạn quyết định mua gì, bạn có tự quyết định không?　(*\"Nếu bạn muốn mua 〇, bạn tự quyết định.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/45.8b.mp3"
     },
     {
         "lesson": 45,
         "id": "45-9",
-        "text": "<ruby>食べた<rt>たべた</rt></ruby>かったものを<ruby>家族<rt>かぞく</rt></ruby>が<ruby>全部<rt>ぜんぶ</rt></ruby><ruby>食べて<rt>たべて</rt></ruby>しまいました。\n。「～のに」を<ruby>使って<rt>つかって</rt></ruby>、<ruby>残念<rt>ざんねん</rt></ruby>な<ruby>気持ち<rt>きもち</rt></ruby>を<ruby>伝え<rt>つたえ</rt></ruby>てください。",
+        "text": "<ruby>食た<rt>たべた</rt></ruby>かったものを<ruby>家族<rt>かぞく</rt></ruby>が<ruby>全部<rt>ぜんぶ</rt></ruby><ruby>食<rt>たべて</rt></ruby>しまいました。\n。「～のに」を<ruby>使って<rt>つかって</rt></ruby>、<ruby>残念<rt>ざんねん</rt></ruby>な<ruby>気持ち<rt>きもち</rt></ruby>を<ruby>伝え<rt>つたえ</rt></ruby>てください。",
         "viText": "Gia đình tôi cuối cùng đã ăn tất cả những gì tôi muốn ăn.\nSử dụng \"~ noni\" để truyền đạt sự hối tiếc của bạn.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/45.9.mp3"
     },
     {
         "lesson": 45,
         "id": "45-10b",
-        "text": "<ruby>高い<rt>たかい</rt></ruby>パソコンを<ruby>買い<rt>かい</rt></ruby>ましたが、すぐ<ruby>壊れ<rt>こわれ</rt></ruby>ました。お<ruby>店<rt>みせ</rt></ruby>の<ruby>人<rt>にん</rt></ruby>に<ruby>文句<rt>もんく</rt></ruby>/クレームを<ruby>言って<rt>いって</rt></ruby>ください。",
+        "text": "<ruby>高い<rt>たかい</rt></ruby>パソコンを<ruby>買い<rt>かい</rt></ruby>ましたが、すぐ<ruby>壊れ<rt>こわれ</rt></ruby>ました。お<ruby>店<rt>みせ</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>に<ruby>文句<rt>もんく</rt></ruby>/クレームを<ruby>言って<rt>いって</rt></ruby>ください。",
         "viText": "Tôi đã mua một chiếc máy tính đắt tiền, nhưng nó bị hỏng nhanh chóng. Vui lòng khiếu nại hoặc khiếu nại với nhân viên.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/45.10b.mp3"
     },
@@ -1944,7 +1944,7 @@
     {
         "lesson": 46,
         "id": "46-3",
-        "text": "<ruby>電話<rt>でんわ</rt></ruby>が<ruby>来ま<rt>きま</rt></ruby>した。「～ところ」を<ruby>使って<rt>つかって</rt></ruby><ruby>答え<rt>こたえ</rt></ruby>てください。:「もしもし、<ruby>今<rt>いま</rt></ruby><ruby>何を<rt>なにを</rt></ruby>していますか。」",
+        "text": "<ruby>電話<rt>でんわ</rt></ruby>が<ruby>来ま<rt>きま</rt></ruby>した。「～ところ」を<ruby>使って<rt>つかって</rt></ruby><ruby>答え<rt>こたえ</rt></ruby>てください。:「もしもし、<ruby>今<rt>いま</rt></ruby><ruby>何<rt>なに</rt></ruby>していますか。」",
         "viText": "Một cuộc điện thoại đến. Trả lời bằng \"~ところ\". \"Xin chào, bạn đang làm gì bây giờ?\"",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/46.3.mp3"
     },
@@ -1965,7 +1965,7 @@
     {
         "lesson": 46,
         "id": "46-5b",
-        "text": "<ruby>田中<rt>たなか</rt></ruby>さんと<ruby>話し<rt>はなし</rt></ruby>たいですが、<ruby>今<rt>いま</rt></ruby>どこにいますか。 （※「～はずです」を<ruby>使って<rt>つかって</rt></ruby><ruby>答え<rt>こたえ</rt></ruby>てください。）",
+        "text": "<ruby>田中<rt>たなか</rt></ruby>さんと<ruby>話<rt>はなし</rt></ruby>たいですが、<ruby>今<rt>いま</rt></ruby>どこにいますか。 （※「～はずです」を<ruby>使って<rt>つかって</rt></ruby><ruby>答え<rt>こたえ</rt></ruby>てください。）",
         "viText": "Tôi muốn nói chuyện với ông Tanaka - bây giờ ông đang ở đâu? (※ Vui lòng trả lời bằng \"~shizuru\".) ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/46.5b.mp3"
     },
@@ -2007,35 +2007,35 @@
     {
         "lesson": 46,
         "id": "46-10",
-        "text": "<ruby>最近<rt>さいきん</rt></ruby><ruby>覚え<rt>おぼえ</rt></ruby>た<ruby>好き<rt>すき</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>や、<ruby>好き<rt>すき</rt></ruby>な<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>教え<rt>おしえ</rt></ruby>てください。",
+        "text": "<ruby>最近<rt>さいきん</rt></ruby><ruby>覚え<rt>おぼえ</rt></ruby>た<ruby>好<rt>す</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>や、<ruby>好<rt>す</rt></ruby>な<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>教<rt>おしえ</rt></ruby>てください。",
         "viText": "Vui lòng cho chúng tôi biết về những từ hoặc chữ kanji yêu thích của bạn mà bạn đã học gần đây.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/46.10.mp3"
     },
     {
         "lesson": 47,
         "id": "47-1",
-        "text": "あなたは<ruby>天気予報<rt>てんきよほう</rt></ruby>を<ruby>聞き<rt>きき</rt></ruby>ました。<ruby>明日<rt>あした</rt></ruby>の<ruby>天気<rt>てんき</rt></ruby>を<ruby>私<rt>わたし</rt></ruby>に<ruby>教え<rt>おしえ</rt></ruby>てください。",
+        "text": "あなたは<ruby>天気予報<rt>てんきよほう</rt></ruby>を<ruby>聞き<rt>きき</rt></ruby>ました。<ruby>明日<rt>あした</rt></ruby>の<ruby>天気<rt>てんき</rt></ruby>を<ruby>私<rt>わたし</rt></ruby>に<ruby>教<rt>おしえ</rt></ruby>てください。",
         "viText": "Bạn đã nghe dự báo thời tiết. Xin hãy cho tôi biết thời tiết ngày mai.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/47.1.mp3"
     },
     {
         "lesson": 47,
         "id": "47-2",
-        "text": "あなたが<ruby>他の<rt>ほかの</rt></ruby><ruby>人<rt>にん</rt></ruby>から<ruby>聞い<rt>きい</rt></ruby>た<ruby>話<rt>はなし</rt></ruby>を<ruby>教え<rt>おしえ</rt></ruby>てください。 （※<ruby>詳しい<rt>くわしい</rt></ruby><ruby>内容<rt>ないよう</rt></ruby>は<ruby>不要<rt>ふよう</rt></ruby>、「<ruby>誰が<rt>だれが</rt></ruby><ruby>何を<rt>なにを</rt></ruby>する。/した。」「どこで<ruby>何<rt>なに</rt></ruby>がある。/あった。」など<ruby>簡単<rt>かんたん</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>が<ruby>言え<rt>いえ</rt></ruby>ればよい）",
+        "text": "あなたが<ruby>他の<rt>ほかの</rt></ruby><ruby>人<rt>ひと</rt></ruby>から<ruby>聞い<rt>きい</rt></ruby>た<ruby>話<rt>はなし</rt></ruby>を<ruby>教<rt>おしえ</rt></ruby>てください。 （※<ruby>詳しい<rt>くわしい</rt></ruby><ruby>内容<rt>ないよう</rt></ruby>は<ruby>不要<rt>ふよう</rt></ruby>、「<ruby>誰<rt>だれ</rt></ruby><ruby>が何<rt>なに</rt></ruby>する。/した。」「どこで<ruby>何<rt>なに</rt></ruby>がある。/あった。」など<ruby>簡単<rt>かんたん</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>が<ruby>言え<rt>いえ</rt></ruby>ればよい）",
         "viText": "Hãy kể cho tôi nghe về những câu chuyện bạn đã nghe từ những người khác. (* Không cần nội dung chi tiết, \"Ai đã làm gì?\" \"Cái gì ở đâu, cái gì là...\" Sẽ rất tốt nếu có thể nói điều gì đó đơn giản.)",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/47.2.mp3"
     },
     {
         "lesson": 47,
         "id": "47-3",
-        "text": "あなたが<ruby>他の<rt>ほかの</rt></ruby><ruby>人<rt>にん</rt></ruby>から<ruby>聞い<rt>きい</rt></ruby>た<ruby>話<rt>はなし</rt></ruby>をもうひとつ<ruby>教え<rt>おしえ</rt></ruby>てください。 （※<ruby>詳しい<rt>くわしい</rt></ruby><ruby>内容<rt>ないよう</rt></ruby>は<ruby>不要<rt>ふよう</rt></ruby>、「<ruby>誰が<rt>だれが</rt></ruby><ruby>何を<rt>なにを</rt></ruby>する。/した。」「どこで<ruby>何<rt>なに</rt></ruby>がある。/あった。」など<ruby>簡単<rt>かんたん</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>が<ruby>言え<rt>いえ</rt></ruby>ればよい）",
+        "text": "あなたが<ruby>他の<rt>ほかの</rt></ruby><ruby>人<rt>ひと</rt></ruby>から<ruby>聞い<rt>きい</rt></ruby>た<ruby>話<rt>はなし</rt></ruby>をもうひとつ<ruby>教<rt>おしえ</rt></ruby>てください。 （※<ruby>詳しい<rt>くわしい</rt></ruby><ruby>内容<rt>ないよう</rt></ruby>は<ruby>不要<rt>ふよう</rt></ruby>、「<ruby>誰<rt>だれ</rt></ruby><ruby>が何<rt>なに</rt></ruby>する。/した。」「どこで<ruby>何<rt>なに</rt></ruby>がある。/あった。」など<ruby>簡単<rt>かんたん</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>が<ruby>言え<rt>いえ</rt></ruby>ればよい）",
         "viText": "Hãy kể cho tôi nghe một câu chuyện khác mà bạn đã nghe từ những người khác. (* Không cần nội dung chi tiết, \"Ai đã làm gì?\" \"Cái gì ở đâu, cái gì là...\" Sẽ rất tốt nếu có thể nói điều gì đó đơn giản.)",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/47.3.mp3"
     },
     {
         "lesson": 47,
         "id": "47-4",
-        "text": "<ruby>私<rt>わたし</rt></ruby>が<ruby>言った<rt>いった</rt></ruby>ことに「～ようです」を<ruby>使って<rt>つかって</rt></ruby><ruby>応え<rt>こたえ</rt></ruby>てください。：「<ruby>教室<rt>きょうしつ</rt></ruby>に/<ruby>店<rt>みせ</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>に<ruby>人<rt>にん</rt></ruby>が<ruby>集ま<rt>あつま</rt></ruby>っていますね。」",
+        "text": "<ruby>私<rt>わたし</rt></ruby>が<ruby>言った<rt>いった</rt></ruby>ことに「～ようです」を<ruby>使って<rt>つかって</rt></ruby><ruby>応え<rt>こたえ</rt></ruby>てください。：「<ruby>教室<rt>きょうしつ</rt></ruby>に/<ruby>店<rt>みせ</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>に<ruby>人<rt>ひと</rt></ruby>が<ruby>集ま<rt>あつま</rt></ruby>っていますね。」",
         "viText": "Vui lòng trả lời những gì tôi đã nói với \"~ có vẻ như.\" \"Mọi người đang tụ tập trước lớp học hoặc cửa hàng.\"",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/47.4.mp3"
     },
@@ -2056,7 +2056,7 @@
     {
         "lesson": 47,
         "id": "47-7",
-        "text": "<ruby>合格<rt>ごうかく</rt></ruby><ruby>出来そ<rt>できそ</rt></ruby>うですか、どうですか。　<ruby>合格<rt>ごうかく</rt></ruby>している<ruby>人<rt>にん</rt></ruby>は<ruby>点数<rt>てんすう</rt></ruby>を<ruby>教え<rt>おしえ</rt></ruby>てください。　（※これからの<ruby>人<rt>にん</rt></ruby>：「<ruby>受け<rt>うけ</rt></ruby>たら、<ruby>合格<rt>ごうかく</rt></ruby>できそうですか。」）",
+        "text": "<ruby>合格<rt>ごうかく</rt></ruby><ruby>出来そ<rt>できそ</rt></ruby>うですか、どうですか。　<ruby>合格<rt>ごうかく</rt></ruby>している<ruby>人<rt>ひと</rt></ruby>は<ruby>点数<rt>てんすう</rt></ruby>を<ruby>教<rt>おしえ</rt></ruby>てください。　（※これからの<ruby>人<rt>ひと</rt></ruby>：「<ruby>受け<rt>うけ</rt></ruby>たら、<ruby>合格<rt>ごうかく</rt></ruby>できそうですか。」）",
         "viText": "Bạn có nghĩ rằng bạn có thể vượt qua không? Nó như thế nào?　Nếu bạn đỗ, vui lòng cho tôi biết điểm của bạn.　(※Đối với những người sắp bắt đầu: \"Nếu tôi tham gia kỳ thi, bạn có nghĩ rằng tôi có thể đậu không?\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/47.7.mp3"
     },
@@ -2077,7 +2077,7 @@
     {
         "lesson": 47,
         "id": "47-10",
-        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>大学生<rt>だいがくせい</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>になったら、どんなことを<ruby>話し<rt>はなし</rt></ruby>てみたいですか。",
+        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>大学生<rt>だいがくせい</rt></ruby>と<ruby>友達<rt>ともだち</rt></ruby>になったら、どんなことを<ruby>話<rt>はなし</rt></ruby>てみたいですか。",
         "viText": "Nếu bạn trở thành bạn của một sinh viên đại học Nhật Bản, bạn muốn nói về điều gì?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/47.10.mp3"
     },
@@ -2098,28 +2098,28 @@
     {
         "lesson": 48,
         "id": "48-3",
-        "text": "<ruby>嫌い<rt>きらい</rt></ruby>な<ruby>食べ物<rt>たべもの</rt></ruby>がありますか。 <ruby>子供<rt>こども</rt></ruby>の<ruby>時<rt>とき</rt></ruby>、<ruby>両親<rt>りょうしん</rt></ruby>は<ruby>嫌い<rt>きらい</rt></ruby>な<ruby>物<rt>もの</rt></ruby>をあなたに<ruby>食べ<rt>たべ</rt></ruby>させましたか。　（※ない<ruby>場合<rt>ばあい</rt></ruby>　たくさんごはんを<ruby>食べ<rt>たべ</rt></ruby>させましたか。）",
+        "text": "<ruby>嫌い<rt>きらい</rt></ruby>な<ruby>食物<rt>たべもの</rt></ruby>がありますか。 <ruby>子供<rt>こども</rt></ruby>の<ruby>時<rt>とき</rt></ruby>、<ruby>両親<rt>りょうしん</rt></ruby>は<ruby>嫌い<rt>きらい</rt></ruby>な<ruby>物<rt>もの</rt></ruby>をあなたに<ruby>食<rt>たべ</rt></ruby>させましたか。　（※ない<ruby>場合<rt>ばあい</rt></ruby>　たくさんごはんを<ruby>食<rt>たべ</rt></ruby>させましたか。）",
         "viText": "Có món ăn nào bạn không thích không? Khi bạn còn nhỏ, cha mẹ bạn có cho bạn ăn những thứ bạn không thích không?　(※ Nếu không, bạn có cho chúng ăn nhiều gạo không? ）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/48.3.mp3"
     },
     {
         "lesson": 48,
         "id": "48-4",
-        "text": "<ruby>子ども<rt>こども</rt></ruby>の<ruby>時<rt>とき</rt></ruby>、<ruby>両親<rt>りょうしん</rt></ruby>はあなたに<ruby>家<rt>いえ</rt></ruby>の<ruby>手伝い<rt>てつだい</rt></ruby>をさせましたか。<ruby>何を<rt>なにを</rt></ruby>させましたか。",
+        "text": "<ruby>子ども<rt>こども</rt></ruby>の<ruby>時<rt>とき</rt></ruby>、<ruby>両親<rt>りょうしん</rt></ruby>はあなたに<ruby>家<rt>いえ</rt></ruby>の<ruby>手伝い<rt>てつだい</rt></ruby>をさせましたか。<ruby>何<rt>なに</rt></ruby>させましたか。",
         "viText": "Khi bạn còn nhỏ, cha mẹ bạn có để bạn giúp việc nhà không? Bạn đã bắt tôi làm gì?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/48.4.mp3"
     },
     {
         "lesson": 48,
         "id": "48-5",
-        "text": "<ruby>熱<rt>ねつ</rt></ruby>があるので、<ruby>今日<rt>きょう</rt></ruby><ruby>授業<rt>じゅぎょう</rt></ruby>を<ruby>休み<rt>やすみ</rt></ruby>たいです。<ruby>先生<rt>せんせい</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言い<rt>いい</rt></ruby>ますか。<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>頼ん<rt>たのん</rt></ruby>でください。",
+        "text": "<ruby>熱<rt>ねつ</rt></ruby>があるので、<ruby>今日<rt>きょう</rt></ruby><ruby>授業<rt>じゅぎょう</rt></ruby>を<ruby>休み<rt>やすみ</rt></ruby>たいです。<ruby>先生<rt>せんせい</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言<rt>いい</rt></ruby>ますか。<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>頼ん<rt>たのん</rt></ruby>でください。",
         "viText": "Tôi bị sốt nên hôm nay tôi muốn trốn học. Bạn sẽ nói gì với giáo viên? Vui lòng đặt hàng một cách lịch sự.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/48.5.mp3"
     },
     {
         "lesson": 48,
         "id": "48-6",
-        "text": "<ruby>親<rt>おや</rt></ruby>になったら、<ruby>子ども<rt>こども</rt></ruby>に<ruby>何を<rt>なにを</rt></ruby><ruby>習わ<rt>ならわ</rt></ruby>せたいですか。",
+        "text": "<ruby>親<rt>おや</rt></ruby>になったら、<ruby>子ども<rt>こども</rt></ruby>に<ruby>何<rt>なに</rt></ruby><ruby>習わ<rt>ならわ</rt></ruby>せたいですか。",
         "viText": "Khi trở thành cha mẹ, bạn muốn con mình học gì?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/48.6.mp3"
     },
@@ -2140,14 +2140,14 @@
     {
         "lesson": 48,
         "id": "48-9",
-        "text": "<ruby>用事<rt>ようじ</rt></ruby>があって、<ruby>早く<rt>はやく</rt></ruby><ruby>帰り<rt>かえり</rt></ruby>たいです。<ruby>先生<rt>せんせい</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby>た<ruby>言い<rt>いい</rt></ruby>ますか。<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>話し<rt>はなし</rt></ruby>てください。",
+        "text": "<ruby>用事<rt>ようじ</rt></ruby>があって、<ruby>早く<rt>はやく</rt></ruby><ruby>帰り<rt>かえり</rt></ruby>たいです。<ruby>先生<rt>せんせい</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby>た<ruby>言<rt>いい</rt></ruby>ますか。<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>話<rt>はなし</rt></ruby>てください。",
         "viText": "Tôi có một số việc vặt và muốn rời đi sớm. Tôi nên nói gì với giáo viên? Vui lòng nói chuyện lịch sự.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/48.9.mp3"
     },
     {
         "lesson": 48,
         "id": "48-10",
-        "text": "<ruby>会社<rt>かいしゃ</rt></ruby>で、マーケティング/<ruby>設計<rt>せっけい</rt></ruby>/<ruby>整備<rt>せいび</rt></ruby>　の<ruby>仕事<rt>しごと</rt></ruby>がやりたいです。<ruby>課長<rt>かちょう</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言い<rt>いい</rt></ruby>ますか。<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>話し<rt>はなし</rt></ruby>てください。　（※「～に～を・・・いただけませんか。」）",
+        "text": "<ruby>会社<rt>かいしゃ</rt></ruby>で、マーケティング/<ruby>設計<rt>せっけい</rt></ruby>/<ruby>整備<rt>せいび</rt></ruby>　の<ruby>仕事<rt>しごと</rt></ruby>がやりたいです。<ruby>課長<rt>かちょう</rt></ruby>に<ruby>何と<rt>なんと</rt></ruby><ruby>言<rt>いい</rt></ruby>ますか。<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>話<rt>はなし</rt></ruby>てください。　（※「～に～を・・・いただけませんか。」）",
         "viText": "Tôi muốn làm việc trong lĩnh vực tiếp thị, thiết kế và bảo trì tại một công ty. Bạn sẽ nói gì với trưởng bộ phận? Vui lòng nói chuyện lịch sự.　(※ \"Bạn có thể làm ơn ~ni~?\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/48.10.mp3"
     },
@@ -2161,14 +2161,14 @@
     {
         "lesson": 49,
         "id": "49-2",
-        "text": "<ruby>先生<rt>せんせい</rt></ruby>に、<ruby>朝ごはん<rt>あさごはん</rt></ruby>は<ruby>何を<rt>なにを</rt></ruby><ruby>食べた<rt>たべた</rt></ruby>か、<ruby>聞い<rt>きい</rt></ruby>てください。",
+        "text": "<ruby>先生<rt>せんせい</rt></ruby>に、<ruby>朝ごはん<rt>あさごはん</rt></ruby>は<ruby>何<rt>なに</rt></ruby><ruby>食た<rt>たべた</rt></ruby>か、<ruby>聞い<rt>きい</rt></ruby>てください。",
         "viText": "Hỏi giáo viên họ ăn gì cho bữa sáng.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/49.2.mp3"
     },
     {
         "lesson": 49,
         "id": "49-3",
-        "text": "<ruby>先生<rt>せんせい</rt></ruby>に、<ruby>休み<rt>やすみ</rt></ruby>の<ruby>日<rt>にち</rt></ruby>は<ruby>何を<rt>なにを</rt></ruby>しているか、<ruby>聞い<rt>きい</rt></ruby>てください。",
+        "text": "<ruby>先生<rt>せんせい</rt></ruby>に、<ruby>休み<rt>やすみ</rt></ruby>の<ruby>日<rt>にち</rt></ruby>は<ruby>何<rt>なに</rt></ruby>しているか、<ruby>聞い<rt>きい</rt></ruby>てください。",
         "viText": "Hỏi giáo viên họ làm gì vào những ngày nghỉ.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/49.3.mp3"
     },
@@ -2182,14 +2182,14 @@
     {
         "lesson": 49,
         "id": "49-6",
-        "text": "<ruby>初めて<rt>はじめて</rt></ruby><ruby>会っ<rt>あっ</rt></ruby>た<ruby>人<rt>にん</rt></ruby>に<ruby>名前<rt>なまえ</rt></ruby>を<ruby>聞く<rt>きく</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、<ruby>何と<rt>なんと</rt></ruby>いいますか。<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>聞い<rt>きい</rt></ruby>てください。",
+        "text": "<ruby>初めて<rt>はじめて</rt></ruby><ruby>会っ<rt>あっ</rt></ruby>た<ruby>人<rt>ひと</rt></ruby>に<ruby>名前<rt>なまえ</rt></ruby>を<ruby>聞<rt>きく</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、<ruby>何と<rt>なんと</rt></ruby>いいますか。<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>聞い<rt>きい</rt></ruby>てください。",
         "viText": "Bạn nên nói gì khi hỏi ai đó mà bạn gặp lần đầu tiên tên của họ? Hãy lắng nghe cẩn thận.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/49.6.mp3"
     },
     {
         "lesson": 49,
         "id": "49-7",
-        "text": "<ruby>初めて<rt>はじめて</rt></ruby><ruby>会っ<rt>あっ</rt></ruby>た<ruby>人<rt>にん</rt></ruby>に、どんな<ruby>料理<rt>りょうり</rt></ruby>が<ruby>好き<rt>すき</rt></ruby>か　<ruby>聞い<rt>きい</rt></ruby>てください。",
+        "text": "<ruby>初めて<rt>はじめて</rt></ruby><ruby>会っ<rt>あっ</rt></ruby>た<ruby>人<rt>ひと</rt></ruby>に、どんな<ruby>料理<rt>りょうり</rt></ruby>が<ruby>好<rt>す</rt></ruby>か　<ruby>聞い<rt>きい</rt></ruby>てください。",
         "viText": "Hỏi ai đó mà bạn gặp lần đầu tiên họ thích loại thức ăn nào.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/49.7.mp3"
     },
@@ -2210,7 +2210,7 @@
     {
         "lesson": 49,
         "id": "49-10",
-        "text": "<ruby>会い<rt>あい</rt></ruby>たい<ruby>有名人<rt>ゆうめいじん</rt></ruby>は<ruby>誰<rt>だれ</rt></ruby>ですか。その<ruby>人<rt>にん</rt></ruby>に、<ruby>何か<rt>なにか</rt></ruby><ruby>質問<rt>しつもん</rt></ruby>してください。",
+        "text": "<ruby>会い<rt>あい</rt></ruby>たい<ruby>有名人<rt>ゆうめいじん</rt></ruby>は<ruby>誰<rt>だれ</rt></ruby>ですか。その<ruby>人<rt>ひと</rt></ruby>に、<ruby>何か<rt>なにか</rt></ruby><ruby>質問<rt>しつもん</rt></ruby>してください。",
         "viText": "Những người nổi tiếng mà bạn muốn gặp là ai? Hỏi người đó một câu hỏi.",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/49.10.mp3"
     },
@@ -2224,7 +2224,7 @@
     {
         "lesson": 50,
         "id": "50-2a",
-        "text": "<ruby>会社<rt>かいしゃ</rt></ruby>で<ruby>上司<rt>じょうし</rt></ruby>に<ruby>聞か<rt>きか</rt></ruby>れました。<ruby>謙譲語<rt>けんじょうご</rt></ruby>で<ruby>答え<rt>こたえ</rt></ruby>てください。：「これ、<ruby>食べ<rt>たべ</rt></ruby>ますか。」",
+        "text": "<ruby>会社<rt>かいしゃ</rt></ruby>で<ruby>上司<rt>じょうし</rt></ruby>に<ruby>聞か<rt>きか</rt></ruby>れました。<ruby>謙譲語<rt>けんじょうご</rt></ruby>で<ruby>答え<rt>こたえ</rt></ruby>てください。：「これ、<ruby>食<rt>たべ</rt></ruby>ますか。」",
         "viText": "Tôi đã được sếp của tôi hỏi tại nơi làm việc. Trả lời bằng ngôn ngữ khiêm tốn. \"Con có muốn ăn món này không?\"",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.2a.mp3"
     },
@@ -2238,21 +2238,21 @@
     {
         "lesson": 50,
         "id": "50-4",
-        "text": "<ruby>上司<rt>じょうし</rt></ruby>が、<ruby>忙しそ<rt>いそがしそ</rt></ruby>うなので、<ruby>手伝い<rt>てつだい</rt></ruby>たいです。<ruby>何と<rt>なんと</rt></ruby><ruby>言い<rt>いい</rt></ruby>ますか。　（※「～ます/ましょうか。」）",
+        "text": "<ruby>上司<rt>じょうし</rt></ruby>が、<ruby>忙しそ<rt>いそがしそ</rt></ruby>うなので、<ruby>手伝い<rt>てつだい</rt></ruby>たいです。<ruby>何と<rt>なんと</rt></ruby><ruby>言<rt>いい</rt></ruby>ますか。　（※「～ます/ましょうか。」）",
         "viText": "Sếp của tôi có vẻ bận, vì vậy tôi muốn giúp đỡ. Tôi nên đặt nó như thế nào?　(※ \"~masu/masuka.\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.4.mp3"
     },
     {
         "lesson": 50,
         "id": "50-5",
-        "text": "<ruby>社長<rt>しゃちょう</rt></ruby>がちょっと<ruby>疲れ<rt>つかれ</rt></ruby>ているようです。<ruby>飲み物<rt>のみもの</rt></ruby>を<ruby>持っ<rt>もっ</rt></ruby>てきます。<ruby>何と<rt>なんと</rt></ruby><ruby>言い<rt>いい</rt></ruby>ますか。　※ （<ruby>謙譲語<rt>けんじょうご</rt></ruby>）ましょうか。（<ruby>尊敬語<rt>そんけいご</rt></ruby>）ますか。",
+        "text": "<ruby>社長<rt>しゃちょう</rt></ruby>がちょっと<ruby>疲れ<rt>つかれ</rt></ruby>ているようです。<ruby>飲み物<rt>のみもの</rt></ruby>を<ruby>持っ<rt>もっ</rt></ruby>てきます。<ruby>何と<rt>なんと</rt></ruby><ruby>言<rt>いい</rt></ruby>ますか。　※ （<ruby>謙譲語<rt>けんじょうご</rt></ruby>）ましょうか。（<ruby>尊敬語<rt>そんけいご</rt></ruby>）ますか。",
         "viText": "Tổng thống có vẻ hơi mệt mỏi. Tôi sẽ mang đồ uống của tôi. Tôi nên đặt nó như thế nào?　* (Biểu hiện khiêm tốn) Chúng ta được không? (Kính ngữ) Chúng ta phải không?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.5.mp3"
     },
     {
         "lesson": 50,
         "id": "50-6",
-        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>が、<ruby>道<rt>みち</rt></ruby>がわからなくて<ruby>困っ<rt>こまっ</rt></ruby>ているので<ruby>案内<rt>あんない</rt></ruby>したいです。<ruby>何と<rt>なんと</rt></ruby><ruby>言い<rt>いい</rt></ruby>ますか。　（※「～ます/ましょうか」）",
+        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>が、<ruby>道<rt>みち</rt></ruby>がわからなくて<ruby>困っ<rt>こまっ</rt></ruby>ているので<ruby>案内<rt>あんない</rt></ruby>したいです。<ruby>何と<rt>なんと</rt></ruby><ruby>言<rt>いい</rt></ruby>ますか。　（※「～ます/ましょうか」）",
         "viText": "Một giáo viên tiếng Nhật đang gặp rắc rối vì tôi không biết đường, vì vậy tôi muốn hướng dẫn họ. Tôi nên đặt nó như thế nào?　(※ \"~masu/shouka\")",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.6.mp3"
     },
