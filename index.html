@@ -209,7 +209,7 @@
                     <li><strong class="text-indigo-600">指定課別一括連続再生:</strong> 選択した課の音声を順番に連続再生します。<br><span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span></li>
                     <li><strong class="text-slate-700">個別指定音声再生:</strong> 自動再生せず、文章の表示のみ行います。音声は手動で再生します。<br><span class="text-xs text-slate-500">Chỉ hiển thị thẻ, không tự động phát âm thanh.</span></li>
                     <li><strong class="text-sky-600">ランダム抽出練習:</strong> 指定した課から任意の数だけ問題をランダムに選び出し、連続再生します。<br><span class="text-xs text-slate-500">Chọn ngẫu nhiên một số lượng câu hỏi từ bài đã chỉ định để phát liên tục.</span></li>
-                    <li><strong class="text-emerald-600">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。<br><span class="text-xs text-slate-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
+                    <li><strong class="text-emerald-600">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。対になる会話はセットを維持したままシャッフルされます。<br><span class="text-xs text-slate-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
                     <li><strong class="text-teal-600">再シャッフル:</strong> 現在表示中のカードをもう一度ランダムに並び替えます。<br><span class="text-xs text-slate-500">Xáo trộn lại: Tiếp tục xáo trộn ngẫu nhiên các thẻ đang hiển thị.</span></li>
                     <li><strong class="text-red-600">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-slate-500">Dừng mọi âm thanh đang phát.</span></li>
                 </ul>
@@ -234,7 +234,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver3.970a</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.000a</span>
     </div>
 
 <script>
@@ -296,7 +296,7 @@
     const reshuffleBtn = document.getElementById('reshuffleBtn');
     const backToTopContainer = document.getElementById('backToTopContainer');
     const backToTopBtn = document.getElementById('backToTopBtn');
-    const reFetchRandomBtn = document.getElementById('reFetchRandomBtn'); //---ランダム抽出機能の再出題
+    const reFetchRandomBtn = document.getElementById('reFetchRandomBtn');
 
     // 録音モーダル内コンポーネント
     const recordModal = document.getElementById('recordModal');
@@ -315,6 +315,38 @@
     // 3. 音声・再生制御ヘルパー関数 (Audio & Playback Helpers)
     // -------------------------------------------------------------------------
     
+    // 【新設】グループ化とシャッフルを統合したヘルパー関数
+    function getGroupedAndShuffled(array, isRandomMode, targetCount) {
+        // 1. groupIdでグループ化（無い場合は自分自身のidをキーにする）
+        const grouped = {};
+        array.forEach(q => {
+            const key = q.groupId || q.id;
+            if (!grouped[key]) grouped[key] = [];
+            grouped[key].push(q);
+        });
+
+        // 2. 箱（グループ）の単位で配列化してシャッフル
+        let groupedArray = Object.values(grouped);
+        for (let i = groupedArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [groupedArray[i], groupedArray[j]] = [groupedArray[j], groupedArray[i]];
+        }
+
+        // 3. フラット化（ランダム抽出モード時は目標数に達するまで箱ごと追加）
+        let result = [];
+        if (isRandomMode) {
+            for (let g of groupedArray) {
+                result.push(...g);
+                // 抽出数を満たしたらループ終了（セットを途中で割らないため、指定数を少し超える場合があります）
+                if (result.length >= targetCount) break;
+            }
+        } else {
+            // 全体表示やシャッフル表示時はすべて展開
+            result = groupedArray.flat();
+        }
+        return result;
+    }
+
     // 選択用のドロップダウンメニューの動的初期化
     function initLessonSelect() {
         if (typeof questions === 'undefined' || !Array.isArray(questions)) {
@@ -610,20 +642,12 @@
         let filtered = questions.filter(q => selectedLessons.includes(q.lesson));
         const mode = confirmBtn.getAttribute('data-mode');
 
-        // ランダム抽出モードまたはシャッフル指定時はシャッフルする
+        // 【変更箇所】抽出モードまたはシャッフル指定時はグループ化シャッフルを実行
         if (isShuffle || mode === 'shuffle' || mode === 'random') {
-            for (let i = filtered.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
-            }
-        }
-        
-        // ランダムモードの場合は指定した数だけ切り出す
-        if (mode === 'random') {
             let count = parseInt(randomCountInput.value);
-            if (isNaN(count) || count < 1) count = 10; // 空欄や0以下の場合はデフォルトの10にする
-            if (count > filtered.length) count = filtered.length;
-            filtered = filtered.slice(0, count);
+            if (isNaN(count) || count < 1) count = 10;
+            
+            filtered = getGroupedAndShuffled(filtered, mode === 'random', count);
         }
         
         currentFilteredQuestions = [...filtered];
@@ -634,6 +658,7 @@
             renderCards(currentFilteredQuestions);
             startQueuePlayback(currentFilteredQuestions);
         }
+        
         // ランダムモードの時だけ「別の問題で練習する」ボタンを表示する
         if (mode === 'random') {
             reFetchRandomBtn.classList.remove('hidden');
@@ -771,15 +796,14 @@
     playAllBtn.addEventListener('click', () => {
         if (typeof questions === 'undefined') return;
         lessonSelectContainer.classList.add('hidden');
-        randomCountContainer.classList.add('hidden'); // 【修正箇所】UIリセット
-        randomCountContainer.classList.remove('flex'); // 【修正箇所】UIリセット
+        randomCountContainer.classList.add('hidden'); 
+        randomCountContainer.classList.remove('flex'); 
         confirmBtn.setAttribute('data-mode', 'normal');
         currentFilteredQuestions = [...questions];
         renderCards(currentFilteredQuestions);
         startQueuePlayback(currentFilteredQuestions);
 
         setTimeout(() => {
-            // 【修正箇所】1-1aの固定指定ではなく、描画された先頭のカードに自動対応
             const firstCard = document.querySelector('.question-card');
             if (firstCard) {
                 firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -829,10 +853,8 @@
             if (currentFilteredQuestions.length === 0) return;
             terminatePlayback();
 
-            for (let i = currentFilteredQuestions.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [currentFilteredQuestions[i], currentFilteredQuestions[j]] = [currentFilteredQuestions[j], currentFilteredQuestions[i]];
-            }
+            // 【変更箇所】画面に表示中のカードもグループ単位で再シャッフルする
+            currentFilteredQuestions = getGroupedAndShuffled(currentFilteredQuestions, false, 0);
 
             const mode = confirmBtn.getAttribute('data-mode');
             if (mode === 'individual') {
@@ -853,9 +875,9 @@
     // 「別の問題で練習する」ボタンの処理
     if (reFetchRandomBtn) {
         reFetchRandomBtn.addEventListener('click', () => {
-            terminatePlayback(); // 現在の音声を停止
-            executeDisplay(false); // 選択されている課から再度ランダム抽出し直して画面更新
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // 画面の一番上へスクロール
+            terminatePlayback(); 
+            executeDisplay(false); 
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
         
