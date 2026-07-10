@@ -620,7 +620,7 @@
     {
         "lesson": 28,
         "id": "28-9",
-        "text": "<ruby>日本<rt>にほん</rt></ruby>のアニメで<ruby>何<rt>なに</rt></ruby>が<ruby>好<rt>す</rt></ruby>？　どうしてそのアニメが<ruby>好<rt>す</rt></ruby>きなの？",
+        "text": "<ruby>日本<rt>にほん</rt></ruby>のアニメで<ruby>何<rt>なに</rt></ruby>が<ruby>好<rt>す</rt></ruby>き？　どうしてそのアニメが<ruby>好<rt>す</rt></ruby>きなの？",
         "viText": "Bạn thích điều gì ở anime Nhật Bản?　Tại sao bạn thích anime đó?",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/28.9.mp3"
     },
