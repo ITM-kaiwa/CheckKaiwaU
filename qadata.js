@@ -1,7 +1,7 @@
     // =============================================================================
     // DATA-PART: QUESTION DATA VARIABLE (qadata.js) Ver3.00g
     // =============================================================================
-    const questions = [
+    const questions1 = [
         // ==================== LESSON 1 ====================
         { "lesson": 1, "id": "1-1a", "text": "お<ruby>名前<rt>なまえ</rt></ruby>は <ruby>何<rt>なん</rt></ruby>ですか。/ <ruby>名前<rt>なまえ</rt></ruby>を <ruby>言<rt>い</rt></ruby>ってください/ おしえてください。", "viText": "Tên bạn là gì? / Hãy đọc tên của bạn / Hãy cho tôi biết tên của bạn. ", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/1.1a.mp3" },
         { "lesson": 1, "id": "1-1b", "text": "お<ruby>名前<rt>なまえ</rt></ruby>は <ruby>何<rt>なん</rt></ruby>ですか。/ <ruby>名前<rt>なまえ</rt></ruby>を <ruby>言<rt>い</rt></ruby>ってください/ おしえてください。", "viText": "Tên bạn là gì? / Hãy đọc tên của bạn / Hãy cho tôi biết tên của bạn. ", "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/1.1b.mp3" },
