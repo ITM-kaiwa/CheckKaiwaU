@@ -234,7 +234,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.000a</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.001a</span>
     </div>
 
 <script>
@@ -504,19 +504,20 @@
 
             // 各自表示制御ボタン
             const jpBtn = document.createElement('button');
-            jpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+            jpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none active:scale-95';
             jpBtn.textContent = 'JP Xem';
             jpBtn.onclick = () => {
                 const p = textSection.querySelector('p:nth-of-type(1)');
                 p.classList.toggle('hidden');
                 if (p.classList.contains('hidden')) {
                     jpBtn.textContent = 'JP Xem';
-                    jpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+                    jpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none active:scale-95';
                 } else {
                     jpBtn.textContent = 'JP Ẩn';
-                    jpBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
-                }
-            };
+                    jpBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none active:scale-95';
+                } 
+            }
+            
 
             const viBtn = document.createElement('button');
             viBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
@@ -526,33 +527,33 @@
                 p.classList.toggle('hidden');
                 if (p.classList.contains('hidden')) {
                     viBtn.textContent = 'VI Xem';
-                    viBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+                    viBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none active:scale-95';
                 } else {
                     viBtn.textContent = 'VI Ẩn';
-                    viBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
+                   viBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none active:scale-95';
                 }
             };
             
             let imgBtn = null;
             if (q.imageUrl && q.imageUrl.trim() !== "") {
                 imgBtn = document.createElement('button');
-                imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+                imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none active:scale-95';
                 imgBtn.textContent = '🖼️ Hình';
                 imgBtn.onclick = () => {
                     const imgTarget = textSection.querySelector('.img-container');
                     if (imgTarget) {
                         imgTarget.classList.toggle('hidden');
                         if (imgTarget.classList.contains('hidden')) {
-                            imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
+                            imgBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none active:scale-95';
                         } else {
-                            imgBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none';
+                            imgBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none active:scale-95';
                         }
                     }
                 };
             }
             
             const recordBtn = document.createElement('button');
-            recordBtn.className = 'bg-emerald-50 text-emerald-600 p-2 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
+            recordBtn.className = 'bg-emerald-50 text-emerald-600 p-2 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none active:scale-95';
             recordBtn.innerHTML = '🎤';
             recordBtn.onclick = () => {
                 terminatePlayback();
@@ -560,7 +561,7 @@
             };
             
             const playBtn = document.createElement('button');
-            playBtn.className = 'bg-indigo-50 text-indigo-600 p-2 rounded-lg border border-indigo-200 hover:bg-indigo-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
+            playBtn.className = 'bg-indigo-50 text-indigo-600 p-2 rounded-lg border border-indigo-200 hover:bg-indigo-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none active:scale-95';
             playBtn.innerHTML = '▶';
             playBtn.onclick = () => {
                 terminatePlayback();
@@ -573,7 +574,7 @@
             };
 
             const stopIndividualBtn = document.createElement('button');
-            stopIndividualBtn.className = 'bg-red-50 text-red-600 p-2 rounded-lg border border-red-200 hover:bg-red-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none';
+            stopIndividualBtn.className = 'bg-red-50 text-red-600 p-2 rounded-lg border border-red-200 hover:bg-red-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none active:scale-95';
             stopIndividualBtn.innerHTML = '■';
             stopIndividualBtn.onclick = () => {
                 terminatePlayback();
