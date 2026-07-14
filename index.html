@@ -234,7 +234,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.100a</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.100b</span>
     </div>
 
 <script>
@@ -1053,10 +1053,11 @@
         }
     });
 
+    // === ここから置き換える ===
     saveRecordBtn.addEventListener('click', async () => {
-        if (!recordedAudioUrl) return;                
-        const originalText = saveRecordBtn.innerHTML;
-        
+        if (!recordedAudioUrl) return;                        
+
+        const originalText = saveRecordBtn.innerHTML;                
         saveRecordBtn.innerHTML = '⏳ 処理中... (Đang xử lý)';
         saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
 
@@ -1064,40 +1065,28 @@
             recordStatus.textContent = 'MP3に変換しています... (Đang chuyển đổi MP3...)';
             try {
                 const response = await fetch(recordedAudioUrl);
-                const webmBlob = await response.blob();                                
-                
+                const webmBlob = await response.blob();                                                                
                 ffmpeg.FS('writeFile', 'input.webm', await fetchFile(webmBlob));
-                await ffmpeg.run('-i', 'input.webm', '-c:a', 'libmp3lame', '-q:a', '2', 'output.mp3');
-                                                                
+                await ffmpeg.run('-i', 'input.webm', '-c:a', 'libmp3lame', '-q:a', '2', 'output.mp3');                                                                                
                 const mp3Data = ffmpeg.FS('readFile', 'output.mp3');
-                const mp3Blob = new Blob([mp3Data.buffer], { type: 'audio/mp3' });                                
-                
-                downloadBlob(mp3Blob, `Bai${currentRecordLesson}_ID_${currentRecordId}.mp3`);                                
+                const mp3Blob = new Blob([mp3Data.buffer], { type: 'audio/mp3' });                                                                
+                downloadBlob(mp3Blob, `Bai${currentRecordLesson}_ID_${currentRecordId}.mp3`);                                                
                 ffmpeg.FS('unlink', 'input.webm');
                 ffmpeg.FS('unlink', 'output.mp3');
-                recordStatus.textContent = '保存が完了しました！ (Đã lưu MP3)';                                
-                
+                recordStatus.textContent = '保存が完了しました！ (Đã lưu MP3)';                                                                
                 saveRecordBtn.innerHTML = originalText;
                 saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
                 return; 
-            } catch (error) {
+             } catch (error) {
                 console.error('MP3変換エラーのため、標準Webmエクスポートに切り替えます:', error);
             }
         }
-        } catch (err) {
-            console.error('データ連携エラー:', err);
-            alert('データの準備に失敗しました。');
-            aiAdviceBtn.innerHTML = originalText;
-            aiAdviceBtn.classList.remove('opacity-50', 'pointer-events-none');
-        }
-    });
 
-        
+        // Webm等のフォールバック保存処理
         try {
             recordStatus.textContent = '保存します... (Đang lưu file Webm...)';
             const response = await fetch(recordedAudioUrl);
-            const webmBlob = await response.blob();
-            
+            const webmBlob = await response.blob();                        
             downloadBlob(webmBlob, `Bai${currentRecordLesson}_ID_${currentRecordId}.${recordedExtension}`);
             recordStatus.textContent = '保存が完了しました！ (Đã lưu)';
         } catch (error) {
@@ -1109,7 +1098,7 @@
         }
     });
 
-// -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     // ★追加：AIに発音アドバイスを受けるボタンの処理（Ver4.1）
     // -------------------------------------------------------------------------
     aiAdviceBtn.addEventListener('click', async () => {
@@ -1148,8 +1137,14 @@
                 aiAdviceBtn.innerHTML = originalText;
                 aiAdviceBtn.classList.remove('opacity-50', 'pointer-events-none');
             };
-    
-    
+        } catch (err) {
+            console.error('データ連携エラー:', err);
+            alert('データの準備に失敗しました。');
+            aiAdviceBtn.innerHTML = originalText;
+            aiAdviceBtn.classList.remove('opacity-50', 'pointer-events-none');
+        }
+    });
+
     // -------------------------------------------------------------------------
     // 8. ライフサイクル初期化 (Initialization)
     // -------------------------------------------------------------------------
@@ -1157,7 +1152,6 @@
         initLessonSelect();
     });
 
-})();
 </script>
 </body>
 </html>
