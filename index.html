@@ -182,7 +182,7 @@
                     <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-emerald-400 active:bg-indigo-100">💾 保存 (Lưu)</button>
                 </div>
                 
-                <button id="aiAdviceBtn" onclick="window.open('https://itm-kaiwa.github.io/Pronunciation_Analysis/index.html', '_blank')" class="w-full bg-emerald-300 text-white py-1.5 rounded-xl text-xs font-medium hover:bg-emerald-400 transition shadow-sm active:scale-95">
+                <button id="aiAdviceBtn" class="w-full bg-emerald-300 text-white py-1.5 rounded-xl text-xs font-medium hover:bg-emerald-400 transition shadow-sm active:scale-95">
                     AIに発音アドバイスを受ける / Nhận tư vấn từ AI
                 </button>
                 
@@ -234,7 +234,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.001a</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.100a</span>
     </div>
 
 <script>
@@ -308,6 +308,7 @@
     const stopRecordBtn = document.getElementById('stopRecordBtn');
     const playRecordBtn = document.getElementById('playRecordBtn');
     const saveRecordBtn = document.getElementById('saveRecordBtn');
+    const aiAdviceBtn = document.getElementById('aiAdviceBtn'); // ← ★Ver4.1で追加
     const recordStatus = document.getElementById('recordStatus');
     const modalRecordCloseOkBtn = document.getElementById('modalRecordCloseOkBtn');
 
@@ -1083,7 +1084,15 @@
                 console.error('MP3変換エラーのため、標準Webmエクスポートに切り替えます:', error);
             }
         }
+        } catch (err) {
+            console.error('データ連携エラー:', err);
+            alert('データの準備に失敗しました。');
+            aiAdviceBtn.innerHTML = originalText;
+            aiAdviceBtn.classList.remove('opacity-50', 'pointer-events-none');
+        }
+    });
 
+        
         try {
             recordStatus.textContent = '保存します... (Đang lưu file Webm...)';
             const response = await fetch(recordedAudioUrl);
@@ -1100,6 +1109,47 @@
         }
     });
 
+// -------------------------------------------------------------------------
+    // ★追加：AIに発音アドバイスを受けるボタンの処理（Ver4.1）
+    // -------------------------------------------------------------------------
+    aiAdviceBtn.addEventListener('click', async () => {
+        // 録音データがない場合はエラーを出す
+        if (!recordedAudioUrl) {
+            alert('自分の音声を録音してください。 / Vui lòng ghi âm trước.');
+            return;
+        }
+
+        const originalText = aiAdviceBtn.innerHTML;
+        try {
+            aiAdviceBtn.innerHTML = '⏳ データを転送中... (Đang chuyển dữ liệu)';
+            aiAdviceBtn.classList.add('opacity-50', 'pointer-events-none');
+
+            // 録音データ(Blob)を取得
+            const response = await fetch(recordedAudioUrl);
+            const audioBlob = await response.blob();
+            
+            // BlobをBase64文字列に変換して保存可能にする
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = () => {
+                const base64Audio = reader.result;
+                
+                // 読み上げ対象の日本語テキストを取得
+                const targetText = recordModalText.textContent || recordModalText.innerText;
+
+                // sessionStorageに音声データとテキストを保存
+                sessionStorage.setItem('analysisTargetText', targetText);
+                sessionStorage.setItem('analysisAudioData', base64Audio);
+
+                // 解析ページを別タブで開く
+                window.open('https://itm-kaiwa.github.io/Pronunciation_Analysis/index.html', '_blank');
+                
+                // ボタンの表示を元に戻す
+                aiAdviceBtn.innerHTML = originalText;
+                aiAdviceBtn.classList.remove('opacity-50', 'pointer-events-none');
+            };
+    
+    
     // -------------------------------------------------------------------------
     // 8. ライフサイクル初期化 (Initialization)
     // -------------------------------------------------------------------------
