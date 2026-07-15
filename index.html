@@ -234,7 +234,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.100d</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.110a</span>
     </div>
 
 <script>
@@ -1099,9 +1099,9 @@
     });
 
     // -------------------------------------------------------------------------
-    // ★追加：AIに発音アドバイスを受けるボタンの処理（Ver4.1）
+    // ★追加：AIに発音アドバイスを受けるボタンの処理（Ver4.11）
     // -------------------------------------------------------------------------
-    aiAdviceBtn.addEventListener('click', async () => {
+aiAdviceBtn.addEventListener('click', async () => {
         // 録音データがない場合はエラーを出す
         if (!recordedAudioUrl) {
             alert('自分の音声を録音してください。 / Vui lòng ghi âm trước.');
@@ -1109,6 +1109,10 @@
         }
 
         const originalText = aiAdviceBtn.innerHTML;
+        
+        // ★修正ポイント1: 非同期処理に入る前に、同期的に新しいタブを開いておく（ブロック回避）
+        const newTab = window.open('', '_blank');
+
         try {
             aiAdviceBtn.innerHTML = '⏳ データを転送中... (Đang chuyển dữ liệu)';
             aiAdviceBtn.classList.add('opacity-50', 'pointer-events-none');
@@ -1130,8 +1134,10 @@
                 sessionStorage.setItem('analysisTargetText', targetText);
                 sessionStorage.setItem('analysisAudioData', base64Audio);
 
-                // 解析ページを別タブで開く
-                window.open('https://itm-kaiwa.github.io/Pronunciation_Analysis/index.html', '_blank');
+                // ★修正ポイント2: データの保存完了後、事前に開いておいたタブのURLを変更する
+                if (newTab) {
+                    newTab.location.href = 'https://itm-kaiwa.github.io/Pronunciation_Analysis/index.html';
+                }
                 
                 // ボタンの表示を元に戻す
                 aiAdviceBtn.innerHTML = originalText;
@@ -1140,6 +1146,10 @@
         } catch (err) {
             console.error('データ連携エラー:', err);
             alert('データの準備に失敗しました。');
+            
+            // ★修正ポイント3: エラーが起きた場合は、開いておいた空タブを閉じる
+            if (newTab) newTab.close();
+
             aiAdviceBtn.innerHTML = originalText;
             aiAdviceBtn.classList.remove('opacity-50', 'pointer-events-none');
         }
