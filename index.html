@@ -239,9 +239,8 @@
     <div id="floatingTimer" class="hidden fixed z-[9000] bg-white/95 backdrop-blur-sm border-2 border-indigo-400 rounded-2xl shadow-2xl flex flex-col items-center justify-between overflow-hidden transition-opacity" style="width: 140px; height: 150px; bottom: 30px; right: 30px; touch-action: none;">
         <!-- ドラッグ用ハンドル部分 -->
         <div id="timerDragHandle" class="relative bg-indigo-500 text-white text-[11px] w-full text-center py-2 font-bold cursor-move flex items-center justify-center gap-1 active:bg-indigo-600 transition-colors">
-        <!-- 閉じるボタンを追加 -->
             <button id="closeTimerBtn" class="absolute left-1 top-1 bg-white/20 hover:bg-white/40 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs font-bold leading-none">×</button>
-                <span class="text-sm leading-none">✢</span> 移動 (Kéo thả)
+            <span class="text-sm leading-none">✢</span> 移動 (Kéo thả)
         </div>
         <!-- カウントダウン表示部分 -->
         <div class="flex-1 flex flex-col items-center justify-center w-full pointer-events-none">
@@ -256,7 +255,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.120e-Univ</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.300a-univ</span>
     </div>
 
 <script>
@@ -342,17 +341,12 @@
     const recordStatus = document.getElementById('recordStatus');
     const modalRecordCloseOkBtn = document.getElementById('modalRecordCloseOkBtn');
 
-    // フローティングタイマー要素　Ver4.120a
+    // フローティングタイマー要素
     const floatingTimer = document.getElementById('floatingTimer');
     const timerDragHandle = document.getElementById('timerDragHandle');
     const timerText = document.getElementById('timerText');
     const timerBar = document.getElementById('timerBar');
-    // 【追加】閉じるボタンの制御　Ver4.130a
     const closeTimerBtn = document.getElementById('closeTimerBtn');
-    closeTimerBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // ドラッグ動作と競合しないように止める
-    hideFloatingTimer();
-    });
 
     // -------------------------------------------------------------------------
     // 3. 音声・再生制御ヘルパー関数 (Audio & Playback Helpers)
@@ -370,10 +364,10 @@
     }
 
     // フローティングタイマーを起動する関数
-    function startFloatingTimer() {
-        // 現在のモードが「個別指定（individual）」または「ランダム（random）」でなければ終了
+    function startFloatingTimer(lesson) {
+        // 現在のモードが「個別指定（individual）」でなければ終了
         const currentMode = confirmBtn.getAttribute('data-mode');
-        if (currentMode !== 'individual' && currentMode !== 'random') {
+        if (currentMode !== 'individual') {
             return;
         }
 
@@ -382,12 +376,17 @@
         hideFloatingTimer(); 
         
         floatingTimer.classList.remove('hidden');
-        let timeLeft = 3;
+
+        // 課によって初期秒数を決定（25課までは8秒、26課以降は10秒）
+        const initialTime = (lesson <= 25) ? 8 : 10;
+        let timeLeft = initialTime;
         
-        // テキストと色のリセット（インディゴ仕様）
+        // 基本クラスを定義（ここで色を後から上書きします）
+        const baseClasses = 'text-6xl font-black tabular-nums tracking-tighter drop-shadow-sm transition-colors duration-300';
+        
+        // 初期状態（最初の3秒の範囲）のセット
         timerText.textContent = timeLeft;
-        timerText.classList.remove('text-red-500'); 
-        timerText.classList.add('text-indigo-500');
+        timerText.className = `${baseClasses} text-emerald-600`;
         
         timerBar.style.transition = 'none';
         timerBar.style.width = '100%';
@@ -396,23 +395,42 @@
             timerBar.style.transition = 'width 1s linear';
             countdownInterval = setInterval(() => {
                 timeLeft--;
+
+                // マイナス20秒でタイマーを消去して終了
+                if (timeLeft <= -20) {
+                    hideFloatingTimer();
+                    return;
+                }
+
                 timerText.textContent = timeLeft;
 
-                if (timeLeft > 0) {
-                    timerBar.style.width = `${(timeLeft / 3) * 100}%`;
+                // 経過秒数から色を判定するロジック
+                const elapsed = initialTime - timeLeft;
+                let colorClass = '';
+                
+                if (timeLeft <= 0) {
+                    colorClass = 'text-red-600'; // 0秒以下
+                } else if (elapsed < 3) {
+                    colorClass = 'text-emerald-600'; // 最初の3秒
+                } else if (elapsed < 8) {
+                    colorClass = 'text-indigo-600'; // 次の5秒
                 } else {
-                    // ちょうど0秒になった瞬間に1回だけピンポーン音を鳴らす
+                    colorClass = 'text-orange-600'; // 残りの秒数（10秒設定の時のみ発生）
+                }
+                
+                // クラスを適用して色を変更
+                timerText.className = `${baseClasses} ${colorClass}`;
+
+                if (timeLeft > 0) {
+                    timerBar.style.width = `${(timeLeft / initialTime) * 100}%`;
+                } else {
                     if (timeLeft === 0) {
                         timerBar.style.width = '0%';
-                        timerText.classList.remove('text-indigo-500');
-                        timerText.classList.add('text-red-500'); 
-                        
-                        pingpongSound.currentTime = 0; // 連続再生に備えてシーク位置をリセット
+                        pingpongSound.currentTime = 0;
                         pingpongSound.play().catch(error => {
                             console.error("ピンポーン音の再生に失敗しました:", error);
                         });
                     }
-                    // -1以降はwidthは0%のまま、赤文字のままカウントダウンだけが進む
                 }
             }, 1000);
         }, 50);
@@ -526,8 +544,7 @@
         currentAudio.onended = () => {
             if (!isPlayingQueue) return;
             
-            // キュー連続再生中、一つの音声が終わった瞬間に3秒タイマー起動
-            startFloatingTimer();
+            // キュー連続再生中はタイマーを表示しないため削除
             
             queueIndex++;
             const interval = (parseFloat(pauseInput.value) || 0) * 1000;
@@ -665,7 +682,7 @@
                 
                 // 個別再生ボタンでも、再生が終わったらタイマー表示
                 currentAudio.onended = () => {
-                    startFloatingTimer();
+                    startFloatingTimer(q.lesson);
                 };
                 
                 currentAudio.play().catch(e => {
@@ -774,6 +791,9 @@
 
     function dragStart(e) {
         if (e.target === timerDragHandle || timerDragHandle.contains(e.target)) {
+            // もし閉じるボタンを押した場合はドラッグを開始しない
+            if (e.target === closeTimerBtn) return;
+
             isDragging = true;
             if (e.type === "touchstart") {
                 initialX = e.touches[0].clientX - currentTranslateX;
@@ -935,6 +955,15 @@
     // -------------------------------------------------------------------------
     // 6. グローバルイベントリスナー登録 (Event Listeners)
     // -------------------------------------------------------------------------
+    
+    // タイマーの閉じるボタン
+    if (closeTimerBtn) {
+        closeTimerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hideFloatingTimer();
+        });
+    }
+
     playAllBtn.addEventListener('click', () => {
         if (typeof questions === 'undefined') return;
         lessonSelectContainer.classList.add('hidden');
@@ -979,6 +1008,10 @@
         confirmBtn.setAttribute('data-mode', 'random');
         lessonSelect.focus();
         updateRandomMaxCount();
+        
+        setTimeout(() => {
+            randomCountContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
     });
 
     confirmBtn.addEventListener('click', () => executeDisplay(false));
@@ -1134,7 +1167,7 @@
             playModelAudioBtn.innerHTML = '▶️ 模範音声 (Phát mẫu)';
         });
 
-        // 録音モーダル内のピンポーン処理（これは既存のまま）
+        // 録音モーダル内のピンポーン処理
         modelAudioPlayback.onended = () => {
             playModelAudioBtn.innerHTML = '▶️ 模範音声 (Phát mẫu)';
             pingpongTimeout = setTimeout(() => {
@@ -1212,15 +1245,15 @@
             recordStatus.textContent = 'MP3に変換しています... (Đang chuyển đổi MP3...)';
             try {
                 const response = await fetch(recordedAudioUrl);
-                const webmBlob = await response.blob();                                                              
+                const webmBlob = await response.blob();                                                  
                 ffmpeg.FS('writeFile', 'input.webm', await fetchFile(webmBlob));
-                await ffmpeg.run('-i', 'input.webm', '-c:a', 'libmp3lame', '-q:a', '2', 'output.mp3');                                                                           
+                await ffmpeg.run('-i', 'input.webm', '-c:a', 'libmp3lame', '-q:a', '2', 'output.mp3');                                                              
                 const mp3Data = ffmpeg.FS('readFile', 'output.mp3');
-                const mp3Blob = new Blob([mp3Data.buffer], { type: 'audio/mp3' });                                                       
+                const mp3Blob = new Blob([mp3Data.buffer], { type: 'audio/mp3' });                                       
                 downloadBlob(mp3Blob, `Bai${currentRecordLesson}_ID_${currentRecordId}.mp3`);                                                
                 ffmpeg.FS('unlink', 'input.webm');
                 ffmpeg.FS('unlink', 'output.mp3');
-                recordStatus.textContent = '保存が完了しました！ (Đã lưu MP3)';                                                              
+                recordStatus.textContent = '保存が完了しました！ (Đã lưu MP3)';                                                      
                 saveRecordBtn.innerHTML = originalText;
                 saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
                 return; 
