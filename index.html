@@ -1132,7 +1132,7 @@
             pingpongTimeout = setTimeout(() => {
                 pingpongSound.currentTime = 0;
                 pingpongSound.play().catch(error => {
-                    console.error("ピンポーン音の再生に失敗しました:", error);
+                    console.error("ブザー音の再生に失敗しました:３秒が経過しました。", error);
                 });
             }, 3000);
         };
