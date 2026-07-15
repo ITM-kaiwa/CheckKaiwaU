@@ -155,7 +155,8 @@
         </div>
     </div>
 
-  <div id="recordModal" class="modal-overlay">
+    <!-- 🎙️ 録音モーダル -->
+    <div id="recordModal" class="modal-overlay">
         <div class="bg-white w-full max-w-lg m-4 p-4 rounded-2xl shadow-xl border border-slate-200 flex flex-col max-h-[95vh]">
             <div class="flex justify-between items-center border-b border-slate-100 pb-2 mb-2 shrink-0">
                 <h3 class="text-md font-bold text-slate-800">🎙️ 録音 / Ghi âm</h3>
@@ -173,7 +174,6 @@
             </div>
             
             <div class="shrink-0 flex flex-col gap-2">
-                
                 <div class="grid grid-cols-2 gap-2">
                     <button id="startRecordBtn" class="bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">🔴 録音開始 (Ghi âm)</button>
                     <button id="stopRecordBtn" class="bg-slate-100 text-slate-400 border border-slate-200 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 cursor-not-allowed" disabled>■ 停止 (Dừng)</button>
@@ -196,45 +196,65 @@
             </div>
         </div>
     </div>
-   <div id="manualContainer" class="modal-overlay">
-    <div class="bg-white w-full max-w-lg m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col max-h-[85vh]">
-        <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
-            <h3 class="text-lg font-bold text-slate-800">📖 アプリ操作方法 / Hướng dẫn sử dụng</h3>
-            <button id="closeManualBtn" class="text-slate-400 hover:text-slate-600 font-bold text-xl p-1">&times;</button>
-        </div>
-        <div class="space-y-4 text-sm text-slate-600 overflow-y-auto pr-2 leading-relaxed">
-            <p class="font-medium text-slate-800">【機能説明 / Giải thích chức năng】</p>
-            <ul class="list-disc pl-5 space-y-2">
-                <li><strong class="text-orange-600">全体一括連続再生:</strong> すべての問題の音声を連続再生します。<br><span class="text-xs text-slate-500">Phát toàn bộ các thẻ câu hỏi liên tục.</span></li>
-                <li><strong class="text-indigo-600">指定課別一括連続再生:</strong> 選択した課の音声を順番に連続再生します。<br><span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span></li>
-                <li><strong class="text-slate-700">個別指定音声再生:</strong> 自動再生せず、文章の表示のみ行います。音声は手動で再生します。<br><span class="text-xs text-slate-500">Chỉ hiển thị thẻ, không tự động phát âm thanh.</span></li>
-                <li><strong class="text-sky-600">ランダム抽出練習:</strong> 指定した課から任意の数だけ問題をランダムに選び出し、連続再生します。<br><span class="text-xs text-slate-500">Chọn ngẫu nhiên một số lượng câu hỏi từ bài đã chỉ định để phát liên tục.</span></li>
-                <li><strong class="text-emerald-600">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。対になる会話はセットを維持したままシャッフルされます。<br><span class="text-xs text-slate-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
-                <li><strong class="text-teal-600">再シャッフル:</strong> 現在表示中のカードをもう一度ランダムに並び替えます。<br><span class="text-xs text-slate-500">Xáo trộn lại: Tiếp tục xáo trộn ngẫu nhiên các thẻ đang hiển thị.</span></li>
-                <li><strong class="text-red-600">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-slate-500">Dừng mọi âm thanh đang phát.</span></li>
-            </ul>
-            <p class="font-medium text-slate-800 pt-2">【カード内の操作 / Thao tác trong thẻ】</p>
-            <ul class="list-disc pl-5 space-y-2">
-                <li><strong>JP Xem / Ẩn:</strong> 日本語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Nhật.</span></li>
-                <li><strong>VI Xem / Ẩn:</strong> ベトナム語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Việt.</span></li>
-                <li><strong class="text-emerald-600">録音・発音チェック:</strong> 各カードの「🎤」を押すと、自分の発音を録音して確認できます。<br>
-                    <span class="text-xs font-semibold text-amber-600">※ブラウザからマイクへのアクセスを求められた場合は「許可」してください。</span><br>
-                    <span class="text-[11px] text-amber-600/90 italic">Chức năng ghi âm: Nhấn vào "🎤" trên mỗi thẻ. Vui lòng chọn "Cho phép" (Allow) quyền truy cập micro khi được hỏi.</span>
-                </li>
-                <li><strong class="text-blue-600">模範音声 (録音画面内):</strong> お手本となる正しい発音の音声を再生します。<br><span class="text-xs text-slate-500">Âm thanh mẫu (trong màn hình ghi âm): Phát âm thanh mẫu chuẩn để tham khảo.</span></li>
-                <li><strong class="text-emerald-600">AI発音分析アドバイス（試用版）:</strong> 録音した音声をAIに引継いで発話を分析しアドバイスを表示します。結果が表示されるまで約30秒程待ち時間があります。<br><span class="text-xs text-slate-500">Phân tích phát âm AI: Chuyển âm thanh đã ghi âm cho AI để phân tích. Vui lòng đợi khoảng 30 giây để xem kết quả.</span></li>
-                <li><strong class="text-indigo-600">▶ (再生):</strong> その問題の音声を個別に再生します。<br><span class="text-xs text-slate-500">Phát âm thanh của thẻ này.</span></li>
-                <li><strong class="text-red-600">■ (個別停止):</strong> 音声を停止します。<br><span class="text-xs text-slate-500">Dừng âm thanh của thẻ này.</span></li>
-            </ul>
-        </div>
-        <div class="border-t border-slate-100 pt-3 mt-4 text-right">
-            <button id="modalCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる / Đóng</button>
+
+    <!-- 📖 マニュアルモーダル -->
+    <div id="manualContainer" class="modal-overlay">
+        <div class="bg-white w-full max-w-lg m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+                <h3 class="text-lg font-bold text-slate-800">📖 アプリ操作方法 / Hướng dẫn sử dụng</h3>
+                <button id="closeManualBtn" class="text-slate-400 hover:text-slate-600 font-bold text-xl p-1">&times;</button>
+            </div>
+            <div class="space-y-4 text-sm text-slate-600 overflow-y-auto pr-2 leading-relaxed">
+                <p class="font-medium text-slate-800">【機能説明 / Giải thích chức năng】</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><strong class="text-indigo-600">全体一括連続再生:</strong> すべての問題の音声を連続再生します。<br><span class="text-xs text-slate-500">Phát toàn bộ các thẻ câu hỏi liên tục.</span></li>
+                    <li><strong class="text-indigo-600">指定課別一括連続再生:</strong> 選択した課の音声を順番に連続再生します。<br><span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span></li>
+                    <li><strong class="text-slate-700">個別指定音声再生:</strong> 自動再生せず、文章の表示のみ行います。音声は手動で再生します。<br><span class="text-xs text-slate-500">Chỉ hiển thị thẻ, không tự động phát âm thanh.</span></li>
+                    <li><strong class="text-sky-600">ランダム抽出練習:</strong> 指定した課から任意の数だけ問題をランダムに選び出し、連続再生します。<br><span class="text-xs text-slate-500">Chọn ngẫu nhiên một số lượng câu hỏi từ bài đã chỉ định để phát liên tục.</span></li>
+                    <li><strong class="text-emerald-600">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。対になる会話はセットを維持したままシャッフルされます。<br><span class="text-xs text-slate-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
+                    <li><strong class="text-teal-600">再シャッフル:</strong> 現在表示中のカードをもう一度ランダムに並び替えます。<br><span class="text-xs text-slate-500">Xáo trộn lại: Tiếp tục xáo trộn ngẫu nhiên các thẻ đang hiển thị.</span></li>
+                    <li><strong class="text-red-600">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-slate-500">Dừng mọi âm thanh đang phát.</span></li>
+                </ul>
+                <p class="font-medium text-slate-800 pt-2">【カード内の操作 / Thao tác trong thẻ】</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><strong>JP Xem / Ẩn:</strong> 日本語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Nhật.</span></li>
+                    <li><strong>VI Xem / Ẩn:</strong> ベトナム語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Việt.</span></li>
+                    <li><strong class="text-emerald-600">録音・発音チェック:</strong> 各カードの「🎤」を押すと、自分の発音を録音して確認できます。<br>
+                        <span class="text-xs font-semibold text-amber-600">※ブラウザからマイクへのアクセスを求められた場合は「許可」してください。</span><br>
+                        <span class="text-[11px] text-amber-600/90 italic">Chức năng ghi âm: Nhấn vào "🎤" trên mỗi thẻ. Vui lòng chọn "Cho phép" (Allow) quyền truy cập micro khi được hỏi.</span>
+                    </li>
+                    <li><strong class="text-blue-600">模範音声 (録音画面内):</strong> お手本となる正しい発音の音声を再生します。<br><span class="text-xs text-slate-500">Âm thanh mẫu (trong màn hình ghi âm): Phát âm thanh mẫu chuẩn để tham khảo.</span></li>
+                    <li><strong class="text-emerald-600">AI発音分析アドバイス（試用版）:</strong> 録音した音声をAIに引継いで発話を分析しアドバイスを表示します。結果が表示されるまで約30秒程待ち時間があります。<br><span class="text-xs text-slate-500">Phân tích phát âm AI: Chuyển âm thanh đã ghi âm cho AI để phân tích. Vui lòng đợi khoảng 30 giây để xem kết quả.</span></li>
+                    <li><strong class="text-indigo-600">▶ (再生):</strong> その問題の音声を個別に再生します。<br><span class="text-xs text-slate-500">Phát âm thanh của thẻ này.</span></li>
+                    <li><strong class="text-red-600">■ (個別停止):</strong> 音声を停止します。<br><span class="text-xs text-slate-500">Dừng âm thanh của thẻ ini.</span></li>
+                </ul>
+            </div>
+            <div class="border-t border-slate-100 pt-3 mt-4 text-right">
+                <button id="modalCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる / Đóng</button>
+            </div>
         </div>
     </div>
-</div>
+
+    <!-- ⏱️ ドラッグ可能なタイマーオブジェクト -->
+    <div id="floatingTimer" class="hidden fixed z-[9000] bg-white/95 backdrop-blur-sm border-2 border-indigo-400 rounded-2xl shadow-2xl flex flex-col items-center justify-between overflow-hidden transition-opacity" style="width: 140px; height: 150px; bottom: 30px; right: 30px; touch-action: none;">
+        <!-- ドラッグ用ハンドル部分 -->
+        <div id="timerDragHandle" class="bg-indigo-500 text-white text-[11px] w-full text-center py-2 font-bold cursor-move flex items-center justify-center gap-1 active:bg-indigo-600 transition-colors">
+            <span class="text-sm leading-none">✢</span> 移動 (Kéo thả)
+        </div>
+        <!-- カウントダウン表示部分 -->
+        <div class="flex-1 flex flex-col items-center justify-center w-full pointer-events-none">
+            <span class="text-xs text-slate-500 font-bold mb-1">Thời gian trả lời</span>
+            <span id="timerText" class="text-6xl font-black text-indigo-500 tabular-nums tracking-tighter drop-shadow-sm transition-colors duration-300">3</span>
+        </div>
+        <!-- プログレスバー -->
+        <div class="w-full h-1.5 bg-slate-100 pointer-events-none">
+            <div id="timerBar" class="h-full bg-indigo-500 w-full origin-left"></div>
+        </div>
+    </div>
+
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.120a</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.120e-Univ</span>
     </div>
 
 <script>
@@ -249,8 +269,8 @@
     let audioQueue = [];
     let isPlayingQueue = false;
     let queueIndex = 0;
-    let playbackTimeout = null;          // 連巡再生時の二重再生防止用タイマー保持
-    let currentFilteredQuestions = [];   // 現在の選択条件に合致した表示中データリスト
+    let playbackTimeout = null;          
+    let currentFilteredQuestions = [];   
 
     // 録音・模範音声・変換エンジン周りの状態管理
     let mediaRecorder = null;
@@ -260,14 +280,17 @@
     let recordedExtension = 'webm';
     let currentRecordId = "";
     let currentRecordLesson = "";
-    let currentModelAudioUrl = null;     // モーダル内の模範音声URLの一時保持
-    let modelAudioPlayback = null;       // モーダル内の模範音声再生インスタンス
-    let pingpongTimeout = null;          // ★追加: ピンポーン音の待機タイマー保持　Ver4.12
-    let recordedBase64Data = null; // ★これを追加（Base64変換済みデータを保持）Ver4.11
+    let currentModelAudioUrl = null;     
+    let modelAudioPlayback = null;       
+    let pingpongTimeout = null;          
+    let recordedBase64Data = null; 
     let ffmpeg = null;
     let fetchFile = null;
     let isFfmpegLoaded = false;
 
+    // フローティングタイマー管理変数
+    let countdownInterval = null;
+    
     // -------------------------------------------------------------------------
     // 2. DOM要素の取得 (DOM Elements)
     // -------------------------------------------------------------------------
@@ -299,6 +322,8 @@
     const backToTopContainer = document.getElementById('backToTopContainer');
     const backToTopBtn = document.getElementById('backToTopBtn');
     const reFetchRandomBtn = document.getElementById('reFetchRandomBtn');
+    
+    // ピンポーン音の読み込み
     const pingpongSound = new Audio('pingpong.mp3');
 
     // 録音モーダル内コンポーネント
@@ -311,17 +336,81 @@
     const stopRecordBtn = document.getElementById('stopRecordBtn');
     const playRecordBtn = document.getElementById('playRecordBtn');
     const saveRecordBtn = document.getElementById('saveRecordBtn');
-    const aiAdviceBtn = document.getElementById('aiAdviceBtn'); // ← ★Ver4.1で追加
+    const aiAdviceBtn = document.getElementById('aiAdviceBtn');
     const recordStatus = document.getElementById('recordStatus');
     const modalRecordCloseOkBtn = document.getElementById('modalRecordCloseOkBtn');
+
+    // フローティングタイマー要素
+    const floatingTimer = document.getElementById('floatingTimer');
+    const timerDragHandle = document.getElementById('timerDragHandle');
+    const timerText = document.getElementById('timerText');
+    const timerBar = document.getElementById('timerBar');
 
     // -------------------------------------------------------------------------
     // 3. 音声・再生制御ヘルパー関数 (Audio & Playback Helpers)
     // -------------------------------------------------------------------------
     
-    // 【新設】グループ化とシャッフルを統合したヘルパー関数
+    // フローティングタイマーを非表示・リセットする関数
+    function hideFloatingTimer() {
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+        }
+        if (floatingTimer && !floatingTimer.classList.contains('hidden')) {
+            floatingTimer.classList.add('hidden');
+        }
+    }
+
+    // フローティングタイマーを起動する関数
+    function startFloatingTimer() {
+        // 現在のモードが「個別指定（individual）」または「ランダム（random）」でなければ終了
+        const currentMode = confirmBtn.getAttribute('data-mode');
+        if (currentMode !== 'individual' && currentMode !== 'random') {
+            return;
+        }
+
+        if (!floatingTimer || !timerText || !timerBar) return;
+        
+        hideFloatingTimer(); 
+        
+        floatingTimer.classList.remove('hidden');
+        let timeLeft = 3;
+        
+        // テキストと色のリセット（インディゴ仕様）
+        timerText.textContent = timeLeft;
+        timerText.classList.remove('text-red-500'); 
+        timerText.classList.add('text-indigo-500');
+        
+        timerBar.style.transition = 'none';
+        timerBar.style.width = '100%';
+
+        setTimeout(() => {
+            timerBar.style.transition = 'width 1s linear';
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                timerText.textContent = timeLeft;
+
+                if (timeLeft > 0) {
+                    timerBar.style.width = `${(timeLeft / 3) * 100}%`;
+                } else {
+                    // ちょうど0秒になった瞬間に1回だけピンポーン音を鳴らす
+                    if (timeLeft === 0) {
+                        timerBar.style.width = '0%';
+                        timerText.classList.remove('text-indigo-500');
+                        timerText.classList.add('text-red-500'); 
+                        
+                        pingpongSound.currentTime = 0; // 連続再生に備えてシーク位置をリセット
+                        pingpongSound.play().catch(error => {
+                            console.error("ピンポーン音の再生に失敗しました:", error);
+                        });
+                    }
+                    // -1以降はwidthは0%のまま、赤文字のままカウントダウンだけが進む
+                }
+            }, 1000);
+        }, 50);
+    }
+
     function getGroupedAndShuffled(array, isRandomMode, targetCount) {
-        // 1. groupIdでグループ化（無い場合は自分自身のidをキーにする）
         const grouped = {};
         array.forEach(q => {
             const key = q.groupId || q.id;
@@ -329,29 +418,24 @@
             grouped[key].push(q);
         });
 
-        // 2. 箱（グループ）の単位で配列化してシャッフル
         let groupedArray = Object.values(grouped);
         for (let i = groupedArray.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [groupedArray[i], groupedArray[j]] = [groupedArray[j], groupedArray[i]];
         }
 
-        // 3. フラット化（ランダム抽出モード時は目標数に達するまで箱ごと追加）
         let result = [];
         if (isRandomMode) {
             for (let g of groupedArray) {
                 result.push(...g);
-                // 抽出数を満たしたらループ終了（セットを途中で割らないため、指定数を少し超える場合があります）
                 if (result.length >= targetCount) break;
             }
         } else {
-            // 全体表示やシャッフル表示時はすべて展開
             result = groupedArray.flat();
         }
         return result;
     }
 
-    // 選択用のドロップダウンメニューの動的初期化
     function initLessonSelect() {
         if (typeof questions === 'undefined' || !Array.isArray(questions)) {
             showError('データ（Cパート）が読み込まれていません。');
@@ -369,11 +453,12 @@
         lessonSelect.selectedIndex = -1;
     }
 
-    // すべての音声再生、および連続キュー制御を強制完全リセット
     function terminatePlayback() {
         isPlayingQueue = false;
         audioQueue = [];
         queueIndex = 0;
+
+        hideFloatingTimer(); // 停止時にタイマーも消去
 
         if (playbackTimeout) {
             clearTimeout(playbackTimeout);
@@ -388,13 +473,11 @@
             }
             currentAudio = null;
         }
-        // ハイライト装飾の全解除
         document.querySelectorAll('.question-card').forEach(card => {
             card.classList.remove('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
         });
     }
 
-    // 特定のカードへフォーカスハイライトを付与
     function highlightCard(id) {
         const activeCard = document.querySelector('.question-card.border-indigo-500');
         if (activeCard) {
@@ -406,7 +489,6 @@
         }
     }
 
-    // キュー一括再生ループの開始
     function startQueuePlayback(items) {
         terminatePlayback();
         if (items.length === 0) {
@@ -420,8 +502,10 @@
         executeNextQueueItem();
     }
 
-    // 再生キューの処理を順次実行
     function executeNextQueueItem() {
+        // 次の音声が始まる時に、前のタイマーが残っていれば消す
+        hideFloatingTimer();
+
         if (!isPlayingQueue || queueIndex >= audioQueue.length) {
             terminatePlayback();
             return;
@@ -433,6 +517,10 @@
         
         currentAudio.onended = () => {
             if (!isPlayingQueue) return;
+            
+            // キュー連続再生中、一つの音声が終わった瞬間に3秒タイマー起動
+            startFloatingTimer();
+            
             queueIndex++;
             const interval = (parseFloat(pauseInput.value) || 0) * 1000;
             
@@ -452,7 +540,6 @@
         const playPromise = currentAudio.play();
         if (playPromise !== undefined) {
             playPromise.then(_ => {
-                // 再生が正常に開始された
             }).catch(error => {
                 console.warn('Playback interrupted or failed:', error);
                 queueIndex++;
@@ -487,7 +574,6 @@
             card.className = 'question-card bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-200';
             card.setAttribute('data-id', q.id);
 
-            // テキスト情報エリア
             const textSection = document.createElement('div');
             textSection.className = 'flex-1';
             
@@ -502,11 +588,9 @@
                 ${imageHtml}
             `;
 
-            // アクションボタンコンテナ
             const buttonSection = document.createElement('div');
             buttonSection.className = 'flex items-center gap-2 self-stretch md:self-auto justify-end border-t md:border-t-0 pt-3 md:pt-0 border-gray-100';
 
-            // 各自表示制御ボタン
             const jpBtn = document.createElement('button');
             jpBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none active:scale-95';
             jpBtn.textContent = 'JP Xem';
@@ -521,7 +605,6 @@
                     jpBtn.className = 'bg-slate-500 text-white font-semibold px-3 py-2 rounded-lg text-xs transition cursor-pointer select-none active:scale-95';
                 } 
             }
-            
 
             const viBtn = document.createElement('button');
             viBtn.className = 'bg-slate-100 text-slate-700 font-semibold px-3 py-2 rounded-lg text-xs border border-slate-300 transition cursor-pointer select-none';
@@ -560,7 +643,7 @@
             recordBtn.className = 'bg-emerald-50 text-emerald-600 p-2 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none active:scale-95';
             recordBtn.innerHTML = '🎤';
             recordBtn.onclick = () => {
-                terminatePlayback();
+                terminatePlayback(); // タイマーも非表示になります
                 openRecordModal(q.id, q.text, q.lesson, q.audioUrl);
             };
             
@@ -568,9 +651,15 @@
             playBtn.className = 'bg-indigo-50 text-indigo-600 p-2 rounded-lg border border-indigo-200 hover:bg-indigo-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none active:scale-95';
             playBtn.innerHTML = '▶';
             playBtn.onclick = () => {
-                terminatePlayback();
+                terminatePlayback(); // 前のタイマーや音声がリセット・非表示される
                 highlightCard(q.id);
                 currentAudio = new Audio(q.audioUrl);
+                
+                // 個別再生ボタンでも、再生が終わったらタイマー表示
+                currentAudio.onended = () => {
+                    startFloatingTimer();
+                };
+                
                 currentAudio.play().catch(e => {
                     console.error('Individual play error:', e);
                     alert('音声ファイルがまだ準備されていないか、読み込めませんでした。');
@@ -607,7 +696,6 @@
         errorMessage.classList.add('hidden');
     }
 
-    // ランダム抽出モードの時に、入力フィールドの最大値を動的に更新する関数
     function updateRandomMaxCount() {
         if (typeof questions === 'undefined') return;
         const selectedLessons = Array.from(lessonSelect.selectedOptions).map(o => parseInt(o.value));
@@ -616,21 +704,18 @@
         const availableCount = questions.filter(q => selectedLessons.includes(q.lesson)).length;
         if (availableCount > 0) {
             randomCountInput.max = availableCount;
-            // 選択された課の総問題数より入力値が大きい場合は、自動で上限に合わせる
             if (parseInt(randomCountInput.value) > availableCount) {
                 randomCountInput.value = availableCount;
             }
         }
     }
     
-    // 課の選択が変更されたときに抽出上限数を更新
     lessonSelect.addEventListener('change', () => {
         if (confirmBtn.getAttribute('data-mode') === 'random') {
             updateRandomMaxCount();
         }
     });
 
-    // ドロップダウンで指定された課の表示を判定・確定する共通ロジック
     function executeDisplay(isShuffle) {
         if (typeof questions === 'undefined') {
             showError('データが読み込まれていません。');
@@ -647,11 +732,9 @@
         let filtered = questions.filter(q => selectedLessons.includes(q.lesson));
         const mode = confirmBtn.getAttribute('data-mode');
 
-        // 【変更箇所】抽出モードまたはシャッフル指定時はグループ化シャッフルを実行
         if (isShuffle || mode === 'shuffle' || mode === 'random') {
             let count = parseInt(randomCountInput.value);
             if (isNaN(count) || count < 1) count = 10;
-            
             filtered = getGroupedAndShuffled(filtered, mode === 'random', count);
         }
         
@@ -664,7 +747,6 @@
             startQueuePlayback(currentFilteredQuestions);
         }
         
-        // ランダムモードの時だけ「別の問題で練習する」ボタンを表示する
         if (mode === 'random') {
             reFetchRandomBtn.classList.remove('hidden');
         } else {
@@ -673,6 +755,53 @@
         
         lessonSelectContainer.classList.add('hidden');
     }
+
+    // -------------------------------------------------------------------------
+    // ドラッグ移動のロジック (Drag Logic)
+    // -------------------------------------------------------------------------
+    let isDragging = false;
+    let initialX, initialY;
+    let currentTranslateX = 0;
+    let currentTranslateY = 0;
+
+    function dragStart(e) {
+        if (e.target === timerDragHandle || timerDragHandle.contains(e.target)) {
+            isDragging = true;
+            if (e.type === "touchstart") {
+                initialX = e.touches[0].clientX - currentTranslateX;
+                initialY = e.touches[0].clientY - currentTranslateY;
+            } else {
+                initialX = e.clientX - currentTranslateX;
+                initialY = e.clientY - currentTranslateY;
+            }
+        }
+    }
+
+    function dragMove(e) {
+        if (isDragging) {
+            e.preventDefault(); 
+            if (e.type === "touchmove") {
+                currentTranslateX = e.touches[0].clientX - initialX;
+                currentTranslateY = e.touches[0].clientY - initialY;
+            } else {
+                currentTranslateX = e.clientX - initialX;
+                currentTranslateY = e.clientY - initialY;
+            }
+            floatingTimer.style.transform = `translate3d(${currentTranslateX}px, ${currentTranslateY}px, 0)`;
+        }
+    }
+
+    function dragEnd(e) {
+        isDragging = false;
+    }
+
+    document.addEventListener("mousedown", dragStart, false);
+    document.addEventListener("mousemove", dragMove, false);
+    document.addEventListener("mouseup", dragEnd, false);
+    document.addEventListener("touchstart", dragStart, { passive: false });
+    document.addEventListener("touchmove", dragMove, { passive: false });
+    document.addEventListener("touchend", dragEnd, false);
+
 
     // -------------------------------------------------------------------------
     // 5. 録音システムロジック (Recording System)
@@ -721,11 +850,10 @@
         currentRecordId = id;
         currentRecordLesson = lesson;
         currentModelAudioUrl = audioUrl;
-        recordedBase64Data = null; // ★これを追加（開くたびにリセット）Ver4.11
+        recordedBase64Data = null; 
         recordModalId.textContent = `Bài ${lesson} - ID: ${id}`;
         recordModalText.innerHTML = text;
         
-        // 模範音声が動いていれば初期化
         if (modelAudioPlayback) {
             modelAudioPlayback.pause();
             modelAudioPlayback = null;
@@ -751,7 +879,6 @@
     }
     window.openRecordModal = openRecordModal;
 
-    // FFmpeg エンジンのロードランタイム初期化
     saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
     saveRecordBtn.innerHTML = '⏳ エンジン準備中... (Đang chuẩn bị...)';
 
@@ -800,8 +927,6 @@
     // -------------------------------------------------------------------------
     // 6. グローバルイベントリスナー登録 (Event Listeners)
     // -------------------------------------------------------------------------
-    
-    // 全体一括連続再生
     playAllBtn.addEventListener('click', () => {
         if (typeof questions === 'undefined') return;
         lessonSelectContainer.classList.add('hidden');
@@ -820,7 +945,6 @@
         }, 100);
     });
 
-    // 指定課別連続再生モード
     playLessonBtn.addEventListener('click', () => {
         terminatePlayback();
         lessonSelectContainer.classList.remove('hidden');
@@ -830,7 +954,6 @@
         lessonSelect.focus();
     });
 
-    // 個別指定音声再生モード
     individualPlayBtn.addEventListener('click', () => {
         terminatePlayback();
         lessonSelectContainer.classList.remove('hidden');
@@ -840,7 +963,6 @@
         lessonSelect.focus();
     });
 
-    // ランダム抽出練習モード
     randomPracticeBtn.addEventListener('click', () => {
         terminatePlayback();
         lessonSelectContainer.classList.remove('hidden');
@@ -848,7 +970,7 @@
         randomCountContainer.classList.add('flex');
         confirmBtn.setAttribute('data-mode', 'random');
         lessonSelect.focus();
-        updateRandomMaxCount(); // 最大値を現在選択されているものに合わせる
+        updateRandomMaxCount();
     });
 
     confirmBtn.addEventListener('click', () => executeDisplay(false));
@@ -856,13 +978,10 @@
         shuffleConfirmBtn.addEventListener('click', () => executeDisplay(true));
     }
         
-    // 画面内カード再シャッフルアクション
     if (reshuffleBtn) {
         reshuffleBtn.addEventListener('click', () => {
             if (currentFilteredQuestions.length === 0) return;
             terminatePlayback();
-
-            // 【変更箇所】画面に表示中のカードもグループ単位で再シャッフルする
             currentFilteredQuestions = getGroupedAndShuffled(currentFilteredQuestions, false, 0);
 
             const mode = confirmBtn.getAttribute('data-mode');
@@ -881,7 +1000,6 @@
         });
     }
 
-    // 「別の問題で練習する」ボタンの処理
     if (reFetchRandomBtn) {
         reFetchRandomBtn.addEventListener('click', () => {
             terminatePlayback(); 
@@ -890,7 +1008,6 @@
         });
     }
         
-    // プリセットボタングループのバインディング
     document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const start = parseInt(btn.getAttribute('data-start'));
@@ -910,7 +1027,6 @@
             }
             hideError();
             
-            // ランダム抽出モードの時は、入力フィールドの上限を更新するのみで自動実行しない
             if (confirmBtn.getAttribute('data-mode') === 'random') {
                 updateRandomMaxCount();
             } else {
@@ -929,7 +1045,6 @@
         if (val > 0) pauseInput.value = val - 1;
     });
 
-    // 抽出数のプラス・マイナス操作
     if (randomPlusBtn) {
         randomPlusBtn.addEventListener('click', () => {
             let val = parseInt(randomCountInput.value) || 1;
@@ -947,7 +1062,6 @@
 
     stopBtn.addEventListener('click', terminatePlayback);            
 
-    // マニュアル説明書ポップアップ開閉
     toggleManualBtn.addEventListener('click', () => manualContainer.classList.add('manual-open'));
     closeManualBtn.addEventListener('click', () => manualContainer.classList.remove('manual-open'));
     modalCloseOkBtn.addEventListener('click', () => manualContainer.classList.remove('manual-open'));
@@ -975,7 +1089,6 @@
             modelAudioPlayback = null;
             playModelAudioBtn.innerHTML = '▶️ 模範音声 (Phát mẫu)';
         }
-        // ★追加: 待機中のピンポーン音をキャンセル
         if (pingpongTimeout) {
             clearTimeout(pingpongTimeout);
             pingpongTimeout = null;
@@ -990,7 +1103,6 @@
         if (e.target === recordModal) closeRecordModalBtn.click();
     });
 
-    // 模範音声のトグル再生処理
     playModelAudioBtn.addEventListener('click', () => {
         if (!currentModelAudioUrl) return;
 
@@ -998,7 +1110,6 @@
             modelAudioPlayback.pause();
             modelAudioPlayback.currentTime = 0;
             playModelAudioBtn.innerHTML = '▶️ 模範音声 (Phát mẫu)';
-            // ★追加: 途中で止めた場合はピンポーン音もキャンセル
             if (pingpongTimeout) {
                 clearTimeout(pingpongTimeout);
                 pingpongTimeout = null;
@@ -1015,19 +1126,18 @@
             playModelAudioBtn.innerHTML = '▶️ 模範音声 (Phát mẫu)';
         });
 
-        // ★追加・変更: 模範音声の再生が終了した時の処理
+        // 録音モーダル内のピンポーン処理（これは既存のまま）
         modelAudioPlayback.onended = () => {
             playModelAudioBtn.innerHTML = '▶️ 模範音声 (Phát mẫu)';
-            // 3秒経過後にピンポーンを鳴らす
             pingpongTimeout = setTimeout(() => {
+                pingpongSound.currentTime = 0;
                 pingpongSound.play().catch(error => {
-                    console.error("音声再生エラー:「模範音声を聞いてから３秒経過しました。」", error);
+                    console.error("ピンポーン音の再生に失敗しました:", error);
                 });
             }, 3000);
         };
     });
 
-    // ユーザー録音開始アクション
     startRecordBtn.addEventListener('click', async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -1048,12 +1158,12 @@
                 recordedExtension = mimeType.includes('mp4') ? 'mp4' : 'webm';
                 const audioBlob = new Blob(audioChunks, { type: mimeType });
                 recordedAudioUrl = URL.createObjectURL(audioBlob);
-                // ★追加：録音完了した瞬間にBase64に変換して変数に保存しておく
+                
                 const reader = new FileReader();
                 reader.readAsDataURL(audioBlob);
                 reader.onloadend = () => {
                     recordedBase64Data = reader.result;
-                     };
+                };
                 updateRecordUI('recorded');
             };                      
 
@@ -1111,7 +1221,6 @@
             }
         }
 
-        // Webm等のフォールバック保存処理
         try {
             recordStatus.textContent = '保存します... (Đang lưu file Webm...)';
             const response = await fetch(recordedAudioUrl);
@@ -1127,11 +1236,7 @@
         }
     });
 
-    // -------------------------------------------------------------------------
-    // ★追加：AIに発音アドバイスを受けるボタンの処理（Ver4.11）
-    // -------------------------------------------------------------------------
-aiAdviceBtn.addEventListener('click', () => {
-        // ★async を外し、準備済みの base64 データがあるか確認する
+    aiAdviceBtn.addEventListener('click', () => {
         if (!recordedBase64Data) {
             alert('自分の音声を録音してください（またはデータ処理中です）。 / Vui lòng ghi âm trước.');
             return;
@@ -1139,11 +1244,9 @@ aiAdviceBtn.addEventListener('click', () => {
 
         const targetText = recordModalText.textContent || recordModalText.innerText;
 
-        // 同期的に sessionStorage に保存
         sessionStorage.setItem('analysisTargetText', targetText);
         sessionStorage.setItem('analysisAudioData', recordedBase64Data);
 
-        // 同期処理なので、直接 window.open を実行してもiPhoneでブロックされず、データも引き継がれる
         window.open('https://itm-kaiwa.github.io/Pronunciation_Analysis/index.html', '_blank');
     });
 
@@ -1156,6 +1259,6 @@ aiAdviceBtn.addEventListener('click', () => {
 
 })();
 
-        </script>
-    </body>
+</script>
+</body>
 </html>
