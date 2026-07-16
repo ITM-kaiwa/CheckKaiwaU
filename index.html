@@ -255,7 +255,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.310a-univ</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.320a-univ</span>
     </div>
 
 <script>
@@ -528,8 +528,7 @@
         executeNextQueueItem();
     }
 
-    function executeNextQueueItem() {
-        // 次の音声が始まる時に、前のタイマーが残っていれば消す
+function executeNextQueueItem() {
         hideFloatingTimer();
 
         if (!isPlayingQueue || queueIndex >= audioQueue.length) {
@@ -538,39 +537,58 @@
         }
 
         const currentItem = audioQueue[queueIndex];
+        
+        // 前の音声インスタンスがあれば確実に破棄する
+        if (currentAudio) {
+            currentAudio.onended = null;
+            currentAudio.onerror = null;
+            currentAudio.pause();
+            currentAudio = null;
+        }
+
         highlightCard(currentItem.id);
         currentAudio = new Audio(currentItem.audioUrl);
         
+        // 読み込みエラー時の挙動を改善（連鎖スキップ防止）
+        currentAudio.onerror = () => {
+            console.error(`音声読み込みエラー: ${currentItem.id}`);
+            // エラー時、即座に飛ばず、少し待機してから次の曲へ（連鎖エラー回避）
+            setTimeout(() => {
+                if (isPlayingQueue) {
+                    queueIndex++;
+                    executeNextQueueItem();
+                }
+            }, 500); 
+        };
+
         currentAudio.onended = () => {
             if (!isPlayingQueue) return;
-            
-            // キュー連続再生中はタイマーを表示しないため削除
-            
             queueIndex++;
             const interval = (parseFloat(pauseInput.value) || 0) * 1000;
             
+            // 次の曲へ進む前に確実にcurrentAudioをクリアする
+            if (currentAudio) {
+                currentAudio.onended = null;
+                currentAudio = null;
+            }
+
             playbackTimeout = setTimeout(() => {
                 if (isPlayingQueue) {
                     executeNextQueueItem();
                 }
             }, interval);
         };
-                
-        currentAudio.onerror = () => {
-            console.error(`音声ファイルの読み込みに失敗しました: ${currentItem.audioUrl}`);
-            queueIndex++;
-            executeNextQueueItem();
-        };
 
-        const playPromise = currentAudio.play();
-        if (playPromise !== undefined) {
-            playPromise.then(_ => {
-            }).catch(error => {
-                console.warn('Playback interrupted or failed:', error);
-                queueIndex++;
-                executeNextQueueItem();
-            });
-        }
+        currentAudio.play().catch(error => {
+            console.warn('再生失敗:', error);
+            // エラー時も同様に処理
+            setTimeout(() => {
+                if (isPlayingQueue) {
+                    queueIndex++;
+                    executeNextQueueItem();
+                }
+            }, 500);
+        });
     }
     
     // -------------------------------------------------------------------------
