@@ -1171,12 +1171,7 @@
         // 録音モーダル内のピンポーン処理
         modelAudioPlayback.onended = () => {
             playModelAudioBtn.innerHTML = '▶️ 模範音声 (Phát mẫu)';
-            pingpongTimeout = setTimeout(() => {
-                pingpongSound.currentTime = 0;
-                pingpongSound.play().catch(error => {
-                    console.error("ブザー音の再生に失敗しました:３秒が経過しました。", error);
-                });
-            }, 3000);
+           
         };
     });
 
