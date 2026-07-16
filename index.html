@@ -75,41 +75,63 @@
                 操作方法 Hướng dẫn
             </button>
             
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 w-full transition-all">
-                
-                <div class="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 w-full md:w-auto">
+            <!-- ▼ コントロールパネル・ラッパー (分離時に破線エリアになる部分) ▼ -->
+            <div id="controlPanelWrapper" class="w-full relative transition-all duration-300 rounded-xl">
+                <!-- ▼ コントロールパネル本体 ▼ -->
+                <div id="controlPanel" class="flex flex-col bg-slate-50 p-4 rounded-xl border border-slate-200 w-full transition-all duration-300">
                     
-                    <div class="flex flex-col gap-2 w-full md:w-auto">
-                        <span class="text-xs md:text-sm font-medium text-slate-600">再生間隔 / Khoảng cách phát (秒):</span>
-                        <div class="flex items-center gap-2">
-                            <button id="minusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold text-2xl hover:bg-slate-100 transition active:scale-95 shadow-sm">－</button>
-                            <input id="pauseInput" type="number" value="3" min="0" max="15" class="w-14 text-center bg-white border border-slate-300 rounded-lg py-2 font-semibold focus:outline-none" readonly>
-                            <button id="plusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold text-2xl hover:bg-slate-100 transition active:scale-95 shadow-sm">＋</button>
+                    <!-- ドラッグハンドル＆閉じる（ドック）ボタン（初期状態は非表示） -->
+                    <div id="controlPanelHandle" class="hidden w-full bg-indigo-600 text-white text-[11px] text-center py-2 font-bold cursor-move items-center justify-center rounded-lg mb-4 relative shadow-md">
+                        <button id="dockPanelBtn" class="absolute left-2 top-1.5 bg-white/20 hover:bg-white/40 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs font-bold leading-none transition">×</button>
+                        <span class="text-sm leading-none mr-1">✢</span> 移動 (Kéo thả)
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 w-full">
+                        
+                        <div class="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 w-full md:w-auto">
+                            <div class="flex flex-col gap-2 w-full md:w-auto">
+                                <span class="text-xs md:text-sm font-medium text-slate-600">再生間隔 / Khoảng cách phát (秒):</span>
+                                <div class="flex items-center gap-2">
+                                    <button id="minusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold text-2xl hover:bg-slate-100 transition active:scale-95 shadow-sm">－</button>
+                                    <input id="pauseInput" type="number" value="3" min="0" max="15" class="w-14 text-center bg-white border border-slate-300 rounded-lg py-2 font-semibold focus:outline-none" readonly>
+                                    <button id="plusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold text-2xl hover:bg-slate-100 transition active:scale-95 shadow-sm">＋</button>
+                                </div>
+                            </div>
+                            
+                            <div id="randomCountContainer" class="hidden flex-col gap-2 w-full md:w-auto md:border-l border-slate-300 md:pl-6">
+                                <span class="text-xs md:text-sm font-medium text-indigo-700">抽出数 / Số câu (ランダム):</span>
+                                <div class="flex items-center gap-2">
+                                    <button id="randomMinusBtn" class="bg-indigo-50 text-indigo-700 w-10 h-10 rounded-lg border border-indigo-200 flex items-center justify-center font-bold text-2xl hover:bg-indigo-100 transition active:scale-95 shadow-sm">－</button>
+                                    <input id="randomCountInput" type="number" min="1" max="100" value="5" class="w-14 text-center bg-white border border-indigo-300 rounded-lg py-2 font-semibold text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                    <button id="randomPlusBtn" class="bg-indigo-50 text-indigo-700 w-10 h-10 rounded-lg border border-indigo-200 flex items-center justify-center font-bold text-2xl hover:bg-indigo-100 transition active:scale-95 shadow-sm">＋</button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto ml-auto">
+                            <!-- ▼ 追加：フローティング化ボタン ▼ -->
+                            <button id="floatPanelBtn" class="w-full md:w-auto md:min-w-[70px] bg-indigo-400 text-white py-3 rounded-xl font-bold hover:bg-indigo-500 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight px-3 text-sm">
+                                <span>🪟 分離</span>
+                                <span class="text-[10px] font-normal opacity-90 mt-0.5">Nổi</span>
+                            </button>
+
+                            <button id="reshuffleBtn" class="hidden w-full md:w-auto md:min-w-[150px] bg-teal-500 text-white py-3 rounded-xl font-bold hover:bg-teal-600 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight px-4 text-sm">
+                                <span>再シャッフル</span>
+                                <span class="text-xs font-normal opacity-90 mt-0.5">Xáo trộn lại</span>
+                            </button>
+                            <button id="stopBtn" class="w-full md:w-auto md:min-w-[120px] bg-red-500 text-white py-3 rounded-xl font-bold hover:bg-red-600 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight px-4 text-sm">
+                                <span>停止</span>
+                                <span class="text-xs font-normal opacity-90 mt-0.5">Dừng</span>
+                            </button>
                         </div>
                     </div>
-                    
-                    <div id="randomCountContainer" class="hidden flex-col gap-2 w-full md:w-auto md:border-l border-slate-300 md:pl-6">
-                        <span class="text-xs md:text-sm font-medium text-indigo-700">抽出数 / Số câu (ランダム):</span>
-                        <div class="flex items-center gap-2">
-                            <button id="randomMinusBtn" class="bg-indigo-50 text-indigo-700 w-10 h-10 rounded-lg border border-indigo-200 flex items-center justify-center font-bold text-2xl hover:bg-indigo-100 transition active:scale-95 shadow-sm">－</button>
-                            <input id="randomCountInput" type="number" min="1" max="100" value="5" class="w-14 text-center bg-white border border-indigo-300 rounded-lg py-2 font-semibold text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-                            <button id="randomPlusBtn" class="bg-indigo-50 text-indigo-700 w-10 h-10 rounded-lg border border-indigo-200 flex items-center justify-center font-bold text-2xl hover:bg-indigo-100 transition active:scale-95 shadow-sm">＋</button>
-                        </div>
-                    </div>
-                
                 </div>
-            
-                <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto ml-auto">
-                    <button id="reshuffleBtn" class="hidden w-full md:w-auto md:min-w-[150px] bg-teal-500 text-white py-3 rounded-xl font-bold hover:bg-teal-600 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight px-4 text-sm">
-                        <span>再シャッフル</span>
-                        <span class="text-xs font-normal opacity-90 mt-0.5">Xáo trộn lại</span>
-                    </button>
-                    <button id="stopBtn" class="w-full md:w-auto md:min-w-[150px] bg-red-500 text-white py-3 rounded-xl font-bold hover:bg-red-600 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight px-4 text-sm">
-                        <span>停止</span>
-                        <span class="text-xs font-normal opacity-90 mt-0.5">Dừng</span>
-                    </button>
+                <!-- 分離時のプレースホルダー（通常時は非表示） -->
+                <div id="controlPanelPlaceholder" class="hidden absolute inset-0 flex items-center justify-center text-slate-400 text-sm font-medium italic pointer-events-none">
+                    分離中... (Bảng điều khiển đang nổi)
                 </div>
             </div>
+            <!-- ▲ コントロールパネル ここまで ▲ -->
             
             <div id="lessonSelectContainer" class="hidden p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3">
                 <label for="lessonSelect" class="block text-sm font-semibold text-indigo-900">
@@ -258,7 +280,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.330b-univ</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.40a</span>
     </div>
 
 <script>
@@ -297,7 +319,7 @@
     let fetchFile = null;
     let isFfmpegLoaded = false;
 
-    // フローティングタイマー管理変数
+    // フローティングタイマー＆パネル管理変数
     let countdownInterval = null;
     
     // -------------------------------------------------------------------------
@@ -332,6 +354,14 @@
     const backToTopBtn = document.getElementById('backToTopBtn');
     const reFetchRandomBtn = document.getElementById('reFetchRandomBtn');
     
+    // コントロールパネル要素
+    const controlPanelWrapper = document.getElementById('controlPanelWrapper');
+    const controlPanel = document.getElementById('controlPanel');
+    const controlPanelHandle = document.getElementById('controlPanelHandle');
+    const controlPanelPlaceholder = document.getElementById('controlPanelPlaceholder');
+    const floatPanelBtn = document.getElementById('floatPanelBtn');
+    const dockPanelBtn = document.getElementById('dockPanelBtn');
+
     // ピンポーン音の読み込み
     const pingpongSound = new Audio('pingpong.mp3');
 
@@ -842,54 +872,140 @@
     }
 
     // -------------------------------------------------------------------------
-    // ドラッグ移動のロジック (Drag Logic)
+    // フローティングパネル制御ロジック
     // -------------------------------------------------------------------------
-    let isDragging = false;
-    let initialX, initialY;
-    let currentTranslateX = 0;
-    let currentTranslateY = 0;
+    let isPanelFloating = false;
+    let isPanelDragging = false;
+    let panelInitialX = 0, panelInitialY = 0;
+    let panelTranslateX = 0, panelTranslateY = 0;
 
-    function dragStart(e) {
-        if (e.target === timerDragHandle || timerDragHandle.contains(e.target)) {
-            // もし閉じるボタンを押した場合はドラッグを開始しない
-            if (e.target === closeTimerBtn) return;
+    floatPanelBtn.addEventListener('click', () => {
+        isPanelFloating = true;
+        
+        // 元のラッパーの高さを固定し、破線（プレースホルダー）スタイルを付与
+        const rect = controlPanel.getBoundingClientRect();
+        controlPanelWrapper.style.height = `${rect.height}px`;
+        controlPanelWrapper.classList.add('border-2', 'border-dashed', 'border-slate-300', 'bg-slate-50/50');
+        controlPanelPlaceholder.classList.remove('hidden');
 
-            isDragging = true;
+        // パネルをフローティング化（半透明＆ホバー実体化）
+        // transition-allを外してドラッグ時のラグをなくし、opacityのみアニメーションさせます
+        controlPanel.className = "fixed bottom-20 md:bottom-8 right-2 md:right-8 z-[8000] flex flex-col bg-slate-50/90 hover:bg-slate-50 border border-slate-300 shadow-2xl backdrop-blur-sm p-4 rounded-xl w-[95vw] md:w-auto transition-opacity duration-300 opacity-70 hover:opacity-100";
+        
+        controlPanelHandle.classList.remove('hidden');
+        controlPanelHandle.classList.add('flex');
+        floatPanelBtn.classList.add('hidden'); // 分離ボタンは隠す
+        
+        // 座標リセット
+        panelTranslateX = 0; panelTranslateY = 0;
+        controlPanel.style.transform = `translate3d(0px, 0px, 0px)`;
+    });
+
+    dockPanelBtn.addEventListener('click', () => {
+        isPanelFloating = false;
+        
+        // ラッパーの設定を元に戻す
+        controlPanelWrapper.style.height = 'auto';
+        controlPanelWrapper.classList.remove('border-2', 'border-dashed', 'border-slate-300', 'bg-slate-50/50');
+        controlPanelPlaceholder.classList.add('hidden');
+
+        // パネルのデザインを元に戻す
+        controlPanel.className = "flex flex-col bg-slate-50 p-4 rounded-xl border border-slate-200 w-full transition-all duration-300";
+        
+        controlPanelHandle.classList.add('hidden');
+        controlPanelHandle.classList.remove('flex');
+        floatPanelBtn.classList.remove('hidden'); // 分離ボタンを復活
+        
+        controlPanel.style.transform = `none`;
+    });
+
+    function panelDragStart(e) {
+        if (!isPanelFloating) return;
+        if (e.target === controlPanelHandle || controlPanelHandle.contains(e.target)) {
+            // ドックに戻るボタンが押された時はドラッグを開始しない
+            if (e.target === dockPanelBtn) return;
+
+            isPanelDragging = true;
             if (e.type === "touchstart") {
-                initialX = e.touches[0].clientX - currentTranslateX;
-                initialY = e.touches[0].clientY - currentTranslateY;
+                panelInitialX = e.touches[0].clientX - panelTranslateX;
+                panelInitialY = e.touches[0].clientY - panelTranslateY;
             } else {
-                initialX = e.clientX - currentTranslateX;
-                initialY = e.clientY - currentTranslateY;
+                panelInitialX = e.clientX - panelTranslateX;
+                panelInitialY = e.clientY - panelTranslateY;
             }
         }
     }
 
-    function dragMove(e) {
-        if (isDragging) {
+    function panelDragMove(e) {
+        if (isPanelDragging) {
             e.preventDefault(); 
             if (e.type === "touchmove") {
-                currentTranslateX = e.touches[0].clientX - initialX;
-                currentTranslateY = e.touches[0].clientY - initialY;
+                panelTranslateX = e.touches[0].clientX - panelInitialX;
+                panelTranslateY = e.touches[0].clientY - panelInitialY;
             } else {
-                currentTranslateX = e.clientX - initialX;
-                currentTranslateY = e.clientY - initialY;
+                panelTranslateX = e.clientX - panelInitialX;
+                panelTranslateY = e.clientY - panelInitialY;
             }
-            floatingTimer.style.transform = `translate3d(${currentTranslateX}px, ${currentTranslateY}px, 0)`;
+            controlPanel.style.transform = `translate3d(${panelTranslateX}px, ${panelTranslateY}px, 0)`;
         }
     }
 
-    function dragEnd(e) {
-        isDragging = false;
+    function panelDragEnd(e) {
+        isPanelDragging = false;
     }
 
-    document.addEventListener("mousedown", dragStart, false);
-    document.addEventListener("mousemove", dragMove, false);
-    document.addEventListener("mouseup", dragEnd, false);
-    document.addEventListener("touchstart", dragStart, { passive: false });
-    document.addEventListener("touchmove", dragMove, { passive: false });
-    document.addEventListener("touchend", dragEnd, false);
+    document.addEventListener("mousedown", panelDragStart, false);
+    document.addEventListener("mousemove", panelDragMove, false);
+    document.addEventListener("mouseup", panelDragEnd, false);
+    document.addEventListener("touchstart", panelDragStart, { passive: false });
+    document.addEventListener("touchmove", panelDragMove, { passive: false });
+    document.addEventListener("touchend", panelDragEnd, false);
 
+    // -------------------------------------------------------------------------
+    // フローティングタイマーのドラッグ移動ロジック (Drag Logic)
+    // -------------------------------------------------------------------------
+    let isTimerDragging = false;
+    let timerInitialX, timerInitialY;
+    let timerTranslateX = 0, timerTranslateY = 0;
+
+    function timerDragStart(e) {
+        if (e.target === timerDragHandle || timerDragHandle.contains(e.target)) {
+            if (e.target === closeTimerBtn) return;
+            isTimerDragging = true;
+            if (e.type === "touchstart") {
+                timerInitialX = e.touches[0].clientX - timerTranslateX;
+                timerInitialY = e.touches[0].clientY - timerTranslateY;
+            } else {
+                timerInitialX = e.clientX - timerTranslateX;
+                timerInitialY = e.clientY - timerTranslateY;
+            }
+        }
+    }
+
+    function timerDragMove(e) {
+        if (isTimerDragging) {
+            e.preventDefault(); 
+            if (e.type === "touchmove") {
+                timerTranslateX = e.touches[0].clientX - timerInitialX;
+                timerTranslateY = e.touches[0].clientY - timerInitialY;
+            } else {
+                timerTranslateX = e.clientX - timerInitialX;
+                timerTranslateY = e.clientY - timerInitialY;
+            }
+            floatingTimer.style.transform = `translate3d(${timerTranslateX}px, ${timerTranslateY}px, 0)`;
+        }
+    }
+
+    function timerDragEnd(e) {
+        isTimerDragging = false;
+    }
+
+    document.addEventListener("mousedown", timerDragStart, false);
+    document.addEventListener("mousemove", timerDragMove, false);
+    document.addEventListener("mouseup", timerDragEnd, false);
+    document.addEventListener("touchstart", timerDragStart, { passive: false });
+    document.addEventListener("touchmove", timerDragMove, { passive: false });
+    document.addEventListener("touchend", timerDragEnd, false);
 
     // -------------------------------------------------------------------------
     // 5. 録音システムロジック (Recording System)
@@ -1072,7 +1188,6 @@
         updateRandomMaxCount();
         
         setTimeout(() => {
-            // 課を選択する窓へスクロールするように戻しました
             lessonSelectContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 100);
     });
