@@ -83,7 +83,7 @@
                         <span class="text-xs md:text-sm font-medium text-slate-600">再生間隔 / Khoảng cách phát (秒):</span>
                         <div class="flex items-center gap-2">
                             <button id="minusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold text-2xl hover:bg-slate-100 transition active:scale-95 shadow-sm">－</button>
-                            <input id="pauseInput" type="number" value="1" min="0" max="15" class="w-14 text-center bg-white border border-slate-300 rounded-lg py-2 font-semibold focus:outline-none" readonly>
+                            <input id="pauseInput" type="number" value="3" min="0" max="15" class="w-14 text-center bg-white border border-slate-300 rounded-lg py-2 font-semibold focus:outline-none" readonly>
                             <button id="plusBtn" class="bg-white text-slate-700 w-10 h-10 rounded-lg border border-slate-300 flex items-center justify-center font-bold text-2xl hover:bg-slate-100 transition active:scale-95 shadow-sm">＋</button>
                         </div>
                     </div>
@@ -378,7 +378,7 @@
         floatingTimer.classList.remove('hidden');
 
         // 課によって初期秒数を決定（25課までは8秒、26課以降は10秒）
-        const initialTime = (lesson <= 25) ? 8 : 10;
+        const initialTime = (parseInt(lesson, 10) <= 25) ? 8 : 10;
         let timeLeft = initialTime;
         
         // 基本クラスを定義（ここで色を後から上書きします）
@@ -1009,8 +1009,9 @@
         lessonSelect.focus();
         updateRandomMaxCount();
         
-        setTimeout(() => {
-            randomCountContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+       setTimeout(() => {
+            // 課を選択する窓へスクロールするように戻しました
+            lessonSelectContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 100);
     });
 
