@@ -1,5 +1,5 @@
     // =============================================================================
-    // DATA-PART: QUESTION DATA VARIABLE (qadata.js) Ver3.10f 大学生用
+    // DATA-PART: QUESTION DATA VARIABLE (qadata.js) Ver3.10g 大学生用
     // =============================================================================
     const questions = [
         // ==================== LESSON 1 ====================
@@ -2254,7 +2254,7 @@
     {
         "lesson": 50,
         "id": "50-2",
-        "text": "<ruby>会社<rt>かいしゃ</rt></ruby>で<ruby>上司<rt>じょうし</rt></ruby>に<ruby>聞<rt>き</rt></ruby>かれました。<ruby>謙譲語<rt>けんじょうご</rt></ruby>で<ruby>言<rt>い</rt></ruby>ってください。：「これ、<ruby>食<rt>た</rt></ruby>べますか。」",
+        "text": "<ruby>会社<rt>かいしゃ</rt></ruby>で<ruby>上司<rt>じょうし</rt></ruby>に<ruby>聞<rt>き</rt></ruby>かれました。<ruby>謙譲語<rt>けんじょうご</rt></ruby>で<ruby>答<rt>こた</rt></ruby>えてください。：「これ、<ruby>食<rt>た</rt></ruby>べますか。」",
         "viText": "Tôi đã được sếp của tôi hỏi tại nơi làm việc. Trả lời bằng ngôn ngữ khiêm tốn. 'Con có muốn ăn món này không?'",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.2.mp3"
     },
