@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" href="./favicon.png">
     <title>IQ 会話反応チェック（大学生向け）</title>
     
-    <script src="qadata.js"></script>
+    <script src="qadata_gen.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/coi-serviceworker/0.1.7/coi-serviceworker.min.js"></script>
     <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
@@ -34,11 +34,68 @@
         }
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-        }   
+            -webkit-appearance: none;
+            margin: 0;
+        }
         input[type=number] {
-        -moz-appearance: textfield; /* Firefox用 */
+            -moz-appearance: textfield; /* Firefox用 */
+        }
+
+        /* ▼ フローティング時のコントロールパネル小型化 ▼ */
+        #controlPanel.is-floating {
+            padding: 12px;
+            width: max-content;
+            max-width: 92vw;
+        }
+        #controlPanel.is-floating .gap-4,
+        #controlPanel.is-floating .md\:gap-6 {
+            gap: 8px;
+        }
+        #controlPanel.is-floating .gap-3 {
+            gap: 8px;
+        }
+        #controlPanel.is-floating .gap-2 {
+            gap: 6px;
+        }
+        #controlPanel.is-floating span.text-xs,
+        #controlPanel.is-floating span.md\:text-sm {
+            font-size: 11px;
+            line-height: 1.2;
+        }
+        #controlPanel.is-floating input[type="number"] {
+            width: 44px;
+            height: 32px;
+            padding: 0;
+            font-size: 14px;
+        }
+        #controlPanel.is-floating button.w-10.h-10 {
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
+        }
+        #controlPanel.is-floating button.py-3 {
+            padding: 8px 12px;
+            min-width: auto !important;
+        }
+        #controlPanel.is-floating button.py-3 span:first-child {
+            font-size: 13px;
+        }
+        #controlPanel.is-floating button.py-3 span.text-xs {
+            font-size: 10px;
+            margin-top: 2px;
+        }
+        #controlPanel.is-floating #controlPanelHandle {
+            padding-top: 6px;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+        }
+        #controlPanel.is-floating #dockPanelBtn {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        /* フローティング時は右パディング（ボタン回避用）をリセット */
+        #controlPanel.is-floating .pr-10 {
+            padding-right: 0;
         }
     </style>
 </head>
@@ -48,19 +105,19 @@
         
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <button id="playAllBtn" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95 text-center leading-tight">
+                <button id="playAllBtn" class="bg-indigo-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-600 transition shadow-sm active:scale-95 text-center leading-tight">
                     全体一括連続再生<br>
                     <span class="text-xs font-normal opacity-90">Phát toàn bộ liên tục</span>
                 </button>
-                <button id="playLessonBtn" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95 text-center leading-tight">
+                <button id="playLessonBtn" class="bg-indigo-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-600 transition shadow-sm active:scale-95 text-center leading-tight">
                     指定課別一括連続再生<br>
                     <span class="text-xs font-normal opacity-90">Phát liên tục theo bài chỉ định</span>
                 </button>
-                <button id="individualPlayBtn" class="bg-violet-600 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-violet-700 transition shadow-sm active:scale-95 text-center leading-tight">
+                <button id="individualPlayBtn" class="bg-violet-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-violet-600 transition shadow-sm active:scale-95 text-center leading-tight">
                     個別指定音声再生<br>
                     <span class="text-xs font-normal opacity-90">Chế độ hiển thị thẻ cá nhân</span>
                 </button>
-                <button id="randomPracticeBtn" class="bg-violet-600 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-violet-700 transition shadow-sm active:scale-95 text-center leading-tight">
+                <button id="randomPracticeBtn" class="bg-violet-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-violet-600 transition shadow-sm active:scale-95 text-center leading-tight">
                     ランダム抽出練習<br>
                     <span class="text-xs font-normal opacity-90">Luyện tập ngẫu nhiên</span>
                 </button>
@@ -71,22 +128,28 @@
                 <p class="text-xs text-slate-400 mt-1 italic">Vui lòng chọn chế độ phát từ các nút phía trên.</p>
             </div>
             
-            <button id="toggleManualBtn" class="w-full bg-blue-600 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-blue-700 transition shadow-sm active:scale-95 text-center leading-tight">
+            <button id="toggleManualBtn" class="w-full bg-teal-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-teal-600 transition shadow-sm active:scale-95 text-center leading-tight">
                 操作方法 Hướng dẫn
             </button>
             
             <!-- ▼ コントロールパネル・ラッパー (分離時に破線エリアになる部分) ▼ -->
             <div id="controlPanelWrapper" class="w-full relative transition-all duration-300 rounded-xl">
                 <!-- ▼ コントロールパネル本体 ▼ -->
-                <div id="controlPanel" class="flex flex-col bg-slate-50 p-4 rounded-xl border border-slate-200 w-full transition-all duration-300">
+                <div id="controlPanel" class="flex flex-col bg-slate-50 p-4 rounded-xl border border-slate-200 w-full transition-all duration-300 relative">
                     
+                    <!-- ▼ フローティング化ボタン (右上に固定・アイコンのみ) ▼ -->
+                    <button id="floatPanelBtn" class="absolute top-3 right-3 w-8 h-8 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center hover:bg-slate-300 transition shadow-sm z-10" title="分離 (Nổi)">
+                        <span class="text-base leading-none">🪟</span>
+                    </button>
+
                     <!-- ドラッグハンドル＆閉じる（ドック）ボタン（初期状態は非表示） -->
-                    <div id="controlPanelHandle" class="hidden w-full bg-indigo-600 text-white text-[11px] text-center py-2 font-bold cursor-move items-center justify-center rounded-lg mb-4 relative shadow-md">
+                    <div id="controlPanelHandle" class="hidden w-full bg-indigo-500 text-white text-[11px] text-center py-2 font-bold cursor-move items-center justify-center rounded-lg mb-4 relative shadow-md">
                         <button id="dockPanelBtn" class="absolute left-2 top-1.5 bg-white/20 hover:bg-white/40 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs font-bold leading-none transition">×</button>
                         <span class="text-sm leading-none mr-1">✢</span> 移動 (Kéo thả)
                     </div>
 
-                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 w-full">
+                    <!-- 固定時スマホ画面で右上の分離ボタンと被らないよう pr-10 を追加 -->
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 w-full pr-10 md:pr-0">
                         
                         <div class="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 w-full md:w-auto">
                             <div class="flex flex-col gap-2 w-full md:w-auto">
@@ -107,15 +170,11 @@
                                 </div>
                             </div>
                         </div>
-                    
+                        
                         <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto ml-auto">
-                            <!-- ▼ 追加：フローティング化ボタン ▼ -->
-                            <button id="floatPanelBtn" class="w-full md:w-auto md:min-w-[70px] bg-indigo-400 text-white py-3 rounded-xl font-bold hover:bg-indigo-500 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight px-3 text-sm">
-                                <span>🪟 分離</span>
-                                <span class="text-[10px] font-normal opacity-90 mt-0.5">Nổi</span>
-                            </button>
-
-                            <button id="reshuffleBtn" class="hidden w-full md:w-auto md:min-w-[150px] bg-teal-500 text-white py-3 rounded-xl font-bold hover:bg-teal-600 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight px-4 text-sm">
+                            <!-- 分離ボタンは右上に移動したためここから削除 -->
+                            
+                            <button id="reshuffleBtn" class="hidden w-full md:w-auto md:min-w-[150px] bg-emerald-400 text-white py-3 rounded-xl font-bold hover:bg-emerald-500 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight px-4 text-sm">
                                 <span>再シャッフル</span>
                                 <span class="text-xs font-normal opacity-90 mt-0.5">Xáo trộn lại</span>
                             </button>
@@ -134,11 +193,17 @@
             <!-- ▲ コントロールパネル ここまで ▲ -->
             
             <div id="lessonSelectContainer" class="hidden p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3">
-                <label for="lessonSelect" class="block text-sm font-semibold text-indigo-900">
-                    対象の課を選択してください（複数選択可）:
-                    <span class="text-xs font-normal opacity-90 ml-1">Vui lòng chọn bài mục tiêu (có thể chọn nhiều):</span>
-                </label>
-                <div class="flex flex-wrap gap-2 mb-2">
+                <div class="flex flex-row justify-between items-center gap-2 mb-2">
+                    <label for="lessonSelect" class="block text-sm font-semibold text-indigo-900">
+                        対象の課を選択してください（複数選択可）:
+                        <span class="text-[10px] md:text-xs font-normal opacity-90 block md:inline mt-0.5 md:mt-0 md:ml-1">Vui lòng chọn bài mục tiêu (có thể chọn nhiều):</span>
+                    </label>
+                    <button id="toggleReviewModeBtn" class="shrink-0 bg-white border border-indigo-300 text-indigo-600 hover:bg-indigo-50 text-xs px-3 py-1.5 rounded-lg font-bold transition shadow-sm active:scale-95 flex items-center justify-center">
+                        🔄 復習モード
+                    </button>
+                </div>
+                
+                <div id="presetButtonsContainer" class="hidden flex-wrap gap-2 mb-2 p-3 bg-white/60 border border-indigo-200 rounded-xl transition-all">
                     <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="1" data-end="3">1-3課</button>
                     <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="4" data-end="7">4-7課</button>
                     <button class="preset-btn bg-white text-xs text-indigo-700 px-2.5 py-1.5 rounded-lg border border-indigo-200 hover:bg-indigo-50 transition font-medium" data-start="8" data-end="12">8-12課</button>
@@ -156,7 +221,7 @@
                     <button id="confirmBtn" class="w-full bg-indigo-600 text-white py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95 text-center leading-tight">
                         通常表示<br><span class="text-xs font-normal opacity-90">Hiển thị theo thứ tự</span>
                     </button>
-                    <button id="shuffleConfirmBtn" class="w-full bg-teal-500 text-white py-2.5 rounded-xl font-medium hover:bg-teal-600 transition shadow-sm active:scale-95 text-center leading-tight">
+                    <button id="shuffleConfirmBtn" class="w-full bg-emerald-400 text-white py-2.5 rounded-xl font-medium hover:bg-emerald-500 transition shadow-sm active:scale-95 text-center leading-tight">
                         シャッフル表示<br><span class="text-xs font-normal opacity-90">Hiển thị ngẫu nhiên</span>
                     </button>
                 </div>
@@ -166,14 +231,14 @@
         </div>
         
         <div id="questionsContainer" class="space-y-4"></div>
-       
+        
         <div id="backToTopContainer" class="hidden mt-8 flex flex-col items-center gap-4 pb-4">
             <button id="backToTopBtn" class="bg-slate-700 text-white px-8 py-3 rounded-xl font-medium hover:bg-slate-800 transition shadow-sm active:scale-95 flex flex-col items-center leading-tight">
                 <span>⬆️ カードの先頭に戻る</span>
                 <span class="text-xs font-normal opacity-80 mt-1">Trở lên đầu trang</span>
             </button>
             
-            <button id="reFetchRandomBtn" class="hidden bg-violet-600 text-white px-8 py-3 rounded-xl font-medium hover:bg-violet-700 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight border border-violet-700">
+            <button id="reFetchRandomBtn" class="hidden bg-violet-500 text-white px-8 py-3 rounded-xl font-medium hover:bg-violet-600 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight border border-violet-600">
                 <span>🔄 別の問題で練習する</span>
                 <span class="text-xs font-normal opacity-90 mt-1">Luyện tập với các câu hỏi khác</span>
             </button>
@@ -207,7 +272,7 @@
                     <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-emerald-400 active:bg-emerald-100">💾 保存 (Lưu)</button>
                 </div>
                 
-                <button id="aiAdviceBtn" class="w-full bg-emerald-400 text-white py-1.5 rounded-xl text-xs font-medium hover:bg-emerald-500 transition shadow-sm active:scale-95">
+                <button id="aiAdviceBtn" class="w-full bg-emerald-300 text-white py-1.5 rounded-xl text-xs font-medium hover:bg-emerald-400 transition shadow-sm active:scale-95">
                     AIに発音アドバイスを受ける / Nhận tư vấn từ AI
                 </button>
                 
@@ -236,7 +301,7 @@
                     <li><strong class="text-indigo-600">指定課別一括連続再生:</strong> 選択した課の音声を順番に連続再生します。<br><span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span></li>
                     <li><strong class="text-slate-700">個別指定音声再生:</strong> 自動再生せず、文章の表示のみ行います。音声は手動で再生します。<br><span class="text-xs text-slate-500">Chỉ hiển thị thẻ, không tự động phát âm thanh.</span></li>
                     <li><strong class="text-violet-600">ランダム抽出練習:</strong> 指定した課から任意の数だけ問題をランダムに選び出し、連続再生します。<br><span class="text-xs text-slate-500">Chọn ngẫu nhiên một số lượng câu hỏi từ bài đã chỉ định để phát liên tục.</span></li>
-                    <li><strong class="text-teal-600">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。対になる会話はセットを維持したままシャッフルされます。<br><span class="text-xs text-slate-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
+                    <li><strong class="text-emerald-600">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。対になる会話はセットを維持したままシャッフルされます。<br><span class="text-xs text-slate-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
                     <li><strong class="text-teal-600">再シャッフル:</strong> 現在表示中のカードをもう一度ランダムに並び替えます。<br><span class="text-xs text-slate-500">Xáo trộn lại: Tiếp tục xáo trộn ngẫu nhiên các thẻ đang hiển thị.</span></li>
                     <li><strong class="text-red-600">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-slate-500">Dừng mọi âm thanh đang phát.</span></li>
                 </ul>
@@ -245,8 +310,8 @@
                     <li><strong>JP Xem / Ẩn:</strong> 日本語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Nhật.</span></li>
                     <li><strong>VI Xem / Ẩn:</strong> ベトナム語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Việt.</span></li>
                     <li><strong class="text-emerald-600">録音・発音チェック:</strong> 各カードの「🎤」を押すと、自分の発音を録音して確認できます。<br>
-                        <span class="text-xs font-semibold text-indigo-600">※ブラウザからマイクへのアクセスを求められた場合は「許可」してください。</span><br>
-                        <span class="text-[11px] text-indigo-600/90 italic">Chức năng ghi âm: Nhấn vào "🎤" trên mỗi thẻ. Vui lòng chọn "Cho phép" (Allow) quyền truy cập micro khi được hỏi.</span>
+                        <span class="text-xs font-semibold text-violet-600">※ブラウザからマイクへのアクセスを求められた場合は「許可」してください。</span><br>
+                        <span class="text-[11px] text-violet-600/90 italic">Chức năng ghi âm: Nhấn vào "🎤" trên mỗi thẻ. Vui lòng chọn "Cho phép" (Allow) quyền truy cập micro khi được hỏi.</span>
                     </li>
                     <li><strong class="text-blue-600">模範音声 (録音画面内):</strong> お手本となる正しい発音の音声を再生します。<br><span class="text-xs text-slate-500">Âm thanh mẫu (trong màn hình ghi âm): Phát âm thanh mẫu chuẩn để tham khảo.</span></li>
                     <li><strong class="text-emerald-600">AI発音分析アドバイス（試用版）:</strong> 録音した音声をAIに引継いで発話を分析しアドバイスを表示します。結果が表示されるまで約30秒程待ち時間があります。<br><span class="text-xs text-slate-500">Phân tích phát âm AI: Chuyển âm thanh đã ghi âm cho AI để phân tích. Vui lòng đợi khoảng 30 giây để xem kết quả.</span></li>
@@ -263,14 +328,14 @@
     <!-- ⏱️ ドラッグ可能なタイマーオブジェクト -->
     <div id="floatingTimer" class="hidden fixed z-[9000] bg-white/95 backdrop-blur-sm border-2 border-indigo-400 rounded-2xl shadow-2xl flex flex-col items-center justify-between overflow-hidden transition-opacity" style="width: 140px; height: 150px; bottom: 30px; left: 30px; touch-action: none;">
         <!-- ドラッグ用ハンドル部分 -->
-        <div id="timerDragHandle" class="relative bg-indigo-600 text-white text-[11px] w-full text-center py-2 font-bold cursor-move flex items-center justify-center gap-1 active:bg-indigo-700 transition-colors">
+        <div id="timerDragHandle" class="relative bg-indigo-500 text-white text-[11px] w-full text-center py-2 font-bold cursor-move flex items-center justify-center gap-1 active:bg-indigo-600 transition-colors">
             <button id="closeTimerBtn" class="absolute left-1 top-1 bg-white/20 hover:bg-white/40 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs font-bold leading-none">×</button>
             <span class="text-sm leading-none">✢</span> 移動 (Kéo thả)
         </div>
         <!-- カウントダウン表示部分 -->
         <div class="flex-1 flex flex-col items-center justify-center w-full pointer-events-none">
             <span class="text-xs text-slate-500 font-bold mb-1">Thời gian trả lời</span>
-            <span id="timerText" class="text-6xl font-black text-indigo-600 tabular-nums tracking-tighter drop-shadow-sm transition-colors duration-300">3</span>
+            <span id="timerText" class="text-6xl font-black text-emerald-600 tabular-nums tracking-tighter drop-shadow-sm transition-colors duration-300">3</span>
         </div>
         <!-- プログレスバー -->
         <div class="w-full h-1.5 bg-slate-100 pointer-events-none">
@@ -280,7 +345,7 @@
 
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
-        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.40b</span>
+        <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.50a</span>
     </div>
 
 <script>
@@ -295,10 +360,9 @@
     let audioQueue = [];
     let isPlayingQueue = false;
     let queueIndex = 0;
-    let playbackTimeout = null;
-          
+    let playbackTimeout = null;      
     let currentFilteredQuestions = [];
-   
+    
     // 録音・模範音声・変換エンジン周りの状態管理
     let mediaRecorder = null;
     let audioChunks = [];
@@ -307,14 +371,11 @@
     let recordedExtension = 'webm';
     let currentRecordId = "";
     let currentRecordLesson = "";
-    let currentModelAudioUrl = null;
-         
-    let modelAudioPlayback = null;
-           
-    let pingpongTimeout = null;
-              
-    let recordedBase64Data = null;
-     
+    let currentModelAudioUrl = null; 
+    let modelAudioPlayback = null;       
+    let pingpongTimeout = null;          
+    let recordedBase64Data = null; 
+    
     let ffmpeg = null;
     let fetchFile = null;
     let isFfmpegLoaded = false;
@@ -354,6 +415,10 @@
     const backToTopBtn = document.getElementById('backToTopBtn');
     const reFetchRandomBtn = document.getElementById('reFetchRandomBtn');
     
+    // 復習モード要素
+    const toggleReviewModeBtn = document.getElementById('toggleReviewModeBtn');
+    const presetButtonsContainer = document.getElementById('presetButtonsContainer');
+
     // コントロールパネル要素
     const controlPanelWrapper = document.getElementById('controlPanelWrapper');
     const controlPanel = document.getElementById('controlPanel');
@@ -412,19 +477,17 @@
         if (!floatingTimer || !timerText || !timerBar) return;
         
         hideFloatingTimer(); 
-        
         floatingTimer.classList.remove('hidden');
 
-        // 課によって初期秒数を決定（数値判定の厳密化を適用）
+        // 課によって初期秒数を決定
         const initialTime = (parseInt(lesson, 10) <= 25) ? 8 : 10;
         let timeLeft = initialTime;
         
-        // 基本クラスを定義（ここで色を後から上書きします）
         const baseClasses = 'text-6xl font-black tabular-nums tracking-tighter drop-shadow-sm transition-colors duration-300';
         
-        // 初期状態（最初の3秒の範囲）のセット
+        // 初期状態のセット
         timerText.textContent = timeLeft;
-        timerText.className = `${baseClasses} text-teal-600`;
+        timerText.className = `${baseClasses} text-emerald-600`;
         
         timerBar.style.transition = 'none';
         timerBar.style.width = '100%';
@@ -434,7 +497,7 @@
             countdownInterval = setInterval(() => {
                 timeLeft--;
 
-                // マイナス20秒でタイマーを消去して終了
+                // マイナス20秒で消去
                 if (timeLeft <= -20) {
                     hideFloatingTimer();
                     return;
@@ -442,21 +505,19 @@
 
                 timerText.textContent = timeLeft;
 
-                // 経過秒数から色を判定するロジック
                 const elapsed = initialTime - timeLeft;
                 let colorClass = '';
                 
                 if (timeLeft <= 0) {
-                    colorClass = 'text-rose-600'; // 0秒以下
+                    colorClass = 'text-red-600'; // 0秒以下
                 } else if (elapsed < 3) {
-                    colorClass = 'text-teal-600'; // 最初の3秒
+                    colorClass = 'text-emerald-600'; // 最初の3秒
                 } else if (elapsed < 8) {
-                    colorClass = 'text-blue-600'; // 次の5秒
+                    colorClass = 'text-violet-600'; // 次の5秒
                 } else {
-                    colorClass = 'text-indigo-600'; // 残りの秒数（10秒設定の時のみ発生）
+                    colorClass = 'text-indigo-600'; // 残りの秒数
                 }
                 
-                // クラスを適用して色を変更
                 timerText.className = `${baseClasses} ${colorClass}`;
 
                 if (timeLeft > 0) {
@@ -522,7 +583,7 @@
         audioQueue = [];
         queueIndex = 0;
 
-        hideFloatingTimer(); // 停止時にタイマーも消去
+        hideFloatingTimer();
 
         if (playbackTimeout) {
             clearTimeout(playbackTimeout);
@@ -551,11 +612,9 @@
         if (targetCard) {
             targetCard.classList.add('border-indigo-500', 'bg-indigo-50/50', 'ring-2', 'ring-indigo-400');
 
-            // --- 画像の自動表示処理 ---
             const imgTarget = targetCard.querySelector('.img-container');
             if (imgTarget && imgTarget.classList.contains('hidden')) {
-                imgTarget.classList.remove('hidden'); // 画像を表示
-                // 画像ボタン（🖼️ Hình）のスタイルをアクティブ状態に更新
+                imgTarget.classList.remove('hidden'); 
                 const buttons = targetCard.querySelectorAll('button');
                 buttons.forEach(btn => {
                     if (btn.textContent === '🖼️ Hình') {
@@ -563,7 +622,6 @@
                     }
                 });
             }
-            // --------------------------
         }
     }
 
@@ -581,7 +639,6 @@
     }
 
     function executeNextQueueItem() {
-        // 次の音声が始まる時に、前のタイマーが残っていれば消す
         hideFloatingTimer(); 
         
         if (!isPlayingQueue || queueIndex >= audioQueue.length) {
@@ -591,7 +648,6 @@
 
         const currentItem = audioQueue[queueIndex];
         
-        // 前の音声インスタンスがあれば確実に破棄する
         if (currentAudio) {
             currentAudio.onended = null;
             currentAudio.onerror = null;
@@ -602,10 +658,8 @@
         highlightCard(currentItem.id);
         currentAudio = new Audio(currentItem.audioUrl);
         
-        // 読み込みエラー時の挙動を改善（連鎖スキップ防止）
         currentAudio.onerror = () => {
             console.error(`音声読み込みエラー: ${currentItem.id}`);
-            // エラー時、即座に飛ばず、少し待機してから次の曲へ（連鎖エラー回避）
             setTimeout(() => {
                 if (isPlayingQueue) {
                     queueIndex++;
@@ -619,7 +673,6 @@
             queueIndex++;
             const interval = (parseFloat(pauseInput.value) || 0) * 1000;
             
-            // 次の曲へ進む前に確実にcurrentAudioをクリアする
             if (currentAudio) {
                 currentAudio.onended = null;
                 currentAudio = null;
@@ -634,7 +687,6 @@
 
         currentAudio.play().catch(error => {
             console.warn('再生失敗:', error);
-            // エラー時も同様に処理
             setTimeout(() => {
                 if (isPlayingQueue) {
                     queueIndex++;
@@ -739,15 +791,14 @@
             recordBtn.className = 'bg-emerald-50 text-emerald-600 p-2 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none active:scale-95';
             recordBtn.innerHTML = '🎤';
             recordBtn.onclick = () => {
-                terminatePlayback(); // タイマーも非表示になります
+                terminatePlayback();
                 openRecordModal(q.id, q.text, q.lesson, q.audioUrl);
             };
             
             const playBtn = document.createElement('button');
             playBtn.className = 'bg-indigo-50 text-indigo-600 p-2 rounded-lg border border-indigo-200 hover:bg-indigo-100 transition flex items-center justify-center w-8 h-8 font-bold cursor-pointer select-none active:scale-95';
             playBtn.innerHTML = '▶';
-           playBtn.onclick = () => {
-                // 1. まず実行中のすべてのタイマー・キューを完全に抹殺
+            playBtn.onclick = () => {
                 isPlayingQueue = false;
                 audioQueue = [];
                 queueIndex = 0;
@@ -756,7 +807,6 @@
                     playbackTimeout = null;
                 }
                 
-                // 2. 現在鳴っている音があれば確実に止めて破棄
                 if (currentAudio) {
                     try {
                         currentAudio.pause();
@@ -768,7 +818,6 @@
                 hideFloatingTimer(); 
                 highlightCard(q.id);
                 
-                // 3. 新しい音声インスタンスを生成して再生
                 currentAudio = new Audio(q.audioUrl);
                 
                 currentAudio.onended = () => {
@@ -872,6 +921,28 @@
     }
 
     // -------------------------------------------------------------------------
+    // 復習モード（プリセットボタン群の開閉）ロジック
+    // -------------------------------------------------------------------------
+    if (toggleReviewModeBtn && presetButtonsContainer) {
+        toggleReviewModeBtn.addEventListener('click', () => {
+            const isHidden = presetButtonsContainer.classList.contains('hidden');
+            if (isHidden) {
+                presetButtonsContainer.classList.remove('hidden');
+                presetButtonsContainer.classList.add('flex');
+                
+                toggleReviewModeBtn.classList.remove('bg-white', 'text-indigo-600', 'border-indigo-300');
+                toggleReviewModeBtn.classList.add('bg-indigo-500', 'text-white', 'border-indigo-500');
+            } else {
+                presetButtonsContainer.classList.add('hidden');
+                presetButtonsContainer.classList.remove('flex');
+                
+                toggleReviewModeBtn.classList.add('bg-white', 'text-indigo-600', 'border-indigo-300');
+                toggleReviewModeBtn.classList.remove('bg-indigo-500', 'text-white', 'border-indigo-500');
+            }
+        });
+    }
+
+    // -------------------------------------------------------------------------
     // フローティングパネル制御ロジック
     // -------------------------------------------------------------------------
     let isPanelFloating = false;
@@ -882,21 +953,17 @@
     floatPanelBtn.addEventListener('click', () => {
         isPanelFloating = true;
         
-        // 元のラッパーの高さを固定し、破線（プレースホルダー）スタイルを付与
         const rect = controlPanel.getBoundingClientRect();
         controlPanelWrapper.style.height = `${rect.height}px`;
         controlPanelWrapper.classList.add('border-2', 'border-dashed', 'border-slate-300', 'bg-slate-50/50');
         controlPanelPlaceholder.classList.remove('hidden');
 
-        // パネルをフローティング化（半透明＆ホバー実体化）
-        // transition-allを外してドラッグ時のラグをなくし、opacityのみアニメーションさせます
-        controlPanel.className = "fixed bottom-20 md:bottom-8 right-2 md:right-8 z-[8000] flex flex-col bg-slate-50/90 hover:bg-slate-50 border border-slate-300 shadow-2xl backdrop-blur-sm p-4 rounded-xl w-[95vw] md:w-auto transition-opacity duration-300 opacity-70 hover:opacity-100";
+        controlPanel.className = "is-floating fixed bottom-20 md:bottom-8 right-2 md:right-8 z-[8000] flex flex-col bg-slate-50/90 hover:bg-slate-50 border border-slate-300 shadow-2xl backdrop-blur-sm rounded-xl transition-opacity duration-300 opacity-70 hover:opacity-100";
         
         controlPanelHandle.classList.remove('hidden');
         controlPanelHandle.classList.add('flex');
-        floatPanelBtn.classList.add('hidden'); // 分離ボタンは隠す
+        floatPanelBtn.classList.add('hidden'); 
         
-        // 座標リセット
         panelTranslateX = 0; panelTranslateY = 0;
         controlPanel.style.transform = `translate3d(0px, 0px, 0px)`;
     });
@@ -904,17 +971,15 @@
     dockPanelBtn.addEventListener('click', () => {
         isPanelFloating = false;
         
-        // ラッパーの設定を元に戻す
         controlPanelWrapper.style.height = 'auto';
         controlPanelWrapper.classList.remove('border-2', 'border-dashed', 'border-slate-300', 'bg-slate-50/50');
         controlPanelPlaceholder.classList.add('hidden');
 
-        // パネルのデザインを元に戻す
-        controlPanel.className = "flex flex-col bg-slate-50 p-4 rounded-xl border border-slate-200 w-full transition-all duration-300";
+        controlPanel.className = "flex flex-col bg-slate-50 p-4 rounded-xl border border-slate-200 w-full transition-all duration-300 relative";
         
         controlPanelHandle.classList.add('hidden');
         controlPanelHandle.classList.remove('flex');
-        floatPanelBtn.classList.remove('hidden'); // 分離ボタンを復活
+        floatPanelBtn.classList.remove('hidden'); 
         
         controlPanel.style.transform = `none`;
     });
@@ -922,7 +987,6 @@
     function panelDragStart(e) {
         if (!isPanelFloating) return;
         if (e.target === controlPanelHandle || controlPanelHandle.contains(e.target)) {
-            // ドックに戻るボタンが押された時はドラッグを開始しない
             if (e.target === dockPanelBtn) return;
 
             isPanelDragging = true;
@@ -1022,7 +1086,7 @@
             playRecordBtn.classList.add('opacity-50', 'pointer-events-none');
             saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
             recordStatus.textContent = '待機中... (Sẵn sàng)';
-        
+            
         } else if (state === 'recording') {
             startRecordBtn.disabled = true;
             startRecordBtn.className = 'bg-red-600 text-white border border-red-700 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 animate-pulse';
@@ -1034,7 +1098,7 @@
             playRecordBtn.classList.add('opacity-50', 'pointer-events-none');
             saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
             recordStatus.textContent = '録音しています... (Đang ghi âm)';
-        
+            
         } else if (state === 'recorded') {
             startRecordBtn.disabled = false;
             startRecordBtn.className = 'bg-red-50 text-red-600 border border-red-200 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition flex items-center justify-center gap-2';
@@ -1133,7 +1197,6 @@
     // 6. グローバルイベントリスナー登録 (Event Listeners)
     // -------------------------------------------------------------------------
     
-    // タイマーの閉じるボタン
     if (closeTimerBtn) {
         closeTimerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1196,7 +1259,7 @@
     if (shuffleConfirmBtn) {
         shuffleConfirmBtn.addEventListener('click', () => executeDisplay(true));
     }
-        
+    
     if (reshuffleBtn) {
         reshuffleBtn.addEventListener('click', () => {
             if (currentFilteredQuestions.length === 0) return;
@@ -1226,7 +1289,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
-        
+    
     document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const start = parseInt(btn.getAttribute('data-start'));
@@ -1280,7 +1343,7 @@
     }
 
     stopBtn.addEventListener('click', terminatePlayback);
-        
+    
     toggleManualBtn.addEventListener('click', () => manualContainer.classList.add('manual-open'));
     closeManualBtn.addEventListener('click', () => manualContainer.classList.remove('manual-open'));
     modalCloseOkBtn.addEventListener('click', () => manualContainer.classList.remove('manual-open'));
@@ -1313,11 +1376,11 @@
             pingpongTimeout = null;
         }
     });
-        
+    
     modalRecordCloseOkBtn.addEventListener('click', () => {
         closeRecordModalBtn.click();
     });
-        
+    
     recordModal.addEventListener('click', (e) => {
         if (e.target === recordModal) closeRecordModalBtn.click();
     });
@@ -1345,10 +1408,8 @@
             playModelAudioBtn.innerHTML = '▶️ 模範音声 (Phát mẫu)';
         });
 
-        // 録音モーダル内のピンポーン処理
         modelAudioPlayback.onended = () => {
-            playModelAudioBtn.innerHTML = '▶️ 模範音声 (Phát mẫu)';
-               
+            playModelAudioBtn.innerHTML = '▶️ 模範音声 (Phát mẫu)';            
         };
     });
 
@@ -1409,9 +1470,9 @@
 
     saveRecordBtn.addEventListener('click', async () => {
         if (!recordedAudioUrl) return;
-            
+        
         const originalText = saveRecordBtn.innerHTML;
-            
+        
         saveRecordBtn.innerHTML = '⏳ 処理中... (Đang xử lý)';
         saveRecordBtn.classList.add('opacity-50', 'pointer-events-none');
 
