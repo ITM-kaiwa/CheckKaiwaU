@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./favicon.png">
+    <title>報告・改善提案 - IQ 会話反応チェック</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen p-4 md:p-8 font-sans">
+    
+    <div class="max-w-2xl mx-auto space-y-6">
+        
+        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+            
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <h2 class="text-xl md:text-2xl font-bold text-slate-800">
+                    📝 報告・改善提案 <span class="text-sm font-normal text-slate-500">(Báo cáo / Góp ý)</span>
+                </h2>
+                <a href="index.html" class="text-sm font-bold text-slate-500 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-lg transition active:scale-95">
+                    ◀ 戻る (Trở lại)
+                </a>
+            </div>
+
+            <p class="text-slate-600 text-sm md:text-base">
+                アプリの不具合の報告や、こんな機能が欲しいといった改善提案をご自由にお書きください。
+            </p>
+
+            <!-- 入力フォーム -->
+            <form id="reportForm" class="space-y-5" onsubmit="event.preventDefault(); alert('報告を送信しました。ご協力ありがとうございます！\n(※現在はダミー機能です)');">
+                
+                <!-- 名前 -->
+                <div>
+                    <label for="userName" class="block text-sm font-bold text-slate-700 mb-1">
+                        お名前 <span class="font-normal text-slate-500">(Tên)</span>
+                    </label>
+                    <input type="text" id="userName" required class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2.5 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 transition shadow-sm" placeholder="山田 太郎 / Nguyen Van A">
+                </div>
+
+                <!-- メールアドレス -->
+                <div>
+                    <label for="userEmail" class="block text-sm font-bold text-slate-700 mb-1">
+                        メールアドレス <span class="font-normal text-slate-500">(Email)</span>
+                    </label>
+                    <input type="email" id="userEmail" required class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2.5 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 transition shadow-sm" placeholder="example@example.com">
+                </div>
+
+                <!-- 通報・改善内容 -->
+                <div>
+                    <label for="message" class="block text-sm font-bold text-slate-700 mb-1">
+                        通報・改善提案の内容 <span class="font-normal text-slate-500">(Nội dung báo cáo / góp ý)</span>
+                    </label>
+                    <textarea id="message" required rows="6" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2.5 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 transition shadow-sm resize-y" placeholder="・○○の画面でエラーが出ました。&#13;&#10;・こんな機能を追加してほしいです。"></textarea>
+                </div>
+
+                <!-- 送信ボタン -->
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-indigo-600 text-white border border-indigo-700 py-3.5 rounded-xl text-sm md:text-base font-bold hover:bg-indigo-700 transition shadow-md active:scale-95 flex justify-center items-center gap-2">
+                        ✉️ 送信する (Gửi)
+                    </button>
+                </div>
+                
+            </form>
+
+        </div>
+        
+        <div class="w-full text-center text-slate-500 pb-4">
+            <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
+        </div>
+    </div>
+
+</body>
+</html>
