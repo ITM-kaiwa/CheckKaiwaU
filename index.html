@@ -288,42 +288,58 @@
     </div>
 
     <!-- 📖 マニュアルモーダル -->
-    <div id="manualContainer" class="modal-overlay">
-        <div class="bg-white w-full max-w-lg m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col max-h-[85vh]">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
-                <h3 class="text-lg font-bold text-slate-800">📖 アプリ操作方法 / Hướng dẫn sử dụng</h3>
-                <button id="closeManualBtn" class="text-slate-400 hover:text-slate-600 font-bold text-xl p-1">&times;</button>
-            </div>
-            <div class="space-y-4 text-sm text-slate-600 overflow-y-auto pr-2 leading-relaxed">
-                <p class="font-medium text-slate-800">【機能説明 / Giải thích chức năng】</p>
-                <ul class="list-disc pl-5 space-y-2">
-                    <li><strong class="text-indigo-600">全体一括連続再生:</strong> すべての問題の音声を連続再生します。<br><span class="text-xs text-slate-500">Phát toàn bộ các thẻ câu hỏi liên tục.</span></li>
-                    <li><strong class="text-indigo-600">指定課別一括連続再生:</strong> 選択した課の音声を順番に連続再生します。<br><span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span></li>
-                    <li><strong class="text-slate-700">個別指定音声再生:</strong> 自動再生せず、文章の表示のみ行います。音声は手動で再生します。<br><span class="text-xs text-slate-500">Chỉ hiển thị thẻ, không tự động phát âm thanh.</span></li>
-                    <li><strong class="text-violet-600">ランダム抽出練習:</strong> 指定した課から任意の数だけ問題をランダムに選び出し、連続再生します。<br><span class="text-xs text-slate-500">Chọn ngẫu nhiên một số lượng câu hỏi từ bài đã chỉ định để phát liên tục.</span></li>
-                    <li><strong class="text-emerald-600">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。対になる会話はセットを維持したままシャッフルされます。<br><span class="text-xs text-slate-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
-                    <li><strong class="text-teal-600">再シャッフル:</strong> 現在表示中のカードをもう一度ランダムに並び替えます。<br><span class="text-xs text-slate-500">Xáo trộn lại: Tiếp tục xáo trộn ngẫu nhiên các thẻ đang hiển thị.</span></li>
-                    <li><strong class="text-red-600">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-slate-500">Dừng mọi âm thanh đang phát.</span></li>
-                </ul>
-                <p class="font-medium text-slate-800 pt-2">【カード内の操作 / Thao tác trong thẻ】</p>
-                <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>JP Xem / Ẩn:</strong> 日本語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Nhật.</span></li>
-                    <li><strong>VI Xem / Ẩn:</strong> ベトナム語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Việt.</span></li>
-                    <li><strong class="text-emerald-600">録音・発音チェック:</strong> 各カードの「🎤」を押すと、自分の発音を録音して確認できます。<br>
-                        <span class="text-xs font-semibold text-violet-600">※ブラウザからマイクへのアクセスを求められた場合は「許可」してください。</span><br>
-                        <span class="text-[11px] text-violet-600/90 italic">Chức năng ghi âm: Nhấn vào "🎤" trên mỗi thẻ. Vui lòng chọn "Cho phép" (Allow) quyền truy cập micro khi được hỏi.</span>
-                    </li>
-                    <li><strong class="text-blue-600">模範音声 (録音画面内):</strong> お手本となる正しい発音の音声を再生します。<br><span class="text-xs text-slate-500">Âm thanh mẫu (trong màn hình ghi âm): Phát âm thanh mẫu chuẩn để tham khảo.</span></li>
-                    <li><strong class="text-emerald-600">AI発音分析アドバイス（試用版）:</strong> 録音した音声をAIに引継いで発話を分析しアドバイスを表示します。結果が表示されるまで約30秒程待ち時間があります。<br><span class="text-xs text-slate-500">Phân tích phát âm AI: Chuyển âm thanh đã ghi âm cho AI để phân tích. Vui lòng đợi khoảng 30 giây để xem kết quả.</span></li>
-                    <li><strong class="text-indigo-600">▶ (再生):</strong> その問題の音声を個別に再生します。<br><span class="text-xs text-slate-500">Phát âm thanh của thẻ này.</span></li>
-                    <li><strong class="text-red-600">■ (個別停止):</strong> 音声を停止します。<br><span class="text-xs text-slate-500">Dừng âm thanh của thẻ ini.</span></li>
-                </ul>
-            </div>
-            <div class="border-t border-slate-100 pt-3 mt-4 text-right">
-                <button id="modalCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる / Đóng</button>
-            </div>
+<div id="manualContainer" class="modal-overlay">
+    <div class="bg-white w-full max-w-lg m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col max-h-[85vh]">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+            <h3 class="text-lg font-bold text-slate-800">📖 アプリ操作方法 / Hướng dẫn sử dụng</h3>
+            <button id="closeManualBtn" class="text-slate-400 hover:text-slate-600 font-bold text-xl p-1">&times;</button>
+        </div>
+        <div class="space-y-4 text-sm text-slate-600 overflow-y-auto pr-2 leading-relaxed">
+            <p class="font-medium text-slate-800">【機能説明 / Giải thích chức năng】</p>
+            <ul class="list-disc pl-5 space-y-3"> <!-- 見やすさのため space-y-2 を space-y-3 に変更しています -->
+                
+                <!-- ▼ 修正箇所1: 全体一括連続再生に追記 ▼ -->
+                <li>
+                    <strong class="text-indigo-600">全体一括連続再生:</strong> すべての問題の音声を連続再生します。「全体一括連続再生」時は、コントロールがフローティング（画面に追従）表示され、再生間隔などの調整がやりやすくなっています。<br>
+                    <span class="text-xs text-slate-500">Phát toàn bộ các thẻ câu hỏi liên tục. Khi "Phát liên tục tất cả", bảng điều khiển sẽ trôi nổi (floating) theo màn hình, giúp bạn dễ dàng điều chỉnh khoảng thời gian phát và các cài đặt khác.</span>
+                </li>
+                
+                <li>
+                    <strong class="text-indigo-600">指定課別一括連続再生:</strong> 選択した課の音声を順番に連続再生します。<br>
+                    <span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span>
+                </li>
+                
+                <!-- ▼ 修正箇所2: 個別指定音声再生にタイマーの件を追記 ▼ -->
+                <li>
+                    <strong class="text-slate-700">個別指定音声再生:</strong> 自動再生せず、文章の表示のみ行います。音声は手動で再生します。「個別再生」時はタイマーが作動し、制限時間内に答えられるか試すことができます。<br>
+                    <span class="text-xs text-slate-500">Chỉ hiển thị thẻ, không tự động phát âm thanh. Khi "Phát từng câu", bộ đếm thời gian sẽ hoạt động để bạn có thể thử sức trả lời trong giới hạn thời gian.</span>
+                </li>
+
+                <li><strong class="text-violet-600">ランダム抽出練習:</strong> 指定した課から任意の数だけ問題をランダムに選び出し、連続再生します。<br><span class="text-xs text-slate-500">Chọn ngẫu nhiên một số lượng câu hỏi từ bài đã chỉ định để phát liên tục.</span></li>
+                <li><strong class="text-emerald-600">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。対になる会話はセットを維持したままシャッフルされます。<br><span class="text-xs text-slate-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
+                <li><strong class="text-teal-600">再シャッフル:</strong> 現在表示中のカードをもう一度ランダムに並び替えます。<br><span class="text-xs text-slate-500">Xáo trộn lại: Tiếp tục xáo trộn ngẫu nhiên các thẻ đang hiển thị.</span></li>
+                <li><strong class="text-red-600">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-slate-500">Dừng mọi âm thanh đang phát.</span></li>
+            </ul>
+            
+            <p class="font-medium text-slate-800 pt-2">【カード内の操作 / Thao tác trong thẻ】</p>
+            <ul class="list-disc pl-5 space-y-2">
+                <li><strong>JP Xem / Ẩn:</strong> 日本語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Nhật.</span></li>
+                <li><strong>VI Xem / Ẩn:</strong> ベトナム語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Việt.</span></li>
+                <li><strong class="text-emerald-600">録音・発音チェック:</strong> 各カードの「🎤」を押すと、自分の発音を録音して確認できます。<br>
+                    <span class="text-xs font-semibold text-violet-600">※ブラウザからマイクへのアクセスを求められた場合は「許可」してください。</span><br>
+                    <span class="text-[11px] text-violet-600/90 italic">Chức năng ghi âm: Nhấn vào "🎤" trên mỗi thẻ. Vui lòng chọn "Cho phép" (Allow) quyền truy cập micro khi được hỏi.</span>
+                </li>
+                <li><strong class="text-blue-600">模範音声 (録音画面内):</strong> お手本となる正しい発音の音声を再生します。<br><span class="text-xs text-slate-500">Âm thanh mẫu (trong màn hình ghi âm): Phát âm thanh mẫu chuẩn để tham khảo.</span></li>
+                <li><strong class="text-emerald-600">AI発音分析アドバイス（試用版）:</strong> 録音した音声をAIに引継いで発話を分析しアドバイスを表示します。結果が表示されるまで約30秒程待ち時間があります。<br><span class="text-xs text-slate-500">Phân tích phát âm AI: Chuyển âm thanh đã ghi âm cho AI để phân tích. Vui lòng đợi khoảng 30 giây để xem kết quả.</span></li>
+                <li><strong class="text-indigo-600">▶ (再生):</strong> その問題の音声を個別に再生します。<br><span class="text-xs text-slate-500">Phát âm thanh của thẻ này.</span></li>
+                <li><strong class="text-red-600">■ (個別停止):</strong> 音声を停止します。<br><span class="text-xs text-slate-500">Dừng âm thanh của thẻ này.</span></li>
+            </ul>
+        </div>
+        <div class="border-t border-slate-100 pt-3 mt-4 text-right">
+            <button id="modalCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる / Đóng</button>
         </div>
     </div>
+</div>
 
     <!-- ⏱️ ドラッグ可能なタイマーオブジェクト -->
     <div id="floatingTimer" class="hidden fixed z-[9000] bg-white/95 backdrop-blur-sm border-2 border-indigo-400 rounded-2xl shadow-2xl flex flex-col items-center justify-between overflow-hidden transition-opacity" style="width: 140px; height: 150px; bottom: 30px; left: 30px; touch-action: none;">
