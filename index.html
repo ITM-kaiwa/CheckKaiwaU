@@ -98,6 +98,13 @@
             padding-right: 0;
         }
     </style>
+    <!-- ======================= ADDED HEADER SECTION ======================= -->
+            <div class="flex flex-col items-center justify-center gap-3 border-b border-slate-100 pb-4">
+                <h2 class="text-xl md:text-2xl font-bold text-slate-800 text-center">
+                    IQ 会話反応チェック（大学生向け）
+                </h2>
+            </div>
+<!-- ==================================================================== -->
 </head>
 
 <body class="bg-slate-50 text-slate-800 min-h-screen p-2 md:p-4">
@@ -358,12 +365,21 @@
             <div id="timerBar" class="h-full bg-indigo-500 w-full origin-left"></div>
         </div>
     </div>
-
+<footer>
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
         <span class="inline-block bg-slate-200 text-slate-400 text-[12px] px-2 py-0.5 rounded-full font-semibold shadow-inner mt-2">Ver4.52a</span>
     </div>
 
+     <div class="flex flex-row items-center justify-center gap-3">
+                    <a href="history.html" class="inline-flex items-center text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-1.5 rounded-full transition shadow-sm border border-slate-200 active:scale-95">
+                        Ver4.53a
+                    </a>
+                    <a href="report.html" class="inline-flex items-center text-sm font-medium bg-rose-50 text-rose-600 hover:bg-rose-100 px-4 py-1.5 rounded-full transition shadow-sm border border-rose-200 active:scale-95">
+                        📝 報告（Báo Cáo）
+                    </a>
+                </div>
+</footer>
 <script>
 // =============================================================================
 // LOGIC & AUDIO CONTROL SYSTEM
