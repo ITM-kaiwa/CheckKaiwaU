@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" href="./favicon.png">
     <title>IQ 会話反応チェック（大学生向け）</title>
     
-    <script src="qadata.js"></script>
+    <script src="qadata_gen.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/coi-serviceworker/0.1.7/coi-serviceworker.min.js"></script>
     <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
@@ -41,7 +41,7 @@
             -moz-appearance: textfield; /* Firefox用 */
         }
 
-        /* ▼ フローティング時のコントロールパネル小型化 ▼ */
+        /* ▼ 追加：フローティング時のコントロールパネル小型化 ▼ */
         #controlPanel.is-floating {
             padding: 12px;
             width: max-content;
@@ -112,19 +112,19 @@
         
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <button id="playAllBtn" class="bg-indigo-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-600 transition shadow-sm active:scale-95 text-center leading-tight">
+                <button id="playAllBtn" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95 text-center leading-tight">
                     全体一括連続再生<br>
                     <span class="text-xs font-normal opacity-90">Phát toàn bộ liên tục</span>
                 </button>
-                <button id="playLessonBtn" class="bg-indigo-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-600 transition shadow-sm active:scale-95 text-center leading-tight">
+                <button id="playLessonBtn" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95 text-center leading-tight">
                     指定課別一括連続再生<br>
                     <span class="text-xs font-normal opacity-90">Phát liên tục theo bài chỉ định</span>
                 </button>
-                <button id="individualPlayBtn" class="bg-violet-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-violet-600 transition shadow-sm active:scale-95 text-center leading-tight">
+                <button id="individualPlayBtn" class="bg-blue-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-blue-600 transition shadow-sm active:scale-95 text-center leading-tight">
                     個別指定音声再生<br>
                     <span class="text-xs font-normal opacity-90">Chế độ hiển thị thẻ cá nhân</span>
                 </button>
-                <button id="randomPracticeBtn" class="bg-violet-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-violet-600 transition shadow-sm active:scale-95 text-center leading-tight">
+                <button id="randomPracticeBtn" class="bg-blue-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-blue-600 transition shadow-sm active:scale-95 text-center leading-tight">
                     ランダム抽出練習<br>
                     <span class="text-xs font-normal opacity-90">Luyện tập ngẫu nhiên</span>
                 </button>
@@ -144,13 +144,13 @@
                 <!-- ▼ コントロールパネル本体 ▼ -->
                 <div id="controlPanel" class="flex flex-col bg-slate-50 p-4 rounded-xl border border-slate-200 w-full transition-all duration-300 relative">
                     
-                    <!-- ▼ フローティング化ボタン (右上に固定・アイコンのみ) ▼ -->
+                    <!-- ▼ 変更：フローティング化ボタン (右上に固定・アイコンのみ) ▼ -->
                     <button id="floatPanelBtn" class="absolute top-3 right-3 w-8 h-8 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center hover:bg-slate-300 transition shadow-sm z-10" title="分離 (Nổi)">
                         <span class="text-base leading-none">🪟</span>
                     </button>
 
                     <!-- ドラッグハンドル＆閉じる（ドック）ボタン（初期状態は非表示） -->
-                    <div id="controlPanelHandle" class="hidden w-full bg-indigo-500 text-white text-[11px] text-center py-2 font-bold cursor-move items-center justify-center rounded-lg mb-4 relative shadow-md">
+                    <div id="controlPanelHandle" class="hidden w-full bg-indigo-600 text-white text-[11px] text-center py-2 font-bold cursor-move items-center justify-center rounded-lg mb-4 relative shadow-md">
                         <button id="dockPanelBtn" class="absolute left-2 top-1.5 bg-white/20 hover:bg-white/40 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs font-bold leading-none transition">×</button>
                         <span class="text-sm leading-none mr-1">✢</span> 移動 (Kéo thả)
                     </div>
@@ -181,7 +181,7 @@
                         <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto ml-auto">
                             <!-- 分離ボタンは右上に移動したためここから削除 -->
                             
-                            <button id="reshuffleBtn" class="hidden w-full md:w-auto md:min-w-[150px] bg-emerald-400 text-white py-3 rounded-xl font-bold hover:bg-emerald-500 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight px-4 text-sm">
+                            <button id="reshuffleBtn" class="hidden w-full md:w-auto md:min-w-[150px] bg-emerald-500 text-white py-3 rounded-xl font-bold hover:bg-emerald-600 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight px-4 text-sm">
                                 <span>再シャッフル</span>
                                 <span class="text-xs font-normal opacity-90 mt-0.5">Xáo trộn lại</span>
                             </button>
@@ -228,7 +228,7 @@
                     <button id="confirmBtn" class="w-full bg-indigo-600 text-white py-2.5 rounded-xl font-medium hover:bg-indigo-700 transition shadow-sm active:scale-95 text-center leading-tight">
                         通常表示<br><span class="text-xs font-normal opacity-90">Hiển thị theo thứ tự</span>
                     </button>
-                    <button id="shuffleConfirmBtn" class="w-full bg-emerald-400 text-white py-2.5 rounded-xl font-medium hover:bg-emerald-500 transition shadow-sm active:scale-95 text-center leading-tight">
+                    <button id="shuffleConfirmBtn" class="w-full bg-emerald-500 text-white py-2.5 rounded-xl font-medium hover:bg-emerald-600 transition shadow-sm active:scale-95 text-center leading-tight">
                         シャッフル表示<br><span class="text-xs font-normal opacity-90">Hiển thị ngẫu nhiên</span>
                     </button>
                 </div>
@@ -245,7 +245,7 @@
                 <span class="text-xs font-normal opacity-80 mt-1">Trở lên đầu trang</span>
             </button>
             
-            <button id="reFetchRandomBtn" class="hidden bg-violet-500 text-white px-8 py-3 rounded-xl font-medium hover:bg-violet-600 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight border border-violet-600">
+            <button id="reFetchRandomBtn" class="hidden bg-blue-500 text-white px-8 py-3 rounded-xl font-medium hover:bg-blue-600 transition shadow-sm active:scale-95 flex flex-col items-center justify-center leading-tight border border-blue-600">
                 <span>🔄 別の問題で練習する</span>
                 <span class="text-xs font-normal opacity-90 mt-1">Luyện tập với các câu hỏi khác</span>
             </button>
@@ -279,7 +279,7 @@
                     <button id="saveRecordBtn" class="bg-emerald-50 text-emerald-600 border border-emerald-200 py-2 rounded-lg text-sm font-bold opacity-50 pointer-events-none transition focus-visible:ring-2 focus-visible:ring-emerald-400 active:bg-emerald-100">💾 保存 (Lưu)</button>
                 </div>
                 
-                <button id="aiAdviceBtn" class="w-full bg-emerald-300 text-white py-1.5 rounded-xl text-xs font-medium hover:bg-emerald-400 transition shadow-sm active:scale-95">
+                <button id="aiAdviceBtn" class="w-full bg-emerald-400 text-white py-1.5 rounded-xl text-xs font-medium hover:bg-emerald-500 transition shadow-sm active:scale-95">
                     AIに発音アドバイスを受ける / Nhận tư vấn từ AI
                 </button>
                 
@@ -294,64 +294,75 @@
         </div>
     </div>
 
-    <!-- 📖 マニュアルモーダル -->
+  <!-- 📙 マニュアルモーダル (大学生向けインディゴテーマ) -->
 <div id="manualContainer" class="modal-overlay">
-    <div class="bg-white w-full max-w-lg m-4 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col max-h-[85vh]">
-        <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
-            <h3 class="text-lg font-bold text-slate-800">📖 アプリ操作方法 / Hướng dẫn sử dụng</h3>
-            <button id="closeManualBtn" class="text-slate-400 hover:text-slate-600 font-bold text-xl p-1">&times;</button>
+    <div class="bg-white w-full max-w-lg m-4 p-6 rounded-2xl shadow-xl shadow-indigo-900/10 border-2 border-indigo-200 flex flex-col max-h-[85vh]">
+        
+        <!-- ヘッダー部分 -->
+        <div class="flex justify-between items-center border-b-2 border-indigo-100 pb-3 mb-4">
+            <h3 class="text-lg font-bold text-indigo-700 flex items-center gap-2">
+                📙 アプリ操作方法 <span class="text-sm font-normal text-indigo-500">/ Hướng dẫn sử dụng</span>
+            </h3>
+            <button id="closeManualBtn" class="text-indigo-300 hover:text-indigo-600 hover:bg-indigo-50 rounded-full w-8 h-8 flex items-center justify-center font-bold text-2xl transition-colors">&times;</button>
         </div>
-        <div class="space-y-4 text-sm text-slate-600 overflow-y-auto pr-2 leading-relaxed">
-            <p class="font-medium text-slate-800">【機能説明 / Giải thích chức năng】</p>
-            <ul class="list-disc pl-5 space-y-3"> <!-- 見やすさのため space-y-2 を space-y-3 に変更しています -->
-                
-                <!-- ▼ 修正箇所1: 全体一括連続再生に追記 ▼ -->
-                <li>
-                    <strong class="text-indigo-600">全体一括連続再生:</strong> すべての問題の音声を連続再生します。「全体一括連続再生」時は、コントロールがフローティング（画面に追従）表示され、再生間隔などの調整がやりやすくなっています。<br>
-                    <span class="text-xs text-slate-500">Phát toàn bộ các thẻ câu hỏi liên tục. Khi "Phát liên tục tất cả", bảng điều khiển sẽ trôi nổi (floating) theo màn hình, giúp bạn dễ dàng điều chỉnh khoảng thời gian phát và các cài đặt khác.</span>
-                </li>
-                
-                <li>
-                    <strong class="text-indigo-600">指定課別一括連続再生:</strong> 選択した課の音声を順番に連続再生します。<br>
-                    <span class="text-xs text-slate-500">Phát liên tục các bài đã chọn theo thứ tự.</span>
-                </li>
-                
-                <!-- ▼ 修正箇所2: 個別指定音声再生にタイマーの件を追記 ▼ -->
-                <li>
-                    <strong class="text-slate-700">個別指定音声再生:</strong> 自動再生せず、文章の表示のみ行います。音声は手動で再生します。「個別再生」時はタイマーが作動し、制限時間内に答えられるか試すことができます。<br>
-                    <span class="text-xs text-slate-500">Chỉ hiển thị thẻ, không tự động phát âm thanh. Khi "Phát từng câu", bộ đếm thời gian sẽ hoạt động để bạn có thể thử sức trả lời trong giới hạn thời gian.</span>
-                </li>
 
-                <li><strong class="text-violet-600">ランダム抽出練習:</strong> 指定した課から任意の数だけ問題をランダムに選び出し、連続再生します。<br><span class="text-xs text-slate-500">Chọn ngẫu nhiên một số lượng câu hỏi từ bài đã chỉ định để phát liên tục.</span></li>
-                <li><strong class="text-emerald-600">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。対になる会話はセットを維持したままシャッフルされます。<br><span class="text-xs text-slate-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
-                <li><strong class="text-teal-600">再シャッフル:</strong> 現在表示中のカードをもう一度ランダムに並び替えます。<br><span class="text-xs text-slate-500">Xáo trộn lại: Tiếp tục xáo trộn ngẫu nhiên các thẻ đang hiển thị.</span></li>
-                <li><strong class="text-red-600">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-slate-500">Dừng mọi âm thanh đang phát.</span></li>
-            </ul>
+        <!-- コンテンツ部分 -->
+        <div class="space-y-5 text-sm text-stone-700 overflow-y-auto pr-2 leading-relaxed custom-scrollbar">
             
-            <p class="font-medium text-slate-800 pt-2">【カード内の操作 / Thao tác trong thẻ】</p>
-            <ul class="list-disc pl-5 space-y-2">
-                <li><strong>JP Xem / Ẩn:</strong> 日本語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Nhật.</span></li>
-                <li><strong>VI Xem / Ẩn:</strong> ベトナム語の表示・非表示を切替えます。<br><span class="text-xs text-slate-500">Bật/tắt hiển thị tiếng Việt.</span></li>
-                <li><strong class="text-emerald-600">録音・発音チェック:</strong> 各カードの「🎤」を押すと、自分の発音を録音して確認できます。<br>
-                    <span class="text-xs font-semibold text-violet-600">※ブラウザからマイクへのアクセスを求められた場合は「許可」してください。</span><br>
-                    <span class="text-[11px] text-violet-600/90 italic">Chức năng ghi âm: Nhấn vào "🎤" trên mỗi thẻ. Vui lòng chọn "Cho phép" (Allow) quyền truy cập micro khi được hỏi.</span>
-                </li>
-                <li><strong class="text-blue-600">模範音声 (録音画面内):</strong> お手本となる正しい発音の音声を再生します。<br><span class="text-xs text-slate-500">Âm thanh mẫu (trong màn hình ghi âm): Phát âm thanh mẫu chuẩn để tham khảo.</span></li>
-                <li><strong class="text-emerald-600">AI発音分析アドバイス（試用版）:</strong> 録音した音声をAIに引継いで発話を分析しアドバイスを表示します。結果が表示されるまで約30秒程待ち時間があります。<br><span class="text-xs text-slate-500">Phân tích phát âm AI: Chuyển âm thanh đã ghi âm cho AI để phân tích. Vui lòng đợi khoảng 30 giây để xem kết quả.</span></li>
-                <li><strong class="text-indigo-600">▶ (再生):</strong> その問題の音声を個別に再生します。<br><span class="text-xs text-slate-500">Phát âm thanh của thẻ này.</span></li>
-                <li><strong class="text-red-600">■ (個別停止):</strong> 音声を停止します。<br><span class="text-xs text-slate-500">Dừng âm thanh của thẻ này.</span></li>
-            </ul>
+            <!-- 機能説明セクション -->
+            <div>
+                <p class="font-bold text-indigo-800 bg-indigo-50 inline-block px-3 py-1 rounded-lg mb-3">【機能説明 / Giải thích chức năng】</p>
+                <ul class="list-disc pl-5 space-y-3 marker:text-indigo-400">
+                    <li>
+                        <strong class="text-indigo-600">全体一括連続再生:</strong> すべての問題の音声を連続再生します。「全体一括連続再生」時は、コントロールがフローティング（画面に追従）表示され、再生間隔などの調整がやりやすくなっています。<br>
+                        <span class="text-xs text-stone-500">Phát toàn bộ các thẻ câu hỏi liên tục. Khi "Phát liên tục tất cả", bảng điều khiển sẽ trôi nổi (floating) theo màn hình, giúp bạn dễ dàng điều chỉnh khoảng thời gian phát và các cài đặt khác.</span>
+                    </li>
+                    <li>
+                        <strong class="text-blue-600">指定課別一括連続再生:</strong> 選択した課の音声を順番に連続再生します。<br>
+                        <span class="text-xs text-stone-500">Phát liên tục các bài đã chọn theo thứ tự.</span>
+                    </li>
+                    <li>
+                        <strong class="text-rose-500">個別指定音声再生:</strong> 自動再生せず、文章の表示のみ行います。音声は手動で再生します。「個別再生」時はタイマーが作動し、制限時間内に答えられるか試すことができます。<br>
+                        <span class="text-xs text-stone-500">Chỉ hiển thị thẻ, không tự động phát âm thanh. Khi "Phát từng câu", bộ đếm thời gian sẽ hoạt động để bạn có thể thử sức trả lời trong giới hạn thời gian.</span>
+                    </li>
+                    <li><strong class="text-indigo-500">ランダム抽出練習:</strong> 指定した課から任意の数だけ問題をランダムに選び出し、連続再生します。<br><span class="text-xs text-stone-500">Chọn ngẫu nhiên một số lượng câu hỏi từ bài đã chỉ định để phát liên tục.</span></li>
+                    <li><strong class="text-blue-500">シャッフル表示:</strong> 現在画面に表示されているカードの順序をランダムに並び替えます（自動再生は停止します）。対になる会話はセットを維持したままシャッフルされます。<br><span class="text-xs text-stone-500">Hiển thị ngẫu nhiên: Xáo trộn ngẫu nhiên thứ tự các thẻ câu hỏi đang hiển thị trên màn hình (Dừng phát tự động).</span></li>
+                    <li><strong class="text-indigo-400">再シャッフル:</strong> 現在表示中のカードをもう一度ランダムに並び替えます。<br><span class="text-xs text-stone-500">Xáo trộn lại: Tiếp tục xáo trộn ngẫu nhiên các thẻ đang hiển thị.</span></li>
+                    <li><strong class="text-red-500">停止 (Dừng):</strong> すべての再生を停止します。<br><span class="text-xs text-stone-500">Dừng mọi âm thanh đang phát.</span></li>
+                </ul>
+            </div>
+            
+            <!-- カード内操作セクション -->
+            <div>
+                <p class="font-bold text-indigo-800 bg-indigo-50 inline-block px-3 py-1 rounded-lg mb-3">【カード内の操作 / Thao tác trong thẻ】</p>
+                <ul class="list-disc pl-5 space-y-3 marker:text-indigo-400">
+                    <li><strong class="text-stone-700">JP Xem / Ẩn:</strong> 日本語の表示・非表示を切替えます。<br><span class="text-xs text-stone-500">Bật/tắt hiển thị tiếng Nhật.</span></li>
+                    <li><strong class="text-stone-700">VI Xem / Ẩn:</strong> ベトナム語の表示・非表示を切替えます。<br><span class="text-xs text-stone-500">Bật/tắt hiển thị tiếng Việt.</span></li>
+                    <li>
+                        <strong class="text-indigo-600">録音・発音チェック:</strong> 各カードの「🎤」を押すと、自分の発音を録音して確認できます。<br>
+                        <span class="text-xs font-semibold text-rose-500">※ブラウザからマイクへのアクセスを求められた場合は「許可」してください。</span><br>
+                        <span class="text-[11px] text-rose-500/90 italic">Chức năng ghi âm: Nhấn vào "🎤" trên mỗi thẻ. Vui lòng chọn "Cho phép" (Allow) quyền truy cập micro khi được hỏi.</span>
+                    </li>
+                    <li><strong class="text-blue-600">模範音声 (録音画面内):</strong> お手本となる正しい発音の音声を再生します。<br><span class="text-xs text-stone-500">Âm thanh mẫu (trong màn hình ghi âm): Phát âm thanh mẫu chuẩn để tham khảo.</span></li>
+                    <li><strong class="text-indigo-600">AI発音分析アドバイス（試用版）:</strong> 録音した音声をAIに引継いで発話を分析しアドバイスを表示します。結果が表示されるまで約30秒程待ち時間があります。<br><span class="text-xs text-stone-500">Phân tích phát âm AI: Chuyển âm thanh đã ghi âm cho AI để phân tích. Vui lòng đợi khoảng 30 giây để xem kết quả.</span></li>
+                    <li><strong class="text-indigo-600">▶ (再生):</strong> その問題の音声を個別に再生します。<br><span class="text-xs text-stone-500">Phát âm thanh của thẻ này.</span></li>
+                    <li><strong class="text-red-500">■ (個別停止):</strong> 音声を停止します。<br><span class="text-xs text-stone-500">Dừng âm thanh của thẻ này.</span></li>
+                </ul>
+            </div>
         </div>
-        <div class="border-t border-slate-100 pt-3 mt-4 text-right">
-            <button id="modalCloseOkBtn" class="bg-slate-800 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-slate-700 transition">閉じる / Đóng</button>
+
+        <!-- フッターボタン部分 -->
+        <div class="border-t-2 border-indigo-100 pt-4 mt-2 text-right">
+            <button id="modalCloseOkBtn" class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:from-indigo-600 hover:to-indigo-700 shadow-md shadow-indigo-200 transform transition hover:-translate-y-0.5">
+                わかった / Đóng
+            </button>
         </div>
     </div>
 </div>
-
     <!-- ⏱️ ドラッグ可能なタイマーオブジェクト -->
     <div id="floatingTimer" class="hidden fixed z-[9000] bg-white/95 backdrop-blur-sm border-2 border-indigo-400 rounded-2xl shadow-2xl flex flex-col items-center justify-between overflow-hidden transition-opacity" style="width: 140px; height: 150px; bottom: 30px; left: 30px; touch-action: none;">
         <!-- ドラッグ用ハンドル部分 -->
-        <div id="timerDragHandle" class="relative bg-indigo-500 text-white text-[11px] w-full text-center py-2 font-bold cursor-move flex items-center justify-center gap-1 active:bg-indigo-600 transition-colors">
+        <div id="timerDragHandle" class="relative bg-indigo-600 text-white text-[11px] w-full text-center py-2 font-bold cursor-move flex items-center justify-center gap-1 active:bg-indigo-700 transition-colors">
             <button id="closeTimerBtn" class="absolute left-1 top-1 bg-white/20 hover:bg-white/40 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs font-bold leading-none">×</button>
             <span class="text-sm leading-none">✢</span> 移動 (Kéo thả)
         </div>
@@ -369,10 +380,9 @@
     <div class="w-full text-center py-2 mt-4 border-t border-slate-200/60 text-slate-500">
         <p class="text-xs">&copy; 2026 ITM Group, All rights reserved.</p>
            </div>
-
      <div class="flex flex-row items-center justify-center gap-3">
                     <a href="history.html" class="inline-flex items-center text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-1.5 rounded-full transition shadow-sm border border-slate-200 active:scale-95">
-                        Ver4.54a
+                        Ver4.60a
                     </a>
                     <a href="report.html" class="inline-flex items-center text-sm font-medium bg-rose-50 text-rose-600 hover:bg-rose-100 px-4 py-1.5 rounded-full transition shadow-sm border border-rose-200 active:scale-95">
                         📝 報告（Báo Cáo）
@@ -391,7 +401,8 @@
     let audioQueue = [];
     let isPlayingQueue = false;
     let queueIndex = 0;
-    let playbackTimeout = null;      
+    let playbackTimeout = null;
+      
     let currentFilteredQuestions = [];
     
     // 録音・模範音声・変換エンジン周りの状態管理
@@ -405,8 +416,7 @@
     let currentModelAudioUrl = null; 
     let modelAudioPlayback = null;       
     let pingpongTimeout = null;          
-    let recordedBase64Data = null; 
-    
+    let recordedBase64Data = null;     
     let ffmpeg = null;
     let fetchFile = null;
     let isFfmpegLoaded = false;
@@ -544,7 +554,7 @@
                 } else if (elapsed < 3) {
                     colorClass = 'text-emerald-600'; // 最初の3秒
                 } else if (elapsed < 8) {
-                    colorClass = 'text-violet-600'; // 次の5秒
+                    colorClass = 'text-blue-600'; // 次の5秒
                 } else {
                     colorClass = 'text-indigo-600'; // 残りの秒数
                 }
@@ -962,13 +972,13 @@
                 presetButtonsContainer.classList.add('flex');
                 
                 toggleReviewModeBtn.classList.remove('bg-white', 'text-indigo-600', 'border-indigo-300');
-                toggleReviewModeBtn.classList.add('bg-indigo-500', 'text-white', 'border-indigo-500');
+                toggleReviewModeBtn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600');
             } else {
                 presetButtonsContainer.classList.add('hidden');
                 presetButtonsContainer.classList.remove('flex');
                 
                 toggleReviewModeBtn.classList.add('bg-white', 'text-indigo-600', 'border-indigo-300');
-                toggleReviewModeBtn.classList.remove('bg-indigo-500', 'text-white', 'border-indigo-500');
+                toggleReviewModeBtn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
             }
         });
     }
@@ -989,6 +999,7 @@
         controlPanelWrapper.classList.add('border-2', 'border-dashed', 'border-slate-300', 'bg-slate-50/50');
         controlPanelPlaceholder.classList.remove('hidden');
 
+        // ★変更点: is-floating クラスを付与し、各要素のサイズをCSSで小型化させる
         controlPanel.className = "is-floating fixed bottom-20 md:bottom-8 right-2 md:right-8 z-[8000] flex flex-col bg-slate-50/90 hover:bg-slate-50 border border-slate-300 shadow-2xl backdrop-blur-sm rounded-xl transition-opacity duration-300 opacity-70 hover:opacity-100";
         
         controlPanelHandle.classList.remove('hidden');
@@ -1006,6 +1017,7 @@
         controlPanelWrapper.classList.remove('border-2', 'border-dashed', 'border-slate-300', 'bg-slate-50/50');
         controlPanelPlaceholder.classList.add('hidden');
 
+        // ★変更点: 元のスタイルに戻す (relativeは維持)
         controlPanel.className = "flex flex-col bg-slate-50 p-4 rounded-xl border border-slate-200 w-full transition-all duration-300 relative";
         
         controlPanelHandle.classList.add('hidden');
@@ -1213,7 +1225,21 @@
         saveRecordBtn.innerHTML = '💾 保存 (Lưu)';
     }
 
+    // ★修正箇所 1: downloadBlob関数の変更 (iOS Safari対策)
     function downloadBlob(blob, filename) {
+        // iOS Safari対策: Web Share APIが使える場合は「共有メニュー」を開く（ファイル保存ボタンが出ます）
+        if (navigator.share && navigator.canShare) {
+            const file = new File([blob], filename, { type: blob.type });
+            if (navigator.canShare({ files: [file] })) {
+                navigator.share({
+                    files: [file],
+                    title: filename,
+                }).catch(err => console.log("共有キャンセル:", err));
+                return; // 共有メニューが開けたらここで終了
+            }
+        }
+
+        // Web Share APIが使えない環境（PC等）の従来のダウンロード処理
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -1221,7 +1247,11 @@
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+
+        // ★修正の要：iOSでダウンロードがキャンセルされないよう、メモリ破棄を遅らせる
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 1000); 
     }
 
     // -------------------------------------------------------------------------
@@ -1499,6 +1529,7 @@
         }
     });
 
+    // ★修正箇所 2: saveRecordBtnのクリック処理（拡張子の動的化）
     saveRecordBtn.addEventListener('click', async () => {
         if (!recordedAudioUrl) return;
         
@@ -1513,22 +1544,25 @@
                 const response = await fetch(recordedAudioUrl);
                 const webmBlob = await response.blob();
                 
-                ffmpeg.FS('writeFile', 'input.webm', await fetchFile(webmBlob));
-                await ffmpeg.run('-i', 'input.webm', '-c:a', 'libmp3lame', '-q:a', '2', 'output.mp3');
+                // ★修正: 拡張子をiOSの実態(mp4)に合わせる
+                const inputFileName = `input.${recordedExtension}`; 
+                ffmpeg.FS('writeFile', inputFileName, await fetchFile(webmBlob));
+                await ffmpeg.run('-i', inputFileName, '-c:a', 'libmp3lame', '-q:a', '2', 'output.mp3');
                 
                 const mp3Data = ffmpeg.FS('readFile', 'output.mp3');
                 const mp3Blob = new Blob([mp3Data.buffer], { type: 'audio/mp3' });
                 
                 downloadBlob(mp3Blob, `Bai${currentRecordLesson}_ID_${currentRecordId}.mp3`);
                 
-                ffmpeg.FS('unlink', 'input.webm');
+                // ★修正: 削除するファイル名も動的に合わせる
+                ffmpeg.FS('unlink', inputFileName);
                 ffmpeg.FS('unlink', 'output.mp3');
                 recordStatus.textContent = '保存が完了しました！ (Đã lưu MP3)';
                 
                 saveRecordBtn.innerHTML = originalText;
                 saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-                return;  
-            } catch (error) {
+                return;
+              } catch (error) {
                 console.error('MP3変換エラーのため、標準Webmエクスポートに切り替えます:', error);
             }
         }
