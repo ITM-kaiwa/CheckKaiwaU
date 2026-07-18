@@ -2055,7 +2055,7 @@
         "lesson": 47,
         "id": "47-3",
         "text": "あなたが<ruby>他<rt>ほか</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>から<ruby>聞<rt>き</rt></ruby>いた<ruby>話<rt>はなし</rt></ruby>をもうひとつ<ruby>教<rt>おし</rt></ruby>えてください。 （※<ruby>詳<rt>くわ</rt></ruby>しい<ruby>内容<rt>ないよう</rt></ruby>は<ruby>不要<rt>ふよう</rt></ruby>、「<ruby>誰<rt>だれ</rt></ruby>が<ruby>何<rt>なに</rt></ruby>をする。/した。」「どこで<ruby>何<rt>なに</rt></ruby>がある。/あった。」など<ruby>簡単<rt>かんたん</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>が<ruby>言<rt>い</rt></ruby>えれば<ruby>良<rt>よ</rt></ruby>い。）",
-        "viText": "Hãy kể cho tôi nghe một câu chuyện khác mà bạn đã nghe từ những người khác. （* Không cần nội dung chi tiết, "Ai đã làm gì?" "Cái gì ở đâu, cái gì là..." Sẽ rất tốt nếu có thể nói điều gì đó đơn giản.）",
+        "viText": "Hãy kể cho tôi nghe một câu chuyện khác mà bạn đã nghe từ những người khác. （* Không cần nội dung chi tiết, 'Ai đã làm gì?' 'Cái gì ở đâu, cái gì là...' Sẽ rất tốt nếu có thể nói điều gì đó đơn giản.）",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/47.3.mp3"
     },
     {
