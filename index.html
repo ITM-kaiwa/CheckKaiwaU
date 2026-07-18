@@ -382,7 +382,7 @@
            </div>
      <div class="flex flex-row items-center justify-center gap-3">
                     <a href="history.html" class="inline-flex items-center text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-1.5 rounded-full transition shadow-sm border border-slate-200 active:scale-95">
-                        Ver4.61a
+                        Ver4.62a
                     </a>
                     <a href="report.html" class="inline-flex items-center text-sm font-medium bg-rose-50 text-rose-600 hover:bg-rose-100 px-4 py-1.5 rounded-full transition shadow-sm border border-rose-200 active:scale-95">
                         📝 報告（Báo Cáo）
@@ -1230,18 +1230,19 @@
     // ★修正箇所 1: downloadBlob関数の変更 (iOS Safari対策)
     function downloadBlob(blob, filename) {
         // iOS Safari対策: Web Share APIが使える場合は「共有メニュー」を開く（ファイル保存ボタンが出ます）
-        if (navigator.share && navigator.canShare) {
-            const file = new File([blob], filename, { type: blob.type });
-            if (navigator.canShare({ files: [file] })) {
-                navigator.share({
-                    files: [file],
-                    title: filename,
-                }).catch(err => console.log("共有キャンセル:", err));
-                return; // 共有メニューが開けたらここで終了
-            }
+        // if (navigator.share && navigator.canShare) {
+           // const file = new File([blob], filename, { type: blob.type });
+            //if (navigator.canShare({ files: [file] })) {
+              //  navigator.share({
+                //    files: [file],
+                  //  title: filename,
+             //   }).catch(err => console.log("共有キャンセル:", err));
+              //  return; // 共有メニューが開けたらここで終了
+           // }
         }
 
-        // Web Share APIが使えない環境（PC等）の従来のダウンロード処理
+// ★修正: Web Share API（共有メニュー）を削除し、純粋なローカルダウンロードに戻しました。 (Ver4.62a)
+    function downloadBlob(blob, filename) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -1250,10 +1251,11 @@
         a.click();
         document.body.removeChild(a);
 
-        // ★修正の要：iOSでダウンロードがキャンセルされないよう、メモリ破棄を遅らせる
+        // iOS Safari対策: ダウンロード処理が完了する前にメモリ解放されるのを防ぐ（無反応バグ対策）
+        // 1.5秒待機することで、iOSのダウンロードダイアログが確実に表示されるようにします。
         setTimeout(() => {
             URL.revokeObjectURL(url);
-        }, 1000); 
+        }, 1500); 
     }
 
     // -------------------------------------------------------------------------
