@@ -2268,29 +2268,29 @@
     {
         "lesson": 50,
         "id": "50-4",
-        "text": "<ruby>上司<rt>じょうし</rt></ruby>が、<ruby>忙<rt>いそが</rt></ruby>しそうなので、<ruby>手伝<rt>てつだ</rt></ruby>いたいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。　（※「～ます/ましょうか。」）",
-        "viText": "Thấy cấp trên có vẻ bận nên bạn muốn giúp một tay. Bạn sẽ nói thế nào? (※ Dùng đuôi ~masu/mashou-ka)",
+        "text": "<ruby>上司<rt>じょうし</rt></ruby>が、<ruby>忙<rt>いそが</rt></ruby>しそうなので、<ruby>手伝<rt>てつだ</rt></ruby>いたいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。 （※「～ます/ましょうか。」）",
+        "viText": "Thấy cấp trên có vẻ bận nên bạn muốn giúp một tay. Bạn sẽ nói thế nào? (※ Dùng đuôi '~masu/mashou-ka')",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.4.mp3"
     },
     {
         "lesson": 50,
         "id": "50-5",
-        "text": "<ruby>社長<rt>しゃちょう</rt></ruby>がちょっと<ruby>疲<rt>つか</rt></ruby>れているようです。<ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>を<ruby>持<rt>も</rt></ruby>ってきます。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。　※ （<ruby>謙譲語<rt>けんじょうご</rt></ruby>）ましょうか。（<ruby>尊敬語<rt>そんけいご</rt></ruby>）ますか。",
-        "viText": "Giám đốc có vẻ hơi mệt. Bạn muốn đi lấy đồ uống cho giám đốc. Bạn sẽ nói thế nào? ※ (Khiêm nhường ngữ) ~mashou-ka? (Tôn kính ngữ) ~ masuka?",
+        "text": "<ruby>社長<rt>しゃちょう</rt></ruby>がちょっと<ruby>疲<rt>つか</rt></ruby>れているようです。<ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>を<ruby>持<rt>も</rt></ruby>ってきます。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。 ※ （<ruby>謙譲語<rt>けんじょうご</rt></ruby>）ましょうか。（<ruby>尊敬語<rt>そんけいご</rt></ruby>）ますか。",
+        "viText": "Giám đốc có vẻ hơi mệt. Bạn muốn đi lấy đồ uống cho giám đốc. Bạn sẽ nói thế nào? ※ (Khiêm nhường ngữ) '~mashou-ka?' (Tôn kính ngữ) '~masuka?'",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.5.mp3"
     },
     {
         "lesson": 50,
         "id": "50-6",
-        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>が、<ruby>道<rt>みち</rt></ruby>がわからなくて<ruby>困<rt>こま</rt></ruby>っているので<ruby>案内<rt>あんない</rt></ruby>したいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。　（※「～ます/ましょうか」）",
-        "viText": "Giáo viên người Nhật không biết đường và đang gặp rắc rối, bạn muốn dẫn đường giúp. Bạn sẽ nói thế nào? (※ Dùng đuôi ~masu/mashou-ka)",
+        "text": "<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>が、<ruby>道<rt>みち</rt></ruby>がわからなくて<ruby>困<rt>こま</rt></ruby>っているので<ruby>案内<rt>あんない</rt></ruby>したいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。 （※「～ます/ましょうか」）",
+        "viText": "Giáo viên người Nhật không biết đường và đang gặp rắc rối, bạn muốn dẫn đường giúp. Bạn sẽ nói thế nào? (※ Dùng đuôi '~masu/mashou-ka')",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.6.mp3"
     },
     {
         "lesson": 50,
         "id": "50-7",
-        "text": "<ruby>先生<rt>せんせい</rt></ruby>の<ruby>家<rt>いえ</rt></ruby>に<ruby>行<rt>い</rt></ruby>きたいです。<ruby>行<rt>い</rt></ruby>ってもいいか<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>聞<rt>き</rt></ruby>いてください。　（※「～よろしいですか。」）",
-        "viText": "Bạn muốn đến nhà giáo viên chơi. Hãy hỏi xin phép thật lịch sự xem có được không. (※Dùng ~yoroshii-desuka?)",
+        "text": "<ruby>先生<rt>せんせい</rt></ruby>の<ruby>家<rt>いえ</rt></ruby>に<ruby>行<rt>い</rt></ruby>きたいです。<ruby>行<rt>い</rt></ruby>ってもいいか<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>聞<rt>き</rt></ruby>いてください。 （※「～よろしいですか。」）",
+        "viText": "Bạn muốn đến nhà giáo viên chơi. Hãy hỏi xin phép thật lịch sự xem có được không. (※Dùng '~yoroshii-desuka?')",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.7.mp3"
     },
     {
@@ -2307,12 +2307,11 @@
         "viText": "Hãy trả lời câu hỏi/lời mời sau bằng khiêm nhường ngữ: 'Xin mời anh/chị dùng bữa.'",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.9.mp3"
     },
-    {
+   {
         "lesson": 50,
         "id": "50-10",
-        "text": "<ruby>会<rt>あ</rt></ruby>いたかった<ruby>有名人<rt>ゆうめいじん</rt></ruby>に<ruby>会<rt>あ</rt></ruby>えました。<ruby>嬉<rt>うれ</rt></ruby>しい<ruby>気持<rt>きも</rt></ruby>ちを<ruby>伝<rt>つた</rt></ruby>えたいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。　（※「お<ruby>目に<rt>め</rt></ruby>にかかれて～。」/「お<ruby>会<rt>あ</rt></ruby>いできて～。」）",
-        "viText": "Bạn đã gặp được người nổi tiếng mà mình hằng mong ước. Bạn muốn bày tỏ niềm vui sướng đó. Bạn sẽ nói thế nào? (※ Dùng 「お<ruby>目に<rt>め</rt></ruby>にかかれて～。」/「お<ruby>会<rt>あ</rt></ruby>いできて～。」)",
+        "text": "<ruby>会<rt>あ</rt></ruby>いたかった<ruby>有名人<rt>ゆうめいじん</rt></ruby>に<ruby>会<rt>あ</rt></ruby>えました。<ruby>嬉<rt>うれ</rt></ruby>しい<ruby>気持<rt>きも</rt></ruby>ちを<ruby>伝<rt>つた</rt></ruby>えたいです。<ruby>何<rt>なん</rt></ruby>と<ruby>言<rt>い</rt></ruby>いますか。 （※「お<ruby>目に<rt>め</rt></ruby>にかかれて～。」/「お<ruby>会<rt>あ</rt></ruby>いできて～。」）",
+        "viText": "Bạn đã gặp được người nổi tiếng mà mình hằng mong ước. Bạn muốn bày tỏ niềm vui sướng đó. Bạn sẽ nói thế nào? (※ Dùng 'お<ruby>目に<rt>め</rt></ruby>にかかれて～。' / 'お<ruby>会<rt>あ</rt></ruby>いできて～。')",
         "audioUrl": "https://itm-kaiwa.github.io/CheckKaiwaU/50.10.mp3"
     }
-
     ];
