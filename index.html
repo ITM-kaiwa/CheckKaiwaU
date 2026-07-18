@@ -382,7 +382,7 @@
            </div>
      <div class="flex flex-row items-center justify-center gap-3">
                     <a href="history.html" class="inline-flex items-center text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-1.5 rounded-full transition shadow-sm border border-slate-200 active:scale-95">
-                        Ver4.60a
+                        Ver4.61a
                     </a>
                     <a href="report.html" class="inline-flex items-center text-sm font-medium bg-rose-50 text-rose-600 hover:bg-rose-100 px-4 py-1.5 rounded-full transition shadow-sm border border-rose-200 active:scale-95">
                         📝 報告（Báo Cáo）
@@ -1150,9 +1150,11 @@
             stopRecordBtn.disabled = true;
             stopRecordBtn.className = 'bg-slate-100 text-slate-400 border border-slate-200 py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 cursor-not-allowed';
             
-            playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
+           playRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
             saveRecordBtn.classList.remove('opacity-50', 'pointer-events-none');
-            saveRecordBtn.innerHTML = isFfmpegLoaded ? '💾 保存 (Lưu MP3)' : '💾 保存 (Lưu Webm)';
+            // ★修正: 実際の拡張子(m4a または webm)に合わせてボタンの表記を変える
+            const extText = recordedExtension === 'm4a' ? 'M4A' : 'Webm';
+            saveRecordBtn.innerHTML = isFfmpegLoaded ? '💾 保存 (Lưu MP3)' : `💾 保存 (Lưu ${extText})`;
             recordStatus.textContent = '保存完了--再生または保存できます (Hoàn thành)';
         }
     }
@@ -1491,7 +1493,8 @@
 
             mediaRecorder.onstop = () => {
                 const mimeType = mediaRecorder.mimeType || 'audio/webm';
-                recordedExtension = mimeType.includes('mp4') ? 'mp4' : 'webm';
+                // ★修正: mp4を含む場合は「m4a」を拡張子として割り当てる
+                recordedExtension = mimeType.includes('mp4') ? 'm4a' : 'webm'; 
                 const audioBlob = new Blob(audioChunks, { type: mimeType });
                 recordedAudioUrl = URL.createObjectURL(audioBlob);
                 
